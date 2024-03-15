@@ -1,5 +1,5 @@
 ################
-# [Skill] <type>: 커밋내용 #이슈키 (# 상태전이)
+#<type>: 커밋내용 #이슈키
 # 상태 전이: in-progress | done
 # 예) [FE] feat: 로그인 구현 #S10P11D208-47 (# in-progress)
 # 예) [BE] feat: 로그인 구현 #S10P11D208-47 (# in-progress)
