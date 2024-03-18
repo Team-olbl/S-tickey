@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 export interface IHeaderInfo {
-  left: string | null;
+  left: JSX.Element | null;
   center: string | null;
   right: JSX.Element | null;
 }
@@ -15,48 +15,17 @@ const Header = (props: {info: IHeaderInfo}) => {
   return (
     <div className=" w-[360px] h-[48px] px-4 fixed top-0 flex flex-row items-center justify-between border-b-[0.5px] border-white">
       <button className="text-white ">
-        {left && <div onClick={() => navigate(-1)}>{left}</div>}
+        {left && <div className="w-4" onClick={() => navigate(-1)}>{left}</div>}
       </button>
       {center && (
         <p className="font-sans font-extrabold italic text-white">{ center }</p>
       )}
-      <button>
-        {right && <img src="src/assets/Alarm/bell.png" alt="Alarm" className="w-[32px] h-[32px]"/>}
+      <button onClick={() => navigate('/alarm')}>
+        {right && <img src="src/assets/@common/Bell.png" alt="Alarm" className="w-[32px] h-[32px]"/>}
       </button>
     </div>
   )
-  // return (
-  //   <div className="bg-white w-full h-12 flex justify-between items-center fixed top-0 z-10 max-w-[500px]">
-  //     {!left && !center && (
-  //       <div className="h-full w-full">
-  //         <p>Stickey</p>
-  //       </div>
-  //     )}
-  //     <button className="basis-1/5">{left && <div onClick={() => navigate(-1)}>{left}</div>}</button>
-  //     {center && <div className="text-lg font-semibold">{center}</div>}
-  //     <div className="basis-1/5 flex gap-2 justify-end">
-  //       {right && (
-  //         <svg
-  //           onClick={() => navigate('/search')}
-  //           xmlns="http://www.w3.org/2000/svg"
-  //           width="23"
-  //           height="23"
-  //           fill="#000000"
-  //           viewBox="0 0 256 256"
-  //         >
-  //           <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
-  //         </svg>
-  //       )}
-  //       {right_2 && (
-  //         <div onClick={() => navigate('/notify')} className="cursor-pointer relative">
-  //           <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="#000000" viewBox="0 0 256 256">
-  //             <path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"></path>
-  //           </svg>
-  //           {!isRead && <div className="absolute right-[2px] top-0 w-2 h-2 rounded-full bg-[#E14246]"></div>}
-  //         </div>
-  //       )}
-  //     </div>
-  //   </div>
+
 }
 
 export default Header;
