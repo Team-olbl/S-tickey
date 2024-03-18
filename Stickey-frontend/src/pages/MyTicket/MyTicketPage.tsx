@@ -1,7 +1,9 @@
+import NavigationBar from "../../components/NavigationBar";
+
 const MyTicketPage = () => {
   return(
     <>
-      마이티켓
+      <NavigationBar />
     </>
   )
 }

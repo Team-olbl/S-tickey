@@ -1,6 +1,7 @@
-import HomeHeader from "../../components/Home/HomeHeader";
 import SponsorItem from "../../components/Sponsor/SponsorItem";
 import Dove from '../../assets/Sponsor/Dove.png'
+import Header, { IHeaderInfo } from "../../components/Header";
+import NavigationBar from "../../components/NavigationBar";
 
 export type SponsorItemData = {
   id: number;
@@ -11,6 +12,11 @@ export type SponsorItemData = {
 
 }
 
+const info : IHeaderInfo = {
+  left: null,
+  center:'후원',
+  right: <img src="src/assets/Alarm/Bell.png" alt="" />
+}
 const SponsorPage = () => {
 
   const dummyList: SponsorItemData[] = [
@@ -38,8 +44,8 @@ const SponsorPage = () => {
   ]
   return(
     <>
-    <HomeHeader />
-      <div>
+    <Header info={info} />
+      <div className="pt-16">
         {dummyList.length === 0 ? (
           <div className="flex flex-col items-center mt-40">
           <img src={Dove} className="h-20" />
@@ -47,12 +53,13 @@ const SponsorPage = () => {
         </div>
         ) : (
           dummyList.map((item, id) => (
-            <div className="px-4 py-1">
-            <SponsorItem key={id} data={item} />
+            <div className="px-4">
+               <SponsorItem key={id} data={item} />
             </div>
           ))
         )}
       </div>
+      <NavigationBar />
     </>
   )
 }
