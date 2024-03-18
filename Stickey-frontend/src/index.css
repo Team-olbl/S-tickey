@@ -13,5 +13,5 @@ html, body {
 #root {
   background-color: #1F1F31;
   width: 360px;
-  height: 740px;
+  height: 100vh;
 }
