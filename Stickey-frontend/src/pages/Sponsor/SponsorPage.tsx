@@ -1,7 +1,9 @@
+import NavigationBar from "../../components/NavigationBar";
+
 const SponsorPage = () => {
   return(
     <>
-      후원
+      <NavigationBar />
     </>
   )
 }
