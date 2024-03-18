@@ -33,22 +33,22 @@ const Carousel = () => {
   }, [activeImage, images.length]);
 
   return (
-    <div className="relative pt-[10px] m-auto max-w-[300px] overflow-hidden rounded-[10px]">
-    <div className="w-[300px] h-[300px] overflow-hidden ">
-        {images.map((image, index) => (
-          <div key={index} className={`absolute w-full h-full transition-opacity duration-700 ease-in-out ${activeImage === index + 1 ? 'opacity-100' : 'opacity-0'}`}>
-            <img className="object-cover w-full h-full rounded-[10px]" src={image} />
-          </div>
-        ))}
-        {/* 화살표 넣을지 말지...? */}
-        {/* <button className="scale-[2] mx-[10px] absolute top-1/2 left-0 transform -translate-y-1/2 text-white" onClick={handlePrev}>&lsaquo;</button>
-        <button className="scale-[2] mx-[10px] absolute top-1/2 right-0 transform -translate-y-1/2 text-white" onClick={handleNext}>&rsaquo;</button> */}
-      </div>
-      <div className="absolute bottom-4 w-full text-center">
-        <button className="w-[268px] h-[44px] text-white border-[#2CDCB2] font-bold tracking-wider bg-[#2CDCB2] rounded-[10px] inline-block">
-          <p className="text-center p-2 ">예매하기</p>
-        </button>
-      </div>
+    <div className="relative pt-[58px] m-auto max-w-[300px] overflow-hidden rounded-[10px]">
+      <div className="w-[300px] h-[300px] overflow-hidden ">
+          {images.map((image, index) => (
+            <div key={index} className={`absolute w-full h-full transition-opacity duration-700 ease-in-out ${activeImage === index + 1 ? 'opacity-100' : 'opacity-0'}`}>
+              <img className="object-cover w-full h-full rounded-[10px]" src={image} />
+            </div>
+          ))}
+          {/* 화살표 넣을지 말지...? */}
+          {/* <button className="scale-[2] mx-[10px] absolute top-1/2 left-0 transform -translate-y-1/2 text-white" onClick={handlePrev}>&lsaquo;</button>
+          <button className="scale-[2] mx-[10px] absolute top-1/2 right-0 transform -translate-y-1/2 text-white" onClick={handleNext}>&rsaquo;</button> */}
+        </div>
+        <div className="absolute bottom-4 w-full text-center">
+          <button className="w-[268px] h-[44px] text-white border-Sticky_GREEN font-bold tracking-wider bg-[#2CDCB2] rounded-[10px] inline-block">
+            <p className="text-center p-2 ">예매하기</p>
+          </button>
+        </div>
     </div>
   );
 }
