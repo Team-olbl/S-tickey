@@ -8,7 +8,9 @@ export default {
     extend: {
       colors: {
         Stickey_BGC: '#1F1F31',
-        Stickey_GREEN: '#2CDCB2'
+        Stickey_GREEN: '#2CDCB2',
+        Stickey_Main: '#5959E7',
+        Stickey_Gray: '#A9A9A9'
       }
     },
   },
