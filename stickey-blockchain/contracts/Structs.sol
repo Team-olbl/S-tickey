@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-3.0
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
 interface Structs {
@@ -14,7 +14,7 @@ interface Structs {
     uint gameId;
     uint areaId;
     uint seatNum;
-    uint status; // 0 : 대기, 1 : 예매, 2 : 환불
+    uint price;
     uint filterId;
     uint backGroundId;
   }
@@ -23,7 +23,7 @@ interface Structs {
     uint itemId;
     string itemName;
     uint price;
-    uint itemType;
+    bool isFilter;
   }
 
 } 
