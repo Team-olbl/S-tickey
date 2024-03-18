@@ -2,6 +2,8 @@ import Header, { IHeaderInfo } from "../../../components/Header";
 import NavigationBar from "../../../components/NavigationBar";
 import Back from '../../../assets/@common/Back.png'
 import map from '../../../assets/Sponsor/map.png'
+import { useState } from "react";
+import SponsorModal from "../../../components/Sponsor/SponsorModal";
 // import { useParams } from "react-router-dom";
 
 type SupportInfo = {
@@ -45,6 +47,9 @@ const SponsorDetailPage = () => {
 
   // const params = useParams<{ id: string }>();
   // const sponsorId = params.id;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const dummyData: SponsorDetailData = {
     support_info: {
@@ -149,8 +154,10 @@ const SponsorDetailPage = () => {
       </div>
       {/* 후원 버튼 */}
       <div className="fixed bottom-16 w-full max-w-[360px] m-auto px-4">
-          <button className="bg-[#5959E7] w-full text-white rounded-xl p-2 text-md">후원하기</button>
+          <button className="bg-[#5959E7] w-full text-white rounded-xl p-2 text-md" onClick={() => setIsModalOpen(true)}>후원하기</button>
       </div>
+
+      {isModalOpen && <SponsorModal onClose={() => setIsModalOpen(false)} />}
     <NavigationBar />
     </>
   )
