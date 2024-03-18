@@ -1,7 +1,17 @@
+import Carousel from "../../components/Home/Carousel";
+import Category from "../../components/Home/Category";
+import GameSchedule from "../../components/Home/GameSchedule";
+import HomeHeader from "../../components/Home/HomeHeader";
+import NavigationBar from "../../components/NavigationBar";
+
 const HomePage = () => {
-  return(
+  return( 
     <>
-      홈입니당
+      <HomeHeader />
+      <Carousel />
+      <Category />
+      <GameSchedule />
+      <NavigationBar />
     </>
   )
 }
