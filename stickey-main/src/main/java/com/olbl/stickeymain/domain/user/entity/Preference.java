@@ -1,6 +1,6 @@
 package com.olbl.stickeymain.domain.user.entity;
 
-import com.olbl.stickeymain.domain.reservation.entity.SportsClub;
+import com.olbl.stickeymain.domain.game.entity.SportsClub;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
