@@ -19,11 +19,12 @@ import ProfilePage from './pages/Profile/ProfilePage';
 import PaymentHistoryPage from './pages/Profile/Personal/Payment/PaymentHistory';
 import DreamHistoryPage from './pages/Profile/Personal/Dream/DreamHistoryPage';
 import PreferredTeamPage from './pages/Profile/Personal/PreferredTeam/PreferredTeamPage';
-import ProfileEditPage from './pages/Profile/Edit/ProfileEditPage';
+import ProfileEditPage from './pages/Profile/ProfileEditPage';
 import PlayerListPage from './pages/Profile/Group/PlayerList/PlayerListPage';
+import SponsorDetailPage from './pages/Sponsor/SponsorDetailPage/SponsorDetailPage';
 import SponListPage from './pages/Profile/Group/SponList/SponListPage';
 import TicketEditPage from './pages/MyTicket/TicketEdit/TicketEditPage';
-import SponsorDetailPage from './pages/Sponsor/SponsorDetailPage/SponsorDetailPage';
+
 
 const router = createBrowserRouter([
   {
@@ -73,7 +74,7 @@ const router = createBrowserRouter([
   {
     path:'/mytickets',
     element: <MyTicketPage />
-  },  
+  },
   {
     path:'/mytickets/:id/edit',
     element: <TicketEditPage />
@@ -94,39 +95,39 @@ const router = createBrowserRouter([
     path:'/sponsor/:id',
     element: <SponsorDetailPage />
   },
+  // 단체랑 개인은 role로 구분할 것
   {
-    // 단체랑 개인은 role로 구분할 것
     path:'/profile',
     element: <ProfilePage />
   },
   {
-    path:'/profile/payment',
-    element: <PaymentHistoryPage />
-  },
-  {
-    path:'/profile/dream',
-    element: <DreamHistoryPage />
-  },
-  {
-    path:'/profile/preferred',
-    element: <PreferredTeamPage />
+    path:'/profile/playerlist',
+    element: <PlayerListPage />
   },
   {
     path:'/profile/edit',
     element: <ProfileEditPage />
   },
   {
-    path:'/profile/player',
-    element: <PlayerListPage />
-  },
-  {
     path:'/profile/sponlist',
     element: <SponListPage />
+  },
+  {
+    path:'/profile/dreamhistory',
+    element: <DreamHistoryPage />
+  },
+  {
+    path:'/profile/paymenthistory',
+    element: <PaymentHistoryPage />
+  },
+  {
+    path:'/profile/preferredteam',
+    element: <PreferredTeamPage />
   },
 ]
 )
 
-function App() {
+export default function App() {
   return (
     <>
       <RouterProvider router={router} />
