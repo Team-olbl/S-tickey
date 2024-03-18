@@ -1,4 +1,4 @@
-package com.olbl.stickeymain.domain.reservation.entity;
+package com.olbl.stickeymain.domain.game.entity;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
