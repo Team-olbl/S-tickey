@@ -26,6 +26,21 @@ spring:
       max-file-size: 20MB
       max-request-size: 40MB
 
+  mail: # smtp
+    host: smtp.naver.com  # smtp 서버 주소
+    port: 465  # smtp 서버 포트
+    username: ${mail.username}
+    password: ${mail.password}
+    properties:
+      debug: true
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.naver.com
+            enable: true
 springdoc: #swagger
   packages-to-scan: com.olbl.stickeymain
   default-consumes-media-type: application/json;charset=UTF-8
@@ -40,3 +55,4 @@ springdoc: #swagger
       enabled: true
   cache:
     disabled: true
+
