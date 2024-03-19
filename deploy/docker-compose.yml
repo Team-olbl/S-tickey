@@ -9,6 +9,22 @@ services:
     networks:
       - stickey_network
 
+  frontend:
+    build:
+      context: "../Stickey-frontend/"
+      dockerfile: Dockerfile
+    container_name: Stickey_frontend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/lib/letsencrypt:/var/lib/letsencrypt
+      - /home/ubuntu/nginx/sites:/etc/nginx/conf.d
+      - /home/ubuntu/nginx/sites/sites-enabled:/etc/nginx/sites-enabled
+    networks:
+      - stickey_network
+
   mysql:
     image: mysql:8.0.36
     container_name: stickey_mysql
@@ -16,7 +32,7 @@ services:
     networks:
       - stickey_network
     ports:
-      - "${MYSQL_EXTERNAL_PORT}:${MYSQL_PORT}"
+      - "33066:3306"
     volumes:
       - "mysql_data:/var/lib/mysql"
     environment:
@@ -33,4 +49,5 @@ volumes:
 networks:
   stickey_network:
     name: stickey_network
+    driver: bridge
     external: true
