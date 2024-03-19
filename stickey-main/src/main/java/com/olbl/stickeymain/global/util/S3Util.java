@@ -20,7 +20,7 @@ public class S3Util {
   @Value("${cloud.aws.s3.bucket}")
   private String bucket; // 버킷명
 
-  @Value("${cloudfront.domain}")
+  @Value("${cloud.aws.cloudfront.domain}")
   private String cloudFrontDomain; // CloudFrontn 도메인
 
   private String[] directories = new String[]{
