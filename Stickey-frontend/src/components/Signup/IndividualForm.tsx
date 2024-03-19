@@ -1,4 +1,3 @@
-
 import { useRef, useState } from 'react';
 import { CiCamera } from 'react-icons/ci';
 
