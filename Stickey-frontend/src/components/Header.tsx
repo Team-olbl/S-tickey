@@ -13,7 +13,7 @@ const Header = (props: {info: IHeaderInfo}) => {
   const  {left, center, right} = props.info;
   
   return (
-    <div className=" w-[360px] h-[48px] px-4 fixed top-0 flex flex-row items-center justify-between border-b-[0.5px] border-white">
+    <div className="bg-Stickey_BGC w-[360px] h-[48px] px-4 fixed top-0 flex flex-row items-center justify-between border-b-[0.5px] border-white">
       <button className="text-white ">
         {left && <div className="w-4" onClick={() => navigate(-1)}>{left}</div>}
       </button>
