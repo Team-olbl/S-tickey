@@ -21,9 +21,9 @@ spring:
       on-profile: db-server
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url:
-    username:
-    password:
+    url: ${server.db.url}
+    username: ${server.db.username}
+    password: ${server.db.password}
   data:
     redis:
       host:
