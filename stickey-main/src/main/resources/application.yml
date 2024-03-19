@@ -40,18 +40,3 @@ springdoc: #swagger
       enabled: true
   cache:
     disabled: true
-
-cloud: #s3
-  aws:
-    s3:
-      bucket: ${local.aws.bucket}
-      credentials:
-        access-key: ${local.aws.access-key}
-        secret-key: ${local.aws.secret-key}
-    region:
-      static: ap-northeast-2
-    stack:
-      auto: false # ec2의 spring cloud 자동 구성 해제
-
-cloudfront:
-  domain: ${local.cloudfront.domain}
