@@ -3,7 +3,9 @@ package com.olbl.stickeymain.domain.game.service;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SPORTS_CLUB_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.STADIUM_DO_NOT_EXISTS;
 
+import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
+import com.olbl.stickeymain.domain.game.dto.ViewParam;
 import com.olbl.stickeymain.domain.game.entity.Category;
 import com.olbl.stickeymain.domain.game.entity.Game;
 import com.olbl.stickeymain.domain.game.entity.SportsClub;
@@ -12,6 +14,7 @@ import com.olbl.stickeymain.domain.game.repository.GameRepository;
 import com.olbl.stickeymain.domain.game.repository.SportsClubRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumRepository;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,7 +30,6 @@ public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
     private final SportsClubRepository sportsClubRepository;
     private final StadiumRepository stadiumRepository;
-
 
     @Override
     @Transactional
@@ -52,5 +54,17 @@ public class GameServiceImpl implements GameService {
             .build();
 
         gameRepository.save(game);
+    }
+
+    @Override
+    public GameListRes getGames(ViewParam viewParam) {
+        List<String> clubs = viewParam.getClub();
+
+        for (String clubName : clubs) { //param에 들어온 구단 명이 존재하는지 검증
+            sportsClubRepository.findSportsClubByName(clubName)
+                .orElseThrow(() -> new BusinessException(SPORTS_CLUB_DO_NOT_EXISTS));
+        }
+
+        return gameRepository.getGameListResByViewParam(viewParam);
     }
 }
