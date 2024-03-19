@@ -28,9 +28,9 @@ services:
 
 volumes:
   mysql_data:
-  jenkins_home:
 
 networks:
   stickey_network:
     name: stickey_network
     external: true
+
