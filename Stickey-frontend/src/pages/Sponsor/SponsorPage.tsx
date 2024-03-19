@@ -49,6 +49,7 @@ const SponsorPage = () => {
   const gotoSponsorDetail = (id: number) => {
     navigate(`/sponsor/${id}`);
   };
+
   return(
     <>
     <Header info={info} />
