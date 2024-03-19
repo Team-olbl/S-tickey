@@ -1,6 +1,6 @@
 import NavigationBar from "../../components/NavigationBar";
 
-const MyTicketPage = () => {
+const ProfilePage = () => {
   return(
     <>
       <NavigationBar />
@@ -8,4 +8,4 @@ const MyTicketPage = () => {
   )
 }
 
-export default MyTicketPage;
+export default ProfilePage;

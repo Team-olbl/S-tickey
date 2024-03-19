@@ -1,7 +1,7 @@
 const ProfileEditPage = () => {
   return(
     <>
-      회원정보수정
+      프로필 수정
     </>
   )
 }
