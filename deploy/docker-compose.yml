@@ -6,13 +6,8 @@ services:
       context: "../stickey-main/"
       dockerfile: Dockerfile
     container_name: stickey_main
-    restart: unless-stopped
     networks:
       - stickey_network
-    depends_on:
-      - mysql
-    env_file:
-      - ".env"
 
   mysql:
     image: mysql:8.0.36
@@ -33,9 +28,9 @@ services:
 
 volumes:
   mysql_data:
-  jenkins_home:
 
 networks:
   stickey_network:
     name: stickey_network
     external: true
+
