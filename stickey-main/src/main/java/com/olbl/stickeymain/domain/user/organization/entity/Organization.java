@@ -11,21 +11,24 @@ import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @DiscriminatorValue("Organization")
 @Setter
+@SuperBuilder
 public class Organization extends User {
 
-    private String manager;
-    private String address;
-    private String registration_number;
-    private String registration_file;
-    @Enumerated(EnumType.STRING)
-    private OrganizationStatus status;
+  private String manager;
+  private String address;
+  private String registration_number;
+  private String registration_file;
+  @Enumerated(EnumType.STRING)
+  private OrganizationStatus status;
 
-    @OneToMany(mappedBy = "organization")
-    private List<Player> players = new ArrayList<>();
+  @OneToMany(mappedBy = "organization")
+  private List<Player> players = new ArrayList<>();
+  
 }
