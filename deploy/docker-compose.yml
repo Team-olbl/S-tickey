@@ -20,7 +20,7 @@ services:
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
-      - /home/ubuntu/nginx/sites:/etc/nginx/conf.d
+      - /home/ubuntu/nginx/sites/conf.d:/etc/nginx/conf.d
       - /home/ubuntu/nginx/sites/sites-enabled:/etc/nginx/sites-enabled
     networks:
       - stickey_network
