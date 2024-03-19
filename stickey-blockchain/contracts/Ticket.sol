@@ -14,7 +14,7 @@ contract Ticket is ERC721Enumerable, Structs {
   // 이름 Stickey, 심볼 TKT (티켓 토큰)
   constructor() ERC721("Stickey", "TKT") {
     admin = msg.sender;
-    _ticketPriceInfo[1][1] = 1;
+    _ticketPriceInfo[1][1] = 1; // 더미 데이터
 
   } 
 
@@ -93,7 +93,7 @@ contract Ticket is ERC721Enumerable, Structs {
   }
 
   // 티켓 취소 메소드
-  function cancleMyTicket(uint256 tokenId, uint16 gameId) public payable {
+  function cancleTicket(uint256 tokenId, uint16 gameId) public payable {
     require(ownerOf(tokenId) == msg.sender, "you're not owner of this ticket"); // 티켓 소유자 확인
     // require(_ticketInfo[tokenId].status == 1, "illigal Ticket State"); // 티켓 상태 확인
     
@@ -114,6 +114,8 @@ contract Ticket is ERC721Enumerable, Structs {
     delete _ticketInfo[tokenId];
     deleteTicketByAccount(tokenId);
     _burn(tokenId);
+
+    emit TicketPayment(msg.sender, gameId, refundPrice, 2, block.timestamp);
   }
 
   // 가진 티켓 조회
