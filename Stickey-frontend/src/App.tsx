@@ -24,6 +24,7 @@ import PlayerListPage from './pages/Profile/Group/PlayerList/PlayerListPage';
 import SponsorDetailPage from './pages/Sponsor/SponsorDetailPage/SponsorDetailPage';
 import SponListPage from './pages/Profile/Group/SponList/SponListPage';
 import TicketEditPage from './pages/MyTicket/TicketEdit/TicketEditPage';
+import SponsorCreatePage from './pages/Sponsor/SponsorCreatePage/SponsorCreatePage';
 
 
 const router = createBrowserRouter([
@@ -94,6 +95,10 @@ const router = createBrowserRouter([
   {
     path:'/sponsor/:id',
     element: <SponsorDetailPage />
+  },
+  {
+    path:'/sponsor/create',
+    element: <SponsorCreatePage />
   },
   // 단체랑 개인은 role로 구분할 것
   {
