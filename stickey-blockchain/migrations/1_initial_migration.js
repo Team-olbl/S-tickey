@@ -1,5 +1,7 @@
-const Storage = artifacts.require("Storage");
+const Ticket = artifacts.require("Ticket");
+const Reword = artifacts.require("Reword");
 
 module.exports = async function (deployer) {
-  await deployer.deploy(Storage);
+	await deployer.deploy(Ticket);
+	await deployer.deploy(Reword);
 };
