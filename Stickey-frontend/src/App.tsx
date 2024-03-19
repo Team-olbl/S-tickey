@@ -15,16 +15,18 @@ import MyTicketPage from './pages/MyTicket/MyTicketPage';
 import SignupPage from './pages/SignUp/SignupPage';
 import LoginPage from './pages/Login/LoginPage';
 import SponsorPage from './pages/Sponsor/SponsorPage';
-import PersonalProfilePage from './pages/Profile/Personal/PersonalProfilePage';
+import ProfilePage from './pages/Profile/ProfilePage';
 import PaymentHistoryPage from './pages/Profile/Personal/Payment/PaymentHistory';
 import DreamHistoryPage from './pages/Profile/Personal/Dream/DreamHistoryPage';
 import PreferredTeamPage from './pages/Profile/Personal/PreferredTeam/PreferredTeamPage';
-import ProfileEditPage from './pages/Profile/Personal/ProfileEdit/PersonalProfileEditPage';
-import GroupProfilePage from './pages/Profile/Group/GroupProfilePage';
+import ProfileEditPage from './pages/Profile/ProfileEditPage';
 import PlayerListPage from './pages/Profile/Group/PlayerList/PlayerListPage';
+import SponsorDetailPage from './pages/Sponsor/SponsorDetailPage/SponsorDetailPage';
+import SponListPage from './pages/Profile/Group/SponList/SponListPage';
+import TicketEditPage from './pages/MyTicket/TicketEdit/TicketEditPage';
 
 
-const route = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path:'/',
     element: <HomePage />
@@ -72,15 +74,10 @@ const route = createBrowserRouter([
   {
     path:'/mytickets',
     element: <MyTicketPage />
-  },  
-  {
-    // 이건 컴포넌트로 가져가야할 듯 ?
-    path:'/mytickets/:id',
-    element: <MyTicketPage />
   },
   {
     path:'/mytickets/:id/edit',
-    element: <SignupPage />
+    element: <TicketEditPage />
   },
   {
     path:'/signup',
@@ -96,21 +93,46 @@ const route = createBrowserRouter([
   },
   {
     path:'/sponsor/:id',
-    element: <SignupPage />
+    element: <SponsorDetailPage />
   },
   // 단체랑 개인은 role로 구분할 것
   {
-    
     path:'/profile',
-    element: <PersonalProfilePage />
+    element: <ProfilePage />
   },
   {
-    path:'/profile',
-    element: <PersonalProfilePage />
+    path:'/profile/playerlist',
+    element: <PlayerListPage />
   },
-    
+  {
+    path:'/profile/edit',
+    element: <ProfileEditPage />
+  },
+  {
+    path:'/profile/sponlist',
+    element: <SponListPage />
+  },
+  {
+    path:'/profile/dreamhistory',
+    element: <DreamHistoryPage />
+  },
+  {
+    path:'/profile/paymenthistory',
+    element: <PaymentHistoryPage />
+  },
+  {
+    path:'/profile/preferredteam',
+    element: <PreferredTeamPage />
+  },
 ]
-
 )
 
-export default route;
+function App() {
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  )
+}
+
+export default App;
