@@ -59,12 +59,12 @@ public class GameServiceImpl implements GameService {
     @Override
     public GameListRes getGames(ViewParam viewParam) {
         List<String> clubs = viewParam.getClub();
-
-        for (String clubName : clubs) { //param에 들어온 구단 명이 존재하는지 검증
-            sportsClubRepository.findSportsClubByName(clubName)
-                .orElseThrow(() -> new BusinessException(SPORTS_CLUB_DO_NOT_EXISTS));
+        if (viewParam.getClub() != null && !viewParam.getClub().isEmpty()) {
+            for (String clubName : clubs) { //param에 들어온 구단 명이 존재하는지 검증
+                sportsClubRepository.findSportsClubByName(clubName)
+                    .orElseThrow(() -> new BusinessException(SPORTS_CLUB_DO_NOT_EXISTS));
+            }
         }
-
         return gameRepository.getGameListResByViewParam(viewParam);
     }
 }
