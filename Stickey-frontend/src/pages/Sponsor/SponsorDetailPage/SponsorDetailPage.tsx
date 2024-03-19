@@ -89,10 +89,10 @@ const SponsorDetailPage = () => {
     ],
   };
 
-  
   return (
     <>
-    <Header info={info} />
+    <div>
+      <Header info={info} />
       <div className="pt-12 pb-32">
         {/* 후원글 정보 */}
         <div className="bg-gray-300 h-60"></div>
@@ -159,6 +159,7 @@ const SponsorDetailPage = () => {
 
       {isModalOpen && <SponsorModal onClose={() => setIsModalOpen(false)} />}
     <NavigationBar />
+    </div>
     </>
   )
 }
