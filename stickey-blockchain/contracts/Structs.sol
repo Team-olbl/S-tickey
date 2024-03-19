@@ -5,7 +5,6 @@ interface Structs {
   
   struct GameInfo {
     uint gameId;          // 경기 ID
-    uint ticketingTime;   // 에매 시작 시간
     uint gameTime;        // 경기 시작 시간
   }
 
