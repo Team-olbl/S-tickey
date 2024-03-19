@@ -56,7 +56,7 @@ public class MailServiceImpl implements MailService {
 
         sendMail(to, title, text);
 
-        // 레디스에 인증 코드 저장
+        // TODO: 레디스에 인증 코드 저장 (만료 시간 1시간)
 
         return code;
     }
