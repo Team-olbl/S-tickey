@@ -3,9 +3,9 @@ version: '3.8'
 services:
   api:
     build:
-      context: "../stickey-api/"
+      context: "../stickey-main/"
       dockerfile: Dockerfile
-    container_name: stickey_api
+    container_name: stickey_main
     restart: unless-stopped
     networks:
       - stickey_network
