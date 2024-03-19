@@ -52,3 +52,6 @@ cloud: #s3
       static: ap-northeast-2
     stack:
       auto: false # ec2의 spring cloud 자동 구성 해제
+
+cloudfront:
+  domain: ${local.cloudfront.domain}
