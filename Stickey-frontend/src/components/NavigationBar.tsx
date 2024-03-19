@@ -25,7 +25,7 @@ const NavigationBar = () => {
   }
 
   return (
-    <div className="w-[360px] h-[52px] border-t-[0.5px] border-white flex flex-row fixed bottom-0 justify-center gap-[56px] items-center ">
+    <div className="bg-Stickey_BGC w-[360px] h-[52px] border-t-[0.5px] border-white flex flex-row fixed bottom-0 justify-center gap-[56px] items-center ">
       <div className="flex flex-col items-center gap-0" onClick={() => handleTabClick("home")}>
         <img
           src={pathname === "/" ? "src/assets/NavigationBar/FilledHouse.png" : "src/assets/NavigationBar/House.png"}
