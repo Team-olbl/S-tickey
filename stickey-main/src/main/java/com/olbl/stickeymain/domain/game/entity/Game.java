@@ -36,10 +36,12 @@ public class Game {
     private LocalDateTime bookStartTime;
     private LocalDateTime bookEndTime;
     private LocalDateTime gameStartTime;
+    private String gameImage; //경기 포스터 사진
 
     @Builder
     public Game(Stadium stadium, SportsClub homeTeam, SportsClub awayTeam, Category category,
-        LocalDateTime bookStartTime, LocalDateTime bookEndTime, LocalDateTime gameStartTime) {
+        LocalDateTime bookStartTime, LocalDateTime bookEndTime, LocalDateTime gameStartTime,
+        String gameImage) {
         this.stadium = stadium;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -47,5 +49,6 @@ public class Game {
         this.bookStartTime = bookStartTime;
         this.bookEndTime = bookEndTime;
         this.gameStartTime = gameStartTime;
+        this.gameImage = gameImage;
     }
 }

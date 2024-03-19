@@ -16,8 +16,11 @@ public enum ErrorCode {
     HTTP_HEADER_INVALID(400, "request header가 유효하지 않습니다."),
     ENTITY_NOT_FOUNT(500, "존재하지 않는 Entity입니다."),
     FORBIDDEN_ERROR(403, "작업을 수행하기 위한 권한이 없습니다."),
-    IS_NOT_IMAGE(400, "이미지가 아닙니다.");
+    IS_NOT_IMAGE(400, "이미지가 아닙니다."),
 
+    //Game
+    SPORTS_CLUB_DO_NOT_EXISTS(400, "존재하지 않는 스포츠 구단입니다."),
+    STADIUM_DO_NOT_EXISTS(400, "존재하지 않는 경기장입니다.");
 
     private final int status;
     private final String message;
