@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginFormProps {
   selectedTab: string; // 새로 추가된 prop
@@ -7,6 +8,11 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ selectedTab }) => {
 
     console.log(selectedTab)
+    const navigate = useNavigate()
+
+    const gotoSignup = () => {
+        navigate('/signup')
+    }
 
     return (
         <>
@@ -32,7 +38,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ selectedTab }) => {
                 <p>|</p>
                 <button>비밀번호찾기</button>
                 <p>|</p>
-                <button>회원가입</button>
+                <button onClick={gotoSignup}>회원가입</button>
         </div>     
         </>
     )
