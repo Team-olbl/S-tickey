@@ -25,4 +25,11 @@ interface Structs {
     bool isFilter;        // 필터인지 배경색인지 구분
   }
 
+  struct SupportInfo {
+    uint supportId;       // 후원글 ID
+    address addr;         // 후원단체의 지갑 주소 
+    uint balance;         // 현재 모인 후원금
+    uint endTime;         // 후원 마감 시간
+  }
+
 } 

@@ -7,7 +7,6 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "./Reword.sol";
 import "./Structs.sol";
 
-
 contract Ticket is ERC721Enumerable, Structs {
 
   address admin;
@@ -22,6 +21,13 @@ contract Ticket is ERC721Enumerable, Structs {
     addGame(1, block.timestamp);
     addGame(2, block.timestamp + 3 days);
     addGame(3, block.timestamp + 5 days);
+
+
+    addItem(1, unicode"아이템1", 1000, false);
+    addItem(2, unicode"아이템2", 1000, false);
+    addItem(3, unicode"엄청 비싼 아이템", 500000, true);
+    addItem(4, unicode"필터 아이템1", 1000, true);
+    addItem(5, unicode"필터 아이템2", 1000, true);
     
   } 
 
@@ -33,7 +39,7 @@ contract Ticket is ERC721Enumerable, Structs {
   // mapping(uint => address) private _minters;
   
   // 지갑이 가진 티켓 정보 ( 지갑 주소 => 토큰 ID 배열 )
-  mapping(address => TicketInfo[]) private _ownedTicket;
+  mapping(address => uint[]) private _ownedTicket;
 
   // 티켓 정보 저장 ( 토큰 ID => 티켓 정보 )
   mapping(uint => TicketInfo) private _ticketInfo;
@@ -51,6 +57,9 @@ contract Ticket is ERC721Enumerable, Structs {
   ItemInfo[] private _itemList;
   mapping(uint => ItemInfo) private _itemInfo;
 
+  // 후원 글 정보 ( 후원 글 ID => 후원 글 정보)
+  mapping(uint => SupportInfo) public _supportInfo;
+
   // 결제 이벤트
   event TicketPayment( address indexed sender, uint gameId, uint amount, uint state, uint date); // state : 1 결제, 2 환불
 
@@ -64,6 +73,11 @@ contract Ticket is ERC721Enumerable, Structs {
     ItemInfo memory item = ItemInfo(id, name, price, isFilter);
     _itemList.push(item);
     _itemInfo[id] = item;
+  }
+
+  // 후원 글 등록
+  function addSupport(uint id, address addr, uint endTime) public isAdmin {
+    _supportInfo[id] = SupportInfo(id, addr, 0, endTime);
   }
 
   // 티켓 예매 메소드
@@ -93,21 +107,21 @@ contract Ticket is ERC721Enumerable, Structs {
       ); 
       _mint(msg.sender, tokenId); // NFT 토큰 발행
       _ticketInfo[tokenId] = t;
-      _ownedTicket[msg.sender].push(t);
+      _ownedTicket[msg.sender].push(tokenId);
     }
 
-    reword.mintReword(msg.sender, price * 5 / 10000); // 0.05% reword 
+    reword.mintReword(msg.sender, price * number * 5 / 100); // 0.05% reword 
 
     emit TicketPayment(msg.sender, gameId, price, 1, block.timestamp);
   }
 
   // 티켓 취소 메소드
-  function cancleTicket(uint256 tokenId, uint16 gameId) public payable {
+  function cancleTicket(uint256 tokenId) public payable {
     require(ownerOf(tokenId) == msg.sender, "you're not owner of this ticket"); // 티켓 소유자 확인
     
     
     uint256 nowTime = block.timestamp;
-    GameInfo memory g = _gameInfo[gameId];
+    GameInfo memory g = _gameInfo[_ticketInfo[tokenId].gameId];
 
     require(nowTime <= g.gameTime, "already game started");
     
@@ -115,8 +129,8 @@ contract Ticket is ERC721Enumerable, Structs {
 
     uint refundPrice = _ticketInfo[tokenId].price;
 
-    require(refundPrice * 5 / 10000 <= reword.balanceOf(msg.sender), "you already use Reword Token");
-    reword.burnReword(msg.sender, refundPrice * 5 / 10000);
+    require(refundPrice * 5 / 100 <= reword.balanceOf(msg.sender), "you already use Reword Token");
+    reword.burnReword(msg.sender, refundPrice * 5 / 100);
 
     if(nowTime >= refundTime) {
       refundPrice = refundPrice * 70 / 100;
@@ -127,18 +141,25 @@ contract Ticket is ERC721Enumerable, Structs {
     deleteTicketByAccount(tokenId);
     _burn(tokenId);
 
-    emit TicketPayment(msg.sender, gameId, refundPrice, 2, block.timestamp);
+    emit TicketPayment(msg.sender, g.gameId, refundPrice, 2, block.timestamp);
   }
 
   // 가진 티켓 조회
   function getTicketsByAccount() public view returns (TicketInfo[] memory) {
-    return _ownedTicket[msg.sender];
+    uint[] memory tickets = _ownedTicket[msg.sender];
+    TicketInfo[] memory ret = new TicketInfo[](tickets.length);
+
+    for(uint i = 0; i < tickets.length; i++) {
+      ret[i] = _ticketInfo[tickets[i]];
+    }
+
+    return ret;
   }
 
   // 티켓 삭제
   function deleteTicketByAccount(uint tokenId) private {
     for(uint i = 0; i < _ownedTicket[msg.sender].length; i++) {
-      if(_ownedTicket[msg.sender][i].tokenId == tokenId){
+      if(_ownedTicket[msg.sender][i] == tokenId){
         _ownedTicket[msg.sender][i] = _ownedTicket[msg.sender][_ownedTicket[msg.sender].length - 1];
         _ownedTicket[msg.sender].pop();
         return; 
@@ -152,17 +173,38 @@ contract Ticket is ERC721Enumerable, Structs {
   }
 
   // 아이템 적용
-  function setItemOnTicket(uint tokenId, uint itemId) public payable {
+  function setItemOnTicket(uint tokenId, uint itemId, uint supportId) public {
     require(ownerOf(tokenId) == msg.sender, "you're not owner of this ticket"); // 티켓 소유자 확인
-    require(msg.value == _itemInfo[itemId].price, "Wrong amount"); 
+    
+    ItemInfo memory i = _itemInfo[itemId];
+    require(reword.balanceOf(msg.sender) >= i.price, "Wrong amount");  // 아이템 가격 만큼 꿈이 있는지 확인
 
-    // TicketInfo memory t = _ticketInfo[tokenId];
+    if(i.isFilter) {
+      _ticketInfo[tokenId].filterId = itemId;
+    } else {
+      _ticketInfo[tokenId].backGroundId = itemId;
+    }
+
+    _supportInfo[supportId].balance += i.price / 2;    
+    reword.burnReword(msg.sender, i.price);
   }
 
+  // 후원
+  function donate(uint supportId) public payable {
+    require(_supportInfo[supportId].endTime > block.timestamp, "Sponsorship has ended.");
+    _supportInfo[supportId].balance += msg.value;
+  }
+  
+  // 후원금 단체 지갑으로 출금
+  function withdraw(uint supportId) public payable {
+    require(_supportInfo[supportId].endTime <= block.timestamp, "Sponsorship is not over yet.");
+    require(_supportInfo[supportId].balance > 0, "Already withdrawn or 0 balance.");
+    payable(_supportInfo[supportId].addr).transfer(_supportInfo[supportId].balance);
+    _supportInfo[supportId].balance = 0;
+  }
 
   modifier isAdmin() {
     require(msg.sender == admin, "Permission Denied");
     _;
   }
 }
-
