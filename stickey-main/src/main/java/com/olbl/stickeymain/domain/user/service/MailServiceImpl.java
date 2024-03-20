@@ -1,11 +1,16 @@
 package com.olbl.stickeymain.domain.user.service;
 
+import static com.olbl.stickeymain.global.result.error.ErrorCode.EMAIL_ALREADY_EXISTS;
+
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
+import com.olbl.stickeymain.domain.user.repository.UserRepository;
+import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -16,6 +21,8 @@ import org.springframework.stereotype.Service;
 public class MailServiceImpl implements MailService {
 
     private final JavaMailSender sender;
+    private final RedisTemplate redisTemplate;
+    private final UserRepository userRepository;
 
     // 6자리 인증코드 생성
     @Override
@@ -43,6 +50,11 @@ public class MailServiceImpl implements MailService {
     // 인증 코드 메일 발송
     @Override
     public String sendAuthEmail(EmailCodeReq emailCodeReq) {
+        // 이메일 중복 검사
+        if (userRepository.findByEmail(emailCodeReq.getEmail()).isPresent()) {
+            throw new BusinessException(EMAIL_ALREADY_EXISTS);
+        }
+
         // 인증 코드 생성
         String code = createAuthCode();
 
@@ -56,8 +68,9 @@ public class MailServiceImpl implements MailService {
 
         sendMail(to, title, text);
 
-        // TODO: 레디스에 인증 코드 저장 (만료 시간 1시간)
-
+        // 레디스에 인증 코드 저장 (만료 1시간)
+        log.info("emailCode : {}", code);
+        redisTemplate.opsForHash().put("emailAuth", to, code);
         return code;
     }
 
