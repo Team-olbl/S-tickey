@@ -8,6 +8,7 @@ import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
 import com.olbl.stickeymain.domain.user.entity.User;
 import com.olbl.stickeymain.domain.user.repository.UserRepository;
+import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.global.result.error.ErrorCode;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
