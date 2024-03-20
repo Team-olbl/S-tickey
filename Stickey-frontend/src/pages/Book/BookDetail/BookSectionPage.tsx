@@ -5,7 +5,8 @@ import Back from '../../../assets/image/Back.png'
 const BookSectionPage = () => {
 
   const info : IHeaderInfo = {
-    left: <img src={Back} alt="" />,
+    left_1:  null,
+    left_2: <img src={Back} alt="" />,
     center:'',
     right: <img src="src/assets/Alarm/Bell.png" alt="" />
   }

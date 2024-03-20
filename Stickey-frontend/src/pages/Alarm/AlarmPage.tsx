@@ -11,7 +11,8 @@ export type AlarmItemData = {
 };
 
 const info : IHeaderInfo = {
-  left: <img src={Back} alt="" />,
+  left_1:  null,
+  left_2: <img src={Back} alt="" />,
   center:'',
   right: null,
 }
