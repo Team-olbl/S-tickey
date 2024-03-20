@@ -14,7 +14,7 @@ export interface IGameInfo {
   gameStartTime: string;
 }
 
-const BookSectionPage: React.FC<{ gameInfo: IGameInfo }> = () => {
+const BookSectionPage = () => {
 
   const dummyGameInfo: IGameInfo = {
     id: 4,
