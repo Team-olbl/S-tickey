@@ -11,6 +11,7 @@ public enum ResultCode {
     REGIST_SUCCESS(201, "회원가입에 성공하였습니다."),
     VERIFICATION_SUCCESS(200, "이메일 인증에 성공하였습니다."),
     SEND_EMAIL_SUCCESS(200, "요청한 이메일로 메일이 발송되었습니다."),
+    CHECK_EMAIL_SUCCESS(200, "이메일 인증에 성공하였습니다."),
 
     //Game
     GAME_REGISTER_SUCCESS(201, "경기 등록에 성공하였습니다."),
