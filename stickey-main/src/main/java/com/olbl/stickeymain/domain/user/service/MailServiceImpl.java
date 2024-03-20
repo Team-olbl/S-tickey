@@ -1,6 +1,10 @@
 package com.olbl.stickeymain.domain.user.service;
 
+import static com.olbl.stickeymain.global.result.error.ErrorCode.EMAIL_ALREADY_EXISTS;
+
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
+import com.olbl.stickeymain.domain.user.repository.UserRepository;
+import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.util.Random;
@@ -18,6 +22,7 @@ public class MailServiceImpl implements MailService {
 
     private final JavaMailSender sender;
     private final RedisTemplate redisTemplate;
+    private final UserRepository userRepository;
 
     // 6자리 인증코드 생성
     @Override
@@ -45,6 +50,11 @@ public class MailServiceImpl implements MailService {
     // 인증 코드 메일 발송
     @Override
     public String sendAuthEmail(EmailCodeReq emailCodeReq) {
+        // 이메일 중복 검사
+        if (userRepository.findByEmail(emailCodeReq.getEmail()).isPresent()) {
+            throw new BusinessException(EMAIL_ALREADY_EXISTS);
+        }
+
         // 인증 코드 생성
         String code = createAuthCode();
 
