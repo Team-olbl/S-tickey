@@ -13,7 +13,7 @@ export type AlarmItemData = {
 const info : IHeaderInfo = {
   left: <img src={Back} alt="" />,
   center:'',
-  right: <img src="src/assets/Alarm/Bell.png" alt="" />
+  right: null,
 }
 
 const AlarmPage = () => {
