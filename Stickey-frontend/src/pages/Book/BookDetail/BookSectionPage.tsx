@@ -1,7 +1,27 @@
+import Header, { IHeaderInfo } from "../../../components/@common/Header";
+import NavigationBar from "../../../components/@common/NavigationBar";
+import Back from '../../../assets/image/Back.png'
+
 const BookSectionPage = () => {
+
+  const info : IHeaderInfo = {
+    left: <img src={Back} alt="" />,
+    center:'',
+    right: <img src="src/assets/Alarm/Bell.png" alt="" />
+  }
+
+
   return(
     <>
-      구역 선택
+    <div>
+      <Header info={info} />
+
+      <div>
+
+
+      </div>
+      <NavigationBar />
+    </div>
     </>
   )
 }

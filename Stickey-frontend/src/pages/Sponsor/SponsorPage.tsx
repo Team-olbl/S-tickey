@@ -2,6 +2,7 @@ import SponsorItem from "../../components/Sponsor/SponsorItem";
 import Dove from '../../assets/image/Dove.png'
 import Header, { IHeaderInfo } from "../../components/@common/Header";
 import NavigationBar from "../../components/@common/NavigationBar";
+import { useNavigate } from "react-router-dom";
 
 export type SponsorItemData = {
   id: number;
@@ -18,6 +19,8 @@ const info : IHeaderInfo = {
   right: <img src="src/assets/Alarm/Bell.png" alt="" />
 }
 const SponsorPage = () => {
+
+  const navigate = useNavigate();
 
   const dummyList: SponsorItemData[] = [
     {
@@ -42,6 +45,11 @@ const SponsorPage = () => {
       end_date: '2024.03.11',
     },
   ]
+
+  const gotoSponsorDetail = (id: number) => {
+    navigate(`/sponsor/${id}`);
+  };
+
   return(
     <>
     <Header info={info} />
@@ -53,8 +61,10 @@ const SponsorPage = () => {
         </div>
         ) : (
           dummyList.map((item, id) => (
-            <div className="px-4">
+            <div className="px-6 py-1">
+              <button onClick={() => gotoSponsorDetail(item.id)}>
                <SponsorItem key={id} data={item} />
+               </button>
             </div>
           ))
         )}

@@ -4,6 +4,7 @@ const NavigationBar = () => {
   const navigate = useNavigate();
   const {pathname} = useLocation();
   
+
   const handleTabClick = (tab:string) => {
     switch (tab) {
       case "home":
