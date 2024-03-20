@@ -22,16 +22,19 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @SuperBuilder
 public class User {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
-  private String name;
-  private String email;
-  private String password;
-  private String phone;
-  private String account;
-  private String profileImage;
-  @CreatedDate
-  private LocalDateTime createTime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String name;
+    private String email;
+    private String password;
+    private String phone;
+    private String account;
+    private String profileImage;
+    @CreatedDate
+    private LocalDateTime createTime;
 
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
+    }
 }
