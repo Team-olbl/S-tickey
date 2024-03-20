@@ -7,8 +7,11 @@ import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
 import com.olbl.stickeymain.domain.user.entity.User;
 import com.olbl.stickeymain.domain.user.repository.UserRepository;
+import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
+import com.olbl.stickeymain.global.result.error.ErrorCode;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
+import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -63,5 +66,32 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(EMAIL_VERIFICATION_INVAID);
         }
         return true;
+
+    @Override
+    public String findPassword(EmailCodeReq emailCodeReq) {
+        // 회원이 존재하는지 확인
+        User user = userRepository.findByEmail(emailCodeReq.getEmail())
+            .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTS));
+
+        // 임시 비밀번호 생성
+        StringBuilder newPassword = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 15; i++) {
+            int idx = random.nextInt(3);
+
+            switch (idx) {
+                case 0: // 영어 소문자
+                    newPassword.append((char) (random.nextInt(26) + 97));
+                    break;
+                case 1: // 영어 대문자
+                    newPassword.append((char) (random.nextInt(26) + 65));
+                    break;
+                default: // 숫자
+                    newPassword.append(random.nextInt(10));
+            }
+        }
+
+        user.changePassword(newPassword.toString());
+        return newPassword.toString();
     }
 }

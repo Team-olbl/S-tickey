@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,12 +51,20 @@ public class UserController {
         return ResponseEntity.ok(ResultResponse.of(SEND_EMAIL_SUCCESS));
     }
 
+
     @Operation(summary = "이메일 인증 코드 확인")
     @PostMapping("/auth-check")
     public ResponseEntity<ResultResponse> checkAuthEmail(
         @RequestBody @Valid EmailCheckReq emailCheckReq) {
         boolean state = userService.checkAuthEmail(emailCheckReq);
         return ResponseEntity.ok(ResultResponse.of(CHECK_EMAIL_SUCCESS, state));
+
+    @Operation(summary = "이메일로 임시 비밀번호 발송")
+    @PatchMapping
+    public ResponseEntity<ResultResponse> findPassword(@RequestBody EmailCodeReq emailCodeReq) {
+        String newPassword = userService.findPassword(emailCodeReq); // 임시 비밀번호 발급
+        mailService.sendPasswordEmail(emailCodeReq.getEmail(), newPassword); // 이메일 발송
+        return ResponseEntity.ok(ResultResponse.of(SEND_EMAIL_SUCCESS));
     }
 
 }
