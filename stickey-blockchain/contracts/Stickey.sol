@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "./Reword.sol";
 import "./Structs.sol";
 
-contract Ticket is ERC721Enumerable, Structs {
+contract Stickey is ERC721Enumerable, Structs {
 
   address admin;
   Reword reword;
