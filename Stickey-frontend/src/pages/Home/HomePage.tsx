@@ -6,12 +6,13 @@ import NavigationBar from "../../components/@common/NavigationBar";
 
 const HomePage = () => {
   const info : IHeaderInfo = {
-    left: null,
-    center:'S:tickey',
+    left_1: null,
+    left_2: null,
+    center: null,
     right: <img src="src/assets/Alarm/Bell.png" alt="" />
   }
 
-  return( 
+  return(
     <>
       <Header info={info}/>
       <Carousel />
