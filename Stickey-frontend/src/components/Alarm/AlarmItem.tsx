@@ -1,4 +1,4 @@
-import Tickets  from '../../assets/Alarm/Tickets.png'
+import Tickets  from '../../assets/image/Tickets.png'
 import { AlarmItemData } from '../../pages/Alarm/AlarmPage';
 
   const AlarmItem = ({data} : {data: AlarmItemData}) => {

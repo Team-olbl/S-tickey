@@ -21,7 +21,7 @@ const Header = (props: {info: IHeaderInfo}) => {
         <p className="font-sans font-extrabold italic text-white">{ center }</p>
       )}
       <button onClick={() => navigate('/alarm')}>
-        {right && <img src="src/assets/@common/Bell.png" alt="Alarm" className="w-[32px] h-[32px]"/>}
+        {right && <img src="src/assets/image/Bell.png" alt="Alarm" className="w-[32px] h-[32px]"/>}
       </button>
     </div>
   )
