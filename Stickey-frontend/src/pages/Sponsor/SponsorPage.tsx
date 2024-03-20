@@ -1,7 +1,7 @@
 import SponsorItem from "../../components/Sponsor/SponsorItem";
-import Dove from '../../assets/Sponsor/Dove.png'
-import Header, { IHeaderInfo } from "../../components/Header";
-import NavigationBar from "../../components/NavigationBar";
+import Dove from '../../assets/image/Dove.png'
+import Header, { IHeaderInfo } from "../../components/@common/Header";
+import NavigationBar from "../../components/@common/NavigationBar";
 
 export type SponsorItemData = {
   id: number;
