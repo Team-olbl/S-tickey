@@ -1,8 +1,8 @@
 import Carousel from "../../components/Home/Carousel";
 import Category from "../../components/Home/Category";
 import GameSchedule from "../../components/Home/GameSchedule";
-import Header, { IHeaderInfo } from "../../components/Header";
-import NavigationBar from "../../components/NavigationBar";
+import Header, { IHeaderInfo } from "../../components/@common/Header";
+import NavigationBar from "../../components/@common/NavigationBar";
 
 const HomePage = () => {
   const info : IHeaderInfo = {

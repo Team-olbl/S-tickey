@@ -5,8 +5,6 @@ import SoccerPage from './pages/Home/Soccer/SoccerPage';
 import BaseBallPage from './pages/Home/BaseBall/BaseBallPage';
 import BasketBallPage from './pages/Home/BasketBall/BasketBallPage';
 import AlarmPage from './pages/Alarm/AlarmPage';
-import BookPage from './pages/Book/BookPage';
-import BookNoticePage from './pages/Book/BookNotice/BookNoticePage';
 import BookSectionPage from './pages/Book/BookDetail/BookSectionPage';
 import BookSeatPage from './pages/Book/BookDetail/BookSeatPage';
 import BookPaymentPage from './pages/Book/BookDetail/BookPaymentPage';
@@ -47,14 +45,6 @@ const router = createBrowserRouter([
   {
     path:'/alarm',
     element: <AlarmPage />
-  },
-  {
-    path:'/book',
-    element: <BookPage />
-  },
-  {
-    path:'/book/notice',
-    element: <BookNoticePage />
   },
   {
     path:'/book/section',
