@@ -1,6 +1,6 @@
-import Header, { IHeaderInfo } from "../../../components/Header";
-import NavigationBar from "../../../components/NavigationBar";
-import Back from '../../../assets/@common/Back.png'
+import Header, { IHeaderInfo } from "../../../components/@common/Header";
+import NavigationBar from "../../../components/@common/NavigationBar";
+import Back from '../../../assets/image/Back.png'
 import SponsorForm from "../../../components/Sponsor/SponsorForm";
 
 const SponsorCreatePage = () => {
