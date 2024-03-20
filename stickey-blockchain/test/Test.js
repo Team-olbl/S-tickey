@@ -5,6 +5,5 @@ contract("Ticket", () => {
   it("Ticket Test", async () => {
     const ticket = await Ticket.deployed();
     const res = await ticket.mintTicket(1, 1, 1, 1, [1], { value: 10 ** 9 });
-    // assert.equal(res, true, "tokenId is wrong");
   });
 });

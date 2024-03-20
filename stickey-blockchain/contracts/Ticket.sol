@@ -16,6 +16,7 @@ contract Ticket is ERC721Enumerable, Structs {
   // 이름 Stickey, 심볼 TKT (티켓 토큰)
   constructor(address _rewordContractAddress) ERC721("Stickey", "TKT") {
     reword = Reword(_rewordContractAddress);
+    reword.setTicketCaller(address(this));
     admin = msg.sender;
     _ticketPriceInfo[1][1] = 10 ** 9; // 더미 데이터
     addGame(1, block.timestamp);
@@ -66,16 +67,15 @@ contract Ticket is ERC721Enumerable, Structs {
   }
 
   // 티켓 예매 메소드
-  function mintTicket(uint number, uint gameId, uint stadiumId, uint areaId, uint[] calldata seatNum) public payable returns(bool) {
+  function mintTicket(uint number, uint gameId, uint stadiumId, uint areaId, uint[] calldata seatNum) public payable {
     require(0 < number && number < 5, "Wrong Ticket Number"); // 티켓의 매수는 1 ~ 4
     uint price = _ticketPriceInfo[stadiumId][areaId]; // 가격 확인, 좌석 가격 * 매수
 
     require(msg.value == price * number, "Wrong price"); // 가격이 맞지않으면 반려
 
-    uint tokenId;
     for(uint i = 0; i < number; i++) { // 매수만큼 반복
       _tokenIds.increment();
-      tokenId = _tokenIds.current();
+      uint tokenId = _tokenIds.current();
 
       if(_refundAddress[gameId][areaId][seatNum[i]] != address(0)) {
         payable(_refundAddress[gameId][areaId][seatNum[i]]).transfer(price * 30 / 100);
@@ -96,10 +96,9 @@ contract Ticket is ERC721Enumerable, Structs {
       _ownedTicket[msg.sender].push(t);
     }
 
-    reword.transfer(msg.sender, price * 5 / 10000); // 0.05% reword 
+    reword.mintReword(msg.sender, price * 5 / 10000); // 0.05% reword 
 
     emit TicketPayment(msg.sender, gameId, price, 1, block.timestamp);
-    return true;
   }
 
   // 티켓 취소 메소드
@@ -117,6 +116,7 @@ contract Ticket is ERC721Enumerable, Structs {
     uint refundPrice = _ticketInfo[tokenId].price;
 
     require(refundPrice * 5 / 10000 <= reword.balanceOf(msg.sender), "you already use Reword Token");
+    reword.burnReword(msg.sender, refundPrice * 5 / 10000);
 
     if(nowTime >= refundTime) {
       refundPrice = refundPrice * 70 / 100;
