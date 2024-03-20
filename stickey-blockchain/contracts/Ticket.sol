@@ -4,18 +4,25 @@ pragma solidity >=0.8.0 <0.9.0;
 // NFT 코인 생성 라이브러리
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./Reword.sol";
 import "./Structs.sol";
 
 
 contract Ticket is ERC721Enumerable, Structs {
 
   address admin;
+  Reword reword;
 
   // 이름 Stickey, 심볼 TKT (티켓 토큰)
-  constructor() ERC721("Stickey", "TKT") {
+  constructor(address _rewordContractAddress) ERC721("Stickey", "TKT") {
+    reword = Reword(_rewordContractAddress);
+    reword.setTicketCaller(address(this));
     admin = msg.sender;
-    _ticketPriceInfo[1][1] = 1; // 더미 데이터
-
+    _ticketPriceInfo[1][1] = 10 ** 9; // 더미 데이터
+    addGame(1, block.timestamp);
+    addGame(2, block.timestamp + 3 days);
+    addGame(3, block.timestamp + 5 days);
+    
   } 
 
   // 티켓 생성시 마다 증가하는 카운트 값, SafeMath 적용
@@ -48,8 +55,8 @@ contract Ticket is ERC721Enumerable, Structs {
   event TicketPayment( address indexed sender, uint gameId, uint amount, uint state, uint date); // state : 1 결제, 2 환불
 
   // 경기 정보 추가
-  function addGame(uint id, uint ticketingTime, uint gameTime) public isAdmin{
-    _gameInfo[id] = GameInfo(id, ticketingTime, gameTime);
+  function addGame(uint id, uint gameTime) public isAdmin{
+    _gameInfo[id] = GameInfo(id, gameTime);
   }
 
   // 아이템 정보 추가
@@ -89,13 +96,15 @@ contract Ticket is ERC721Enumerable, Structs {
       _ownedTicket[msg.sender].push(t);
     }
 
+    reword.mintReword(msg.sender, price * 5 / 10000); // 0.05% reword 
+
     emit TicketPayment(msg.sender, gameId, price, 1, block.timestamp);
   }
 
   // 티켓 취소 메소드
   function cancleTicket(uint256 tokenId, uint16 gameId) public payable {
     require(ownerOf(tokenId) == msg.sender, "you're not owner of this ticket"); // 티켓 소유자 확인
-    // require(_ticketInfo[tokenId].status == 1, "illigal Ticket State"); // 티켓 상태 확인
+    
     
     uint256 nowTime = block.timestamp;
     GameInfo memory g = _gameInfo[gameId];
@@ -105,6 +114,9 @@ contract Ticket is ERC721Enumerable, Structs {
     uint refundTime = g.gameTime - 3 days; 
 
     uint refundPrice = _ticketInfo[tokenId].price;
+
+    require(refundPrice * 5 / 10000 <= reword.balanceOf(msg.sender), "you already use Reword Token");
+    reword.burnReword(msg.sender, refundPrice * 5 / 10000);
 
     if(nowTime >= refundTime) {
       refundPrice = refundPrice * 70 / 100;
@@ -146,6 +158,7 @@ contract Ticket is ERC721Enumerable, Structs {
 
     // TicketInfo memory t = _ticketInfo[tokenId];
   }
+
 
   modifier isAdmin() {
     require(msg.sender == admin, "Permission Denied");
