@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { CiCamera } from 'react-icons/ci';
-import Folder from '../../assets/Signup/FolderOpen.png'
+import Folder from '../../assets/image/FolderOpen.png'
 
 const OrganizationForm = () => {
 
