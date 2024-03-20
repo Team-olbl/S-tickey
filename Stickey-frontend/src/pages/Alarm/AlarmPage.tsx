@@ -1,8 +1,8 @@
 import AlarmItem from "../../components/Alarm/AlarmItem";
-import Letter from '../../assets/Alarm/Letter.png'
-import Header, { IHeaderInfo } from "../../components/Header";
-import NavigationBar from "../../components/NavigationBar";
-import Back from '../../assets/@common/Back.png'
+import Letter from '../../assets/image/Letter.png'
+import Header, { IHeaderInfo } from "../../components/@common/Header";
+import NavigationBar from "../../components/@common/NavigationBar";
+import Back from '../../assets/image/Back.png'
 
 export type AlarmItemData = {
   title: string;
@@ -13,7 +13,7 @@ export type AlarmItemData = {
 const info : IHeaderInfo = {
   left: <img src={Back} alt="" />,
   center:'',
-  right: <img src="src/assets/Alarm/Bell.png" alt="" />
+  right: null,
 }
 
 const AlarmPage = () => {
