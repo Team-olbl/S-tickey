@@ -82,4 +82,5 @@ public class MailServiceImpl implements MailService {
             e.printStackTrace();
         }
     }
+
 }
