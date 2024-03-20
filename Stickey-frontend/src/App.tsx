@@ -47,19 +47,19 @@ const router = createBrowserRouter([
     element: <AlarmPage />
   },
   {
-    path:'/book/section',
+    path:'/:id/section',
     element: <BookSectionPage />
   },
   {
-    path:'/book/seat',
+    path:'/:id/seat',
     element: <BookSeatPage />
   },
   {
-    path:'/book/payment',
+    path:'/:id/payment',
     element: <BookPaymentPage />
   },
   {
-    path:'/book/confirm',
+    path:'/:id/confirm',
     element: <BookConfirmPage />
   },
   {
