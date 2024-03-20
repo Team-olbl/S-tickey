@@ -6,6 +6,7 @@ import jakarta.mail.internet.MimeMessage;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class MailServiceImpl implements MailService {
 
     private final JavaMailSender sender;
+    private final RedisTemplate redisTemplate;
 
     // 6자리 인증코드 생성
     @Override
@@ -56,8 +58,9 @@ public class MailServiceImpl implements MailService {
 
         sendMail(to, title, text);
 
-        // TODO: 레디스에 인증 코드 저장 (만료 시간 1시간)
-
+        // 레디스에 인증 코드 저장 (만료 1시간)
+        log.info("emailCode : {}", code);
+        redisTemplate.opsForHash().put("emailAuth", to, code);
         return code;
     }
 
