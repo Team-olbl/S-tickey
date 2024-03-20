@@ -2,6 +2,7 @@ import Header, { IHeaderInfo } from "../../../components/@common/Header";
 import NavigationBar from "../../../components/@common/NavigationBar";
 import Back from '../../../assets/image/Back.png'
 import BookInfo from "../../../components/Book/BookInfo";
+import BookSection from "../../../components/Book/BookSection";
 
 export interface IGameInfo {
   id: number;
@@ -41,6 +42,12 @@ const BookSectionPage: React.FC<{ gameInfo: IGameInfo }> = () => {
         <div className="pt-14 pb-16">
           {/* 경기정보 */}
           <BookInfo gameInfo={dummyGameInfo} />
+
+          {/* 경기장 구역 정보 */}
+          <BookSection />
+
+          {/* 사용자 예매 정보 */}
+          
         </div>
 
       <NavigationBar />
