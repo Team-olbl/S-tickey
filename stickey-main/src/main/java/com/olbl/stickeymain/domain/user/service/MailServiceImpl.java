@@ -102,6 +102,4 @@ public class MailServiceImpl implements MailService {
 
         sendMail(to, title, text);
     }
-
-
 }
