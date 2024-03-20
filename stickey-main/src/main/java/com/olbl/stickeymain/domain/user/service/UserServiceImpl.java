@@ -4,6 +4,7 @@ import static com.olbl.stickeymain.global.result.error.ErrorCode.EMAIL_VERIFICAT
 import static com.olbl.stickeymain.global.result.error.ErrorCode.EMAIL_VERIFICATION_NOT_EXISTS;
 
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
+import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
 import com.olbl.stickeymain.domain.user.entity.User;
 import com.olbl.stickeymain.domain.user.repository.UserRepository;
@@ -66,6 +67,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(EMAIL_VERIFICATION_INVAID);
         }
         return true;
+    }
 
     @Override
     public String findPassword(EmailCodeReq emailCodeReq) {
