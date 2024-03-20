@@ -14,7 +14,8 @@ export type SponsorItemData = {
 }
 
 const info : IHeaderInfo = {
-  left: null,
+  left_1:  null,
+  left_2:  null,
   center:'후원',
   right: <img src="src/assets/Alarm/Bell.png" alt="" />
 }

@@ -9,7 +9,8 @@ import OrganizationForm from "../../components/Signup/OrganizationForm";
 
 const SignupPage = () => {
   const info: IHeaderInfo = {
-    left: <img src={Back} alt="" />,
+    left_1:  null,
+    left_2: <img src={Back} alt="" />,
     center: '회원가입',
     right: <img src="src/assets/Alarm/Bell.png" alt="" />
   }
