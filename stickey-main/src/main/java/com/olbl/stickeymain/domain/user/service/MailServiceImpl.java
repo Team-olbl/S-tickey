@@ -79,4 +79,16 @@ public class MailServiceImpl implements MailService {
             e.printStackTrace();
         }
     }
+
+    // 이메일로 임시 비밀번호 전송
+    public void sendPasswordEmail(String to, String newPassword) {
+        String title = "S:Tickey 비밀번호 찾기 메일입니다.";
+        String text = "<h2>회원님께서 요청하신 임시 비밀번호 입니다.</h2>\n"
+            + "        <p>" + to + "님의 임시 비밀번호는 " + newPassword + "입니다.</p>\n"
+            + "        <p>로그인 후 비밀번호를 변경해 주세요.</p>\n";
+
+        sendMail(to, title, text);
+    }
+
+
 }
