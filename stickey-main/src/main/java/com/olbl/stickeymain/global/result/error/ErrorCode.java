@@ -23,6 +23,7 @@ public enum ErrorCode {
     STADIUM_DO_NOT_EXISTS(400, "존재하지 않는 경기장입니다."),
 
     //User
+    USER_NOT_EXISTS(400, "존재하지 않는 회원입니다.");
     EMAIL_ALREADY_EXISTS(400, "이미 존재하는 이메일입니다.");
 
     private final int status;
