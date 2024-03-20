@@ -7,10 +7,10 @@ const SponsorItem = ({data} : {data: SponsorItemData}) => {
                 <div className="bg-black bg-opacity-20 px-4 rounded-bl-2xl rounded-br-2xl">
                     <div className="flex items-center pt-2">
                         <p className="bg-gray-500 w-6 h-6 rounded-full"></p>
-                        <p className="text-white text-sm pl-2 font-bold">{data.title}</p>
+                        <p className="text-white text-sm pl-2">{data.title}</p>
                     </div>
                     <div>
-                        <p className="text-white text-[10px] p-1">{data.start_date} ~ {data.end_date}</p>
+                        <p className="text-white text-[10px] p-1 text-left">{data.start_date} ~ {data.end_date}</p>
                     </div>
                     <div className="pt-1 pb-4">
                         <div className="w-full h-2 bg-white rounded-xl "></div>

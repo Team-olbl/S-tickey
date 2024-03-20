@@ -1,0 +1,54 @@
+spring:
+  profiles:
+    active: local # 기본설정
+    group:
+      local:
+        - db-local
+      server:
+        - db-server
+    include:
+      - key
+      - db
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Seoul
+    show-sql: true
+
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 40MB
+
+springdoc: #swagger
+  packages-to-scan: com.olbl.stickeymain
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /stickeymain.html            # Swagger UI 경로 => localhost:8080/stickey-main.html
+    tags-sorter: alpha            # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    operations-sorter: alpha      # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+  api-docs:
+    path: /api-docs/json
+    groups:
+      enabled: true
+  cache:
+    disabled: true
+
+cloud: #s3
+  aws:
+    s3:
+      bucket: ${local.aws.bucket}
+      credentials:
+        access-key: ${local.aws.access-key}
+        secret-key: ${local.aws.secret-key}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false # ec2의 spring cloud 자동 구성 해제
