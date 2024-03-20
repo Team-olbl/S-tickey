@@ -10,7 +10,8 @@ const LoginPage = () => {
   const [selectedTab, setSelectedTab] = useState('개인회원');
 
   const info : IHeaderInfo = {
-    left: <img src={Back} alt="" />,
+    left_1:  null,
+    left_2: <img src={Back} alt="" />,
     center:'로그인',
     right: <img src="src/assets/Alarm/Bell.png" alt="" />
   }
