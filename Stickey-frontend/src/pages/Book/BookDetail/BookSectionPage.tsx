@@ -38,18 +38,12 @@ const BookSectionPage: React.FC<{ gameInfo: IGameInfo }> = () => {
     <>
     <div>
       <Header info={info} />
-
-        <div className="pt-14 pb-16">
+        <div className="pt-14">
           {/* 경기정보 */}
           <BookInfo gameInfo={dummyGameInfo} />
-
-          {/* 경기장 구역 정보 */}
+          {/* 구역 정보 */}
           <BookSection />
-
-          {/* 사용자 예매 정보 */}
-          
         </div>
-
       <NavigationBar />
     </div>
     </>
