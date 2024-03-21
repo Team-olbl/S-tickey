@@ -1,11 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
+import NotSoldModal from "./NotSoldModal";
+import { useState } from "react";
 
 
 const BookSeat = () => {
 
     const navigate = useNavigate();
     const { seatInfo, setSelectInfo } = useTicketStore();
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const goBack = () => {
         navigate('/')   
@@ -67,7 +71,6 @@ const BookSeat = () => {
     return(
         <>
         <div className="pt-4">
-
 
                 {/* 좌석 */}
                     <div className="bg-Stickey_Gray w-[360px] h-[260px] flex flex-col flex-wrap justify-center items-center">
@@ -149,6 +152,7 @@ const BookSeat = () => {
                     </div>
             </div>
         </div>
+        {isModalOpen && <NotSoldModal onClose={() => setIsModalOpen(false)} />}
      </>
     )
 }
