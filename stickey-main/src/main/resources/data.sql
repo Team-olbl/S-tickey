@@ -65,40 +65,40 @@ insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
 values(1, 'E', 1, 10000, 6, 'NOTSOLD');
 
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'W', 2, 10000, 1, 'NOTSOLD');
+values(1, 'W', 2, 15000, 1, 'NOTSOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'W', 2, 10000, 2, 'NOTSOLD');
+values(1, 'W', 2, 15000, 2, 'NOTSOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'W', 2, 10000, 3, 'NOTSOLD');
+values(1, 'W', 2, 15000, 3, 'NOTSOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'W', 2, 10000, 4, 'NOTSOLD');
+values(1, 'W', 2, 15000, 4, 'NOTSOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'W', 2, 10000, 5, 'NOTSOLD');
+values(1, 'W', 2, 15000, 5, 'NOTSOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'W', 2, 10000, 6, 'NOTSOLD');
+values(1, 'W', 2, 15000, 6, 'NOTSOLD');
 
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'R', 3, 10000, 1, 'SOLD');
+values(1, 'R', 3, 20000, 1, 'SOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'R', 3, 10000, 2, 'NOTSOLD');
+values(1, 'R', 3, 20000, 2, 'NOTSOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'R', 3, 10000, 3, 'NOTSOLD');
+values(1, 'R', 3, 20000, 3, 'NOTSOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'R', 3, 10000, 4, 'NOTSOLD');
+values(1, 'R', 3, 20000, 4, 'NOTSOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'R', 3, 10000, 5, 'NOTSOLD');
+values(1, 'R', 3, 20000, 5, 'NOTSOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'R', 3, 10000, 6, 'NOTSOLD');
+values(1, 'R', 3, 20000, 6, 'NOTSOLD');
 
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'S', 4, 10000, 1, 'SOLD');
+values(1, 'S', 4, 30000, 1, 'SOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'S', 4, 10000, 2, 'SOLD');
+values(1, 'S', 4, 30000, 2, 'SOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'S', 4, 10000, 3, 'SOLD');
+values(1, 'S', 4, 30000, 3, 'SOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'S', 4, 10000, 4, 'SOLD');
+values(1, 'S', 4, 30000, 4, 'SOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'S', 4, 10000, 5, 'SOLD');
+values(1, 'S', 4, 30000, 5, 'SOLD');
 insert into game_seat(game_id, zone_name, zone_id, price, seat_number, status)
-values(1, 'S', 4, 10000, 6, 'SOLD');
+values(1, 'S', 4, 30000, 6, 'SOLD');
