@@ -20,7 +20,7 @@ const TabBar: React.FC<ProfileTabBarProps> = ({ leftTab, rightTab, onTabChange }
   };
 
   return (
-    <div className="text-sm w-full flex relative pb-2 text-center pt-16 max-w-[360px]">
+    <div className="text-sm w-full flex relative pb-2 text-center pt-16 max-w-[500px]">
       <button
         onClick={handleLeftTabClick}
         className={activeTab === leftTab ? 'font-bold flex-1 text-Stickey_BGC' : 'text-gray-400 flex-1'}

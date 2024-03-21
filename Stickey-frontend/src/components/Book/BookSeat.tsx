@@ -70,7 +70,7 @@ const BookSeat = () => {
 
 
                 {/* 좌석 */}
-                    <div className="bg-Stickey_Gray w-[360px] h-[260px] flex flex-col flex-wrap justify-center items-center">
+                    <div className="bg-Stickey_Gray w-[500px] h-[260px] flex flex-col flex-wrap justify-center items-center">
                     <p className="text-xs text-gray-800">경기장 방향</p>
                         <div className="py-2">
                             {seats.map((row, rowIndex) => (
@@ -90,7 +90,7 @@ const BookSeat = () => {
                 
  
 
-            <div className="fixed bottom-0 w-[360px] flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
+            <div className="fixed bottom-0 w-[500px] flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
 
                 {/* 스텝바 */}
                 <div className="pt-2 w-[150px]">
@@ -143,7 +143,7 @@ const BookSeat = () => {
 
 
                     {/* 버튼 */}
-                    <div  className="w-full max-w-[360px] px-4 pt-4 pb-16 flex justify-center">
+                    <div  className="w-full max-w-[500px] px-4 pt-4 pb-16 flex justify-center">
                         <button className="bg-Stickey_Gray w-36 mr-2 p-2 text-xs rounded-md" onClick={() => goBack()}>이전</button>
                         <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md">다음</button>
                     </div>

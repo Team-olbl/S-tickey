@@ -1,7 +1,7 @@
 const DreamHeader = () => {
   return (
     <>
-      <div className="flex flex-row justify-center w-[360px] h-[48px] gap-5 ">
+      <div className="flex flex-row justify-center w-[500px] h-[48px] gap-5 ">
         <div className="relative flex items-center gap-2">
           <div>
             <div className="relative w-[20px] border-b border-[#8989FF] "></div>

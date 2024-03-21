@@ -28,7 +28,7 @@ const Modal = ({ width, height, title, onClose, children }: IModalProps) => {
                
   return (
     <div
-      className={`fixed top-0 w-[360px] bottom-0 ${isRendering ? 'bg-black/50' : 'bg-black/0'}`}
+      className={`fixed top-0 w-[500px] bottom-0 ${isRendering ? 'bg-black/50' : 'bg-black/0'}`}
     >
       {/* modal wrapper */}
       <div
