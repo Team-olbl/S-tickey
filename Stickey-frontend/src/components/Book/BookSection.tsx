@@ -40,7 +40,7 @@ const BookSection = () => {
     };
 
     const goBack = () => {
-        navigate('/')   
+        navigate(-1)   
     }
 
 
@@ -137,7 +137,7 @@ const BookSection = () => {
                         </div>
                     </div>
                     <div className="flex">
-                        <div className="flex items-center">
+                    <div className="flex items-center">
                             <div className="h-2 w-6 bg-[#C3E7FF]" />
                             <p className="px-1 text-[10px] text-white">E구역 : 10,000</p>
                         </div>
@@ -147,19 +147,18 @@ const BookSection = () => {
                         </div>
                     </div>
 
-
                 </div>
                 
             </div>
 
-            <div className="fixed bottom-0 w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
+            <div className="fixed bottom-0 max-w-[500px] w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
 
             {/* 스텝바 */}
             <div className="pt-2 w-[150px]">
                 <div className="relative after:absolute after:inset-x-0 after:top-1/2 after:block after:h-0.5 after:-translate-y-1/2 after:rounded-lg after:bg-gray-100">
                     <ol className="relative z-10 flex justify-between">
                     <li className="flex items-center">
-                    <span className="size-5 rounded-full bg-gray-100 border-2 border-Stickey_Main text-center text-xs"> 1 </span>
+                    <span className="size-5 rounded-full bg-Stickey_Main border-2 border-Stickey_Main text-center text-xs"> 1 </span>
 
                     </li>
                     <li className="flex items-center p-2">
