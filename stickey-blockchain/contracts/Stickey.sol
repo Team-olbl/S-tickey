@@ -145,12 +145,12 @@ contract Stickey is ERC721Enumerable, Structs {
   }
 
   // 가진 티켓 조회
-  function getTicketsByAccount() public view returns (TicketInfo[] memory) {
+  function getTicketsByAccount() public view returns (Ticket[] memory) {
     uint[] memory tickets = _ownedTicket[msg.sender];
-    TicketInfo[] memory ret = new TicketInfo[](tickets.length);
+    Ticket[] memory ret = new Ticket[](tickets.length);
 
     for(uint i = 0; i < tickets.length; i++) {
-      ret[i] = _ticketInfo[tickets[i]];
+      ret[i] = Ticket(_ticketInfo[tickets[i]], _gameInfo[_ticketInfo[tickets[i]].gameId]);
     }
 
     return ret;
