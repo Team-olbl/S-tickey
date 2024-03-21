@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { PaymentItemData } from "../../pages/Profile/Personal/Payment/PaymentHistory";
+import Down from '../../assets/image/FilledDown.png'
 
 const PaymentItem = ({ data }: { data: PaymentItemData }) => {
   const [isOpenAccordion, setIsOpenAccordion] = useState<boolean>(false);
@@ -28,7 +29,7 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
           </div>
           <div onClick={toggleAccordion}>
             <img
-              src="/src/assets/image/FilledDown.png"
+              src={Down}
               className={`w-4 h-4 transform transition-transform ${
                 isOpenAccordion ? "rotate-0" : "rotate-180"
               }`}

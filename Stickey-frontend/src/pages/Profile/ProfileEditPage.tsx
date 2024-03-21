@@ -15,7 +15,7 @@ const ProfileEditPage = () => {
     <>
       <Header info={info} />
       <div>
-
+        
       </div>
       <NavigationBar />
     </>

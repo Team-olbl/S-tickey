@@ -4,6 +4,7 @@ import Menu from "../../components/Profile/Menu";
 import Notice from "../../components/Profile/Notice";
 import Profile from "../../components/Profile/ProfileItem";
 import Wallet from "../../components/Profile/Wallet";
+import Bell from '../../assets/image/Bell.png'
 
 export type preferredTeam = {
   name: string;
@@ -14,7 +15,7 @@ const ProfilePage = () => {
     left_1: null,
     left_2: null,
     center: '프로필',
-    right: <img src="/src/assets/image/Bell.png" />
+    right: <img src={Bell} />
   }
   
   const dummies:preferredTeam[] = [
