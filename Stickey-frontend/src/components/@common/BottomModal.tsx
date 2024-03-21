@@ -19,7 +19,7 @@ const BottomModal = ({ height, title, onClose, children }: IBottomSheetProps) =>
 
   return (
     <div
-      className={`fixed top-0 w-[500px] bottom-0 ${isRendering ? 'bg-black/50' : 'bg-black/0'}`}
+      className={`fixed top-0 left-0 w-full max-w-[500px] z-[1] bottom-0 ${isRendering ? 'bg-black/50' : 'bg-black/0'}`}
       onClick={handleClose}
     >
       {/* bottom wrapper */}
