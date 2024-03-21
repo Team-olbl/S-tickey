@@ -43,6 +43,7 @@ services:
 
 volumes:
   mysql_data:
+  redis-data:
 
 networks:
   stickey_network:
