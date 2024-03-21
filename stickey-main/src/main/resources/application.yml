@@ -48,6 +48,7 @@ spring:
           ssl:
             trust: smtp.naver.com
             enable: true
+
 springdoc: #swagger
   packages-to-scan: com.olbl.stickeymain
   default-consumes-media-type: application/json;charset=UTF-8
