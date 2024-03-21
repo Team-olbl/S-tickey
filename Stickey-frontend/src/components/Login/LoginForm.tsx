@@ -30,7 +30,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ selectedTab }) => {
                 className="w-full outline-none border-b p-2  text-xs"
             />
         </div>
-        <div className="max-w-[360px] m-auto px-4 py-8">
+        <div className="max-w-[500px] m-auto px-4 py-8">
                 <button className="bg-[#5959E7] w-full text-white rounded-md p-2 text-md">로그인</button>
             </div>
             <div className="flex justify-around text-xs px-4">

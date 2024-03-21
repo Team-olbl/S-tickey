@@ -19,7 +19,7 @@ const BottomSheet: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
     <>
       <div className={`fixed z-[2] w-full h-screen top-0 pb-16 left-0 right-0 transition ease-in-out delay-200 ${isRendering ? "bg-black/50" : "bg-black/0"}`} onClick={onClose} >
-      <div className="fixed w-[360px] bottom-12 max-h-52 bg-white p-4 rounded-t-[20px] z-[3] ">
+      <div className="fixed w-[500px] bottom-12 max-h-52 bg-white p-4 rounded-t-[20px] z-[3] ">
         <div className="flex flex-col items-center">
           <div>
             <img src={Line} className="w-9" />
