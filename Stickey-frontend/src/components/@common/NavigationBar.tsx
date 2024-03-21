@@ -1,4 +1,12 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import FilledHouse from '../../assets/image/NavigationBar/FilledHouse.png'
+import FilledTree from '../../assets/image/NavigationBar/FilledTree.png'
+import FilledTicket from '../../assets/image/NavigationBar/FilledTicket.png'
+import FilledUser from '../../assets/image/NavigationBar/FilledUser.png'
+import House from '../../assets/image/NavigationBar/House.png'
+import Tree from '../../assets/image/NavigationBar/Tree.png'
+import Ticket from '../../assets/image/NavigationBar/Ticket.png'
+import User from '../../assets/image/NavigationBar/User.png'
 
 const NavigationBar = () => {
   const navigate = useNavigate();
@@ -28,7 +36,7 @@ const NavigationBar = () => {
     <div className="fixed bottom-0 w-[360px] h-[52px] border-t-[0.5px] bg-Stickey_BGC border-white flex flex-row  justify-center gap-[56px] items-center ">
       <div className="flex flex-col items-center gap-0" onClick={() => handleTabClick("home")}>
         <img
-          src={pathname === "/" ? "/src/assets/image/NavigationBar/FilledHouse.png" : "/src/assets/image/NavigationBar/House.png"}
+          src={pathname === "/" ? FilledHouse : House}
           alt="..."
           className="w-[32px] h-[32px]"
         />
@@ -36,7 +44,7 @@ const NavigationBar = () => {
       </div>
       <div className="flex flex-col items-center" onClick={() => handleTabClick("sponsor")}>
         <img 
-          src={pathname === "/sponsor" ? "/src/assets/image/NavigationBar/FilledTree.png" : "/src/assets/image/NavigationBar/Tree.png"} 
+          src={pathname === "/sponsor" ? FilledTree : Tree} 
           alt="..." 
           className="w-[32px] h-[32px]"
         />
@@ -44,7 +52,7 @@ const NavigationBar = () => {
       </div>
       <div className="flex flex-col items-center" onClick={() => handleTabClick("mytickets")}>
         <img
-          src={pathname === "/mytickets" ? "/src/assets/image/NavigationBar/FilledTicket.png" : "/src/assets/image/NavigationBar/Ticket.png"}
+          src={pathname === "/mytickets" ? FilledTicket : Ticket}
           alt="..."
           className="w-[32px] h-[32px]"
         />
@@ -52,7 +60,7 @@ const NavigationBar = () => {
       </div>
       <div className="flex flex-col items-center" onClick={() => handleTabClick("profile")}>
         <img 
-          src={pathname === "/profile" ? "/src/assets/image/NavigationBar/FilledUser.png" : "/src/assets/image/NavigationBar/User.png"}
+          src={pathname === "/profile" ? FilledUser : User}
           alt="..." 
           className="w-[32px] h-[32px]"
         />

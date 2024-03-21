@@ -1,6 +1,7 @@
 import Header, { IHeaderInfo } from "../../../components/@common/Header";
 import NavigationBar from "../../../components/@common/NavigationBar";
 import Back from '../../../assets/image/Back.png'
+import Bell from '../../../assets/image/Bell.png'
 import map from '../../../assets/image/map.png'
 import { useState } from "react";
 import SponsorModal from "../../../components/Sponsor/SponsorModal";
@@ -41,7 +42,7 @@ const info : IHeaderInfo = {
   left_1:  null,
   left_2: <img src={Back} alt="" />,
   center:'후원',
-  right: <img src="src/assets/Alarm/Bell.png" />
+  right: <img src={Bell} />
 }
 
 const SponsorDetailPage = () => {
