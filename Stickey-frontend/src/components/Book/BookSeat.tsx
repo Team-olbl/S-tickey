@@ -70,8 +70,9 @@ const BookSeat = () => {
 
 
                 {/* 좌석 */}
-                    <div className="bg-Stickey_Gray w-[360px] h-[280px] flex flex-wrap justify-center items-center">
-                        <div className="">
+                    <div className="bg-Stickey_Gray w-[360px] h-[260px] flex flex-col flex-wrap justify-center items-center">
+                    <p className="text-xs text-gray-800">경기장 방향</p>
+                        <div className="py-2">
                             {seats.map((row, rowIndex) => (
                                 <div key={rowIndex} className="flex">
                                     {row.map((seatNumber, colIndex) => (
