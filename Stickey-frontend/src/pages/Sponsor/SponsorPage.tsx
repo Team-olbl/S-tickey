@@ -1,5 +1,6 @@
 import SponsorItem from "../../components/Sponsor/SponsorItem";
 import Dove from '../../assets/image/Dove.png'
+import Bell from '../../assets/image/Bell.png'
 import Header, { IHeaderInfo } from "../../components/@common/Header";
 import NavigationBar from "../../components/@common/NavigationBar";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +18,7 @@ const info : IHeaderInfo = {
   left_1:  null,
   left_2:  null,
   center:'후원',
-  right: <img src="/src/assets/image/Bell.png" alt="" />
+  right: <img src={Bell} />
 }
 const SponsorPage = () => {
   const navigate = useNavigate();
