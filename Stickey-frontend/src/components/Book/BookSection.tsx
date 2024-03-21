@@ -203,7 +203,7 @@ const BookSection = () => {
                         <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md" onClick={() => setIsModalOpen(true)}>다음</button>
                     </div>
             </div>
-            {isModalOpen && <WaittingModal onClose={() => setIsModalOpen(false)} selectedSeat={seatInfo.section} />}
+            {isModalOpen && <WaittingModal onClose={() => setIsModalOpen(false)}/>}
         </div>
     );
 };

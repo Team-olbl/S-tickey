@@ -1,25 +1,79 @@
 import { useNavigate } from "react-router-dom";
+import useTicketStore from "../../stores/useTicketStore";
 
 
-const BookSeat = ({ selectedSeat }: { selectedSeat: string }) => {
+const BookSeat = () => {
 
     const navigate = useNavigate();
+    const { seatInfo } = useTicketStore();
 
     const goBack = () => {
         navigate('/')   
     }
 
-    console.log(`좌석선택페이지 : ${selectedSeat}`)
+    const getSeatColor = (seat: string): string => {
+        switch (seat) {
+            case 'S구역 1':
+            case 'S구역 2':
+                return '#FEACAC';
+            case 'R구역 1':
+            case 'R구역 2':
+            case 'R구역 3':
+            case 'R구역 4':
+                return '#D2C2FF';
+            case 'W구역 1':
+            case 'W구역 2':
+                return '#FAF8B7';
+            case 'E구역 1':
+            case 'E구역 2':
+            case 'E구역 3':
+            case 'E구역 4':
+                return '#C3E7FF';
+            default:
+                return '#FFFFFF'; // 기본 색상
+        }
+    };
+
+    const generateSeatNumbers = (rows: number, cols: number) => {
+        const seats = [];
+        let count = 1;
+        for (let i = 1; i <= rows; i++) {
+            const row = [];
+            for (let j = 1; j <= cols; j++) {
+                row.push(count++);
+            }
+            seats.push(row);
+        }
+        return seats;
+    };
+
+    const seats = generateSeatNumbers(5, 6);
+
 
     return(
         <>
         <div className="pt-4">
-            <div className="flex flex-col items-center">
 
-                <div className="bg-Stickey_Gray w-[360px] h-[280px]">포도알 자리</div>
+            
+                {/* 좌석 */}
+                    <div className="bg-Stickey_Gray w-[360px] h-[280px] flex flex-wrap justify-center items-center">
+                        <div className="">
+                            {seats.map((row, rowIndex) => (
+                                <div key={rowIndex} className="flex">
+                                    {row.map((seatNumber, colIndex) => (
+                                        <div
+                                            key={colIndex}
+                                            className={`w-8 h-8 mx-1 my-1 flex items-center justify-center border border-gray-300 rounded-md ${seatInfo.section === `seat ${seatNumber}` ? 'bg-red-500' : 'bg-gray-300'}`}
+                                            onClick={() => console.log(`선택한 좌석 :  ${seatNumber}`)}
+                                        >
+                                        </div>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 
-                
-            </div>
+ 
 
             <div className="fixed bottom-0 w-[360px] flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
 
@@ -49,8 +103,8 @@ const BookSeat = ({ selectedSeat }: { selectedSeat: string }) => {
                     <div className="items-center grid grid-cols-4 py-3">
                                 <p className="col-span-1 text-xs text-gray-200">좌석등급</p>
                                 <div className="col-span-3 flex items-center">
-                                    <div className={`h-2 w-6 mr-2 rounded-md`} />
-                                    <div className="text-white text-sm"></div>
+                                <div className={`h-2 w-6 mr-2 rounded-md`} style={{ backgroundColor: getSeatColor(seatInfo.section) }} />
+                                    <div className="text-white text-sm">{seatInfo.section}</div>
                                 </div>
                             </div>
 

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 
-const WaittingModal = ({ onClose, selectedSeat }: { onClose: () => void; selectedSeat: string; }) => {
+const WaittingModal = ({ onClose}: { onClose: () => void;}) => {
 
     const navigate = useNavigate(); 
 
@@ -12,13 +12,13 @@ const WaittingModal = ({ onClose, selectedSeat }: { onClose: () => void; selecte
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();
-            navigate('/book/seat', { state: { selectedSeat } }); // 선택한 좌석과 함께 다음 페이지로 이동
+            navigate('/book/seat' ); // 선택한 좌석과 함께 다음 페이지로 이동
         }, 3000);
 
         return () => clearTimeout(timer); 
-    }, [onClose, navigate, selectedSeat]);
+    }, [onClose, navigate]);
 
-    console.log(selectedSeat)
+  
 
     
     return (
