@@ -22,13 +22,10 @@ public enum ErrorCode {
     SPORTS_CLUB_DO_NOT_EXISTS(400, "존재하지 않는 스포츠 구단입니다."),
     STADIUM_DO_NOT_EXISTS(400, "존재하지 않는 경기장입니다."),
 
-    //User
-    EMAIL_ALREADY_EXISTS(400, "이미 존재하는 이메일입니다."),
-
     //Mail
     EMAIL_VERIFICATION_NOT_EXISTS(400, "유효한 인증 번호가 존재하지 않습니다."),
-    EMAIL_VERIFICATION_INVAID(400, "인증 번호가 유효하지 않습니다.");
-    USER_NOT_EXISTS(400, "존재하지 않는 회원입니다.");
+    EMAIL_VERIFICATION_INVAID(400, "인증 번호가 일치하지 않습니다."),
+    USER_NOT_EXISTS(400, "존재하지 않는 회원입니다."),
     EMAIL_ALREADY_EXISTS(400, "이미 존재하는 이메일입니다.");
 
     private final int status;
