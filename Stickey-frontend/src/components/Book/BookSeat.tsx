@@ -35,10 +35,9 @@ const BookSeat = () => {
     };
 
     const handleSeatClick = (seat:string) => {
-        // 이미 선택된 좌석 배열이 있다면 기존 배열에 추가하고, 없다면 새 배열로 생성
         const newSelectedSeats = seatInfo.seat.includes(seat)
-            ? seatInfo.seat.filter(s => s !== seat) // 이미 선택된 좌석 제거
-            : [...seatInfo.seat, seat]; // 새로 선택한 좌석 추가
+            ? seatInfo.seat.filter(s => s !== seat) 
+            : [...seatInfo.seat, seat];
         setSelectInfo(seatInfo.section, newSelectedSeats);
     };
 
