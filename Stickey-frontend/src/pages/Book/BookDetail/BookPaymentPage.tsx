@@ -1,6 +1,8 @@
 import Header, { IHeaderInfo } from "../../../components/@common/Header";
 import Bell from '../../../assets/image/Bell.png';
 import NavigationBar from "../../../components/@common/NavigationBar";
+import useTicketStore from "../../../stores/useTicketStore";
+import { useNavigate } from "react-router-dom";
 
 export interface DummyUserInfo {
   name: string;
@@ -15,6 +17,9 @@ const dummyUser: DummyUserInfo = {
 
 const BookPaymentPage = () => {
 
+  const { seatInfo } = useTicketStore();
+  const navigate = useNavigate();
+
   const info : IHeaderInfo = {
     left_1:  null,
     left_2: null,
@@ -22,6 +27,37 @@ const BookPaymentPage = () => {
     right: <img src={Bell} />
   }
 
+  const getSeatColor = (seat: string): string => {
+    switch (seat) {
+        case 'S구역 1':
+        case 'S구역 2':
+            return '#FEACAC';
+        case 'R구역 1':
+        case 'R구역 2':
+        case 'R구역 3':
+        case 'R구역 4':
+            return '#D2C2FF';
+        case 'W구역 1':
+        case 'W구역 2':
+            return '#FAF8B7';
+        case 'E구역 1':
+        case 'E구역 2':
+        case 'E구역 3':
+        case 'E구역 4':
+            return '#C3E7FF';
+        default:
+            return '#FFFFFF'; // 기본 색상
+    }
+};
+
+const goBack = () => {
+  navigate(-1)   
+}
+
+const totalPrice = () => {
+  const pricePerSeat = 10000; 
+  return seatInfo.seat.length * pricePerSeat;
+};
 
   return(
     <>
@@ -66,19 +102,31 @@ const BookPaymentPage = () => {
 
               {/* 예매정보 */}
               <div className="bg-[#2E2E3D] w-full h-auto p-6 text-white text-sm rounded-lg">
-                <div className="py-2">예매경기 : {dummyUser.name}</div>
-                <div className="py-2">경기장소 : </div>
-                <div className="py-2">경기일정 : </div>
-                <div className="py-2">좌석등급 : </div>
-                <div className="py-2">좌석선택 : </div>
-                <div className="py-2">결제가격 : </div>
-                <div className="py-2">취소기한 : </div>
+                <div className="py-2">예매경기 : 대구FC vs 광주FC</div>
+                <div className="py-2">경기장소 : DGB대구은행파크</div>
+                <div className="py-2">경기일정 : 2024-03-21T01:42:48</div>
+
+                <div className="py-2 flex items-center">
+                <div>좌석등급 :</div>
+                <div className={`h-2 w-6 ml-2 rounded-md`} style={{ backgroundColor: getSeatColor(seatInfo.section) }} />
+                <div className="text-white ml-2 text-sm">{seatInfo.section}</div>
+                </div>
+                
+                <div className="py-2 flex flex-wrap items-center">
+                <div className="mr-2">좌석정보 :</div>
+                    {seatInfo.seat.map((seat, index) => (
+                        <div key={index} className="bg-purple-500 text-center w-6 mx-1 text-xs  rounded-md">{seat}</div>
+                    ))}
+                </div>
+
+                <div className="py-2">결제가격 : {totalPrice()} 원</div>
+                <div className="py-2">취소기한 : 2024-03-27T01:42:48</div>
 
               </div>
 
               {/* 결제버튼 */}
               <div className="w-full max-w-[500px] px-4 pt-6 pb-24 flex justify-center">
-                  <button className="bg-Stickey_Gray w-1/2 mr-2 p-3 text-xs rounded-md">이전</button>
+                  <button className="bg-Stickey_Gray w-1/2 mr-2 p-3 text-xs rounded-md" onClick={() => goBack()}>이전</button>
                   <button className="bg-Stickey_Main w-1/2 p-3 text-xs rounded-md">결제하기</button>
               </div>
         </div>

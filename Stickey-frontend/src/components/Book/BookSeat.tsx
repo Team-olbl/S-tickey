@@ -11,10 +11,6 @@ const BookSeat = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const goBack = () => {
-        navigate('/')   
-    }
-
     const getSeatColor = (seat: string): string => {
         switch (seat) {
             case 'S구역 1':
@@ -71,6 +67,17 @@ const BookSeat = () => {
         return seatInfo.seat.length * pricePerSeat;
     };
 
+    const goBack = () => {
+        navigate(-1)   
+    }
+
+    const id: number = 1;
+
+    const goConformTicket = () => {
+    navigate(`/${id}/payment`)
+    }
+
+
 
     return(
         <>
@@ -97,7 +104,7 @@ const BookSeat = () => {
                 
  
 
-            <div className="fixed bottom-0 w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
+            <div className="fixed bottom-0 max-w-[500px] w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
 
                 {/* 스텝바 */}
                 <div className="pt-2 w-[150px]">
@@ -152,7 +159,7 @@ const BookSeat = () => {
                     {/* 버튼 */}
                     <div  className="w-full max-w-[500px] px-4 pt-4 pb-24 flex justify-center">
                         <button className="bg-Stickey_Gray w-36 mr-2 p-2 text-xs rounded-md" onClick={() => goBack()}>이전</button>
-                        <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md">다음</button>
+                        <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md"  onClick={() => goConformTicket()}>다음</button>
                     </div>
             </div>
         </div>

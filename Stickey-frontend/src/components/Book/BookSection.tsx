@@ -40,7 +40,7 @@ const BookSection = () => {
     };
 
     const goBack = () => {
-        navigate('/')   
+        navigate(-1)   
     }
 
 
@@ -135,8 +135,7 @@ const BookSection = () => {
                             <div className="h-2 w-6 bg-[#D2C2FF]" />
                             <p className="px-1 text-[10px] text-white">R구역 : 10,000</p>
                         </div>
-                    </div>
-                    <div className="flex">
+
                         <div className="flex items-center">
                             <div className="h-2 w-6 bg-[#C3E7FF]" />
                             <p className="px-1 text-[10px] text-white">E구역 : 10,000</p>
@@ -147,12 +146,11 @@ const BookSection = () => {
                         </div>
                     </div>
 
-
                 </div>
                 
             </div>
 
-            <div className="fixed bottom-0 w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
+            <div className="fixed bottom-0 max-w-[500px] w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
 
             {/* 스텝바 */}
             <div className="pt-2 w-[150px]">
