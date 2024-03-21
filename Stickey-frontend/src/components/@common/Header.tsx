@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Bell from '../../assets/image/Bell.png'
 
 export interface IHeaderInfo {
   left_1: React.ReactNode | null;
@@ -33,7 +34,7 @@ const Header = (props: {info: IHeaderInfo}) => {
       </div>
       <div className="flex flex-1 justify-end items-center">
         <button onClick={() => navigate('/alarm')}>
-          {right && <img src="/src/assets/image/Bell.png" alt="Alarm" className="w-[32px] h-[32px]"/>}
+          {right && <img src={Bell} alt="Alarm" className="w-[32px] h-[32px]"/>}
         </button>
       </div>
     </div>

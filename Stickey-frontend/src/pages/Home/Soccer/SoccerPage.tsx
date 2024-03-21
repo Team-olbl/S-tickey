@@ -43,7 +43,7 @@ const SoccerPage = () => {
     ),
     left_2: null,
     center: null,
-    right: <img src={Bell} />
+    right: <img src={Bell} alt="" />
   }
 
   const dummies:MatchItemData[] = [

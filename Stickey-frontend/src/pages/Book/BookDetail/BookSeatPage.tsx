@@ -2,6 +2,7 @@ import Header, { IHeaderInfo } from "../../../components/@common/Header";
 import NavigationBar from "../../../components/@common/NavigationBar";
 import BookInfo from "../../../components/Book/BookInfo";
 import BookSeat from "../../../components/Book/BookSeat";
+import Bell from '../../../assets/image/Bell.png';
 
 export interface IGameInfo {
   id: number;
@@ -30,7 +31,7 @@ const BookSeatPage = () => {
     left_1:  null,
     left_2: null,
     center:'예매하기',
-    right: <img src="/src/assets/image/Bell.png" />
+    right: <img src={Bell} />
   }
 
 
