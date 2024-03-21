@@ -78,7 +78,7 @@ const BookSeat = () => {
                                     {row.map((seatNumber, colIndex) => (
                                         <div
                                             key={colIndex}
-                                            className={`w-8 h-8 m-1 flex items-center justify-center border border-gray-300 rounded-md ${seatInfo.section === `seat ${seatNumber}` ? 'bg-red-500' : 'bg-gray-300'}`}
+                                            className={`w-8 h-8 m-1 flex items-center justify-center  rounded-md ${seatInfo.seat.includes(`${seatNumber}`) ? 'bg-purple-500' : 'bg-gray-300'}`}
                                             onClick={() => handleSeatClick(`${seatNumber}`)}
                                         >
                                         </div>
