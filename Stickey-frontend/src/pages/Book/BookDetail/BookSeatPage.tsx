@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Header, { IHeaderInfo } from "../../../components/@common/Header";
 import NavigationBar from "../../../components/@common/NavigationBar";
 import BookInfo from "../../../components/Book/BookInfo";
@@ -27,10 +26,6 @@ const dummyGameInfo: IGameInfo = {
 
 const BookSeatPage = () => {
 
-  const [selectedSeat, setSelectedSeat] = useState<string>('');
-
-  console.log(setSelectedSeat)
-
   const info : IHeaderInfo = {
     left_1:  null,
     left_2: null,
@@ -45,7 +40,7 @@ const BookSeatPage = () => {
         <Header info={info} />
         <div className="pt-14">
           <BookInfo gameInfo={dummyGameInfo} />
-          <BookSeat selectedSeat={selectedSeat} />
+          <BookSeat />
         </div>
         <NavigationBar />
       </div>
