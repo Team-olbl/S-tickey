@@ -4,7 +4,7 @@ import { IGameInfo } from "../../pages/Book/BookDetail/BookSectionPage";
 const BookInfo: React.FC<{ gameInfo: IGameInfo }> = ({ gameInfo }) => {
     return (
         <div>
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center pt-4">
                 <div className="w-8 h-8 bg-Stickey_Gray rounded-full" />
                 <p className="text-white px-2">VS</p>
                 <div className="w-8 h-8 bg-Stickey_Gray rounded-full" />

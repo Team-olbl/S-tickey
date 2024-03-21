@@ -38,10 +38,14 @@ const BookSeat = () => {
         }
     };
 
-    const handleSeatClick = (seat:string) => {
+    const handleSeatClick = (seat: string) => {
+        if (seatInfo.seat.length >= 4 && !seatInfo.seat.includes(seat)) {
+            return;
+        }
         const newSelectedSeats = seatInfo.seat.includes(seat)
-            ? seatInfo.seat.filter(s => s !== seat) 
+            ? seatInfo.seat.filter(s => s !== seat)
             : [...seatInfo.seat, seat];
+        
         setSelectInfo(seatInfo.section, newSelectedSeats);
     };
 
