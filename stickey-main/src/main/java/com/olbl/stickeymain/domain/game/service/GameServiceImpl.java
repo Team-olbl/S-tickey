@@ -1,16 +1,19 @@
 package com.olbl.stickeymain.domain.game.service;
 
+import static com.olbl.stickeymain.global.result.error.ErrorCode.GAME_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SPORTS_CLUB_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.STADIUM_DO_NOT_EXISTS;
 
 import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
+import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
 import com.olbl.stickeymain.domain.game.entity.Category;
 import com.olbl.stickeymain.domain.game.entity.Game;
 import com.olbl.stickeymain.domain.game.entity.SportsClub;
 import com.olbl.stickeymain.domain.game.entity.Stadium;
 import com.olbl.stickeymain.domain.game.repository.GameRepository;
+import com.olbl.stickeymain.domain.game.repository.GameSeatRepository;
 import com.olbl.stickeymain.domain.game.repository.SportsClubRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumRepository;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
@@ -30,6 +33,7 @@ public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
     private final SportsClubRepository sportsClubRepository;
     private final StadiumRepository stadiumRepository;
+    private final GameSeatRepository gameSeatRepository;
 
     @Override
     @Transactional
@@ -66,5 +70,12 @@ public class GameServiceImpl implements GameService {
             }
         }
         return gameRepository.getGameListResByViewParam(viewParam);
+    }
+
+    @Override
+    public LeftSeatListRes getLeftSeats(int id) {
+        Game game = gameRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(GAME_DO_NOT_EXISTS)); //game id 있는지 확인
+        return gameSeatRepository.getLeftSeatListResByGameId(id);
     }
 }
