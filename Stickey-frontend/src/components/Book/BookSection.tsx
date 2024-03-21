@@ -1,11 +1,15 @@
 import { useState } from "react";
 import Volley from '../../assets/image/Ground/VolleyballGround.png'
 import WaittingModal from "./WaittingModal";
+import { useNavigate } from "react-router-dom";
+import useTicketStore from "../../stores/useTicketStore";
 
 const BookSection = () => {
 
-    const [selectedSeat, setSelectedSeat] = useState('');
+    const { seatInfo, setSelectInfo } = useTicketStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const navigate = useNavigate();
     
 
     const getSeatColor = (seat: string): string => {
@@ -32,8 +36,12 @@ const BookSection = () => {
     };
 
     const handleSeatClick = (seat:string) => {
-        setSelectedSeat(seat);
+        setSelectInfo(seat, '');
     };
+
+    const goBack = () => {
+        navigate('/')   
+    }
 
 
     return (
@@ -42,11 +50,11 @@ const BookSection = () => {
 
                 <div className="flex px-1">
                     <div  
-                        className={`bg-[#FEACAC] h-8 w-20 mr-1 ${selectedSeat === 'S구역 1' ? 'opacity-100' : 'opacity-50'}`} 
+                        className={`bg-[#FEACAC] h-8 w-20 mr-1 ${seatInfo.section === 'S구역 1' ? 'opacity-100' : 'opacity-50'}`} 
                         onClick={() => handleSeatClick('S구역 1')}>
                     </div>
                     <div 
-                        className={`bg-[#FEACAC] h-8 w-20 ${selectedSeat === 'S구역 2' ? 'opacity-100' : 'opacity-50'}`} 
+                        className={`bg-[#FEACAC] h-8 w-20 ${seatInfo.section === 'S구역 2' ? 'opacity-100' : 'opacity-50'}`} 
                         onClick={() => handleSeatClick('S구역 2')}>
                     </div>
                 </div>
@@ -55,11 +63,11 @@ const BookSection = () => {
                 <div className="flex p-1">
                     <div className="flex px-1">
                         <div 
-                            className={`bg-[#D2C2FF] w-8 h-24 mr-1 ${selectedSeat === 'R구역 1' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#D2C2FF] w-8 h-24 mr-1 ${seatInfo.section === 'R구역 1' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('R구역 1')}>
                         </div>
                         <div 
-                            className={`bg-[#D2C2FF] w-8 h-24 ${selectedSeat === 'R구역 2' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#D2C2FF] w-8 h-24 ${seatInfo.section === 'R구역 2' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('R구역 2')}>
                         </div>
                     </div>
@@ -68,11 +76,11 @@ const BookSection = () => {
                     </div>
                     <div className="flex px-1">
                         <div 
-                            className={`bg-[#D2C2FF] w-8 h-24 ${selectedSeat === 'R구역 3' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#D2C2FF] w-8 h-24 ${seatInfo.section === 'R구역 3' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('R구역 3')}>
                         </div>
                         <div 
-                            className={`bg-[#D2C2FF] w-8 h-24 ml-1 ${selectedSeat === 'R구역 4' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#D2C2FF] w-8 h-24 ml-1 ${seatInfo.section === 'R구역 4' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('R구역 4')}>
                         </div>
                     </div>
@@ -82,34 +90,34 @@ const BookSection = () => {
                 <div className="flex px-1">
                     <div className="px-1">
                         <div 
-                            className={`bg-[#FAF8B7] w-16 h-12 rounded-bl-full ${selectedSeat === 'W구역 1' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#FAF8B7] w-16 h-12 rounded-bl-full ${seatInfo.section === 'W구역 1' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('W구역 1')}>
                         </div>
                     </div>
 
                     <div>
                         <div 
-                            className={`bg-[#C3E7FF] h-6 w-20 mr-1 ${selectedSeat === 'E구역 1' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#C3E7FF] h-6 w-20 mr-1 ${seatInfo.section === 'E구역 1' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('E구역 1')}>
                         </div>
                         <div 
-                            className={`bg-[#C3E7FF] h-6 w-20 mt-1 ${selectedSeat === 'E구역 3' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#C3E7FF] h-6 w-20 mt-1 ${seatInfo.section === 'E구역 3' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('E구역 3')}>
                         </div>
                     </div>
                     <div>
                         <div 
-                            className={`bg-[#C3E7FF] h-6 w-20 ${selectedSeat === 'E구역 2' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#C3E7FF] h-6 w-20 ${seatInfo.section === 'E구역 2' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('E구역 2')}>
                         </div>
                         <div 
-                            className={`bg-[#C3E7FF] h-6 w-20 mt-1 ${selectedSeat === 'E구역 4' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#C3E7FF] h-6 w-20 mt-1 ${seatInfo.section === 'E구역 4' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('E구역 4')}>
                         </div>
                     </div>
                     <div className="px-1">    
                         <div 
-                            className={`bg-[#FAF8B7] w-16 h-12 rounded-br-full ${selectedSeat === 'W구역 2' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#FAF8B7] w-16 h-12 rounded-br-full ${seatInfo.section === 'W구역 2' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('W구역 2')}>
                         </div>
                     </div>
@@ -172,8 +180,8 @@ const BookSection = () => {
                 <div className="items-center grid grid-cols-4 py-3">
                             <p className="col-span-1 text-xs text-gray-200">좌석등급</p>
                             <div className="col-span-3 flex items-center">
-                                <div className={`h-2 w-6 mr-2 rounded-md`} style={{ backgroundColor: getSeatColor(selectedSeat) }} />
-                                <div className="text-white text-sm">{selectedSeat}</div>
+                                <div className={`h-2 w-6 mr-2 rounded-md`} style={{ backgroundColor: getSeatColor(seatInfo.section) }} />
+                                <div className="text-white text-sm">{seatInfo.section}</div>
                             </div>
                         </div>
 
@@ -191,11 +199,11 @@ const BookSection = () => {
 
                 {/* 버튼 */}
                     <div  className="w-full max-w-[360px] px-4 pt-4 pb-16 flex justify-center">
-                        <button className="bg-Stickey_Gray w-36 mr-2 p-2 text-xs rounded-md">이전</button>
+                        <button className="bg-Stickey_Gray w-36 mr-2 p-2 text-xs rounded-md" onClick={() => goBack()}>이전</button>
                         <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md" onClick={() => setIsModalOpen(true)}>다음</button>
                     </div>
             </div>
-            {isModalOpen && <WaittingModal onClose={() => setIsModalOpen(false)} />}
+            {isModalOpen && <WaittingModal onClose={() => setIsModalOpen(false)} selectedSeat={seatInfo.section} />}
         </div>
     );
 };
