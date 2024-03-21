@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
-const IMAGE_1_URL = 'src/assets/Carousel/KakaoTalk_20231218_163516051_01.gif';
-const IMAGE_2_URL = 'src/assets/Carousel/KakaoTalk_20231218_163516051_02.gif';
-const IMAGE_3_URL = 'src/assets/Carousel/KakaoTalk_20231218_163516051_03.gif';
-const IMAGE_4_URL = 'src/assets/Carousel/KakaoTalk_20231218_163516051.gif';
+const IMAGE_1_URL = 'src/assets/image/Carousel/KakaoTalk_20231218_163516051_01.gif';
+const IMAGE_2_URL = 'src/assets/image/Carousel/KakaoTalk_20231218_163516051_02.gif';
+const IMAGE_3_URL = 'src/assets/image/Carousel/KakaoTalk_20231218_163516051_03.gif';
+const IMAGE_4_URL = 'src/assets/image/Carousel/KakaoTalk_20231218_163516051.gif';
 
 const Carousel = () => {
   const [activeImage, setActiveImage] = useState(1);

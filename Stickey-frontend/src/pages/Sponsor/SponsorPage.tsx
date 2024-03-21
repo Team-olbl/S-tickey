@@ -1,7 +1,7 @@
 import SponsorItem from "../../components/Sponsor/SponsorItem";
-import Dove from '../../assets/Sponsor/Dove.png'
-import Header, { IHeaderInfo } from "../../components/Header";
-import NavigationBar from "../../components/NavigationBar";
+import Dove from '../../assets/image/Dove.png'
+import Header, { IHeaderInfo } from "../../components/@common/Header";
+import NavigationBar from "../../components/@common/NavigationBar";
 import { useNavigate } from "react-router-dom";
 
 export type SponsorItemData = {
@@ -14,12 +14,12 @@ export type SponsorItemData = {
 }
 
 const info : IHeaderInfo = {
-  left: null,
+  left_1:  null,
+  left_2:  null,
   center:'후원',
-  right: <img src="src/assets/Alarm/Bell.png" alt="" />
+  right: <img src="/src/assets/image/Bell.png" alt="" />
 }
 const SponsorPage = () => {
-
   const navigate = useNavigate();
 
   const dummyList: SponsorItemData[] = [
@@ -49,6 +49,7 @@ const SponsorPage = () => {
   const gotoSponsorDetail = (id: number) => {
     navigate(`/sponsor/${id}`);
   };
+
   return(
     <>
     <Header info={info} />
