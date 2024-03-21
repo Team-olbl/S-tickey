@@ -2,13 +2,22 @@ import { useState } from "react";
 import { MatchItemData } from "../../pages/Home/Soccer/SoccerPage";
 import BottomModal from "../@common/BottomModal";
 import Prohibit from '../../assets/image/Prohibited.png'
+import { useNavigate } from "react-router-dom";
+
 
 const MatchItem = ({ data }: { data: MatchItemData }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleBookTicket = () => {
     setIsModalOpen(true);
+  };
+
+  const id: number = 1;
+
+  const handleGoToSection = () => {
+    navigate(`/${id}/section`);
   };
 
 
@@ -75,7 +84,7 @@ const MatchItem = ({ data }: { data: MatchItemData }) => {
             </div>
 
             <div className="pt-4">
-              <button className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm">예매하기</button>
+              <button onClick={handleGoToSection} className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm">예매하기</button>
             </div>
            
           </div>

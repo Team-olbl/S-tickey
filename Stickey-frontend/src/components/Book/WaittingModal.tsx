@@ -8,11 +8,13 @@ const WaittingModal = ({ onClose}: { onClose: () => void;}) => {
 
     const navigate = useNavigate(); 
 
+    const id: number = 1;
+
     // 임시 대기열
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();
-            navigate('/book/seat' ); // 선택한 좌석과 함께 다음 페이지로 이동
+            navigate(`/${id}/seat` ); // 선택한 좌석과 함께 다음 페이지로 이동
         }, 3000);
 
         return () => clearTimeout(timer); 
