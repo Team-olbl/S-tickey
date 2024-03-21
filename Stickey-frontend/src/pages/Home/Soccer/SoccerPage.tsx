@@ -6,8 +6,9 @@ import Down from "../../../assets/image/Down.png"
 import BottomSheet from "../../../components/@common/BottomSheet";
 import TeamList from "../../../components/Soccer/TeamList";
 import Calendar from "../../../components/@common/Calendar";
-import Hushed from "../../../assets/image/MatchItem.png"
+import Hushed from "../../../assets/image/MatchItem.png";
 import MatchItem from "../../../components/Soccer/MatchItem";
+
 
 export type MatchItemData = {
   id: number;
@@ -57,6 +58,17 @@ const SoccerPage = () => {
       bookEndTime: "2024-03-21T01:42:48",
       gameStartTime: "2024-03-21T01:42:48"
     },
+    {
+      id: 2,
+      stadium: "DGB대구은행파크",
+      homeTeam: "대구FC",
+      homeTeamLogo: <img />,
+      awayTeam: "광주FC",
+      awayTeamLogo: <img />,
+      bookStartTime: "2024-03-15T01:42:48",
+      bookEndTime: "2024-03-21T01:42:48",
+      gameStartTime: "2024-03-21T01:42:48"
+    },
   ]
 
   return(
@@ -72,9 +84,11 @@ const SoccerPage = () => {
             <p className=" text-white text-sm mt-4">진행 중인 경기가 없어요!</p>
           </div>
         ) : (
-          <div className="px-4">
-            <MatchItem data={dummies[0]} />
-          </div>
+          dummies.map((item) =>(
+            <div className="px-4 p-2" key={item.id}>
+              <MatchItem data={item} />
+            </div>
+          ))
         )}
       </div>
       <NavigationBar />

@@ -1,6 +1,7 @@
 import Header, { IHeaderInfo } from "../../../../components/@common/Header";
 import NavigationBar from "../../../../components/@common/NavigationBar";
 import Back from '../../../../assets/image/Back.png'
+import Bell from '../../../../assets/image/Bell.png'
 import DreamItem from "../../../../components/Profile/DreamItem";
 import DreamHeader from "../../../../components/Profile/DreamHeader";
 
@@ -8,7 +9,7 @@ const info : IHeaderInfo = {
   left_1:  null,
   left_2: <img src={Back} alt="" />,
   center:'꿈 내역',
-  right: <img src="src/assets/Alarm/Bell.png" />
+  right: <img src={Bell} />
 }
 
 export type DreamItemData = {

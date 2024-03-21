@@ -3,6 +3,7 @@ import Header, { IHeaderInfo } from "../../../../components/@common/Header";
 import NavigationBar from "../../../../components/@common/NavigationBar";
 import PaymentItem from "../../../../components/Profile/PaymentItem";
 import Back from '../../../../assets/image/Back.png'
+import Bell from '../../../../assets/image/Bell.png'
 
 export type PaymentItemData = {
   booking_info: {
@@ -39,7 +40,7 @@ const PaymentHistoryPage = () => {
     left_1: null,
     left_2: <img src={Back} />,
     center: '결제내역',
-    right: <img src="/src/assets/image/Bell.png" />
+    right: <img src={Bell} />
   }
 
   const dummies:PaymentItemData[] =[
