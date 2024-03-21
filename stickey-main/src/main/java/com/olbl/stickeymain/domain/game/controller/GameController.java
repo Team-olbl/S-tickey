@@ -3,7 +3,7 @@ package com.olbl.stickeymain.domain.game.controller;
 import static com.olbl.stickeymain.global.result.ResultCode.GAME_REGISTER_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_GAMES_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_REMAINING_SEATS_SUCCESS;
-import static com.olbl.stickeymain.global.result.ResultCode.GET_SEAT_STATUS_SCUUESS;
+import static com.olbl.stickeymain.global.result.ResultCode.GET_SEAT_STATUS_SUCCESS;
 
 import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
@@ -65,7 +65,7 @@ public class GameController {
     public ResponseEntity<ResultResponse> getSeatStatus(@PathVariable(value = "id") int id,
         @PathVariable(value = "zoneId") int zoneId) {
         List<SeatStatusRes> seatStatusListRes = gameService.getSeatStatus(id, zoneId);
-        return ResponseEntity.ok(ResultResponse.of(GET_SEAT_STATUS_SCUUESS, seatStatusListRes));
+        return ResponseEntity.ok(ResultResponse.of(GET_SEAT_STATUS_SUCCESS, seatStatusListRes));
     }
 
 }
