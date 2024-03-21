@@ -3,16 +3,7 @@ import NavigationBar from "../../../components/@common/NavigationBar";
 import BookInfo from "../../../components/Book/BookInfo";
 import BookSeat from "../../../components/Book/BookSeat";
 import Bell from '../../../assets/image/Bell.png';
-
-export interface IGameInfo {
-  id: number;
-  stadium: string;
-  homeTeam: string;
-  awayTeam: string;
-  bookStartTime: string;
-  bookEndTime: string;
-  gameStartTime: string;
-}
+import { IGameInfo } from "./BookSectionPage";
 
 const dummyGameInfo: IGameInfo = {
   id: 4,
@@ -23,7 +14,6 @@ const dummyGameInfo: IGameInfo = {
   bookEndTime: "2024-03-21T01:42:48",
   gameStartTime: "2024-03-21T01:42:48"
 };
-
 
 const BookSeatPage = () => {
 
