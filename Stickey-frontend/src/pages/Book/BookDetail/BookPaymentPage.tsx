@@ -121,12 +121,16 @@ const totalPrice = () => {
                 <div className="py-2 flex flex-wrap items-center">
                 <div className="mr-2">좌석정보 :</div>
                     {seatInfo.seat.map((seat, index) => (
-                        <div key={index} className="bg-purple-500 text-center w-6 mx-1 text-xs  rounded-md">{seat}</div>
+                        <div key={index} className="bg-gray-100 text-center w-6 mx-1 text-black font-bold text-xs rounded-md">{seat}</div>
                     ))}
                 </div>
 
                 <div className="py-2">결제가격 : {totalPrice()} 원</div>
-                <div className="py-2">취소기한 : 2024-03-27T01:42:48</div>
+
+                <div className="text-center text-[10px] pt-6">
+                  <p>티켓 취소는  경기 시작 1시간 전까지 가능합니다.</p>
+                  <p>취소수수료 : ~ 경기 시작 3일 전 | 티켓금액의 20%</p>
+                </div>
 
               </div>
 
