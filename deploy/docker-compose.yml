@@ -7,7 +7,7 @@ services:
     networks:
       - stickey_network
     env_file:
-      - ".env"
+      - "../.env"
     volumes:
       - "redis-data:/data"
     deploy:
