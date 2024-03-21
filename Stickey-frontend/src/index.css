@@ -5,7 +5,7 @@
 html,
 body,
 #root {
-  max-width: 360px;
+  max-width: 500px;
   margin: 0 auto;
   min-height: 100vh;
 }

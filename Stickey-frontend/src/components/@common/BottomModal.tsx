@@ -19,12 +19,12 @@ const BottomModal = ({ height, title, onClose, children }: IBottomSheetProps) =>
 
   return (
     <div
-      className={`fixed top-0 w-[360px] bottom-0 ${isRendering ? 'bg-black/50' : 'bg-black/0'}`}
+      className={`fixed top-0 w-[500px] bottom-0 ${isRendering ? 'bg-black/50' : 'bg-black/0'}`}
       onClick={handleClose}
     >
       {/* bottom wrapper */}
       <div
-        className={`max-w-[360px] m-auto fixed pb-16 bottom-0 left-0 right-0 rounded-xl bg-white`}
+        className={`max-w-[500px] m-auto fixed pb-16 bottom-0 left-0 right-0 rounded-xl bg-white`}
       >
         {/* bottom sheet */}
         <div
