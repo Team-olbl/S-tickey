@@ -1,4 +1,4 @@
-use stickey;
+use STICKEY;
 
 INSERT INTO sports_club(name, category) values ("FC서울", "SOCCER");
 INSERT INTO sports_club(name, category) values ("대구FC", "SOCCER");
