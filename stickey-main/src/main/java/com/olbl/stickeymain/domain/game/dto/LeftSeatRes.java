@@ -11,5 +11,6 @@ public class LeftSeatRes {
     private String zoneName; //구역 명
     private long totalSeatCnt; //총 좌석 수
     private long leftSeatCnt; //잔여 좌석 수
+    private int price; //구역 별 좌석 가격
 
 }
