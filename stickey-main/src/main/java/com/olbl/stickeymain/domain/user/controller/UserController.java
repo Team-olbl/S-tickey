@@ -58,7 +58,8 @@ public class UserController {
         @RequestBody @Valid EmailCheckReq emailCheckReq) {
         boolean state = userService.checkAuthEmail(emailCheckReq);
         return ResponseEntity.ok(ResultResponse.of(CHECK_EMAIL_SUCCESS, state));
-
+    }
+    
     @Operation(summary = "이메일로 임시 비밀번호 발송")
     @PatchMapping
     public ResponseEntity<ResultResponse> findPassword(@RequestBody EmailCodeReq emailCodeReq) {
