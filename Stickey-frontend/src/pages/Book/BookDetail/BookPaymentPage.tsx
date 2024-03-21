@@ -54,6 +54,12 @@ const goBack = () => {
   navigate(-1)   
 }
 
+const id: number = 1;
+
+    const goConformTicket = () => {
+    navigate(`/${id}/confirm`)
+    }
+
 const totalPrice = () => {
   const pricePerSeat = 10000; 
   return seatInfo.seat.length * pricePerSeat;
@@ -127,7 +133,7 @@ const totalPrice = () => {
               {/* 결제버튼 */}
               <div className="w-full max-w-[500px] px-4 pt-6 pb-24 flex justify-center">
                   <button className="bg-Stickey_Gray w-1/2 mr-2 p-3 text-xs rounded-md" onClick={() => goBack()}>이전</button>
-                  <button className="bg-Stickey_Main w-1/2 p-3 text-xs rounded-md">결제하기</button>
+                  <button className="bg-Stickey_Main w-1/2 p-3 text-xs rounded-md" onClick={() => goConformTicket()}>결제하기</button>
               </div>
         </div>
 
