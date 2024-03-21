@@ -20,6 +20,7 @@ public enum ErrorCode {
 
     //Game
     SPORTS_CLUB_DO_NOT_EXISTS(400, "존재하지 않는 스포츠 구단입니다."),
+    GAME_DO_NOT_EXISTS(400, "존재하지 않는 경기입니다."),
     STADIUM_DO_NOT_EXISTS(400, "존재하지 않는 경기장입니다.");
 
     private final int status;
