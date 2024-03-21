@@ -20,6 +20,13 @@ spring:
         jdbc:
           time_zone: Asia/Seoul
     show-sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      locations: classpath:db/
 
   servlet:
     multipart:
