@@ -12,7 +12,7 @@ const MatchItem = ({ data }: { data: MatchItemData }) => {
     setIsModalOpen(true);
   };
 
-  const id: number = 1;
+  const id: number = data.id;
 
   const handleGoToSection = () => {
     navigate(`/${id}/section`);
