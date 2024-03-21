@@ -23,6 +23,7 @@ export type MatchItemData = {
 
 const BasketBallPage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = useState<number>(19);
 
   const openBottomSheet = () => {
     setIsBottomSheetOpen(true);
@@ -31,6 +32,10 @@ const BasketBallPage = () => {
   const closeBottomSheet = () => {
     setIsBottomSheetOpen(false);
   }
+
+  const handleDateClick = (day: number) => {
+    setSelectedDate(day);
+  };
 
   const info : IHeaderInfo = {
     left_1: (
@@ -68,20 +73,26 @@ const BasketBallPage = () => {
       gameStartTime: "2024-03-21T01:42:48"
     },
   ]
+
+  const filteredMatches = dummies.filter((match) => {
+    const matchDate = new Date(match.gameStartTime).getDate();
+    return matchDate === selectedDate;
+  });
+
   return(
     <>
       <Header info={info}/>
       <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet}/>
       <div className="py-16">
         <TeamList />
-        <Calendar />
+        <Calendar onDateClick={handleDateClick}/>
         {dummies.length === 0 ? (
           <div className="flex flex-col items-center mt-40">
             <img src={Hush} className="h-20" />
             <p className=" text-white text-sm mt-4">진행 중인 경기가 없어요!</p>
           </div>
         ) : (
-          dummies.map((item) =>(
+          filteredMatches.map((item) =>(
             <div className="px-4 py-1" key={item.id}>
               <MatchItem data={item} />
             </div>
