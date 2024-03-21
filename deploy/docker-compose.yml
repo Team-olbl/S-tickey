@@ -21,6 +21,9 @@ services:
       context: "../stickey-main/"
       dockerfile: Dockerfile
     container_name: stickey_main
+    depends_on:
+      - mysql
+      - redis
     networks:
       - stickey_network
 
