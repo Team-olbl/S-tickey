@@ -1,11 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
+import NotSoldModal from "./NotSoldModal";
+import { useState } from "react";
 
 
 const BookSeat = () => {
 
     const navigate = useNavigate();
     const { seatInfo, setSelectInfo } = useTicketStore();
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const goBack = () => {
         navigate('/')   
@@ -34,16 +38,11 @@ const BookSeat = () => {
         }
     };
 
-    const handleSeatClick = (seat: string) => {
-        const maxSelectedSeats = 4; 
+    const handleSeatClick = (seat:string) => {
         const newSelectedSeats = seatInfo.seat.includes(seat)
-            ? seatInfo.seat.filter(s => s !== seat)
+            ? seatInfo.seat.filter(s => s !== seat) 
             : [...seatInfo.seat, seat];
-
-        // 최대 선택 가능한 좌석 수를 초과하지 않도록 제한
-        if (newSelectedSeats.length <= maxSelectedSeats) {
-            setSelectInfo(seatInfo.section, newSelectedSeats);
-        }
+        setSelectInfo(seatInfo.section, newSelectedSeats);
     };
 
     const generateSeatNumbers = (rows: number, cols: number) => {
@@ -72,7 +71,6 @@ const BookSeat = () => {
     return(
         <>
         <div className="pt-4">
-
 
                 {/* 좌석 */}
                     <div className="bg-Stickey_Gray w-[360px] h-[260px] flex flex-col flex-wrap justify-center items-center">
@@ -108,7 +106,7 @@ const BookSeat = () => {
                         </li>
 
                         <li className="flex items-center p-2">
-                            <span className="size-5 rounded-full bg-Stickey_Main border-2 border-Stickey_Main text-center text-xs"> 2 </span>
+                            <span className="size-5 rounded-full bg-gray-100 border-2 border-Stickey_Main text-center text-xs"> 2 </span>
                         </li>
 
                         <li className="flex items-center">
@@ -133,7 +131,7 @@ const BookSeat = () => {
                             <div className="col-span-3 flex">
                             {/* 선택한 좌석들을 출력 */}
                             {seatInfo.seat.map((seat, index) => (
-                                <div className="w-6 h-6 text-sm text-white bg-purple-500 text-center rounded-md m-1" key={index}>{seat} </div>
+                                <div className="w-6 h-6 text-sm text-white bg-Stickey_Main text-center rounded-md m-1" key={index}>{seat} </div>
                             ))}
                         </div>
                         </div>
@@ -154,6 +152,7 @@ const BookSeat = () => {
                     </div>
             </div>
         </div>
+        {isModalOpen && <NotSoldModal onClose={() => setIsModalOpen(false)} />}
      </>
     )
 }

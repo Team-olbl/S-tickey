@@ -40,7 +40,7 @@ const Modal = ({ width, height, title, onClose, children }: IModalProps) => {
         <div
           style={{ width: width, height: height }}
         >
-          <div className="w-full h-14 grid grid-cols-6 place-items-center">
+          <div className="w-full h-8 grid grid-cols-6 place-items-center">
             <div className="col-span-1">&nbsp;</div>
             <div className="col-span-4">{title}</div>
             <div className="col-span-1 w-5 h-5 cursor-pointer" onClick={handleClose}>
