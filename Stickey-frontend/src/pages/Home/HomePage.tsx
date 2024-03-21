@@ -1,5 +1,6 @@
 import Carousel from "../../components/Home/Carousel";
 import Category from "../../components/Home/Category";
+import Bell from '../../assets/image/Bell.png'
 import GameSchedule from "../../components/Home/GameSchedule";
 import Header, { IHeaderInfo } from "../../components/@common/Header";
 import NavigationBar from "../../components/@common/NavigationBar";
@@ -9,7 +10,7 @@ const HomePage = () => {
     left_1: null,
     left_2: null,
     center: null,
-    right: <img src="src/assets/Alarm/Bell.png" alt="" />
+    right: <img src={Bell} alt="" />
   }
 
   return(
