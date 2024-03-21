@@ -11,10 +11,6 @@ const BookSeat = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const goBack = () => {
-        navigate('/')   
-    }
-
     const getSeatColor = (seat: string): string => {
         switch (seat) {
             case 'S구역 1':
@@ -38,10 +34,14 @@ const BookSeat = () => {
         }
     };
 
-    const handleSeatClick = (seat:string) => {
+    const handleSeatClick = (seat: string) => {
+        if (seatInfo.seat.length >= 4 && !seatInfo.seat.includes(seat)) {
+            return;
+        }
         const newSelectedSeats = seatInfo.seat.includes(seat)
-            ? seatInfo.seat.filter(s => s !== seat) 
+            ? seatInfo.seat.filter(s => s !== seat)
             : [...seatInfo.seat, seat];
+        
         setSelectInfo(seatInfo.section, newSelectedSeats);
     };
 
@@ -66,6 +66,17 @@ const BookSeat = () => {
         const pricePerSeat = 10000; // 임시 좌석당 가격
         return seatInfo.seat.length * pricePerSeat;
     };
+
+    const goBack = () => {
+        navigate(-1)   
+    }
+
+    const id: number = 1;
+
+    const goPayment = () => {
+    navigate(`/${id}/payment`)
+    }
+
 
 
     return(
@@ -93,7 +104,7 @@ const BookSeat = () => {
                 
  
 
-            <div className="fixed bottom-0 w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
+            <div className="fixed bottom-0 max-w-[500px] w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
 
                 {/* 스텝바 */}
                 <div className="pt-2 w-[150px]">
@@ -101,12 +112,12 @@ const BookSeat = () => {
                     <div className="relative after:absolute after:inset-x-0 after:top-1/2 after:block after:h-0.5 after:-translate-y-1/2 after:rounded-lg after:bg-gray-100">
                         <ol className="relative z-10 flex justify-between">
                         <li className="flex items-center">
-                        <span className="size-5 rounded-full bg-gray-100 border-2 border-Stickey_Main text-center text-xs"> 1 </span>
+                        <span className="size-5 rounded-full bg-Stickey_Main border-2 border-Stickey_Main text-center text-xs"> 1 </span>
 
                         </li>
 
                         <li className="flex items-center p-2">
-                            <span className="size-5 rounded-full bg-gray-100 border-2 border-Stickey_Main text-center text-xs"> 2 </span>
+                            <span className="size-5 rounded-full bg-Stickey_Main border-2 border-Stickey_Main text-center text-xs"> 2 </span>
                         </li>
 
                         <li className="flex items-center">
@@ -148,7 +159,7 @@ const BookSeat = () => {
                     {/* 버튼 */}
                     <div  className="w-full max-w-[500px] px-4 pt-4 pb-24 flex justify-center">
                         <button className="bg-Stickey_Gray w-36 mr-2 p-2 text-xs rounded-md" onClick={() => goBack()}>이전</button>
-                        <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md">다음</button>
+                        <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md"  onClick={() => goPayment()}>다음</button>
                     </div>
             </div>
         </div>
