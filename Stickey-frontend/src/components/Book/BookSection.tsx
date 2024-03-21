@@ -135,8 +135,9 @@ const BookSection = () => {
                             <div className="h-2 w-6 bg-[#D2C2FF]" />
                             <p className="px-1 text-[10px] text-white">R구역 : 10,000</p>
                         </div>
-
-                        <div className="flex items-center">
+                    </div>
+                    <div className="flex">
+                    <div className="flex items-center">
                             <div className="h-2 w-6 bg-[#C3E7FF]" />
                             <p className="px-1 text-[10px] text-white">E구역 : 10,000</p>
                         </div>
