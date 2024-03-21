@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
 interface SeatInfo {
   section: string;
@@ -10,12 +10,17 @@ interface TicketStore {
   setSelectInfo: (section: string, seat: string[]) => void;
 }
 
-const useTicketStore = create<TicketStore>((set) => ({
-  seatInfo: {
-    section: '',
-    seat: [],
-  },
-  setSelectInfo: (section, seat) => set({ seatInfo: { section, seat } }),
-}));
+const useTicketStore = create<TicketStore>((set) => {
+  // 로컬 스토리지에서 데이터 불러오기
+  const storedSeatInfo = JSON.parse(localStorage.getItem('seatInfo') || '{}');
+  
+  return {
+    seatInfo: storedSeatInfo || { section: '', seat: [] },
+    setSelectInfo: (section, seat) => {
+      set({ seatInfo: { section, seat } });
+      localStorage.setItem('seatInfo', JSON.stringify({ section, seat }));
+    }
+  };
+});
 
 export default useTicketStore;
