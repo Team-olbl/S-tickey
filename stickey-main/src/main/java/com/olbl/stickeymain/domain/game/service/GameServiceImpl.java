@@ -3,19 +3,24 @@ package com.olbl.stickeymain.domain.game.service;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.GAME_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SPORTS_CLUB_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.STADIUM_DO_NOT_EXISTS;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.STADIUM_ZONE_DO_NOT_EXISTS;
 
 import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
+import com.olbl.stickeymain.domain.game.dto.SeatStatusRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
 import com.olbl.stickeymain.domain.game.entity.Category;
 import com.olbl.stickeymain.domain.game.entity.Game;
+import com.olbl.stickeymain.domain.game.entity.GameSeat;
 import com.olbl.stickeymain.domain.game.entity.SportsClub;
 import com.olbl.stickeymain.domain.game.entity.Stadium;
+import com.olbl.stickeymain.domain.game.entity.StadiumZone;
 import com.olbl.stickeymain.domain.game.repository.GameRepository;
 import com.olbl.stickeymain.domain.game.repository.GameSeatRepository;
 import com.olbl.stickeymain.domain.game.repository.SportsClubRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumRepository;
+import com.olbl.stickeymain.domain.game.repository.StadiumZoneRepository;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +39,7 @@ public class GameServiceImpl implements GameService {
     private final SportsClubRepository sportsClubRepository;
     private final StadiumRepository stadiumRepository;
     private final GameSeatRepository gameSeatRepository;
+    private final StadiumZoneRepository stadiumZoneRepository;
 
     @Override
     @Transactional
@@ -77,5 +83,15 @@ public class GameServiceImpl implements GameService {
         Game game = gameRepository.findById(id)
             .orElseThrow(() -> new BusinessException(GAME_DO_NOT_EXISTS)); //game id 있는지 확인
         return gameSeatRepository.getLeftSeatListResByGameId(id);
+    }
+
+    @Override
+    public List<SeatStatusRes> getSeatStatus(int id, int zoneId) {
+        GameSeat gameSeat = gameSeatRepository.findOneByGameId(id)
+            .orElseThrow(() -> new BusinessException(GAME_DO_NOT_EXISTS)); //game id 있는지 확인
+        StadiumZone stadiumZone = stadiumZoneRepository.findById(zoneId)
+            .orElseThrow(() -> new BusinessException(STADIUM_ZONE_DO_NOT_EXISTS)); // zone id 있는지 확인
+
+        return gameSeatRepository.findByGameIdAndZoneId(id, zoneId);
     }
 }
