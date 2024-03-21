@@ -6,7 +6,6 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract Reword is ERC20 {
 
     address public ticketCaller;
-    address public sender;
 
   constructor() ERC20("DreamToken", "DT") {
   }
