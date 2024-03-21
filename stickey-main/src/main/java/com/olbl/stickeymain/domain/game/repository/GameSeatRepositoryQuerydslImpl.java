@@ -32,11 +32,12 @@ public class GameSeatRepositoryQuerydslImpl implements GameSeatRepositoryQueryds
                     .sum()
                     .as("leftSeatCnt"),
                 gameSeat.zoneName,
-                gameSeat.zoneId
+                gameSeat.zoneId,
+                gameSeat.price
             ))
             .from(gameSeat)
             .where(gameSeat.game.id.eq(id))
-            .groupBy(gameSeat.zoneName, gameSeat.zoneId)
+            .groupBy(gameSeat.zoneName, gameSeat.zoneId, gameSeat.price)
             .fetch();
 
         return new LeftSeatListRes(gameSeatList);
