@@ -1,6 +1,6 @@
-import Header, { IHeaderInfo } from "../../components/Header";
-import Back from '../../assets/@common/Back.png'
-import NavigationBar from "../../components/NavigationBar";
+import Header, { IHeaderInfo } from "../../components/@common/Header";
+import Back from '../../assets/image/Back.png'
+import NavigationBar from "../../components/@common/NavigationBar";
 import TabBar from "../../components/@common/TabBar";
 import LoginForm from "../../components/Login/LoginForm";
 import { useState } from "react";
@@ -10,7 +10,8 @@ const LoginPage = () => {
   const [selectedTab, setSelectedTab] = useState('개인회원');
 
   const info : IHeaderInfo = {
-    left: <img src={Back} alt="" />,
+    left_1:  null,
+    left_2: <img src={Back} alt="" />,
     center:'로그인',
     right: <img src="src/assets/Alarm/Bell.png" alt="" />
   }

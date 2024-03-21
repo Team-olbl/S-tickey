@@ -1,5 +1,5 @@
 import Modal from '../@common/Modal'
-import Dove from '../../assets/Sponsor/Dove.png'
+import Dove from '../../assets/image/Dove.png'
 
 const SponsorModal = ({ onClose }: { onClose: () => void; }) => {
     

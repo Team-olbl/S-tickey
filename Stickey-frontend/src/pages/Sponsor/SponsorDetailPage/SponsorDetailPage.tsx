@@ -1,7 +1,7 @@
-import Header, { IHeaderInfo } from "../../../components/Header";
-import NavigationBar from "../../../components/NavigationBar";
-import Back from '../../../assets/@common/Back.png'
-import map from '../../../assets/Sponsor/map.png'
+import Header, { IHeaderInfo } from "../../../components/@common/Header";
+import NavigationBar from "../../../components/@common/NavigationBar";
+import Back from '../../../assets/image/Back.png'
+import map from '../../../assets/image/map.png'
 import { useState } from "react";
 import SponsorModal from "../../../components/Sponsor/SponsorModal";
 // import { useParams } from "react-router-dom";
@@ -38,7 +38,8 @@ export type SponsorDetailData = {
 
 
 const info : IHeaderInfo = {
-  left: <img src={Back} alt="" />,
+  left_1:  null,
+  left_2: <img src={Back} alt="" />,
   center:'후원',
   right: <img src="src/assets/Alarm/Bell.png" />
 }

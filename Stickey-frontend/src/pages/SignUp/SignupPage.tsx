@@ -1,15 +1,16 @@
-import Header, { IHeaderInfo } from "../../components/Header";
-import Back from '../../assets/@common/Back.png'
-import Individual from '../../assets/Signup/individual.png'
-import Organization from '../../assets/Signup/organization.png'
-import NavigationBar from "../../components/NavigationBar";
+import Header, { IHeaderInfo } from "../../components/@common/Header";
+import Back from '../../assets/image/Back.png'
+import Individual from '../../assets/image/individual.png'
+import Organization from '../../assets/image/organization.png'
+import NavigationBar from "../../components/@common/NavigationBar";
 import { useState } from "react";
 import IndividualForm from "../../components/Signup/IndividualForm";
 import OrganizationForm from "../../components/Signup/OrganizationForm";
 
 const SignupPage = () => {
   const info: IHeaderInfo = {
-    left: <img src={Back} alt="" />,
+    left_1:  null,
+    left_2: <img src={Back} alt="" />,
     center: '회원가입',
     right: <img src="src/assets/Alarm/Bell.png" alt="" />
   }

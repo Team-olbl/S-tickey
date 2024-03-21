@@ -5,7 +5,7 @@ const NavigationBar = () => {
   const {pathname} = useLocation();
   
 
-  const handleTabClick = (tab:any) => {
+  const handleTabClick = (tab:string) => {
     switch (tab) {
       case "home":
         navigate('/');
@@ -25,10 +25,10 @@ const NavigationBar = () => {
   }
 
   return (
-    <div className="bg-Stickey_BGC w-[360px] h-[52px] border-t-[0.5px] border-white flex flex-row fixed bottom-0 justify-center gap-[56px] items-center ">
+    <div className="fixed bottom-0 w-[360px] h-[52px] border-t-[0.5px] bg-Stickey_BGC border-white flex flex-row  justify-center gap-[56px] items-center ">
       <div className="flex flex-col items-center gap-0" onClick={() => handleTabClick("home")}>
         <img
-          src={pathname === "/" ? "src/assets/NavigationBar/FilledHouse.png" : "src/assets/NavigationBar/House.png"}
+          src={pathname === "/" ? "/src/assets/image/NavigationBar/FilledHouse.png" : "/src/assets/image/NavigationBar/House.png"}
           alt="..."
           className="w-[32px] h-[32px]"
         />
@@ -36,7 +36,7 @@ const NavigationBar = () => {
       </div>
       <div className="flex flex-col items-center" onClick={() => handleTabClick("sponsor")}>
         <img 
-          src={pathname === "/sponsor" ? "src/assets/NavigationBar/FilledTree.png" : "src/assets/NavigationBar/Tree.png"} 
+          src={pathname === "/sponsor" ? "/src/assets/image/NavigationBar/FilledTree.png" : "/src/assets/image/NavigationBar/Tree.png"} 
           alt="..." 
           className="w-[32px] h-[32px]"
         />
@@ -44,7 +44,7 @@ const NavigationBar = () => {
       </div>
       <div className="flex flex-col items-center" onClick={() => handleTabClick("mytickets")}>
         <img
-          src={pathname === "/mytickets" ? "src/assets/NavigationBar/FilledTicket.png" : "src/assets/NavigationBar/Ticket.png"}
+          src={pathname === "/mytickets" ? "/src/assets/image/NavigationBar/FilledTicket.png" : "/src/assets/image/NavigationBar/Ticket.png"}
           alt="..."
           className="w-[32px] h-[32px]"
         />
@@ -52,7 +52,7 @@ const NavigationBar = () => {
       </div>
       <div className="flex flex-col items-center" onClick={() => handleTabClick("profile")}>
         <img 
-          src={pathname === "/profile" ? "src/assets/NavigationBar/FilledUser.png" : "src/assets/NavigationBar/User.png"}
+          src={pathname === "/profile" ? "/src/assets/image/NavigationBar/FilledUser.png" : "/src/assets/image/NavigationBar/User.png"}
           alt="..." 
           className="w-[32px] h-[32px]"
         />
