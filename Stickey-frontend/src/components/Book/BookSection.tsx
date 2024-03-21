@@ -36,7 +36,7 @@ const BookSection = () => {
     };
 
     const handleSeatClick = (seat:string) => {
-        setSelectInfo(seat, '');
+        setSelectInfo(seat, []);
     };
 
     const goBack = () => {

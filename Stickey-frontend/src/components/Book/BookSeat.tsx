@@ -5,7 +5,7 @@ import useTicketStore from "../../stores/useTicketStore";
 const BookSeat = () => {
 
     const navigate = useNavigate();
-    const { seatInfo } = useTicketStore();
+    const { seatInfo, setSelectInfo } = useTicketStore();
 
     const goBack = () => {
         navigate('/')   
@@ -34,6 +34,14 @@ const BookSeat = () => {
         }
     };
 
+    const handleSeatClick = (seat:string) => {
+        // 이미 선택된 좌석 배열이 있다면 기존 배열에 추가하고, 없다면 새 배열로 생성
+        const newSelectedSeats = seatInfo.seat.includes(seat)
+            ? seatInfo.seat.filter(s => s !== seat) // 이미 선택된 좌석 제거
+            : [...seatInfo.seat, seat]; // 새로 선택한 좌석 추가
+        setSelectInfo(seatInfo.section, newSelectedSeats);
+    };
+
     const generateSeatNumbers = (rows: number, cols: number) => {
         const seats = [];
         let count = 1;
@@ -50,11 +58,18 @@ const BookSeat = () => {
     const seats = generateSeatNumbers(5, 6);
 
 
+    // 결제 금액 함수 ( 나중에 바꿔야함 )
+    const calculateTotalPrice = () => {
+        const pricePerSeat = 10000; // 임시 좌석당 가격
+        return seatInfo.seat.length * pricePerSeat;
+    };
+
+
     return(
         <>
         <div className="pt-4">
 
-            
+
                 {/* 좌석 */}
                     <div className="bg-Stickey_Gray w-[360px] h-[280px] flex flex-wrap justify-center items-center">
                         <div className="">
@@ -63,8 +78,8 @@ const BookSeat = () => {
                                     {row.map((seatNumber, colIndex) => (
                                         <div
                                             key={colIndex}
-                                            className={`w-8 h-8 mx-1 my-1 flex items-center justify-center border border-gray-300 rounded-md ${seatInfo.section === `seat ${seatNumber}` ? 'bg-red-500' : 'bg-gray-300'}`}
-                                            onClick={() => console.log(`선택한 좌석 :  ${seatNumber}`)}
+                                            className={`w-8 h-8 m-1 flex items-center justify-center border border-gray-300 rounded-md ${seatInfo.section === `seat ${seatNumber}` ? 'bg-red-500' : 'bg-gray-300'}`}
+                                            onClick={() => handleSeatClick(`${seatNumber}`)}
                                         >
                                         </div>
                                     ))}
@@ -83,12 +98,12 @@ const BookSeat = () => {
                     <div className="relative after:absolute after:inset-x-0 after:top-1/2 after:block after:h-0.5 after:-translate-y-1/2 after:rounded-lg after:bg-gray-100">
                         <ol className="relative z-10 flex justify-between">
                         <li className="flex items-center">
-                        <span className="size-5 rounded-full bg-gray-100 border-2 border-Stickey_Main text-center text-xs"> 1 </span>
+                        <span className="size-5 rounded-full bg-gray-100 border-2 border-Stickey_Gray text-center text-xs"> 1 </span>
 
                         </li>
 
                         <li className="flex items-center p-2">
-                            <span className="size-5 rounded-full bg-gray-100 border-2 border-Stickey_Gray text-center text-xs"> 2 </span>
+                            <span className="size-5 rounded-full bg-gray-100 border-2 border-Stickey_Main text-center text-xs"> 2 </span>
                         </li>
 
                         <li className="flex items-center">
@@ -110,12 +125,19 @@ const BookSeat = () => {
 
                         <div className="items-center  grid grid-cols-4 py-3">
                             <p className="col-span-1 text-xs text-gray-200">좌석선택</p>
-                            <div className="col-span-3"></div>
+                            <div className="col-span-3 flex">
+                            {/* 선택한 좌석들을 출력 */}
+                            {seatInfo.seat.map((seat, index) => (
+                                <div className="w-6 h-6 text-sm text-white bg-Stickey_Main text-center rounded-md m-1" key={index}>{seat} </div>
+                            ))}
+                        </div>
                         </div>
 
                         <div className="items-center grid grid-cols-4 py-3">
                             <p className="col-span-1 text-xs text-gray-200">결제가격</p>
-                            <div className="col-span-3"></div>
+                            <div className="col-span-3 text-white">
+                                {calculateTotalPrice()}원
+                            </div>
                         </div>
                     </div>
 
