@@ -1,5 +1,5 @@
 import Modal from '../@common/Modal'
-import Bye from '../../assets/@common/Bye.png'
+import Bye from '../../assets/image/Bye.png'
 
 const LogoutModal = ({ onClose }: { onClose: () => void; }) => {
 
