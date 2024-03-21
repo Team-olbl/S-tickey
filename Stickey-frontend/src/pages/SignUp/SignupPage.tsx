@@ -1,5 +1,6 @@
 import Header, { IHeaderInfo } from "../../components/@common/Header";
 import Back from '../../assets/image/Back.png'
+import Bell from '../../assets/image/Bell.png'
 import Individual from '../../assets/image/individual.png'
 import Organization from '../../assets/image/organization.png'
 import NavigationBar from "../../components/@common/NavigationBar";
@@ -12,7 +13,7 @@ const SignupPage = () => {
     left_1:  null,
     left_2: <img src={Back} alt="" />,
     center: '회원가입',
-    right: <img src="src/assets/Alarm/Bell.png" alt="" />
+    right: <img src={Bell} alt="" />
   }
 
   const [selectedType, setSelectedType] = useState("");
