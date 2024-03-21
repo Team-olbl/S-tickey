@@ -14,17 +14,18 @@ export interface IGameInfo {
   gameStartTime: string;
 }
 
+const dummyGameInfo: IGameInfo = {
+  id: 4,
+  stadium: "DGB대구은행파크",
+  homeTeam: "전북FC",
+  awayTeam: "FC서울",
+  bookStartTime: "2024-03-15T01:42:48",
+  bookEndTime: "2024-03-21T01:42:48",
+  gameStartTime: "2024-03-21T01:42:48"
+};
+
 const BookSectionPage = () => {
 
-  const dummyGameInfo: IGameInfo = {
-    id: 4,
-    stadium: "DGB대구은행파크",
-    homeTeam: "전북FC",
-    awayTeam: "FC서울",
-    bookStartTime: "2024-03-15T01:42:48",
-    bookEndTime: "2024-03-21T01:42:48",
-    gameStartTime: "2024-03-21T01:42:48"
-  };
 
   const info : IHeaderInfo = {
     left_1:  null,
