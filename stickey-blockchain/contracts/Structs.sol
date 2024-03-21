@@ -5,7 +5,12 @@ interface Structs {
   
   struct GameInfo {
     uint gameId;          // 경기 ID
-    uint gameTime;        // 경기 시작 시간
+    uint bookStartTime;   // 예매 시작 시간
+    uint gameStartTime;   // 경기 시작 시간
+    string stadium;       // 경기장 이름
+    string homeTeam;      // 홈팀 이름
+    string awayTeam;      // 원정팀 이름
+    string poster;        // 포스터 url
   }
 
   struct TicketInfo {

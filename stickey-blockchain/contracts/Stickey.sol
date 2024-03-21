@@ -64,8 +64,8 @@ contract Stickey is ERC721Enumerable, Structs {
   event TicketPayment( address indexed sender, uint gameId, uint amount, uint state, uint date); // state : 1 결제, 2 환불
 
   // 경기 정보 추가
-  function addGame(uint id, uint gameTime) public isAdmin{
-    _gameInfo[id] = GameInfo(id, gameTime);
+  function addGame(uint id, uint bookStartTime,uint gameStartTime, string calldata stadium,string calldata homeTeam, string calldata awayTeam) public isAdmin{
+    _gameInfo[id] = GameInfo(id, bookStartTime, gameStartTime, stadium, homeTeam, awayTeam);
   }
 
   // 아이템 정보 추가
@@ -123,9 +123,9 @@ contract Stickey is ERC721Enumerable, Structs {
     uint256 nowTime = block.timestamp;
     GameInfo memory g = _gameInfo[_ticketInfo[tokenId].gameId];
 
-    require(nowTime <= g.gameTime, "already game started");
+    require(nowTime <= g.gameStartTime, "already game started");
     
-    uint refundTime = g.gameTime - 3 days; 
+    uint refundTime = g.gameStartTime - 3 days; 
 
     uint refundPrice = _ticketInfo[tokenId].price;
 
