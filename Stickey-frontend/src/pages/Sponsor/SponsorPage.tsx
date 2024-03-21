@@ -61,10 +61,10 @@ const SponsorPage = () => {
         <p className=" text-white text-sm mt-4">후원글이 없습니다</p>
         </div>
         ) : (
-          dummyList.map((item, id) => (
-            <div className="flex flex-col px-6 py-1">
+          dummyList.map((item) => (
+            <div className="flex flex-col px-6 py-1" key={item.id}>
               <button onClick={() => gotoSponsorDetail(item.id)}>
-               <SponsorItem key={id} data={item} />
+               <SponsorItem  data={item} />
                </button>
             </div>
           ))
