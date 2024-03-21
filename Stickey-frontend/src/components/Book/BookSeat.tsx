@@ -73,7 +73,7 @@ const BookSeat = () => {
 
     const id: number = 1;
 
-    const goConformTicket = () => {
+    const goPayment = () => {
     navigate(`/${id}/payment`)
     }
 
@@ -159,7 +159,7 @@ const BookSeat = () => {
                     {/* 버튼 */}
                     <div  className="w-full max-w-[500px] px-4 pt-4 pb-24 flex justify-center">
                         <button className="bg-Stickey_Gray w-36 mr-2 p-2 text-xs rounded-md" onClick={() => goBack()}>이전</button>
-                        <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md"  onClick={() => goConformTicket()}>다음</button>
+                        <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md"  onClick={() => goPayment()}>다음</button>
                     </div>
             </div>
         </div>
