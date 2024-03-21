@@ -105,12 +105,12 @@ const BookSeat = () => {
                     <div className="relative after:absolute after:inset-x-0 after:top-1/2 after:block after:h-0.5 after:-translate-y-1/2 after:rounded-lg after:bg-gray-100">
                         <ol className="relative z-10 flex justify-between">
                         <li className="flex items-center">
-                        <span className="size-5 rounded-full bg-gray-100 border-2 border-Stickey_Main text-center text-xs"> 1 </span>
+                        <span className="size-5 rounded-full bg-Stickey_Main border-2 border-Stickey_Main text-center text-xs"> 1 </span>
 
                         </li>
 
                         <li className="flex items-center p-2">
-                            <span className="size-5 rounded-full bg-gray-100 border-2 border-Stickey_Main text-center text-xs"> 2 </span>
+                            <span className="size-5 rounded-full bg-Stickey_Main border-2 border-Stickey_Main text-center text-xs"> 2 </span>
                         </li>
 
                         <li className="flex items-center">
