@@ -121,7 +121,7 @@ const TeamList = () => {
       <div className="pl-3 flex flex-row gap-2">
       {preferredTeams.map((team) => (
         <div key={team.id} className={`relative w-14 h-16 border border-none flex flex-col shadow-[2px_2px_rgba(0,0,0,0.25)] justify-center items-center gap-1 rounded-[5px] bg-[#2E2E3D] ${team.isSelected ? "bg-Stickey_Gray/50" : "bg-black/50"}`} onClick={() => handleTeamClick(team, preferredTeams)}>
-          <img src='src/assets/@common/Star.png' className='absolute w-2 h-2 left-1 top-1'/>
+          <img src='/src/assets/image/Star.png' className='absolute w-2 h-2 left-1 top-1'/>
           <div className="w-7 h-8">
             {team.logo}
           </div>
