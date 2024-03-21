@@ -1,9 +1,12 @@
 import { useState } from "react";
 import Volley from '../../assets/image/Ground/VolleyballGround.png'
+import WaittingModal from "./WaittingModal";
 
 const BookSection = () => {
 
     const [selectedSeat, setSelectedSeat] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    
 
     const getSeatColor = (seat: string): string => {
         switch (seat) {
@@ -189,9 +192,10 @@ const BookSection = () => {
                 {/* 버튼 */}
                     <div  className="w-full max-w-[360px] px-4 pt-4 pb-16 flex justify-center">
                         <button className="bg-Stickey_Gray w-36 mr-2 p-2 text-xs rounded-md">이전</button>
-                        <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md">다음</button>
+                        <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md" onClick={() => setIsModalOpen(true)}>다음</button>
                     </div>
             </div>
+            {isModalOpen && <WaittingModal onClose={() => setIsModalOpen(false)} />}
         </div>
     );
 };
