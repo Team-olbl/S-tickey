@@ -20,7 +20,6 @@ export type MatchItemData = {
   bookStartTime: string;
   bookEndTime: string;
   gameStartTime: string;
-  
 }
 
 const SoccerPage = () => {
