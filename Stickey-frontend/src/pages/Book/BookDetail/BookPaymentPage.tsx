@@ -17,7 +17,7 @@ const dummyUser: DummyUserInfo = {
 
 const BookPaymentPage = () => {
 
-  const { seatInfo } = useTicketStore();
+  const { seatInfo, clearSeatInfo } = useTicketStore();
   const navigate = useNavigate();
 
   const info : IHeaderInfo = {
@@ -58,6 +58,7 @@ const id: number = 1;
 
     const goConformTicket = () => {
     navigate(`/${id}/confirm`)
+    clearSeatInfo()
     }
 
 const totalPrice = () => {
