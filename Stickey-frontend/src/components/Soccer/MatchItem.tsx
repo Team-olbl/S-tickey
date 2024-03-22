@@ -2,21 +2,23 @@ import { useState } from "react";
 import { MatchItemData } from "../../pages/Home/Soccer/SoccerPage";
 import BottomModal from "../@common/BottomModal";
 import Prohibit from '../../assets/image/Prohibited.png'
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import WaittingModal from "../Book/WaittingModal";
 
 const MatchItem = ({ data }: { data: MatchItemData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate();
+  const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
+  // const navigate = useNavigate();
 
   const handleBookTicket = () => {
     setIsModalOpen(true);
   };
 
-  const id: number = data.id;
+  // const id: number = data.id;
 
-  const handleGoToSection = () => {
-    navigate(`/${id}/section`);
-  };
+  // const handleGoToSection = () => {
+  //   navigate(`/${id}/section`);
+  // };
 
   return (
     <>
@@ -84,11 +86,12 @@ const MatchItem = ({ data }: { data: MatchItemData }) => {
             </div>
 
             <div className="pt-4">
-              <button onClick={handleGoToSection} className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm">예매하기</button>
+              <button onClick={() => setIsWaitModalOpen(true)} className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm">예매하기</button>
             </div>
           </div>
         </BottomModal>
       )}
+      {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)}/>}
     </>
   );
 };
