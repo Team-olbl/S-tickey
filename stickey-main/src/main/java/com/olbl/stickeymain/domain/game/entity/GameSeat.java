@@ -24,6 +24,7 @@ public class GameSeat {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id")
     private Game game;
+    private int zoneId;
     private String zoneName;
     private int seatNumber;
     @Enumerated(EnumType.STRING)
