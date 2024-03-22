@@ -7,6 +7,8 @@ import static com.olbl.stickeymain.global.result.ResultCode.SEND_EMAIL_SUCCESS;
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
+import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
+import com.olbl.stickeymain.domain.user.organization.service.OrganizationService;
 import com.olbl.stickeymain.domain.user.service.MailService;
 import com.olbl.stickeymain.domain.user.service.UserService;
 import com.olbl.stickeymain.global.result.ResultResponse;
@@ -33,6 +35,7 @@ public class UserController {
 
     private final UserService userService;
     private final MailService mailService;
+    private final OrganizationService organizationService;
 
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
@@ -59,7 +62,7 @@ public class UserController {
         boolean state = userService.checkAuthEmail(emailCheckReq);
         return ResponseEntity.ok(ResultResponse.of(CHECK_EMAIL_SUCCESS, state));
     }
-    
+
     @Operation(summary = "이메일로 임시 비밀번호 발송")
     @PatchMapping
     public ResponseEntity<ResultResponse> findPassword(@RequestBody EmailCodeReq emailCodeReq) {
@@ -68,4 +71,13 @@ public class UserController {
         return ResponseEntity.ok(ResultResponse.of(SEND_EMAIL_SUCCESS));
     }
 
+    @Operation(summary = "단체 회원가입")
+    @PostMapping("/signup/organization")
+    public ResponseEntity<ResultResponse> signupOrganization(
+        @RequestPart(value = "organSignUpReq") OrganSignUpReq organSignUpReq,
+        @RequestPart(value = "profile") MultipartFile profile,
+        @RequestPart(value = "registration_file") MultipartFile registration_file) {
+        organizationService.signup(organSignUpReq, profile, registration_file);
+        return ResponseEntity.ok(ResultResponse.of(REGIST_SUCCESS));
+    }
 }
