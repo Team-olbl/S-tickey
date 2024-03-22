@@ -19,6 +19,8 @@ services:
       context: "../stickey-main/"
       dockerfile: Dockerfile
     container_name: stickey_main
+    ports:
+      - "9090:9090"
     depends_on:
       - mysql
       - redis
