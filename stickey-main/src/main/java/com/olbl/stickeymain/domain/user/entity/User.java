@@ -10,7 +10,7 @@ import jakarta.persistence.InheritanceType;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -19,13 +19,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @EntityListeners(value = AuditingEntityListener.class)
 @Inheritance(strategy = InheritanceType.JOINED)
-@Setter
+@SuperBuilder
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    private String email;
     private String password;
     private String phone;
     private String account;
@@ -33,4 +34,7 @@ public class User {
     @CreatedDate
     private LocalDateTime createTime;
 
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
+    }
 }
