@@ -2,27 +2,19 @@ import { useState } from "react";
 import { MatchItemData } from "../../pages/Home/Soccer/SoccerPage";
 import BottomModal from "../@common/BottomModal";
 import Prohibit from '../../assets/image/Prohibited.png'
-// import { useNavigate } from "react-router-dom";
 import WaittingModal from "../Book/WaittingModal";
 
 const MatchItem = ({ data }: { data: MatchItemData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
-  // const navigate = useNavigate();
 
   const handleBookTicket = () => {
     setIsModalOpen(true);
   };
 
-  // const id: number = data.id;
-
-  // const handleGoToSection = () => {
-  //   navigate(`/${id}/section`);
-  // };
-
   return (
-    <>
-      <div className="w-full max-w-[500px] border-none border-[#2E2E3D] rounded-[15px] bg-[#2E2E3D] shadow-[2px_2px_rgba(0,0,0,0.25)] p-6 text-white">
+    <><div className="px-4">
+      <div className=" w-full max-w-[500px] border-none border-[#2E2E3D] rounded-[15px] bg-[#2E2E3D] shadow-[2px_2px_rgba(0,0,0,0.25)] p-6 text-white">
         <div className="flex flex-row text-center justify-center gap-10">
           <div className="flex flex-col justify-center items-center ">
             <p className="text-[8px] pb-[2px]">홈 팀</p>
@@ -51,6 +43,7 @@ const MatchItem = ({ data }: { data: MatchItemData }) => {
             <p className="text-[13px] text-center">티켓 예매하기</p>
           </button>
         </div>
+      </div>
       </div>
 
       {/* 모달 */}
