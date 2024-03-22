@@ -1,13 +1,10 @@
-import { useState } from "react";
 import Volley from '../../assets/image/Ground/VolleyballGround.png'
-import WaittingModal from "./WaittingModal";
 import { useNavigate } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
 
 const BookSection = () => {
 
     const { seatInfo, setSelectInfo } = useTicketStore();
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const navigate = useNavigate();
     
@@ -41,6 +38,12 @@ const BookSection = () => {
 
     const goBack = () => {
         navigate(-1)   
+    }
+
+    const id: number = 1
+
+    const goNext = () => {
+        navigate(`/${id}/seat`)
     }
 
 
@@ -195,10 +198,9 @@ const BookSection = () => {
                 {/* 버튼 */}
                     <div  className="w-full max-w-[500px] px-4 pt-4 pb-24 flex justify-center">
                         <button className="bg-Stickey_Gray w-36 mr-2 p-2 text-xs rounded-md" onClick={() => goBack()}>이전</button>
-                        <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md" onClick={() => setIsModalOpen(true)}>다음</button>
+                        <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md" onClick={() => goNext()}>다음</button>
                     </div>
             </div>
-            {isModalOpen && <WaittingModal onClose={() => setIsModalOpen(false)}/>}
         </div>
     );
 };
