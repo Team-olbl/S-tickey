@@ -5,7 +5,7 @@ server:
 
 spring:
   profiles:
-    active: server # 기본설정
+    active: local # 기본설정
     group:
       local:
         - db-local
