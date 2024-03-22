@@ -40,33 +40,33 @@ contract Game {
   }
 
   // 경기장 구역 가격 정보 설정
-  function _setSeatPrice(uint _stadiumId, uint _areaId, uint _price) internal {
-    _seatPriceInfo[_stadiumId][_areaId] = _price;
+  function _setSeatPrice(uint _stadiumId, uint _zoneId, uint _price) internal {
+    _seatPriceInfo[_stadiumId][_zoneId] = _price;
   }
 
   // 경기장 구역 가격 정보 조회
-  function _getSeatPrice(uint _stadiumId, uint _areaId) internal view returns (uint) {
-    return _seatPriceInfo[_stadiumId][_areaId];
+  function _getSeatPrice(uint _stadiumId, uint _zoneId) internal view returns (uint) {
+    return _seatPriceInfo[_stadiumId][_zoneId];
   }
 
   // 좌석 상태 설정
-  function _setSeatState(uint _gameId, uint _areaId, uint _seatNum, bool _state) internal {
-    _seatState[_gameId][_areaId][_seatNum] = _state;
+  function _setSeatState(uint _gameId, uint _zoneId, uint _seatNum, bool _state) internal {
+    _seatState[_gameId][_zoneId][_seatNum] = _state;
   }
 
   // 좌석 상태 조회
-  function _getSeatState(uint _gameId, uint _areaId, uint _seatNum) internal view returns (bool) {
-    return _seatState[_gameId][_areaId][_seatNum];
+  function _getSeatState(uint _gameId, uint _zoneId, uint _seatNum) internal view returns (bool) {
+    return _seatState[_gameId][_zoneId][_seatNum];
   } 
 
   // 환불 주소 설정
-  function _setRefundAddress(uint _gameId, uint _areaId, uint _seatNum, address _addr) internal {
-    _refundAddress[_gameId][_areaId][_seatNum] = _addr;
+  function _setRefundAddress(uint _gameId, uint _zoneId, uint _seatNum, address _addr) internal {
+    _refundAddress[_gameId][_zoneId][_seatNum] = _addr;
   }
 
   // 환불 주소 조회
-  function _getRefundAddress(uint _gameId, uint _areaId, uint _seatNum) internal view returns (address) {
-    return _refundAddress[_gameId][_areaId][_seatNum];
+  function _getRefundAddress(uint _gameId, uint _zoneId, uint _seatNum) internal view returns (address) {
+    return _refundAddress[_gameId][_zoneId][_seatNum];
   }
 
 

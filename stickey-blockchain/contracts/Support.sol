@@ -90,4 +90,9 @@ contract Support {
     return _supportingHistory[_addr];
   }
 
+  // 후원받은 내역 조회
+  function _getSupptedHistory(uint _supportId) internal view returns (SupportedHistory[] memory) {
+    return _supportedHistory[_supportId];
+  }
+
 }

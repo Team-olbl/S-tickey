@@ -33,7 +33,7 @@ contract Reword is ERC20 {
   }
 
   // 토큰 발행
-  function _mintReword(address _to, uint _amount) external checkCaller {
+  function mintReword(address _to, uint _amount) external checkCaller {
     _rewordHistory[_to].push(RewordHistory({
       amount : _amount,
       balance : balanceOf(_to) + _amount,
@@ -45,7 +45,7 @@ contract Reword is ERC20 {
   }
 
   // 토큰 파기
-  function _burnReword(address _to, uint _amount, RewordType _rewordType) external checkCaller {
+  function burnReword(address _to, uint _amount, RewordType _rewordType) external checkCaller {
     _rewordHistory[_to].push(RewordHistory({
       amount : _amount,
       balance : balanceOf(_to) - _amount,
@@ -57,7 +57,7 @@ contract Reword is ERC20 {
   }
 
   // 꿈 증감 내역 조회
-  function _getRewordHistory(address _addr) external view checkCaller returns(RewordHistory[] memory) {
+  function getRewordHistory(address _addr) external view checkCaller returns(RewordHistory[] memory) {
     return _rewordHistory[_addr];
   }
 
