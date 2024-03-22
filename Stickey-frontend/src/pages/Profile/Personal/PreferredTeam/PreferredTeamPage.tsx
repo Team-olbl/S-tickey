@@ -12,7 +12,6 @@ const info : IHeaderInfo = {
 }
 
 const PreferredTeamPage = () => {
-
   return(
     <>
       <Header info={info} />
