@@ -62,7 +62,7 @@ const Calendar: React.FC<CalendarProps> = ({ onDateClick }) => {
   }
 
   return (
-    <div className="flex flex-row text-white px-4" ref={containerRef}>
+    <div className="flex flex-row text-white px-4 py-2" ref={containerRef}>
       <div className='h-[36px] flex items-center'>
         <select value={selectedMonth + 1} onChange={handleMonthChange} className="text-center text-white bg-Stickey_BGC rounded-md mr-4 appearance-none focus:outline-none">
           <option value={1}>1월</option>
