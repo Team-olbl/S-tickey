@@ -36,14 +36,11 @@ contract Support {
   mapping(address => SupportingHistory[]) private _supportingHistory;
 
   // 후원 글 등록
-  function _addSupport(uint _id, address _addr, uint _endTime) internal {
-    _supportInfo[_id] = SupportInfo({
-      id: _id, 
-      addr: _addr,
-      balance: 0, 
-      endTime: _endTime,
-      supportedHistory: new SupportedHistory[](0)
-    });
+  function _setSupport(uint _id, address _addr, uint _endTime) internal {
+    _supportInfo[_id].id = _id;
+    _supportInfo[_id].addr = _addr;
+    _supportInfo[_id].balance = 0;
+    _supportInfo[_id].endTime = _endTime;
   }
 
   // 후원
@@ -72,9 +69,11 @@ contract Support {
   
   // 후원금 단체 지갑으로 출금
   function _withdraw(uint _supportId) internal {
-    require(_supportInfo[_supportId].endTime <= block.timestamp, "Sponsorship is not over yet.");
-    require(_supportInfo[_supportId].balance > 0, "Already withdrawn or 0 balance.");
-    payable(_supportInfo[_supportId].addr).transfer(_supportInfo[_supportId].balance);
+    SupportInfo memory s = _supportInfo[_supportId];
+    require(s.addr == msg.sender, "Permission denied.");
+    require(s.endTime <= block.timestamp, "Sponsorship is not over yet.");
+    require(s.balance > 0, "Already withdrawn or 0 balance.");
+    payable(s.addr).transfer(s.balance);
     _supportInfo[_supportId].balance = 0;
   }
 

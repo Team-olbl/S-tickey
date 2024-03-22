@@ -16,7 +16,7 @@ contract Ticket is ERC721Enumerable{
     uint seatNum;         // 좌석 번호
     uint price;           // 티켓 가격
     uint filterId;        // 적용된 필터 ID
-    uint backGroundId;    // 적용된 배경색 ID
+    uint backgroundId;    // 적용된 배경색 ID
   }
 
   // 이름 Stickey, 심볼 STT (스티키 토큰)
@@ -45,7 +45,7 @@ contract Ticket is ERC721Enumerable{
       seatNum: _seatNum,
       price: _price,
       filterId: 0, 
-      backGroundId: 0
+      backgroundId: 0
     }); 
     _mint(msg.sender, _tokenId); // NFT 토큰 발행
     _ticketInfo[_tokenId] = t;
@@ -53,15 +53,16 @@ contract Ticket is ERC721Enumerable{
   }
 
   // 티켓 취소 메소드
-  function _cancleTicket(uint256 tokenId) internal {
-    delete _ticketInfo[tokenId];
-    deleteTicketByAccount(tokenId);
+  function _cancleTicket(uint256 _tokenId) internal {
+    delete _ticketInfo[_tokenId];
+    deleteTicketByAccount(_tokenId);
+    _burn(_tokenId);
   }
 
   // 티켓 삭제
-  function deleteTicketByAccount(uint tokenId) private {
+  function deleteTicketByAccount(uint _tokenId) private {
     for(uint i = 0; i < _ownedTicket[msg.sender].length; i++) {
-      if(_ownedTicket[msg.sender][i] == tokenId){
+      if(_ownedTicket[msg.sender][i] == _tokenId){
         _ownedTicket[msg.sender][i] = _ownedTicket[msg.sender][_ownedTicket[msg.sender].length - 1];
         _ownedTicket[msg.sender].pop();
         return; 
@@ -75,7 +76,7 @@ contract Ticket is ERC721Enumerable{
   }
 
   // 티켓 정보 조회
-  function _getTicketInfo(uint _tokenId) internal view returns (TicketInfo memory) {
+  function _getTicket(uint _tokenId) internal view returns (TicketInfo memory) {
     return _ticketInfo[_tokenId];
   }
 
