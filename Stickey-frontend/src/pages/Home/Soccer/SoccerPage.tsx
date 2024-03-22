@@ -114,7 +114,7 @@ const SoccerPage = () => {
           </div>
         ) : (
           filteredMatches.map((item) =>(
-            <div className="px-4 p-2" key={item.id}>
+            <div className="" key={item.id}>
               <MatchItem data={item} />
             </div>
           ))
