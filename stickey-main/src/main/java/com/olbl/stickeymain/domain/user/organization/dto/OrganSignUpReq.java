@@ -22,8 +22,10 @@ public class OrganSignUpReq {
     @NotBlank
     private String phone; // 전화번호
 
+    @NotBlank
     private String registration_number; // 사업자 등록번호
 
+    @NotBlank
     private String address; // 주소
 
     private String manager; // 담당자명
