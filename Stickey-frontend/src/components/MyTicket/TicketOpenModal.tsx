@@ -14,7 +14,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
     const navigate = useNavigate();
 
     const handleEditClick = () => {
-        navigate(`/mytickets/${ticket.id}/edit`);
+        navigate(`/mytickets/${ticket.id}/edit`, { state: { ticket } });
     };
 
 
