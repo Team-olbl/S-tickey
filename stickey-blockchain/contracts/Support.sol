@@ -10,8 +10,6 @@ contract Support {
     address addr;         // 후원단체의 지갑 주소 
     uint balance;         // 현재 모인 후원금
     uint endTime;         // 후원 마감 시간
-    // 후원받은 내역 ( 후원 글 ID => 후원 내역 )
-    SupportedHistory[] supportedHistory; 
   }
 
   // 후원받은 내역 구조체
@@ -35,12 +33,17 @@ contract Support {
   // 후원한 내역 ( 내 지갑 주소 => 후원 내역 )
   mapping(address => SupportingHistory[]) private _supportingHistory;
 
+  // 후원받은 내역 ( 후원 글 ID => 후원 내역 )
+  mapping(uint => SupportedHistory[]) private _supportedHistory;
+
   // 후원 글 등록
   function _setSupport(uint _id, address _addr, uint _endTime) internal {
-    _supportInfo[_id].id = _id;
-    _supportInfo[_id].addr = _addr;
-    _supportInfo[_id].balance = 0;
-    _supportInfo[_id].endTime = _endTime;
+    _supportInfo[_id] = SupportInfo({
+      id: _id,
+      addr: _addr,
+      balance: 0,
+      endTime: _endTime
+    });
   }
 
   // 후원
@@ -57,7 +60,7 @@ contract Support {
     }));
 
     // 후원받은 내역 저장
-    _supportInfo[_supportId].supportedHistory.push(SupportedHistory({
+    _supportedHistory[_supportId].push(SupportedHistory({
       text: _text,
       amount: _amount,
       arrivedTime: block.timestamp
