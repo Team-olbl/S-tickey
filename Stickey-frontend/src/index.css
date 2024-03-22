@@ -5,11 +5,14 @@
 html,
 body,
 #root {
+  width: 100vw;
   max-width: 500px;
   margin: 0 auto;
   min-height: 100vh;
 }
 
-::-webkit-scrollbar {
+
+*::-webkit-scrollbar {
   width: 0px;
+  display: none;
 }
