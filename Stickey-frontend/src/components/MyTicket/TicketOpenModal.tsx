@@ -19,9 +19,10 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
 
 
     return (
-        <div className="fixed top-0 w-[500px] bottom-0 bg-black/80">
+        <div className="fixed top-0 w-[500px] bottom-0 bg-black/80 overflow-hidden">
+
             {/* modal wrapper */}
-            <div className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg`}>
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg">
                 {/* modal */}
                 <div className="h-auto flex flex-col text-center items-center">
                     <div className="w-[300px] bg-white rounded-b-lg p-2 font-semibold">
@@ -48,6 +49,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
                     </div>
                 </div>
             </div>
+            
         </div>
     );
 };
