@@ -1,4 +1,5 @@
 import TicketItem from "./TicketItem";
+import Poster from '../../assets/image/Poster.png'
 
 export interface ITicket {
     id: number;
@@ -18,7 +19,7 @@ export interface ITicket {
 const TicketList = () => {
     return(
         <>
-        <div>
+        <div className="py-16 px-6 grid grid-cols-2 gap-4">
             {dummyTickets.map((ticket) => (
                 <TicketItem key={ticket.id} ticket={ticket} />
             ))}
@@ -37,7 +38,7 @@ const dummyTickets: ITicket[] = [
         homeTeam: 'Home Team A',
         awayTeam: 'Away Team A',
         category: 'Football',
-        poster: 'https://example.com/poster1.jpg',
+        poster: Poster,
         areaId: 'S구역 2',
         seatNum: 23,
         price: 50000,
@@ -51,7 +52,7 @@ const dummyTickets: ITicket[] = [
         homeTeam: 'Home Team B',
         awayTeam: 'Away Team B',
         category: 'Basketball',
-        poster: 'https://example.com/poster2.jpg',
+        poster: Poster,
         areaId: 'S구역 2',
         seatNum: 45,
         price: 40000,
@@ -65,7 +66,7 @@ const dummyTickets: ITicket[] = [
         homeTeam: 'Home Team C',
         awayTeam: 'Away Team C',
         category: 'Soccer',
-        poster: 'https://example.com/poster3.jpg',
+        poster: Poster,
         areaId: 'S구역 2',
         seatNum: 2,
         price: 60000,
@@ -79,7 +80,7 @@ const dummyTickets: ITicket[] = [
         homeTeam: 'Home Team D',
         awayTeam: 'Away Team D',
         category: 'Baseball',
-        poster: 'https://example.com/poster4.jpg',
+        poster: Poster,
         areaId: 'S구역 2',
         seatNum: 3,
         price: 70000,
@@ -93,7 +94,7 @@ const dummyTickets: ITicket[] = [
         homeTeam: 'Home Team E',
         awayTeam: 'Away Team E',
         category: 'Tennis',
-        poster: 'https://example.com/poster5.jpg',
+        poster: Poster,
         areaId: 'S구역 2',
         seatNum: 14,
         price: 80000,
