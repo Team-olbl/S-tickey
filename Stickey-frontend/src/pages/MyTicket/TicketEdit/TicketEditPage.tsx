@@ -70,8 +70,9 @@ const TicketEditPage = () => {
 
         {/* 필터 섹션 (일단 더미) */}
         <div className="flex justify-center fixed bottom-0 bg-black/50 max-h-2/5  max-w-[500px] w-full">
-          <div>
-            <div className=" grid grid-cols-3 pb-24">
+          
+          <div className="pb-24">
+            <div className=" grid grid-cols-3">
               <div className="bg-Stickey_Gray h-28 w-24 m-4 rounded-lg">티꾸자리</div>
               <div className="bg-Stickey_Gray h-28 w-24 m-4 rounded-lg">티꾸자리</div>
               <div className="bg-Stickey_Gray h-28 w-24 m-4 rounded-lg">티꾸자리</div>
