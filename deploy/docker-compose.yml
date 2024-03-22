@@ -50,7 +50,7 @@ services:
     networks:
       - stickey_network
     ports:
-      - "33066:3306"
+      - "${MYSQL_EXTERNAL_PORT}:${MYSQL_PORT}"
     volumes:
       - "mysql_data:/var/lib/mysql"
     environment:
