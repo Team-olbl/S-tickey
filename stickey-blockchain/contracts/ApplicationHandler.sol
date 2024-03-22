@@ -11,11 +11,16 @@ contract ApplicationHandler is Support, Ticket, Item, Game {
 
   address owner; // 관리자 Address
   Reword reword; // ERC20 구현한 Reword 컨트랙트
+  Ticket ticket;
 
-  constructor(address _rewordContractAddress) {
+  constructor(address _rewordContractAddress, address _ticketContractAddress) {
     reword = Reword(_rewordContractAddress);
-    reword.setcaller(address(this));
+    reword.setCaller(address(this));
+    ticket = Ticket(_ticketContractAddress);
+    ticket.setCaller(address(this));
     owner = msg.sender;
   }
 
+  
+  
 }

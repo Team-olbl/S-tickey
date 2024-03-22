@@ -12,7 +12,7 @@ contract Ticket is ERC721Enumerable{
   struct TicketInfo {
     uint tokenId;         // 토큰 ID
     uint gameId;          // 경기 ID
-    uint areaId;          // 구역 ID
+    uint zoneId;          // 구역 ID
     uint seatNum;         // 좌석 번호
     uint price;           // 티켓 가격
     uint filterId;        // 적용된 필터 ID
@@ -22,6 +22,9 @@ contract Ticket is ERC721Enumerable{
   // 이름 Stickey, 심볼 STT (스티키 토큰)
   constructor() ERC721("Stickey", "STT") {
   } 
+  
+  // Reword 메소드를 호출하는 주소는 반드시 ApplicationHandler 컨트랙트
+  address private _caller;
 
   // 티켓 생성시 마다 증가하는 카운트 값, SafeMath 적용
   using Counters for Counters.Counter;
@@ -33,15 +36,22 @@ contract Ticket is ERC721Enumerable{
   // 지갑이 가진 티켓 정보 ( 지갑 주소 => 토큰 ID 배열 )
   mapping(address => uint[]) private _ownedTicket;
 
+  // caller 설정
+  function setCaller(address _ticketAddress) external {
+    require(_caller == address(0), "already set caller");
+    _caller = _ticketAddress;
+  }
+
+
   // 티켓 예매 메소드
-  function _mintTicket(uint _gameId, uint _areaId, uint _seatNum, uint _price) internal {
+  function _mintTicket(uint _gameId, uint _zoneId, uint _seatNum, uint _price) external checkCaller {
     _tokenIds.increment();
     uint _tokenId = _tokenIds.current();
 
     TicketInfo memory t = TicketInfo({
       tokenId: _tokenId, 
       gameId: _gameId,   
-      areaId: _areaId, 
+      zoneId: _zoneId, 
       seatNum: _seatNum,
       price: _price,
       filterId: 0, 
@@ -53,7 +63,7 @@ contract Ticket is ERC721Enumerable{
   }
 
   // 티켓 취소 메소드
-  function _cancleTicket(uint256 _tokenId) internal {
+  function _cancleTicket(uint256 _tokenId)  external checkCaller {
     delete _ticketInfo[_tokenId];
     deleteTicketByAccount(_tokenId);
     _burn(_tokenId);
@@ -71,13 +81,19 @@ contract Ticket is ERC721Enumerable{
   }
 
   // 가진 티켓 토큰 조회
-  function _getTicketsByAccount(address _addr) internal view returns (uint[] memory) {
+  function _getTicketsByAccount(address _addr)  external checkCaller view returns (uint[] memory) {
     return _ownedTicket[_addr];
   }
 
   // 티켓 정보 조회
-  function _getTicket(uint _tokenId) internal view returns (TicketInfo memory) {
+  function _getTicket(uint _tokenId)  external checkCaller view returns (TicketInfo memory) {
     return _ticketInfo[_tokenId];
   }
 
+  // caller 확인
+  modifier checkCaller() {
+    require(_caller != address(0), "Doesn't set caller");
+    require(_caller == msg.sender, "Invalid call");
+    _;
+  }
 }
