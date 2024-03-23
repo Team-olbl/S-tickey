@@ -10,7 +10,7 @@ contract Game {
     uint id;              // 경기 ID
     uint bookStartTime;   // 예매 시작 시간
     uint gameStartTime;   // 경기 시작 시간
-    string stadiumName;       // 경기장 이름
+    string stadium;       // 경기장 이름
     string homeTeam;      // 홈팀 이름
     string awayTeam;      // 원정팀 이름
     Category category;    // 경기 종목
@@ -19,6 +19,9 @@ contract Game {
 
   // 경기 정보 ( 경기 ID => 경기 정보 )
   mapping(uint => GameInfo) private _gameInfo;
+
+  // 구역 이름 ( 구역 ID => 구역 이름 )
+  mapping(uint => string) private _zoneNameInfo;
 
   // 좌석 환불 정보 ( 경기 ID => 구역 정보 => 좌석 정보 => 이전 환불자 지갑 주소 )
   mapping(uint => mapping(uint => mapping(uint => address))) private _refundAddress;
@@ -37,6 +40,16 @@ contract Game {
   // 경기 정보 조회
   function _getGame(uint _id) internal view returns (GameInfo memory) {
     return _gameInfo[_id];
+  }
+
+  // 구역 이름 설정
+  function _setZoneName(uint _zoneId, string calldata _zoneName) internal {
+    _zoneNameInfo[_zoneId] = _zoneName;
+  }
+
+  // 구역 이름 조회
+  function _getZoneName(uint _zoneId) internal view returns (string memory) {
+    return _zoneNameInfo[_zoneId];
   }
 
   // 경기장 구역 가격 정보 설정

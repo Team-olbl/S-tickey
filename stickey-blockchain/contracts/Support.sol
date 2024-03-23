@@ -6,7 +6,8 @@ contract Support {
 
   // 후원글에 대한 후원 정보
   struct SupportInfo {
-    uint id;       // 후원글 ID
+    uint id;              // 후원글 ID
+    string name;          // 후원단체 이름
     address addr;         // 후원단체의 지갑 주소 
     uint balance;         // 현재 모인 후원금
     uint endTime;         // 후원 마감 시간
@@ -15,7 +16,7 @@ contract Support {
   // 후원받은 내역 구조체
   struct SupportedHistory {
     uint amount;          // 후원한 양
-    uint arrivedTime;     // 후원한 시간
+    uint time;     // 후원한 시간
     string text;          // 닉네임, 한 줄 글
   }
 
@@ -23,7 +24,7 @@ contract Support {
   struct SupportingHistory {
     uint supportId;       // 후원한 후원글 ID
     uint amount;          // 후원한 양
-    uint arrivedTime;     // 후원한 시간
+    uint time;     // 후원한 시간
     string text;          // 내가 남긴 글
   }
 
@@ -37,9 +38,10 @@ contract Support {
   mapping(uint => SupportedHistory[]) private _supportedHistory;
 
   // 후원 글 등록
-  function _setSupport(uint _id, address _addr, uint _endTime) internal {
+  function _setSupport(uint _id, string calldata _name, address _addr, uint _endTime) internal {
     _supportInfo[_id] = SupportInfo({
       id: _id,
+      name: _name,
       addr: _addr,
       balance: 0,
       endTime: _endTime
@@ -55,7 +57,7 @@ contract Support {
     _supportingHistory[msg.sender].push(SupportingHistory({
       supportId: _supportId,
       amount: _amount,
-      arrivedTime: block.timestamp,
+      time: block.timestamp,
       text: _text
     }));
 
@@ -63,7 +65,7 @@ contract Support {
     _supportedHistory[_supportId].push(SupportedHistory({
       text: _text,
       amount: _amount,
-      arrivedTime: block.timestamp
+      time: block.timestamp
     }));
 
     // 모은 금액 증가

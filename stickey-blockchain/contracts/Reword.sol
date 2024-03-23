@@ -6,14 +6,14 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 // 리워드 토큰 관련 컨트랙트
 contract Reword is ERC20 {
 
-  // 후원 증감의 종류 3가지
-  enum RewordType { ReserveTicket, CancleTicket, BuyItem } 
+  // 리워드 증감의 종류 3가지
+  enum RewordType { ReserveTicket, refundTicket, BuyItem } 
 
   // 리워드 증감 내역
   struct RewordHistory {
     uint amount;
     uint balance;
-    uint arrivedTime;
+    uint time;
     RewordType rewordType;
   }
 
@@ -37,7 +37,7 @@ contract Reword is ERC20 {
     _rewordHistory[_to].push(RewordHistory({
       amount : _amount,
       balance : balanceOf(_to) + _amount,
-      arrivedTime : block.timestamp,
+      time : block.timestamp,
       rewordType : RewordType.ReserveTicket
     }));
 
@@ -49,7 +49,7 @@ contract Reword is ERC20 {
     _rewordHistory[_to].push(RewordHistory({
       amount : _amount,
       balance : balanceOf(_to) - _amount,
-      arrivedTime : block.timestamp,
+      time : block.timestamp,
       rewordType : _rewordType
     }));
 
