@@ -10,5 +10,7 @@ public interface AdminService {
 
     SignUpOneRes getSignUp(int id);
 
+    void confirmOrganization(int id, String status);
+
     WaitingSupportListRes getWaitingSupportList();
 }

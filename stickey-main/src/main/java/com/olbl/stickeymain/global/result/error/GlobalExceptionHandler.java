@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<List<FieldError>> handleMethodArgumentNotValidException(
         MethodArgumentNotValidException e) { // 객체 검증 규칙 통과 못한 경우
         List<FieldError> fieldErrors = FieldError.of(e.getBindingResult());
-        return new ResponseEntity<>(fieldErrors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(fieldErrors, BAD_REQUEST);
     }
 
     @ExceptionHandler
