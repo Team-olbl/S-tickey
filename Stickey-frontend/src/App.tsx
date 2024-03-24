@@ -24,6 +24,7 @@ import TicketEditPage from './pages/MyTicket/TicketEdit/TicketEditPage';
 import SponsorCreatePage from './pages/Sponsor/SponsorCreatePage/SponsorCreatePage';
 import GroupProfilePage from './pages/Profile/Group/GroupProfilePage';
 import GroupProfileEditPage from './pages/Profile/Group/GroupProfileEditPage';
+import PlayerRegistration from './pages/Profile/Group/PlayerList/PlayerRegistrationPage';
 
 
 const router = createBrowserRouter(
@@ -104,6 +105,10 @@ const router = createBrowserRouter(
     {
       path:'/profile/playerlist',
       element: <PlayerListPage />
+    },
+    {
+      path:'/profile/playerlist/register',
+      element: <PlayerRegistration />
     },
     {
       path:'/profile/edit',
