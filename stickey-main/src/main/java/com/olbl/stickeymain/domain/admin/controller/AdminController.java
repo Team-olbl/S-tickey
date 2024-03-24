@@ -2,8 +2,10 @@ package com.olbl.stickeymain.domain.admin.controller;
 
 
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SIGNUPLIST_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.GET_SIGNUP_SUCCESS;
 
 import com.olbl.stickeymain.domain.admin.dto.SignUpListRes;
+import com.olbl.stickeymain.domain.admin.dto.SignUpOneRes;
 import com.olbl.stickeymain.domain.admin.service.AdminService;
 import com.olbl.stickeymain.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,5 +32,12 @@ public class AdminController {
     public ResponseEntity<ResultResponse> getSignUpList() {
         SignUpListRes signUpListRes = adminService.getSignUpList();
         return ResponseEntity.ok(ResultResponse.of(GET_SIGNUPLIST_SUCCESS, signUpListRes));
+    }
+
+    @Operation(summary = "승인 대기 중인 단체 회원 하나 조회")
+    @GetMapping("/organizations/{id}")
+    public ResponseEntity<ResultResponse> getSignUp(@PathVariable(value = "id") int id) {
+        SignUpOneRes signUpOneRes = adminService.getSignUp(id);
+        return ResponseEntity.ok(ResultResponse.of(GET_SIGNUP_SUCCESS, signUpOneRes));
     }
 }
