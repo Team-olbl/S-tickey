@@ -13,7 +13,7 @@ const SponItem = ({ data }: { data: SponData }) => {
 
   return (
     <div className="w-full flex flex-row" onClick={handleClick}>
-      <div className="w-full h-auto flex border-b-[0.5px] border-Stickey_Gray px-4 py-4 gap-3 items-start">
+      <div className="w-full h-auto flex border-b-[0.5px] border-Stickey_Gray px-4 py-4 gap-3 items-start justify-center">
         <div className="w-16 h-16 border-none rounded bg-Stickey_Gray">{data.organization_profile}</div>
         <div className="text-white">
           <div>
