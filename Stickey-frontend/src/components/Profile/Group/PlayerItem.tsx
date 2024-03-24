@@ -7,7 +7,7 @@ type PlayerData = {
   description: string[];
 }
 
-const PlayerList = () => {
+const PlayerItem = () => {
   const dummies: PlayerData[] = [
     {
       id: 1,
@@ -73,4 +73,4 @@ const PlayerList = () => {
   );
 };
 
-export default PlayerList;
+export default PlayerItem;
