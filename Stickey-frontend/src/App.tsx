@@ -22,6 +22,8 @@ import SponsorDetailPage from './pages/Sponsor/SponsorDetailPage/SponsorDetailPa
 import SponListPage from './pages/Profile/Group/SponList/SponListPage';
 import TicketEditPage from './pages/MyTicket/TicketEdit/TicketEditPage';
 import SponsorCreatePage from './pages/Sponsor/SponsorCreatePage/SponsorCreatePage';
+import GroupProfilePage from './pages/Profile/Group/GroupProfilePage';
+import GroupProfileEditPage from './pages/Profile/Group/GroupProfileEditPage';
 
 
 const router = createBrowserRouter(
@@ -96,12 +98,20 @@ const router = createBrowserRouter(
       element: <ProfilePage />
     },
     {
+      path:'/profile/group',
+      element: <GroupProfilePage />
+    },
+    {
       path:'/profile/playerlist',
       element: <PlayerListPage />
     },
     {
       path:'/profile/edit',
       element: <ProfileEditPage />
+    },
+    {
+      path:'/profile/group/edit',
+      element: <GroupProfileEditPage />
     },
     {
       path:'/profile/sponlist',
