@@ -5,4 +5,6 @@ import com.olbl.stickeymain.domain.admin.dto.SignUpListRes;
 public interface AdminService {
 
     SignUpListRes getSignUpList();
+
+    void confirmOrganization(int id, String status);
 }

@@ -18,6 +18,10 @@ public enum ErrorCode {
     FORBIDDEN_ERROR(403, "작업을 수행하기 위한 권한이 없습니다."),
     IS_NOT_IMAGE(400, "이미지가 아닙니다."),
 
+    //User
+    ORGANIZATION_SIGNUP_DO_NOT_EXISTS(400, "존재하지 않는 단체 가입 요청입니다."),
+    ORGANIZATION_SIGNUP_NOT_WAITING(400, "대기중인 단체 가입 요청이 아닙니다."),
+
     //Game
     SPORTS_CLUB_DO_NOT_EXISTS(400, "존재하지 않는 스포츠 구단입니다."),
     GAME_DO_NOT_EXISTS(400, "존재하지 않는 경기입니다."),
