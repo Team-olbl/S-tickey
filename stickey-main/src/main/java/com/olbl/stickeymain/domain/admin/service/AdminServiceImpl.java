@@ -1,11 +1,13 @@
 package com.olbl.stickeymain.domain.admin.service;
 
-import static com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus.ACCEPTED;
-import static com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus.REJECTED;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_SIGNUP_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_SIGNUP_NOT_WAITING;
 
+import static com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus.ACCEPTED;
+import static com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus.REJECTED;
+
 import com.olbl.stickeymain.domain.admin.dto.SignUpListRes;
+import com.olbl.stickeymain.domain.admin.dto.SignUpOneRes;
 import com.olbl.stickeymain.domain.admin.dto.SignUpRes;
 import com.olbl.stickeymain.domain.user.organization.entity.Organization;
 import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
@@ -31,6 +33,29 @@ public class AdminServiceImpl implements AdminService {
         List<SignUpRes> signUpResList = organizationRepository.findAllByStatus(
             OrganizationStatus.WAITING);
         return new SignUpListRes(signUpResList, signUpResList.size());
+    }
+
+    @Override
+    public SignUpOneRes getSignUp(int id) {
+        //TODO: 관리자 계정 확인 로직
+        Organization organization = organizationRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(ORGANIZATION_SIGNUP_DO_NOT_EXISTS));
+        if (organization.getStatus() != OrganizationStatus.WAITING) {
+            throw new BusinessException(ORGANIZATION_SIGNUP_NOT_WAITING);
+        }
+
+        SignUpOneRes signUpOneRes = new SignUpOneRes();
+
+        signUpOneRes.setName(organization.getName());
+        signUpOneRes.setPhone(organization.getPhone());
+        signUpOneRes.setEmail(organization.getEmail());
+        signUpOneRes.setProfileImage(organization.getProfileImage());
+        signUpOneRes.setManager(organization.getManager());
+        signUpOneRes.setAddress(organization.getAddress());
+        signUpOneRes.setRegistrationNumber(organization.getRegistrationNumber());
+        signUpOneRes.setRegistrationFile(organization.getRegistrationFile());
+
+        return signUpOneRes;
     }
 
     @Override
