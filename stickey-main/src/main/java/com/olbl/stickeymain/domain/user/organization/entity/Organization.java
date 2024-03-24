@@ -21,14 +21,14 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Organization extends User {
 
-  private String manager;
-  private String address;
-  private String registration_number;
-  private String registration_file;
-  @Enumerated(EnumType.STRING)
-  private OrganizationStatus status;
+    private String manager;
+    private String address;
+    private String registrationNumber;
+    private String registrationFile;
+    @Enumerated(EnumType.STRING)
+    private OrganizationStatus status;
 
-  @OneToMany(mappedBy = "organization")
-  private List<Player> players = new ArrayList<>();
-  
+    @OneToMany(mappedBy = "organization")
+    private List<Player> players = new ArrayList<>();
+
 }
