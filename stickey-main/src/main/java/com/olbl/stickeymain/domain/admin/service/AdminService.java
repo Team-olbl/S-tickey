@@ -8,4 +8,6 @@ public interface AdminService {
     SignUpListRes getSignUpList();
 
     SignUpOneRes getSignUp(int id);
+
+    void confirmOrganization(int id, String status);
 }
