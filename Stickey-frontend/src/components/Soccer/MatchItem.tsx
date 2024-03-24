@@ -13,7 +13,8 @@ const MatchItem = ({ data }: { data: MatchItemData }) => {
   };
 
   return (
-    <><div className="px-4">
+    <>
+    <div className="px-4">
       <div className=" w-full max-w-[500px] border-none border-[#2E2E3D] rounded-[15px] bg-[#2E2E3D] shadow-[2px_2px_rgba(0,0,0,0.25)] p-6 text-white">
         <div className="flex flex-row text-center justify-center gap-10">
           <div className="flex flex-col justify-center items-center ">
