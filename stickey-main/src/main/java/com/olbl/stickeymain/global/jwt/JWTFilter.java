@@ -37,6 +37,8 @@ public class JWTFilter extends OncePerRequestFilter { // 동일 요청 내에서
             return;
         }
 
+        System.out.println("accessToken1 : " + accessToken);
+
         // JWT 만료 시간 검증
         try {
             jwtUtil.isExpired(accessToken);
@@ -70,6 +72,9 @@ public class JWTFilter extends OncePerRequestFilter { // 동일 요청 내에서
             .id(Integer.parseInt(id))
             .role(Role.valueOf(role.split("_")[1]))
             .build();
+
+        System.out.println("id : " + id);
+        System.out.println("role : " + role);
 
         // UserDetails에 회원 정보 객체 담기
         CustomUserDetails customUserDetails = new CustomUserDetails(user);

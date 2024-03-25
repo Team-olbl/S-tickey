@@ -16,6 +16,7 @@ import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.service.OrganizationService;
 import com.olbl.stickeymain.domain.user.service.MailService;
 import com.olbl.stickeymain.domain.user.service.UserService;
+import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import com.olbl.stickeymain.global.jwt.JWTUtil;
 import com.olbl.stickeymain.global.result.ResultResponse;
 import com.olbl.stickeymain.global.result.error.ErrorCode;
@@ -29,7 +30,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+<<<<<<< Updated upstream
 import org.springframework.web.bind.annotation.GetMapping;
+=======
+import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
+>>>>>>> Stashed changes
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -150,5 +156,4 @@ public class UserController {
 
         return ResponseEntity.ok(ResultResponse.of(TOKEN_REISSUE_SUCCESS));
     }
-
 }
