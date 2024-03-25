@@ -25,6 +25,7 @@ public class SupportServiceImpl implements SupportService {
     private final OrganizationRepository organizationRepository;
 
     @Override
+    @Transactional
     public void registSupport(SupportReq supportReq, MultipartFile supportImage) {
         //TODO: token으로부터 organizationID 가져오는 코드 작성
         Organization organization = organizationRepository.findById(1)
