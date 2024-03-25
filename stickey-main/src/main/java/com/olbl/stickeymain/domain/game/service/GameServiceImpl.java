@@ -22,11 +22,13 @@ import com.olbl.stickeymain.domain.game.repository.SportsClubRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumZoneRepository;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
+import com.olbl.stickeymain.global.util.S3Util;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
@@ -41,9 +43,12 @@ public class GameServiceImpl implements GameService {
     private final GameSeatRepository gameSeatRepository;
     private final StadiumZoneRepository stadiumZoneRepository;
 
+    //Util
+    private final S3Util s3Util;
+
     @Override
     @Transactional
-    public void registGame(GameReq gameReq) {
+    public void registGame(GameReq gameReq, MultipartFile gameImage) {
         SportsClub homeTeam = sportsClubRepository.findSportsClubByName(gameReq.getHomeTeamName())
             .orElseThrow(() -> new BusinessException(SPORTS_CLUB_DO_NOT_EXISTS));
         SportsClub awayTeam = sportsClubRepository.findSportsClubByName(gameReq.getAwayTeamName())
@@ -51,7 +56,10 @@ public class GameServiceImpl implements GameService {
         Stadium stadium = stadiumRepository.findStadiumById(gameReq.getStadiumId())
             .orElseThrow(() -> new BusinessException(STADIUM_DO_NOT_EXISTS));
 
-        //TODO: gameImage (경기 포스터) 업로드 코드 작성
+        String fileUrl = null;
+        if (gameImage != null) {
+            fileUrl = s3Util.uploadFile(gameImage, 4);
+        }
 
         Game game = Game.builder()
             .stadium(stadium)
@@ -61,6 +69,7 @@ public class GameServiceImpl implements GameService {
             .gameStartTime(gameReq.getGameStartTime())
             .bookStartTime(gameReq.getBookStartTime())
             .bookEndTime(gameReq.getBookEndTime())
+            .gameImage(fileUrl)
             .build();
 
         gameRepository.save(game);

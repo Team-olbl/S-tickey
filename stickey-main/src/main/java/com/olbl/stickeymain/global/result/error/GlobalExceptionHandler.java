@@ -7,6 +7,7 @@ import static com.olbl.stickeymain.global.result.error.ErrorCode.INTERNAL_SERVER
 import static com.olbl.stickeymain.global.result.error.ErrorCode.METHOD_NOT_ALLOWED;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
+import com.olbl.stickeymain.global.result.error.ErrorResponse.FieldError;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import jakarta.validation.ConstraintViolationException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,6 +34,13 @@ public class GlobalExceptionHandler {
         MissingServletRequestParameterException e) {
         final ErrorResponse response = ErrorResponse.of(INPUT_VALUE_INVALID, e.getParameterName());
         return new ResponseEntity<>(response, BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<List<FieldError>> handleMethodArgumentNotValidException(
+        MethodArgumentNotValidException e) { // 객체 검증 규칙 통과 못한 경우
+        List<FieldError> fieldErrors = FieldError.of(e.getBindingResult());
+        return new ResponseEntity<>(fieldErrors, BAD_REQUEST);
     }
 
     @ExceptionHandler
