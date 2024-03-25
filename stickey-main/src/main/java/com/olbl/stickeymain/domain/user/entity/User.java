@@ -1,5 +1,6 @@
 package com.olbl.stickeymain.domain.user.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -9,7 +10,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -37,8 +41,24 @@ public class User {
     private LocalDateTime createTime;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Preference> preference = new ArrayList<>();
 
     public void changePassword(String newPassword) {
         this.password = newPassword;
+    }
+
+    // 기존 Preference 리스트를 새로운 리스트로 교체하는 메소드
+    public void setPreferences(List<Preference> newPreferences) {
+        this.preference.clear(); // 기존 Preference 객체들을 모두 삭제
+        for (Preference pref : newPreferences) { // 새로운 Preference 객체들을 추가
+            this.addPreference(pref);
+        }
+    }
+
+    // Preference 객체를 User와 연결하고 리스트에 추가하는 메소드
+    public void addPreference(Preference preference) {
+        this.preference.add(preference);
+        preference.setUser(this);
     }
 }
