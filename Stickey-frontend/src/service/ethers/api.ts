@@ -1,32 +1,16 @@
-import { ethers } from 'ethers';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Web3 from 'web3';
 import { contractABI } from './Abi';
 
-let provider : ethers.BrowserProvider;
-let signer : Promise<ethers.JsonRpcSigner>;
+const contractAddress = import.meta.env.VITE_APP_CONTRACT_ADDRESS;
+
+let web3 : any = null;
+let contract: any = null;
+let account : any = [] ;
 
 declare global {
   interface Window {
-    ethereum?: ethers.Eip1193Provider;
+    ethereum: any;
   }
 }
 
-export function useEthers() {
-  return { provider, signer };
-}
-
-
-export async function requestAccount() {
-  await window.ethereum?.request({ method: 'eth_requestAccounts' });
-}
-
-export async function connect() {
-  if (typeof window.ethereum !== 'undefined') {
-    await requestAccount();
-    provider = new ethers.BrowserProvider(window.ethereum);
-    signer = provider.getSigner();
-
-    return { provider, signer };
-  } else {
-    alert("메타마스크를 설치해주세요");
-  }
-}

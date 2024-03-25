@@ -14,7 +14,6 @@
     "@tanstack/react-query-devtools": "^5.28.0",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
-    "ethers": "^6.11.1",
     "flowbite-react": "^0.7.3",
     "framer-motion": "^11.0.12",
     "million": "^3.0.6",
@@ -26,6 +25,7 @@
     "react-toastify": "^10.0.4",
     "styled-components": "^6.1.8",
     "vite-plugin-pwa": "^0.19.2",
+    "web3": "^4.6.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
