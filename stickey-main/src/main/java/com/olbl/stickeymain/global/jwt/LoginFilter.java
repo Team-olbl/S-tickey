@@ -1,9 +1,9 @@
 package com.olbl.stickeymain.global.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.olbl.stickeymain.domain.user.dto.ClubInfoDto;
 import com.olbl.stickeymain.domain.user.dto.LoginRes;
-import com.olbl.stickeymain.domain.user.entity.Preference;
-import com.olbl.stickeymain.domain.user.repository.UserRepository;
+import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
 import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,10 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,15 +25,24 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.util.StreamUtils;
 
 @Slf4j
-@RequiredArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
-    private final ObjectMapper objectMapper;
     private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
     private final JWTUtil jwtUtil;
+    private final ObjectMapper objectMapper;
+    private final PreferenceRepository preferenceRepository;
     private final String USERNAME_KEY = "email";
     private final String PASSWORD_KEY = "password";
+
+    // Security 기본 로그인 URL 수정을 위해 생성자 직접 작성
+    public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil,
+        ObjectMapper objectMapper, PreferenceRepository preferenceRepository) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+        this.objectMapper = objectMapper;
+        this.preferenceRepository = preferenceRepository;
+        this.setFilterProcessesUrl("/users/login");
+    }
 
     // 회원 검증
     @Override
@@ -98,16 +105,16 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setHeader("refresh", refresh);
         response.setStatus(HttpStatus.OK.value());
 
-        List<Preference> preferences =
+        List<ClubInfoDto> preferences = preferenceRepository.findAllByUserId(Integer.parseInt(id));
         LoginRes loginRes = LoginRes.builder()
-            .id(Long.parseLong(id))
-            .preferences()
+            .id(Integer.parseInt(id))
+            .preferences(preferences)
             .build();
+
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         response.getWriter().write(objectMapper.writeValueAsString(loginRes));
         response.getWriter().flush();
-        Map<String, LoginRes> responseBody = new HashMap<>();
     }
 
     // 로그인 실패 시 실행
@@ -118,7 +125,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         // 로그인 실패 시, 401 응답 코드 반환
         response.setStatus(401);
-
-        log.info("Login Fail : request = {}", request);
+        log.info("[LoginFilter] Login Fail", request);
     }
 }

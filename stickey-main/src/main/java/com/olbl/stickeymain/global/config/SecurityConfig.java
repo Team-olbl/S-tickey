@@ -1,5 +1,7 @@
 package com.olbl.stickeymain.global.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
 import com.olbl.stickeymain.global.jwt.JWTUtil;
 import com.olbl.stickeymain.global.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,8 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final CorsFilter corsFilter;
+    private final PreferenceRepository preferenceRepository;
+    private final ObjectMapper objectMapper;
 
     // 비밀번호 암호화를 위한 BCryptPasswordEncoder Bean 등록
     @Bean
@@ -65,21 +69,22 @@ public class SecurityConfig {
                 .requestMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
 
                 // 메인 페이지, 종목 별 페이지, 후원 페이지, 회원가입 페이지, 로그인 페이지 - 모두 접근 허용
-                .requestMatchers("/", "/games/**", "/support/**", "/users/signup/**",
-                    "/users/login", "/users/logout").permitAll()
+                .requestMatchers("/", "/api", "/api/games/**", "/api/support/**",
+                    "/users/signup/**", "/users/signup", "/users/login", "/users/logout")
+                .permitAll()
 
                 // 예매 상세 페이지, 마이 티켓, 개인 마이 페이지 - 개인 유저만 접근 허용
-                .requestMatchers("/tickets/**", "/items/**", "/users/profile/**")
+                .requestMatchers("/api/tickets/**", "/api/items/**", "/api/users/profile/**")
                 .hasRole("INDIVIDUAL")
 
                 // 단체 마이 페이지 -  단체 유저만 접근 허용 (O)
-                .requestMatchers("/organizations/profile/**").hasRole("ORGANIZATION")
+                .requestMatchers("/api/organizations/profile/**").hasRole("ORGANIZATION")
 
                 // 알림 페이지 - 개인, 단체 유저만 접근 허용
-                .requestMatchers("/alarm/**").hasAnyRole("INDIVIDUAL", "ORGANIZATION")
+                .requestMatchers("/api/alarm/**").hasAnyRole("INDIVIDUAL", "ORGANIZATION")
 
                 // 관리자 페이지 - 관리자만 접근 허용 (O)
-                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
                 // 그 외 모든 요청은 인증 필요
                 .anyRequest().authenticated()
@@ -90,7 +95,8 @@ public class SecurityConfig {
 
         http // 로그인 필터
             .addFilterAt(
-                new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil),
+                new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil,
+                    objectMapper, preferenceRepository),
                 UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
