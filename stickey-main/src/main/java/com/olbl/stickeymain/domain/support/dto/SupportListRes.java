@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SupportListRes {
 
-    private List<SupportRes> supportResList;
-    
+    private List<SupportRes> supportListRes;
+
     // TODO: 무한스크롤 구현 예정.
 }
