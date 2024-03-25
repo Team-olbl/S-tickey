@@ -1,11 +1,15 @@
 package com.olbl.stickeymain.domain.user.organization.service;
 
+import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_DO_NOT_EXISTS;
+
 import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerListRes;
+import com.olbl.stickeymain.domain.user.organization.dto.PlayerReq;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerRes;
 import com.olbl.stickeymain.domain.user.organization.entity.Organization;
 import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
+import com.olbl.stickeymain.domain.user.organization.entity.Player;
 import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
 import com.olbl.stickeymain.domain.user.organization.repository.PlayerRepository;
 import com.olbl.stickeymain.global.result.error.ErrorCode;
@@ -69,5 +73,30 @@ public class OrganizationServiceImpl implements OrganizationService {
         int organizationId = 1;
         List<PlayerRes> playerResList = playerRepository.findAllByOrganizationId(organizationId);
         return new PlayerListRes(playerResList);
+    }
+
+    @Override
+    public void registPlayer(PlayerReq playerReq, MultipartFile profile) {
+        //TODO: 로그인 한 정보에서 organization id 가져오기
+        int id = 1;
+        Organization organization = organizationRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
+
+        //이미지 저장
+        String profileUrl = null;
+        if (profile != null) {
+            profileUrl = s3Util.uploadFile(profile, 2);
+        }
+
+        Player player = Player.builder()
+            .name(playerReq.getName())
+            .birth(playerReq.getBirth())
+            .category(playerReq.getCategory())
+            .description(playerReq.getDescription())
+            .profile(profileUrl)
+            .organization(organization)
+            .build();
+
+        playerRepository.save(player);
     }
 }
