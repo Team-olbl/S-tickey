@@ -5,11 +5,13 @@ import static com.olbl.stickeymain.global.result.ResultCode.CONFIRM_ORGANIZATION
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SIGNUPLIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SIGNUP_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_WAITING_SUPPORT_LIST_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.GET_WAITING_SUPPORT_SUCCESS;
 
 import com.olbl.stickeymain.domain.admin.dto.ConfirmReq;
 import com.olbl.stickeymain.domain.admin.dto.SignUpListRes;
 import com.olbl.stickeymain.domain.admin.dto.SignUpOneRes;
 import com.olbl.stickeymain.domain.admin.dto.WaitingSupportListRes;
+import com.olbl.stickeymain.domain.admin.dto.WaitingSupportOneRes;
 import com.olbl.stickeymain.domain.admin.service.AdminService;
 import com.olbl.stickeymain.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,7 +51,7 @@ public class AdminController {
         return ResponseEntity.ok(ResultResponse.of(CONFIRM_ORGANIZATION_SUCCESS));
     }
 
-    @Operation(summary = "승인 대기 중인 단체 회원 하나 조회")
+    @Operation(summary = "승인 대기 중인 단체 회원 상세 조회")
     @GetMapping("/organizations/{id}")
     public ResponseEntity<ResultResponse> getSignUp(@PathVariable(value = "id") int id) {
         SignUpOneRes signUpOneRes = adminService.getSignUp(id);
@@ -62,6 +64,14 @@ public class AdminController {
         WaitingSupportListRes waitingSupportListRes = adminService.getWaitingSupportList();
         return ResponseEntity.ok(
             ResultResponse.of(GET_WAITING_SUPPORT_LIST_SUCCESS, waitingSupportListRes));
+    }
+
+    @Operation(summary = "승인 대기 후원 글 상세 조회")
+    @GetMapping("/supports/{id}")
+    public ResponseEntity<ResultResponse> getWaitingSupport(@PathVariable(value = "id") int id) {
+        WaitingSupportOneRes waitingSupport = adminService.getWaitingSupport(id);
+        return ResponseEntity.ok(
+            ResultResponse.of(GET_WAITING_SUPPORT_SUCCESS, waitingSupport));
     }
 
 }
