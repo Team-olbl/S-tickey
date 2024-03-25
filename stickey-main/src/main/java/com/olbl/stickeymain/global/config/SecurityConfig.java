@@ -60,20 +60,35 @@ public class SecurityConfig {
             .formLogin(form -> form.disable());
 
         http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/users/signup/**", "/login", "/swagger-ui/**", "/api-docs/**",
-                    "/swagger-resources/**", "/users/reissue", "/games/**", "/support/**")
-                .permitAll()
-                .requestMatchers("/users/**").hasAnyRole("INDIVIDUAL", "ORGANIZATION", "ADMIN")
-                .requestMatchers("/organization/**").hasRole("ORGANIZATION")
-                .requestMatchers("/admin").hasRole("ADMIN")
+            .authorizeHttpRequests((requests) -> requests
+                // Swagger 페이지 (O)
+                .requestMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
+
+                // 메인 페이지, 종목 별 페이지, 후원 페이지, 회원가입 페이지, 로그인 페이지 - 모두 접근 허용
+                .requestMatchers("/", "/games/**", "/support/**", "/users/signup/**",
+                    "/users/login", "/users/logout").permitAll()
+
+                // 예매 상세 페이지, 마이 티켓, 개인 마이 페이지 - 개인 유저만 접근 허용
+                .requestMatchers("/tickets/**", "/items/**", "/users/profile/**")
+                .hasRole("INDIVIDUAL")
+
+                // 단체 마이 페이지 -  단체 유저만 접근 허용 (O)
+                .requestMatchers("/organizations/profile/**").hasRole("ORGANIZATION")
+
+                // 알림 페이지 - 개인, 단체 유저만 접근 허용
+                .requestMatchers("/alarm/**").hasAnyRole("INDIVIDUAL", "ORGANIZATION")
+
+                // 관리자 페이지 - 관리자만 접근 허용 (O)
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                // 그 외 모든 요청은 인증 필요
                 .anyRequest().authenticated()
             );
 
-        http
+        http // CORS 필터
             .addFilter(corsFilter);
 
-        http // 로그인 필터 등록
+        http // 로그인 필터
             .addFilterAt(
                 new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil),
                 UsernamePasswordAuthenticationFilter.class);
