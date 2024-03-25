@@ -13,4 +13,6 @@ public interface OrganizationService {
     PlayerListRes getPlayers();
 
     void registPlayer(PlayerReq playerReq, MultipartFile profile);
+
+    void deletePlayer(int id);
 }

@@ -1,5 +1,6 @@
 package com.olbl.stickeymain.domain.user.organization.controller;
 
+import static com.olbl.stickeymain.global.result.ResultCode.DELETE_PLAYER_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_PLAYERS_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.REGIST_PLAYER_SUCCESS;
 
@@ -14,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -44,5 +47,12 @@ public class OrganizationController {
         @RequestPart(value = "profile") MultipartFile profile) {
         organizationService.registPlayer(playerReq, profile);
         return ResponseEntity.ok(ResultResponse.of(REGIST_PLAYER_SUCCESS));
+    }
+
+    @Operation(summary = "단체 소속 선수 삭제")
+    @DeleteMapping("/profile/players/{id}")
+    public ResponseEntity<ResultResponse> deletePlayer(@PathVariable(value = "id") int id) {
+        organizationService.deletePlayer(id);
+        return ResponseEntity.ok(ResultResponse.of(DELETE_PLAYER_SUCCESS));
     }
 }
