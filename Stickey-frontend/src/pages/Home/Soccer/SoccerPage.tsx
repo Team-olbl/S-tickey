@@ -7,21 +7,9 @@ import BottomSheet from "../../../components/@common/BottomSheet";
 import TeamList from "../../../components/Soccer/TeamList";
 import Calendar from "../../../components/@common/Calendar";
 import Hushed from "../../../assets/image/MatchItem.png";
-// import MatchItem from "../../../components/Soccer/MatchItem";
+import MatchItem from "../../../components/Soccer/MatchItem";
 import { useGame } from "../../../hooks/Home/useGame";
-
-export type MatchItemData = {
-  id: number;
-  stadium: string;
-  homeTeam: string;
-  homeTeamLogo: JSX.Element;
-  awayTeam: string;
-  awayTeamLogo: JSX.Element;
-  bookStartTime: string;
-  bookEndTime: string;
-  gameStartTime: string;
-}
-
+import { IGameSimpleRes } from "../../../types/Home";
 
 const SoccerPage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -29,22 +17,6 @@ const SoccerPage = () => {
   const [selectedDate, setSelectedDate] = useState<number>(today.getDate());
   const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth());
   const [selectedYear, setSelectedYear] = useState<number>(today.getFullYear());
-
-  const dummies:MatchItemData[] = [
-    {
-      id: 1,
-      stadium: "DGB대구은행파크",
-      homeTeam: "대구FC",
-      homeTeamLogo: <img />,
-      awayTeam: "광주FC",
-      awayTeamLogo: <img />,
-      bookStartTime: "2024-03-15T01:42:48",
-      bookEndTime: "2024-03-21T01:42:48",
-      gameStartTime: "2024-03-21T01:42:48"
-    },
-
-  ]
-  console.log(dummies)
   
   const openBottomSheet = () => {
     setIsBottomSheetOpen(true);
@@ -65,8 +37,6 @@ const SoccerPage = () => {
   const {
     data : gameListInfo,
   } = useGetGameList({catg: 'SOCCER', club: '', date: ''});
-  
-  console.log(gameListInfo?.data)
 
   const info : IHeaderInfo = {
     left_1: (
@@ -80,14 +50,16 @@ const SoccerPage = () => {
     right: <img src={Bell} alt="" />
   }
 
-  const filteredMatches =  gameListInfo?.data.gameResList.filter((data) => {
+  const filteredMatches = gameListInfo?.data ? gameListInfo.data.gameResList.filter((data: IGameSimpleRes) => {
     const matchDate = new Date(data.gameStartTime);
     return (
       matchDate.getDate() === selectedDate &&
       matchDate.getMonth() === selectedMonth &&
       matchDate.getFullYear() === selectedYear
     );
-  });
+  }) : [];
+
+  console.log(filteredMatches)
 
   return(
     <>
@@ -104,7 +76,7 @@ const SoccerPage = () => {
         ) : (
           filteredMatches?.map((item) =>(
             <div className="" key={item.id}>
-              {/* <MatchItem data={item} /> */}
+              <MatchItem data={item} />
             </div>
           ))
         )}
