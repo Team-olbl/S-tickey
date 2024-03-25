@@ -1,5 +1,6 @@
 package com.olbl.stickeymain.domain.game.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -11,11 +12,11 @@ public class GameReq {
 
     @NotNull
     private int stadiumId;
-    @NotNull
+    @NotBlank
     private String homeTeamName;
-    @NotNull
+    @NotBlank
     private String awayTeamName;
-    @NotNull
+    @NotBlank
     private String category;
     @NotNull
     private LocalDateTime bookStartTime;
