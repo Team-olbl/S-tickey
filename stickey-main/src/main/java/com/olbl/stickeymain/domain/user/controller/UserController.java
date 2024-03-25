@@ -1,22 +1,21 @@
 package com.olbl.stickeymain.domain.user.controller;
 
 import static com.olbl.stickeymain.global.result.ResultCode.CHECK_EMAIL_SUCCESS;
-import static com.olbl.stickeymain.global.result.ResultCode.MODIFY_PREFERENCE_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_PROFILE_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.MODIFY_PREFERENCE_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.REGIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.SEND_EMAIL_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.TOKEN_REISSUE_SUCCESS;
 
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
-import com.olbl.stickeymain.domain.user.dto.ProfileRes;
 import com.olbl.stickeymain.domain.user.dto.PreferenceReq;
+import com.olbl.stickeymain.domain.user.dto.ProfileRes;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.service.OrganizationService;
 import com.olbl.stickeymain.domain.user.service.MailService;
 import com.olbl.stickeymain.domain.user.service.UserService;
-import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import com.olbl.stickeymain.global.jwt.JWTUtil;
 import com.olbl.stickeymain.global.result.ResultResponse;
 import com.olbl.stickeymain.global.result.error.ErrorCode;
@@ -30,12 +29,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-<<<<<<< Updated upstream
 import org.springframework.web.bind.annotation.GetMapping;
-=======
-import org.springframework.security.core.Authentication;
-import org.springframework.transaction.annotation.Transactional;
->>>>>>> Stashed changes
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
