@@ -2,10 +2,13 @@ import {categoryType} from './model'
 
 export interface IGameSimpleRes {
     id: number;
+    gameImage: string;
+    category: string;
     stadium: string;
     homeTeam: string;
+    homeTeamLogo:string | null;
     awayTeam: string;
-    category: string;
+    awayTeamLogo:string | null;
     bookStartTime: string;
     bookEndTime: string;
     gameStartTime: string;
