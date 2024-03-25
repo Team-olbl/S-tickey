@@ -4,10 +4,12 @@ package com.olbl.stickeymain.domain.admin.controller;
 import static com.olbl.stickeymain.global.result.ResultCode.CONFIRM_ORGANIZATION_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SIGNUPLIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SIGNUP_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.GET_WAITING_SUPPORT_LIST_SUCCESS;
 
 import com.olbl.stickeymain.domain.admin.dto.ConfirmReq;
 import com.olbl.stickeymain.domain.admin.dto.SignUpListRes;
 import com.olbl.stickeymain.domain.admin.dto.SignUpOneRes;
+import com.olbl.stickeymain.domain.admin.dto.WaitingSupportListRes;
 import com.olbl.stickeymain.domain.admin.service.AdminService;
 import com.olbl.stickeymain.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,7 +42,7 @@ public class AdminController {
     }
 
     @Operation(summary = "단체 회원 승인, 거절 api")
-    @PatchMapping("/organizations/{id}/")
+    @PatchMapping("/organizations/{id}")
     public ResponseEntity<ResultResponse> confirmOrganization(@PathVariable(value = "id") int id,
         @RequestBody @Valid ConfirmReq confirmReq) {
         adminService.confirmOrganization(id, confirmReq.getStatus());
@@ -53,4 +55,13 @@ public class AdminController {
         SignUpOneRes signUpOneRes = adminService.getSignUp(id);
         return ResponseEntity.ok(ResultResponse.of(GET_SIGNUP_SUCCESS, signUpOneRes));
     }
+
+    @Operation(summary = "승인 대기 후원 목록 조회")
+    @GetMapping("/supports")
+    public ResponseEntity<ResultResponse> getWaitingSupportList() {
+        WaitingSupportListRes waitingSupportListRes = adminService.getWaitingSupportList();
+        return ResponseEntity.ok(
+            ResultResponse.of(GET_WAITING_SUPPORT_LIST_SUCCESS, waitingSupportListRes));
+    }
+
 }
