@@ -1,5 +1,6 @@
 package com.olbl.stickeymain.domain.admin.service;
 
+import static com.olbl.stickeymain.domain.support.entity.SupportStatus.WAITING;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_SIGNUP_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_SIGNUP_NOT_WAITING;
 
@@ -9,6 +10,9 @@ import static com.olbl.stickeymain.domain.user.organization.entity.OrganizationS
 import com.olbl.stickeymain.domain.admin.dto.SignUpListRes;
 import com.olbl.stickeymain.domain.admin.dto.SignUpOneRes;
 import com.olbl.stickeymain.domain.admin.dto.SignUpRes;
+import com.olbl.stickeymain.domain.admin.dto.WaitingSupportListRes;
+import com.olbl.stickeymain.domain.admin.dto.WaitingSupportRes;
+import com.olbl.stickeymain.domain.support.repository.SupportRepository;
 import com.olbl.stickeymain.domain.user.organization.entity.Organization;
 import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
 import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
@@ -26,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminServiceImpl implements AdminService {
 
     private final OrganizationRepository organizationRepository;
+    private final SupportRepository supportRepository;
 
     @Override
     public SignUpListRes getSignUpList() {
@@ -75,5 +80,12 @@ public class AdminServiceImpl implements AdminService {
         }
 
         organizationRepository.save(organization);
+    }
+
+    @Override
+    public WaitingSupportListRes getWaitingSupportList() {
+        //TODO: 관리자 계정 확인 로직
+        List<WaitingSupportRes> waitingSupportRes = supportRepository.findAllByStatus(WAITING);
+        return new WaitingSupportListRes(waitingSupportRes, waitingSupportRes.size());
     }
 }
