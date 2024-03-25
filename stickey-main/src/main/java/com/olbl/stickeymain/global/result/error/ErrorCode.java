@@ -31,8 +31,11 @@ public enum ErrorCode {
     //Mail
     EMAIL_VERIFICATION_NOT_EXISTS(400, "유효한 인증 번호가 존재하지 않습니다."),
     EMAIL_VERIFICATION_INVAID(400, "인증 번호가 일치하지 않습니다."),
+    EMAIL_ALREADY_EXISTS(400, "이미 존재하는 이메일입니다."),
+
+    //User
     USER_NOT_EXISTS(400, "존재하지 않는 회원입니다."),
-    EMAIL_ALREADY_EXISTS(400, "이미 존재하는 이메일입니다.");
+    REGISTRATION_FILE_NOT_FOUND(400, "사업자 등록증이 업로드 되지 않았습니다.");
 
     private final int status;
     private final String message;
