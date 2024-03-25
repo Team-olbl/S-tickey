@@ -2,6 +2,8 @@ package com.olbl.stickeymain.domain.user.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,6 +35,8 @@ public class User {
     private String profileImage;
     @CreatedDate
     private LocalDateTime createTime;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public void changePassword(String newPassword) {
         this.password = newPassword;

@@ -17,6 +17,7 @@ public enum ResultCode {
     GET_SIGNUPLIST_SUCCESS(200, "승인 대기중인 단체 회원 목록 조회에 성공하였습니다."),
     CONFIRM_ORGANIZATION_SUCCESS(200, "단체 회원 상태 정보 변경에 성공하였습니다."),
     GET_SIGNUP_SUCCESS(200, "승인 대기중인 단체 회원 조회에 성공하였습니다."),
+    GET_WAITING_SUPPORT_LIST_SUCCESS(200, "승인 대기중인 후원 목록 조회에 성공하였습니다."),
 
     //Game
     GAME_REGISTER_SUCCESS(201, "경기 등록에 성공하였습니다."),
