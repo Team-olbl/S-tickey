@@ -35,7 +35,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
+    //Repository
     private final UserRepository userRepository;
+    private final PreferenceRepository preferenceRepository;
+    private final SportsClubRepository sportsClubRepository;
+
+    //Util
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final S3Util s3Util;
     private final RedisTemplate redisTemplate;
@@ -108,5 +113,29 @@ public class UserServiceImpl implements UserService {
 
         user.changePassword(newPassword.toString());
         return newPassword.toString();
+    }
+
+    @Override
+    @Transactional
+    public void modifyPreference(PreferenceReq preferenceReq) {
+        //TODO: 로그인 한 회원 확인 로직
+        User user = userRepository.findById(1)
+            .orElseThrow(() -> new BusinessException(USER_NOT_EXISTS));
+
+        //기존 정보 한번에 삭제
+        preferenceRepository.deleteAllByUserId(user.getId());
+        // PreferenceReq로부터 새로운 Preference 리스트 생성
+        List<Preference> newPreferences = preferenceReq.getPreferences().stream()
+            .map(sportsClubId -> {
+                SportsClub sportsClub = sportsClubRepository.findById(sportsClubId)
+                    .orElseThrow(() -> new BusinessException(SPORTS_CLUB_DO_NOT_EXISTS));
+                return Preference.builder()
+                    .user(user)
+                    .sportsClub(sportsClub)
+                    .build();
+            }).collect(Collectors.toList());
+
+        // User에 새로운 Preference 리스트 설정
+        user.setPreferences(newPreferences);
     }
 }

@@ -1,12 +1,14 @@
 package com.olbl.stickeymain.domain.user.controller;
 
 import static com.olbl.stickeymain.global.result.ResultCode.CHECK_EMAIL_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.MODIFY_PREFERENCE_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.REGIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.SEND_EMAIL_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.TOKEN_REISSUE_SUCCESS;
 
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
+import com.olbl.stickeymain.domain.user.dto.PreferenceReq;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.service.OrganizationService;
@@ -87,6 +89,14 @@ public class UserController {
         @RequestPart(value = "registrationFile") MultipartFile registrationFile) {
         organizationService.signup(organSignUpReq, profile, registrationFile);
         return ResponseEntity.ok(ResultResponse.of(REGIST_SUCCESS));
+    }
+
+    @Operation(summary = "내 선호 구단 수정")
+    @PatchMapping("/profiles/preference")
+    public ResponseEntity<ResultResponse> modifyPreference(
+        @RequestBody PreferenceReq preferenceReq) {
+        userService.modifyPreference(preferenceReq);
+        return ResponseEntity.ok(ResultResponse.of(MODIFY_PREFERENCE_SUCCESS));
     }
 
     @Operation(summary = "액세스 토큰 재발급")
