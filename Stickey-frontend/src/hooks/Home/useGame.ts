@@ -12,13 +12,13 @@ export const useGame = () => {
     } 
 
 
-    const useTeamList = ( props: ITeamListReq ) => {
+    const useGetTeamList = ( props: ITeamListReq ) => {
         return useQuery({
             queryKey: ['team', props],
             queryFn: () => getTeamLisReq(props),
         })
     }
 
-    return { useGetGameList, useTeamList }
+    return { useGetGameList, useGetTeamList }
 
 }
