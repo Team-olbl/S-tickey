@@ -48,7 +48,7 @@ public class AdminController {
     @PatchMapping("/organizations/{id}")
     public ResponseEntity<ResultResponse> confirmOrganization(@PathVariable(value = "id") int id,
         @RequestBody @Valid ConfirmReq confirmReq) {
-        adminService.confirmOrganization(id, confirmReq.getStatus());
+        adminService.confirmOrganization(id, confirmReq);
         return ResponseEntity.ok(ResultResponse.of(CONFIRM_ORGANIZATION_SUCCESS));
     }
 

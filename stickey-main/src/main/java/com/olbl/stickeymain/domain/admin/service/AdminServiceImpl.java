@@ -70,7 +70,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public void confirmOrganization(int id, String status) {
+    public void confirmOrganization(int id, ConfirmReq confirmReq) {
         //TODO: 관리자 계정 확인 로직
         Organization organization = organizationRepository.findById(id)
             .orElseThrow(() -> new BusinessException(ORGANIZATION_SIGNUP_DO_NOT_EXISTS));
@@ -78,10 +78,12 @@ public class AdminServiceImpl implements AdminService {
             throw new BusinessException(ORGANIZATION_SIGNUP_NOT_WAITING);
         }
 
-        if (status.equals("1")) {
+        if (confirmReq.getStatus().equals("1")) {
             organization.setStatus(ACCEPTED);
-        } else if (status.equals("2")) {
+            organization.setMessage(null);
+        } else if (confirmReq.getStatus().equals("2")) {
             organization.setStatus(REJECTED);
+            organization.setMessage(confirmReq.getMessage());
         }
 
         organizationRepository.save(organization);
