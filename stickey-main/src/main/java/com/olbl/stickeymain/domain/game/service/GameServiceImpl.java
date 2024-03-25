@@ -8,6 +8,7 @@ import static com.olbl.stickeymain.global.result.error.ErrorCode.STADIUM_ZONE_DO
 import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
+import com.olbl.stickeymain.domain.game.dto.Param;
 import com.olbl.stickeymain.domain.game.dto.SeatStatusRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
 import com.olbl.stickeymain.domain.game.entity.Category;
@@ -102,5 +103,10 @@ public class GameServiceImpl implements GameService {
             .orElseThrow(() -> new BusinessException(STADIUM_ZONE_DO_NOT_EXISTS)); // zone id 있는지 확인
 
         return gameSeatRepository.findByGameIdAndZoneId(id, zoneId);
+    }
+
+    @Override
+    public List<SportsClub> getClubs(Param param) {
+        return sportsClubRepository.getSportsClubByParam(param);
     }
 }

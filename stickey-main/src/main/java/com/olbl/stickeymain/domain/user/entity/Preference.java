@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +28,14 @@ public class Preference {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sports_club_id")
     private SportsClub sportsClub;
+
+    @Builder
+    public Preference(User user, SportsClub sportsClub) {
+        this.user = user;
+        this.sportsClub = sportsClub;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
