@@ -2,10 +2,12 @@ package com.olbl.stickeymain.domain.user.organization.service;
 
 import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.PLAYER_DO_NOT_EXISTS;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_DO_NOT_EXISTS;
 
 import com.olbl.stickeymain.domain.support.repository.SupportRepository;
 import com.olbl.stickeymain.domain.user.dto.MySupportListRes;
 import com.olbl.stickeymain.domain.user.dto.MySupportRes;
+import com.olbl.stickeymain.domain.user.dto.MySupportOneRes;
 import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerListRes;
@@ -138,5 +140,12 @@ public class OrganizationServiceImpl implements OrganizationService {
         return new MySupportListRes(mySupportRes.getContent(), mySupportRes.getNumber(),
             mySupportRes.getSize(),
             !mySupportRes.hasNext());
+    }
+
+    @Override
+    public MySupportOneRes getMySupportOne(int id) {
+        MySupportOneRes mySupportOneById = supportRepository.findMySupportOneById(id)
+            .orElseThrow(() -> new BusinessException(SUPPORT_DO_NOT_EXISTS));
+        return mySupportOneById;
     }
 }

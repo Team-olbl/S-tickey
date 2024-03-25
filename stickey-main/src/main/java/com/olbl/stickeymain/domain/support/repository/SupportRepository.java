@@ -6,6 +6,7 @@ import com.olbl.stickeymain.domain.admin.dto.WaitingSupportRes;
 import com.olbl.stickeymain.domain.support.entity.Support;
 import com.olbl.stickeymain.domain.support.entity.SupportStatus;
 import com.olbl.stickeymain.domain.user.dto.MySupportRes;
+import com.olbl.stickeymain.domain.user.dto.MySupportOneRes;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
@@ -20,5 +21,7 @@ public interface SupportRepository extends JpaRepository<Support, Integer>,
     Optional<WaitingSupportOneRes> findOneById(int id);
 
     Slice<MySupportRes> findAllByOrganizationId(int id, Pageable pageable);
+
+    Optional<MySupportOneRes> findMySupportOneById(int id);
 
 }
