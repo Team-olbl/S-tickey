@@ -82,8 +82,8 @@ public class UserController {
     public ResponseEntity<ResultResponse> signupOrganization(
         @RequestPart(value = "organSignUpReq") OrganSignUpReq organSignUpReq,
         @RequestPart(value = "profile") MultipartFile profile,
-        @RequestPart(value = "registration_file") MultipartFile registration_file) {
-        organizationService.signup(organSignUpReq, profile, registration_file);
+        @RequestPart(value = "registrationFile") MultipartFile registrationFile) {
+        organizationService.signup(organSignUpReq, profile, registrationFile);
         return ResponseEntity.ok(ResultResponse.of(REGIST_SUCCESS));
     }
 }
