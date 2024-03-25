@@ -25,6 +25,7 @@ import SponsorCreatePage from './pages/Sponsor/SponsorCreatePage/SponsorCreatePa
 import GroupProfilePage from './pages/Profile/Group/GroupProfilePage';
 import GroupProfileEditPage from './pages/Profile/Group/GroupProfileEditPage';
 import PlayerRegistration from './pages/Profile/Group/PlayerList/PlayerRegistrationPage';
+import BlockchainTest from "./BlockchainTest";
 
 
 const router = createBrowserRouter(
@@ -129,6 +130,10 @@ const router = createBrowserRouter(
     {
       path:'/profile/paymenthistory',
       element: <PaymentHistoryPage />
+    },
+    {
+      path:'/test',
+      element: <BlockchainTest/>
     },
   ]
 )
