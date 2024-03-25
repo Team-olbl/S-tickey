@@ -20,12 +20,16 @@ public enum ResultCode {
     GET_PLAYERS_SUCCESS(200, "단체 소속 선수 조회에 성공하였습니다."),
     REGIST_PLAYER_SUCCESS(201, "단체 소속 선수 등록에 성공하였습니다."),
     DELETE_PLAYER_SUCCESS(204, "단체 소속 선수 삭제에 성공하였습니다."),
+    GET_SUPPORT_LIST_SUCCESS(200, "내가 작성한 후원 글 목록 조회에 성공하였습니다."),
+    GET_SUPPORT_SUCCESS(200, "내가 작성한 후원 글 상세 조회에 성공하였습니다."),
 
     //Admin
     GET_SIGNUPLIST_SUCCESS(200, "승인 대기중인 단체 회원 목록 조회에 성공하였습니다."),
-    CONFIRM_ORGANIZATION_SUCCESS(200, "단체 회원 상태 정보 변경에 성공하였습니다."),
+    CONFIRM_ORGANIZATION_SUCCESS(204, "단체 회원 상태 정보 변경에 성공하였습니다."),
     GET_SIGNUP_SUCCESS(200, "승인 대기중인 단체 회원 조회에 성공하였습니다."),
     GET_WAITING_SUPPORT_LIST_SUCCESS(200, "승인 대기중인 후원 목록 조회에 성공하였습니다."),
+    GET_WAITING_SUPPORT_SUCCESS(200, "승인 대기중인 후원 글 상세 조회에 성공하였습니다."),
+    CONFIRM_SUPPORT_SUCCESS(204, "후원 글 상태 정보 변경에 성공하였습니다."),
 
     //Game
     GAME_REGISTER_SUCCESS(201, "경기 등록에 성공하였습니다."),
