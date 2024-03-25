@@ -1,6 +1,7 @@
 package com.olbl.stickeymain.domain.user.organization.service;
 
 import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_DO_NOT_EXISTS;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.PLAYER_DO_NOT_EXISTS;
 
 import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
@@ -19,10 +20,12 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class OrganizationServiceImpl implements OrganizationService {
 
     private final S3Util s3Util;
@@ -33,6 +36,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final PlayerRepository playerRepository;
 
     @Override
+    @Transactional
     public void signup(OrganSignUpReq organSignUpReq, MultipartFile profile,
         MultipartFile registrationFile) {
 
@@ -76,6 +80,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional
     public void registPlayer(PlayerReq playerReq, MultipartFile profile) {
         //TODO: 로그인 한 정보에서 organization id 가져오기
         int id = 1;
@@ -98,5 +103,14 @@ public class OrganizationServiceImpl implements OrganizationService {
             .build();
 
         playerRepository.save(player);
+    }
+
+    @Override
+    @Transactional
+    public void deletePlayer(int id) {
+        Player player = playerRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(PLAYER_DO_NOT_EXISTS));
+        //TODO: 해당 player의 소속 기관이 로그인 한 유저와 같은지 확인하는 로직
+        playerRepository.delete(player);
     }
 }
