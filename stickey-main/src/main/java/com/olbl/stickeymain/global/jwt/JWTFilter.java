@@ -28,7 +28,7 @@ public class JWTFilter extends OncePerRequestFilter { // 동일 요청 내에서
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
         // 요청 헤더에서 Access 토큰 탐색 및 검증
-        String accessToken = request.getHeader("access");
+        String accessToken = request.getHeader("Authorization");
 
         // 요청 헤더에서 Access 토큰 검증, 없다면 다음 필터로 넘긴다
         if (accessToken == null) {
@@ -56,10 +56,6 @@ public class JWTFilter extends OncePerRequestFilter { // 동일 요청 내에서
         String category = jwtUtil.getCategory(accessToken);
 
         if (!category.equals("access")) {
-
-            // response body
-            PrintWriter writer = response.getWriter();
-            writer.println("Invalid Access Token");
 
             // response status code
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
