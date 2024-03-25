@@ -1,22 +1,18 @@
 package com.olbl.stickeymain.global.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.olbl.stickeymain.domain.user.entity.Token;
 import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -33,11 +29,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
-    private final RedisTemplate redisTemplate;
     private final String USERNAME_KEY = "email";
     private final String PASSWORD_KEY = "password";
-    private final Long ACCESS_EXPIRED_MS = 600000L;
-    private final Long REFRESH_EXPIRED_MS = 86400000L;
 
     // 회원 검증
     @Override
@@ -70,7 +63,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         // 권한 관리를 위해 UserDetails를 세션에 담는다
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        log.info("로그인 유저 이름 : {}", userDetails.getUsername());
+        log.info("Login User Name : {}", userDetails.getUsername());
 
         return authentication;
     }
@@ -84,7 +77,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         // UserDetails에서 유저 정보 획득
         CustomUserDetails customUserDetails = (CustomUserDetails) authResult.getPrincipal();
-        String username = customUserDetails.getUsername();
+        String username = customUserDetails.getUsername(); // username = pk
         Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authResult.getAuthorities().iterator();
         GrantedAuthority auth = iterator.next();
@@ -92,15 +85,15 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = auth.getAuthority();
 
         // JWT 토큰 발급 (Access, Refresh)
-        String access = jwtUtil.createJWT("access", username, role, ACCESS_EXPIRED_MS);
-        String refresh = jwtUtil.createJWT("refresh", username, role, REFRESH_EXPIRED_MS);
+        String access = jwtUtil.createJWT("access", username, role, 600000L);
+        String refresh = jwtUtil.createJWT("refresh", username, role, 86400000L);
 
         // Refresh 토큰 저장
-        addRefreshEntity(username, refresh, REFRESH_EXPIRED_MS);
+        jwtUtil.addRefreshEntity(username, refresh);
 
-        // 응답 헤더와 쿠키에 JWT 토큰 추가
+        // 응답 헤더에 JWT 토큰 추가
         response.setHeader("access", access);
-        response.addCookie(createCookie("refresh", refresh));
+        response.setHeader("refresh", refresh);
         response.setStatus(HttpStatus.OK.value());
     }
 
@@ -114,26 +107,5 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setStatus(401);
 
         log.info("Login Fail : request = {}", request);
-    }
-
-    // 쿠키 생성 메소드
-    private Cookie createCookie(String key, String value) {
-        Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24 * 60 * 60);
-        cookie.setHttpOnly(true);
-        return cookie;
-    }
-
-    // Refresh Token 저장
-    private void addRefreshEntity(String email, String refresh, Long expiredMs) {
-        Date date = new Date(System.currentTimeMillis() + expiredMs);
-        Token token = Token.builder()
-            .email(email)
-            .refresh(refresh)
-            .expiration(date.toString())
-            .build();
-
-        // Redis에 Refresh Token 저장
-        redisTemplate.opsForHash().put("refresh", email, refresh);
     }
 }

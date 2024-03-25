@@ -3,6 +3,7 @@ package com.olbl.stickeymain.domain.user.controller;
 import static com.olbl.stickeymain.global.result.ResultCode.CHECK_EMAIL_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.REGIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.SEND_EMAIL_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.TOKEN_REISSUE_SUCCESS;
 
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
@@ -11,9 +12,14 @@ import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.service.OrganizationService;
 import com.olbl.stickeymain.domain.user.service.MailService;
 import com.olbl.stickeymain.domain.user.service.UserService;
+import com.olbl.stickeymain.global.jwt.JWTUtil;
 import com.olbl.stickeymain.global.result.ResultResponse;
+import com.olbl.stickeymain.global.result.error.ErrorCode;
+import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Tag(name = "users", description = "회원 API")
 public class UserController {
 
+    private final JWTUtil jwtUtil;
     private final UserService userService;
     private final MailService mailService;
     private final OrganizationService organizationService;
@@ -85,5 +92,46 @@ public class UserController {
         @RequestPart(value = "registrationFile") MultipartFile registrationFile) {
         organizationService.signup(organSignUpReq, profile, registrationFile);
         return ResponseEntity.ok(ResultResponse.of(REGIST_SUCCESS));
+    }
+
+    @Operation(summary = "액세스 토큰 재발급")
+    @PostMapping("/reissue")
+    public ResponseEntity<ResultResponse> reissueToken(HttpServletRequest request,
+        HttpServletResponse response) {
+
+        // 리프레시 토큰 획득
+        String refresh = request.getHeader("Authorization");
+
+        // 리프레시 토큰이 없거나, 만료되었다면 예외 발생
+        if (refresh == null || jwtUtil.isExpired(refresh)) {
+            throw new BusinessException(ErrorCode.REFRESH_TOKEN_NOT_AVAILABLE);
+        }
+        // 리프레시 토큰이 아니라면 예외 발생
+        String category = jwtUtil.getCategory(refresh);
+        if (!category.equals("refresh")) {
+            throw new BusinessException(ErrorCode.REFRESH_TOKEN_NOT_AVAILABLE);
+        }
+
+        // Username, Role 정보 획득
+        String username = jwtUtil.getUsername(refresh);
+        String role = jwtUtil.getRole(refresh);
+
+        // 유효한 RefreshToken이 아니라면 예외 발생
+        String accurateRefresh = jwtUtil.getRefreshEntity(username);
+        if (accurateRefresh == null || !accurateRefresh.equals(refresh)) {
+            throw new BusinessException(ErrorCode.REFRESH_TOKEN_NOT_AVAILABLE);
+        }
+
+        // 새로운 Access Token, Refresh Token 만들고, Response에 추가
+        String newAccess = jwtUtil.createJWT("access", username, role, 600000L);
+        String newRefresh = jwtUtil.createJWT("refresh", username, role, 86400000L);
+
+        response.setHeader("access", newAccess);
+        response.setHeader("refresh", newRefresh);
+
+        // 기존 Refresh Token은 삭제하고 새 Refresh Token 업데이트
+        jwtUtil.addRefreshEntity(username, newRefresh);
+
+        return ResponseEntity.ok(ResultResponse.of(TOKEN_REISSUE_SUCCESS));
     }
 }
