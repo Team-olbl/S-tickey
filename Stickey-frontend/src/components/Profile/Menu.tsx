@@ -63,10 +63,10 @@ const Menu = () => {
     // 선택된 팀이 없고, selectedTeams의 길이가 3보다 작을 때 + 이미 선택된 팀이 아닐 때 추가
     if (selected && preferredTeams.length < 3 && !isAlreadySelected) {
       setPreferredTeams(prev => [...prev, selected]);
-    } else if (isAlreadySelected) {
-      toast.error('이미 선택된 팀입니다.');
     } else if (preferredTeams.length >= 3) {
-      toast.error('선호 구단은 최대 3개까지 등록할 수 있습니다.')
+      toast.error('선호 구단은 최대 3개까지 등록할 수 있습니다.');
+    } else if (isAlreadySelected) {
+      toast.error('이미 선택된 팀입니다.')
     }
   }
   
@@ -253,10 +253,10 @@ const Menu = () => {
                   <p>농구</p>
                 </div>
               </div>
-              <div className="h-[164px] overflow-y-auto pb-6">
+              <div className="h-[164px] overflow-y-auto pb-6" >
               {filteredTeams.map((item) => (
-                <div key={item.id} className="w-full flex flex-row items-center justify-center gap-4 pb-4">
-                  <div className="w-4 h-4 border-2 rounded-full flex items-center justify-center cursor-pointer" onClick={() => handleClick(item.name)}>
+                <div key={item.id} className="w-full flex flex-row items-center justify-center gap-4 pb-4" onClick={() => handleClick(item.name)}>
+                  <div className="w-4 h-4 border-2 rounded-full flex items-center justify-center cursor-pointer" >
                     {selectedTeam === item.name && <div className="w-2 h-2 bg-white rounded-full"></div>}
                   </div>
                   <div className="flex items-center w-10 h-10 border border-none bg-white rounded">
@@ -269,7 +269,7 @@ const Menu = () => {
                 </div>
               ))}
               </div>
-              <div className="fixed w-full px-8 bottom-16">
+              <div className="fixed max-w-[500px] w-full px-8 bottom-16">
                 <button className="w-full h-8 border border-none bg-Stickey_Main rounded-[5px]" onClick={handleAddTeam}>추가하기</button>
               </div>
             </div>
