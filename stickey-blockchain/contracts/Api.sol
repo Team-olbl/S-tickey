@@ -28,7 +28,7 @@ contract Api is Support, Ticket, Item, Game {
   }
 
   // 결제 이력 타입
-  enum PaymentType { ReserveTicket, RefundTicket, Supporting }
+  enum PaymentType { ReserveTicket, RefundTicket, RestRefund, Supporting }
 
   // 결제 이력
   struct PaymentHistory {
@@ -70,11 +70,22 @@ contract Api is Support, Ticket, Item, Game {
     _paymentHistory[_addr].push(ph);
   }
   
-  function addTicketHistory(bool _isReserve, address _addr, uint _amount, uint _gameId, uint _zoneId, uint[] memory _seatNumber) private {
+  function addTicketHistory(uint8 _paymentType, address _addr, uint _amount, uint _gameId, uint _zoneId, uint[] memory _seatNumber) private {
     GameInfo memory g = _getGame(_gameId);
     
+    PaymentType p;
+    if(_paymentType == 0) {
+      p = PaymentType.ReserveTicket;
+    } else if (_paymentType == 1) {
+      p = PaymentType.RefundTicket;
+    } else if (_paymentType == 2) {
+      p = PaymentType.RestRefund;
+    } else {
+      return;
+    }
+
     PaymentHistory memory ph = PaymentHistory({
-      paymentType : _isReserve ? PaymentType.ReserveTicket : PaymentType.RefundTicket,
+      paymentType : p,
       ticketPayment : TicketPayment({
         gameStartTime : g.gameStartTime,
         stadium : g.stadium,
@@ -103,14 +114,15 @@ contract Api is Support, Ticket, Item, Game {
 
     for(uint i = 0; i < _number; i++) { // 매수만큼 반복
       if(_getRefundAddress(_gameId, _zoneId, _seatNumber[i]) != address(0)) {
-        payable(_getRefundAddress(_gameId, _zoneId, _seatNumber[i])).transfer(price * 30 / 100);
+        payable(_getRefundAddress(_gameId, _zoneId, _seatNumber[i])).transfer(price * 30 / 100);  
+        addTicketHistory(2, _getRefundAddress(_gameId, _zoneId, _seatNumber[i]), price * 30 / 100, _gameId, _zoneId, _seatNumber);
         _setRefundAddress(_gameId, _zoneId, _seatNumber[i], address(0));
       }
       _mintTicket(_gameId, _zoneId, _seatNumber[i], price);
       _setSeatState(_gameId, _zoneId, _seatNumber[i], true);
     }
     reword.mintReword(msg.sender, price * _number * 5 / 100); // 0.05% reword 
-    addTicketHistory(true, msg.sender, msg.value, _gameId, _zoneId, _seatNumber);
+    addTicketHistory(0, msg.sender, msg.value, _gameId, _zoneId, _seatNumber);
   }
 
 
@@ -139,7 +151,7 @@ contract Api is Support, Ticket, Item, Game {
     _setSeatState(t.gameId, t.zoneId, t.seatNumber, false);
     uint[] memory seatNumeber = new uint[](1); // 길이가 1인 동적 배열을 생성
     seatNumeber[0] = t.seatNumber;
-    addTicketHistory(false, msg.sender, msg.value, t.gameId, t.zoneId, seatNumeber);
+    addTicketHistory(1, msg.sender, refundPrice, t.gameId, t.zoneId, seatNumeber);
   }
 
 
@@ -196,6 +208,5 @@ contract Api is Support, Ticket, Item, Game {
     _supportInfo[_supportId].balance += i.price / 2;    
     reword.burnReword(msg.sender, i.price, false);
   }
-
 
 }
