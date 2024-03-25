@@ -4,6 +4,7 @@ import static com.olbl.stickeymain.domain.support.entity.QSupport.support;
 import static com.olbl.stickeymain.domain.user.organization.entity.QOrganization.organization;
 
 import com.olbl.stickeymain.domain.support.dto.SupportListRes;
+import com.olbl.stickeymain.domain.support.dto.SupportOneRes;
 import com.olbl.stickeymain.domain.support.dto.SupportRes;
 import com.olbl.stickeymain.domain.support.entity.SupportStatus;
 import com.querydsl.core.BooleanBuilder;
@@ -41,6 +42,31 @@ public class SupportRepositoryQuerydslImpl implements SupportRepositoryQuerydsl 
             .fetch();
 
         return new SupportListRes(supportResList);
+    }
+
+    @Override
+    public SupportOneRes getSupportOneById(int id) {
+        SupportOneRes supportOneRes = jpaQueryFactory.select(Projections.fields(
+                SupportOneRes.class,
+                organization.id.as("organizationId"),
+                support.title,
+                support.content,
+                support.supportImage,
+                support.endTime,
+                support.startTime,
+                organization.profileImage,
+                organization.name,
+                organization.email,
+                organization.phone,
+                organization.address,
+                organization.manager
+            ))
+            .from(support)
+            .innerJoin(support.organization, organization)
+            .where(support.id.eq(id))
+            .fetchOne();
+
+        return supportOneRes;
     }
 
     private BooleanBuilder generateQueryCondition(Integer flag) {

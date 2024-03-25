@@ -1,9 +1,11 @@
 package com.olbl.stickeymain.domain.support.controller;
 
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SUPPORTLIST_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.GET_SUPPORTONE_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.SUPPORT_REGISTER_SUCCESS;
 
 import com.olbl.stickeymain.domain.support.dto.SupportListRes;
+import com.olbl.stickeymain.domain.support.dto.SupportOneRes;
 import com.olbl.stickeymain.domain.support.dto.SupportReq;
 import com.olbl.stickeymain.domain.support.service.SupportService;
 import com.olbl.stickeymain.global.result.ResultResponse;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,8 +45,15 @@ public class SupportController {
     @Operation(summary = "후원 글 목록 조회")
     @GetMapping
     public ResponseEntity<ResultResponse> getSupportList(
-        @RequestParam(name = "flag") Integer flag) {
+        @RequestParam(name = "flag") int flag) {
         SupportListRes supportListRes = supportService.getSupportList(flag);
         return ResponseEntity.ok(ResultResponse.of(GET_SUPPORTLIST_SUCCESS, supportListRes));
+    }
+
+    @Operation(summary = "후원 글 상세 조회")
+    @GetMapping("/{id}")
+    public ResponseEntity<ResultResponse> getSupportDetail(@PathVariable("id") int supportId) {
+        SupportOneRes supportOneRes = supportService.getSupportOneById(supportId);
+        return ResponseEntity.ok(ResultResponse.of(GET_SUPPORTONE_SUCCESS, supportOneRes));
     }
 }
