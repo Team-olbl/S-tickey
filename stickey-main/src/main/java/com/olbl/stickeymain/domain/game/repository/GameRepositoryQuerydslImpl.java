@@ -27,9 +27,13 @@ public class GameRepositoryQuerydslImpl implements GameRepositoryQuerydsl {
         List<GameRes> gameResList = jpaQueryFactory.select(Projections.fields(
                 GameRes.class,
                 game.id.as("id"),
+                game.gameImage,
+                game.category,
                 game.stadium.name.as("stadium"),
                 game.homeTeam.name.as("homeTeam"),
+                game.homeTeam.logo.as("homeTeamLogo"),
                 game.awayTeam.name.as("awayTeam"),
+                game.awayTeam.logo.as("awayTeamLogo"),
                 game.bookStartTime.as("bookStartTime"),
                 game.bookEndTime.as("bookEndTime"),
                 game.gameStartTime.as("gameStartTime")
