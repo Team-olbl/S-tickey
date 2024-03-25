@@ -2,6 +2,7 @@ package com.olbl.stickeymain.domain.user.organization.service;
 
 import com.olbl.stickeymain.domain.user.dto.MySupportListRes;
 import com.olbl.stickeymain.domain.user.dto.MySupportOneRes;
+import com.olbl.stickeymain.domain.support.dto.SupportReq;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerListRes;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerReq;
@@ -22,4 +23,6 @@ public interface OrganizationService {
     MySupportListRes getMySupports(Pageable pageable);
 
     MySupportOneRes getMySupportOne(int id);
+
+    void requestRegistSupport(int id, SupportReq supportReq);
 }
