@@ -1,27 +1,42 @@
 package com.olbl.stickeymain.domain.user.organization.service;
 
+import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_DO_NOT_EXISTS;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.PLAYER_DO_NOT_EXISTS;
+
 import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
+import com.olbl.stickeymain.domain.user.organization.dto.PlayerListRes;
+import com.olbl.stickeymain.domain.user.organization.dto.PlayerReq;
+import com.olbl.stickeymain.domain.user.organization.dto.PlayerRes;
 import com.olbl.stickeymain.domain.user.organization.entity.Organization;
 import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
+import com.olbl.stickeymain.domain.user.organization.entity.Player;
 import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
+import com.olbl.stickeymain.domain.user.organization.repository.PlayerRepository;
 import com.olbl.stickeymain.global.result.error.ErrorCode;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class OrganizationServiceImpl implements OrganizationService {
 
     private final S3Util s3Util;
     private final BCryptPasswordEncoder passwordEncoder;
+
+    //Repository
     private final OrganizationRepository organizationRepository;
+    private final PlayerRepository playerRepository;
 
     @Override
+    @Transactional
     public void signup(OrganSignUpReq organSignUpReq, MultipartFile profile,
         MultipartFile registrationFile) {
 
@@ -54,5 +69,48 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         // DB 저장
         organizationRepository.save(organization);
+    }
+
+    @Override
+    public PlayerListRes getPlayers() {
+        //TODO: 로그인 한 정보에서 organization id 가져오기
+        int organizationId = 1;
+        List<PlayerRes> playerResList = playerRepository.findAllByOrganizationId(organizationId);
+        return new PlayerListRes(playerResList);
+    }
+
+    @Override
+    @Transactional
+    public void registPlayer(PlayerReq playerReq, MultipartFile profile) {
+        //TODO: 로그인 한 정보에서 organization id 가져오기
+        int id = 1;
+        Organization organization = organizationRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
+
+        //이미지 저장
+        String profileUrl = null;
+        if (profile != null) {
+            profileUrl = s3Util.uploadFile(profile, 2);
+        }
+
+        Player player = Player.builder()
+            .name(playerReq.getName())
+            .birth(playerReq.getBirth())
+            .category(playerReq.getCategory())
+            .description(playerReq.getDescription())
+            .profile(profileUrl)
+            .organization(organization)
+            .build();
+
+        playerRepository.save(player);
+    }
+
+    @Override
+    @Transactional
+    public void deletePlayer(int id) {
+        Player player = playerRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(PLAYER_DO_NOT_EXISTS));
+        //TODO: 해당 player의 소속 기관이 로그인 한 유저와 같은지 확인하는 로직
+        playerRepository.delete(player);
     }
 }
