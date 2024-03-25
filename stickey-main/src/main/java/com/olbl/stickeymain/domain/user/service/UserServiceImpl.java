@@ -6,9 +6,9 @@ import static com.olbl.stickeymain.global.result.error.ErrorCode.EMAIL_VERIFICAT
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
+import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.entity.User;
 import com.olbl.stickeymain.domain.user.repository.UserRepository;
-import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.global.result.error.ErrorCode;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
             .password(bCryptPasswordEncoder.encode(userJoinReq.getPassword()))
             .phone(userJoinReq.getPhone())
             .profileImage(fileUrl)
+            .role(Role.INDIVIDUAL)
             .build();
 
         // DB 저장
