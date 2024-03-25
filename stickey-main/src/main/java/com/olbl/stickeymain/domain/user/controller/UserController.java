@@ -1,6 +1,7 @@
 package com.olbl.stickeymain.domain.user.controller;
 
 import static com.olbl.stickeymain.global.result.ResultCode.CHECK_EMAIL_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.MODIFY_PREFERENCE_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_PROFILE_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.REGIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.SEND_EMAIL_SUCCESS;
@@ -9,6 +10,7 @@ import static com.olbl.stickeymain.global.result.ResultCode.TOKEN_REISSUE_SUCCES
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.domain.user.dto.ProfileRes;
+import com.olbl.stickeymain.domain.user.dto.PreferenceReq;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.service.OrganizationService;
@@ -27,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +43,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Tag(name = "users", description = "회원 API")
 public class UserController {
 
@@ -52,7 +52,6 @@ public class UserController {
     private final OrganizationService organizationService;
 
     @Operation(summary = "회원가입")
-    @Transactional
     @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResultResponse> signup(
         @RequestPart(value = "signUpReq") SignUpReq signUpReq,
@@ -79,7 +78,6 @@ public class UserController {
     }
 
     @Operation(summary = "이메일로 임시 비밀번호 발송")
-    @Transactional
     @PatchMapping
     public ResponseEntity<ResultResponse> findPassword(@RequestBody EmailCodeReq emailCodeReq) {
         String newPassword = userService.findPassword(emailCodeReq); // 임시 비밀번호 발급
@@ -88,7 +86,6 @@ public class UserController {
     }
 
     @Operation(summary = "단체 회원가입")
-    @Transactional
     @PostMapping(value = "/signup/organization", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResultResponse> signupOrganization(
         @RequestPart(value = "organSignUpReq") OrganSignUpReq organSignUpReq,
@@ -103,6 +100,14 @@ public class UserController {
     public ResponseEntity<ResultResponse> getProfile(@PathVariable(value = "id") int id) {
         ProfileRes profile = userService.getProfile(id);
         return ResponseEntity.ok(ResultResponse.of(GET_PROFILE_SUCCESS, profile));
+    }
+
+    @Operation(summary = "내 선호 구단 수정")
+    @PatchMapping("/profiles/preference")
+    public ResponseEntity<ResultResponse> modifyPreference(
+        @RequestBody PreferenceReq preferenceReq) {
+        userService.modifyPreference(preferenceReq);
+        return ResponseEntity.ok(ResultResponse.of(MODIFY_PREFERENCE_SUCCESS));
     }
 
     @Operation(summary = "액세스 토큰 재발급")

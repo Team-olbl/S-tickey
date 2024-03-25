@@ -1,6 +1,7 @@
 package com.olbl.stickeymain.domain.game.controller;
 
 import static com.olbl.stickeymain.global.result.ResultCode.GAME_REGISTER_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.GET_CLUBS_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_GAMES_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_REMAINING_SEATS_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SEAT_STATUS_SUCCESS;
@@ -8,8 +9,10 @@ import static com.olbl.stickeymain.global.result.ResultCode.GET_SEAT_STATUS_SUCC
 import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
+import com.olbl.stickeymain.domain.game.dto.Param;
 import com.olbl.stickeymain.domain.game.dto.SeatStatusRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
+import com.olbl.stickeymain.domain.game.entity.SportsClub;
 import com.olbl.stickeymain.domain.game.service.GameService;
 import com.olbl.stickeymain.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -69,6 +72,13 @@ public class GameController {
         @PathVariable(value = "zoneId") int zoneId) {
         List<SeatStatusRes> seatStatusListRes = gameService.getSeatStatus(id, zoneId);
         return ResponseEntity.ok(ResultResponse.of(GET_SEAT_STATUS_SUCCESS, seatStatusListRes));
+    }
+
+    @Operation(summary = "구단 목록 조회")
+    @GetMapping("/clubs")
+    public ResponseEntity<ResultResponse> getClubs(@ModelAttribute @ParameterObject Param param) {
+        List<SportsClub> sportsClubList = gameService.getClubs(param);
+        return ResponseEntity.ok(ResultResponse.of(GET_CLUBS_SUCCESS, sportsClubList));
     }
 
 }
