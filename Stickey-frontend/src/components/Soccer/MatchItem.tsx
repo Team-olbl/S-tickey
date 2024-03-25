@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { MatchItemData } from "../../pages/Home/Soccer/SoccerPage";
+
 import BottomModal from "../@common/BottomModal";
 import Prohibit from '../../assets/image/Prohibited.png'
 import WaittingModal from "../Book/WaittingModal";
+import { IGameSimpleRes } from "../../types/Home";
 
-const MatchItem = ({ data }: { data: MatchItemData }) => {
+const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
 
@@ -20,7 +21,7 @@ const MatchItem = ({ data }: { data: MatchItemData }) => {
           <div className="flex flex-col justify-center items-center ">
             <p className="text-[8px] pb-[2px]">홈 팀</p>
             <div className="w-12 h-12 rounded-full border bg-Stickey_Gray relative mb-1">
-              {data.homeTeamLogo}
+              {data.homeTeam}
             </div>
             <p className="text-[16px]">{data.homeTeam}</p>
           </div>
