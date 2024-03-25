@@ -27,6 +27,7 @@ public class Organization extends User {
     private String registrationFile;
     @Enumerated(EnumType.STRING)
     private OrganizationStatus status;
+    private String message;
 
     @OneToMany(mappedBy = "organization")
     private List<Player> players = new ArrayList<>();
