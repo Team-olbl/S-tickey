@@ -6,12 +6,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class SportsClub {
 
     @Id
@@ -21,4 +23,5 @@ public class SportsClub {
     private String logo;
     @Enumerated(EnumType.STRING)
     private Category category;
+
 }
