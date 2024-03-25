@@ -1,5 +1,6 @@
 package com.olbl.stickeymain.domain.user.organization.service;
 
+import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.entity.Organization;
 import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
@@ -48,6 +49,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             .registration_number(organSignUpReq.getRegistration_number())
             .registration_file(fileUrl)
             .status(OrganizationStatus.WAITING)
+            .role(Role.ORGANIZATION)
             .build();
 
         // DB 저장

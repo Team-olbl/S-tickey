@@ -17,7 +17,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Tag(name = "users", description = "회원 API")
 public class UserController {
 
@@ -38,7 +41,8 @@ public class UserController {
     private final OrganizationService organizationService;
 
     @Operation(summary = "회원가입")
-    @PostMapping("/signup")
+    @Transactional
+    @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResultResponse> signup(
         @RequestPart(value = "signUpReq") SignUpReq signUpReq,
         @RequestPart(value = "profile") MultipartFile profile) {
@@ -64,6 +68,7 @@ public class UserController {
     }
 
     @Operation(summary = "이메일로 임시 비밀번호 발송")
+    @Transactional
     @PatchMapping
     public ResponseEntity<ResultResponse> findPassword(@RequestBody EmailCodeReq emailCodeReq) {
         String newPassword = userService.findPassword(emailCodeReq); // 임시 비밀번호 발급
@@ -72,7 +77,8 @@ public class UserController {
     }
 
     @Operation(summary = "단체 회원가입")
-    @PostMapping("/signup/organization")
+    @Transactional
+    @PostMapping(value = "/signup/organization", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResultResponse> signupOrganization(
         @RequestPart(value = "organSignUpReq") OrganSignUpReq organSignUpReq,
         @RequestPart(value = "profile") MultipartFile profile,
