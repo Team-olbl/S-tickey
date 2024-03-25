@@ -2,8 +2,10 @@ package com.olbl.stickeymain.domain.user.organization.controller;
 
 import static com.olbl.stickeymain.global.result.ResultCode.DELETE_PLAYER_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_PLAYERS_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.GET_SUPPORT_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.REGIST_PLAYER_SUCCESS;
 
+import com.olbl.stickeymain.domain.user.dto.MySupportOneRes;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerListRes;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerReq;
 import com.olbl.stickeymain.domain.user.organization.service.OrganizationService;
@@ -54,5 +56,12 @@ public class OrganizationController {
     public ResponseEntity<ResultResponse> deletePlayer(@PathVariable(value = "id") int id) {
         organizationService.deletePlayer(id);
         return ResponseEntity.ok(ResultResponse.of(DELETE_PLAYER_SUCCESS));
+    }
+
+    @Operation(summary = "작성한 후원 글 상세 조회")
+    @GetMapping("/profile/supports/{id}")
+    public ResponseEntity<ResultResponse> getMySupportOne(@PathVariable int id) {
+        MySupportOneRes mySupports = organizationService.getMySupportOne(id);
+        return ResponseEntity.ok(ResultResponse.of(GET_SUPPORT_SUCCESS, mySupports));
     }
 }
