@@ -21,6 +21,7 @@ public enum ErrorCode {
     //Organization
     ORGANIZATION_SIGNUP_DO_NOT_EXISTS(400, "존재하지 않는 단체 가입 요청입니다."),
     ORGANIZATION_SIGNUP_NOT_WAITING(400, "대기중인 단체 가입 요청이 아닙니다."),
+    SUPPORT_DO_NOT_EXISTS(400, "존재하지 않는 후원 요청 글입니다."),
     ORGANIZATION_DO_NOT_EXISTS(400, "존재하지 않는 기관회원입니다."),
     PLAYER_DO_NOT_EXISTS(400, "존재하지 않는 선수 입니다."),
 
