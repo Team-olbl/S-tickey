@@ -31,7 +31,8 @@ public enum ErrorCode {
 
     //User
     USER_NOT_EXISTS(400, "존재하지 않는 회원입니다."),
-    REGISTRATION_FILE_NOT_FOUND(400, "사업자 등록증이 업로드 되지 않았습니다.");
+    REGISTRATION_FILE_NOT_FOUND(400, "사업자 등록증이 업로드 되지 않았습니다."),
+    REFRESH_TOKEN_NOT_AVAILABLE(400, "유효한 리프레시 토큰이 존재하지 않습니다.");
 
     private final int status;
     private final String message;

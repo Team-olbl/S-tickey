@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Token {
 
-    private String email;
+    private String id;
     private String refresh;
     private String expiration;
 
     @Builder
-    public Token(String email, String refresh, String expiration) {
-        this.email = email;
+    public Token(String id, String refresh, String expiration) {
+        this.id = id;
         this.refresh = refresh;
         this.expiration = expiration;
     }
