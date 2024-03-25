@@ -8,6 +8,7 @@ import TeamList from "../../../components/Soccer/TeamList";
 import Calendar from "../../../components/@common/Calendar";
 import Hushed from "../../../assets/image/MatchItem.png";
 import MatchItem from "../../../components/Soccer/MatchItem";
+import { useGame } from "../../../hooks/Home/useGame";
 
 
 export type MatchItemData = {
@@ -42,6 +43,14 @@ const SoccerPage = () => {
     setSelectedMonth(month -1);
     setSelectedYear(year);
   };
+
+  const { useGetGameList } = useGame();
+
+  const {
+    data : gameListInfo,
+  } = useGetGameList({catg: 'SOCCER'});
+  
+  console.log(gameListInfo?.data)
 
   const info : IHeaderInfo = {
     left_1: (
