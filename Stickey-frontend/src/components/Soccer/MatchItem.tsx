@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import BottomModal from "../@common/BottomModal";
 import Prohibit from '../../assets/image/Prohibited.png'
 import WaittingModal from "../Book/WaittingModal";
