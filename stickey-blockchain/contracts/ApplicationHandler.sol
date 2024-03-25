@@ -141,6 +141,14 @@ contract ApplicationHandler is Api {
     return reword.balanceOf(_addr);
   }
 
+  /*
+  ========== 결제 이력 API ==========
+  */
+
+  // 결제 이력 조회
+  function getPaymentHistory(address _addr) external view returns (PaymentHistory[] memory) {
+    return _getPaymentHistory(_addr);
+  }
 
 
   modifier isOwner() {

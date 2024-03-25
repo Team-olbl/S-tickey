@@ -53,8 +53,11 @@ contract Api is Support, Ticket, Item, Game {
   }
 
   // 결제 이력
-  mapping(address => PaymentHistory[]) _paymentHistory;
+  mapping(address => PaymentHistory[]) private _paymentHistory;
 
+  function _getPaymentHistory(address _addr) internal view returns(PaymentHistory[] memory) {
+    return _paymentHistory[_addr];
+  }
 
   function addSupportingHistory(address _addr, uint _amount, string memory _supportName) private {
     PaymentHistory memory ph = PaymentHistory({
