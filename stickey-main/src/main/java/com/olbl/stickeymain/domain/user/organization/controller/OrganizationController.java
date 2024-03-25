@@ -31,14 +31,14 @@ public class OrganizationController {
     private final OrganizationService organizationService;
 
     @Operation(summary = "단체 소속 선수 목록 조회")
-    @GetMapping
+    @GetMapping("/profile/players")
     public ResponseEntity<ResultResponse> getPlayers() {
         PlayerListRes playerListRes = organizationService.getPlayers();
         return ResponseEntity.ok(ResultResponse.of(GET_PLAYERS_SUCCESS, playerListRes));
     }
 
     @Operation(summary = "단체 소속 선수 등록")
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/profile/players", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResultResponse> registPlayer(
         @RequestPart(value = "playerReq") @Valid PlayerReq playerReq,
         @RequestPart(value = "profile") MultipartFile profile) {
