@@ -3,15 +3,19 @@ package com.olbl.stickeymain.domain.user.service;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.EMAIL_VERIFICATION_INVAID;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.EMAIL_VERIFICATION_NOT_EXISTS;
 
+import com.olbl.stickeymain.domain.user.dto.ClubInfoDto;
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
+import com.olbl.stickeymain.domain.user.dto.ProfileRes;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
 import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.entity.User;
+import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
 import com.olbl.stickeymain.domain.user.repository.UserRepository;
 import com.olbl.stickeymain.global.result.error.ErrorCode;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
+import java.util.List;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +29,11 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    //Repository
     private final UserRepository userRepository;
+    private final PreferenceRepository preferenceRepository;
+
+    //Util
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final S3Util s3Util;
     private final RedisTemplate redisTemplate;
@@ -96,5 +104,22 @@ public class UserServiceImpl implements UserService {
 
         user.changePassword(newPassword.toString());
         return newPassword.toString();
+    }
+
+    @Override
+    public ProfileRes getProfile(int id) {
+        //TODO: 개인 회원인지 단체 회원인지 확인, 입력받은 id값과 같은지 확인
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTS));
+        List<ClubInfoDto> preference;
+        preference = preferenceRepository.findAllByUserId(user.getId());
+
+        ProfileRes profileRes = ProfileRes.builder()
+            .profileImage(user.getProfileImage())
+            .name(user.getName())
+            .preference(preference).
+            build();
+
+        return profileRes;
     }
 }
