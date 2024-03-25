@@ -9,9 +9,23 @@ contract ApplicationHandler is Api {
 
   constructor(address _rewordContractAddress) Api(_rewordContractAddress) {
     owner = msg.sender;
+    initDummy();
   }
 
+  function initDummy() private {
+    _setGame(GameInfo(1, block.timestamp, block.timestamp, unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, ""));
+    _setGame(GameInfo(2, block.timestamp, block.timestamp + 3 days,unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, ""));
+    _setGame(GameInfo(3, block.timestamp, block.timestamp + 5 days,unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, ""));
   
+    _setZoneName(1, unicode"R");
+    _setSeatPrice(1, 1, 10**9);
+
+    _addFilter(unicode"반짝반짝필터", 10 * 3);
+    _addFilter(unicode"홀로그램필터", 10 * 3);
+    _addBackground(unicode"빨간배경", 10 * 2);
+    _addBackground(unicode"파란배경", 10 * 2);
+  } 
+
   /*
   ========== 경기 API ==========
   */
@@ -87,8 +101,8 @@ contract ApplicationHandler is Api {
   }
 
   // 티켓 취소 
-  function cancleTicket(uint256 _tokenId) external payable {
-    _cancleTicket(_tokenId);
+  function refundTicket(uint256 _tokenId) external payable {
+    _refundTicket(_tokenId);
   }
 
   // 가진 티켓 조회

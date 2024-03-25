@@ -43,7 +43,7 @@ contract Game {
   }
 
   // 구역 이름 설정
-  function _setZoneName(uint _zoneId, string calldata _zoneName) internal {
+  function _setZoneName(uint _zoneId, string memory _zoneName) internal {
     _zoneNameInfo[_zoneId] = _zoneName;
   }
 
