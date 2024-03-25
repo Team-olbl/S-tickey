@@ -17,6 +17,7 @@ public enum ResultCode {
     //Organization
     GET_PLAYERS_SUCCESS(200, "단체 소속 선수 조회에 성공하였습니다."),
     REGIST_PLAYER_SUCCESS(201, "단체 소속 선수 등록에 성공하였습니다."),
+    DELETE_PLAYER_SUCCESS(204, "단체 소속 선수 삭제에 성공하였습니다."),
 
     //Admin
     GET_SIGNUPLIST_SUCCESS(200, "승인 대기중인 단체 회원 목록 조회에 성공하였습니다."),
