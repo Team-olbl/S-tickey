@@ -2,11 +2,13 @@ package com.olbl.stickeymain.domain.support.repository;
 
 import static com.olbl.stickeymain.domain.support.entity.QSupport.support;
 import static com.olbl.stickeymain.domain.user.organization.entity.QOrganization.organization;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_DO_NOT_EXISTS;
 
 import com.olbl.stickeymain.domain.support.dto.SupportListRes;
 import com.olbl.stickeymain.domain.support.dto.SupportOneRes;
 import com.olbl.stickeymain.domain.support.dto.SupportRes;
 import com.olbl.stickeymain.domain.support.entity.SupportStatus;
+import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -65,6 +67,10 @@ public class SupportRepositoryQuerydslImpl implements SupportRepositoryQuerydsl 
             .innerJoin(support.organization, organization)
             .where(support.id.eq(id))
             .fetchOne();
+
+        if (supportOneRes == null) {
+            throw new BusinessException(SUPPORT_DO_NOT_EXISTS);
+        }
 
         return supportOneRes;
     }
