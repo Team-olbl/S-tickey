@@ -23,7 +23,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public void signup(OrganSignUpReq organSignUpReq, MultipartFile profile,
-        MultipartFile registration_file) {
+        MultipartFile registrationFile) {
 
         // 프로필 이미지 업로드 (없다면 기본 이미지)
         String profileUrl = "organization/profile/anonymous.png";
@@ -32,10 +32,10 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
 
         // 사업자 등록증 업로드 (없다면 오류 발생)
-        if (registration_file.isEmpty()) {
+        if (registrationFile.isEmpty()) {
             throw new BusinessException(ErrorCode.REGISTRATION_FILE_NOT_FOUND);
         }
-        String fileUrl = s3Util.uploadFile(registration_file, 3);
+        String fileUrl = s3Util.uploadFile(registrationFile, 3);
 
         // 가입 정보 입력
         Organization organization = Organization.builder()
@@ -46,8 +46,8 @@ public class OrganizationServiceImpl implements OrganizationService {
             .profileImage(profileUrl)
             .manager(organSignUpReq.getManager())
             .address(organSignUpReq.getAddress())
-            .registration_number(organSignUpReq.getRegistration_number())
-            .registration_file(fileUrl)
+            .registrationNumber(organSignUpReq.getRegistrationNumber())
+            .registrationFile(fileUrl)
             .status(OrganizationStatus.WAITING)
             .role(Role.ORGANIZATION)
             .build();
