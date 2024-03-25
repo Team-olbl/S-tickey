@@ -23,7 +23,10 @@ public enum ResultCode {
     GAME_REGISTER_SUCCESS(201, "경기 등록에 성공하였습니다."),
     GET_REMAINING_SEATS_SUCCESS(200, "구역 별 잔여좌석 조회에 성공하였습니다."),
     GET_SEAT_STATUS_SUCCESS(200, "전체 좌석 상태 정보 조회에 성공하였습니다."),
-    GET_GAMES_SUCCESS(200, "게임 목록 조회에 성공하였습니다.");
+    GET_GAMES_SUCCESS(200, "게임 목록 조회에 성공하였습니다."),
+
+    //Support
+    SUPPORT_REGISTER_SUCCESS(201, "후원 글 등록에 성공하였습니다.");
 
     private final int status;
     private final String message;
