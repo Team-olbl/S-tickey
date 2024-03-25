@@ -6,13 +6,17 @@ import static com.olbl.stickeymain.domain.user.organization.entity.OrganizationS
 import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_SIGNUP_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_SIGNUP_NOT_WAITING;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_DO_NOT_EXISTS;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_NOT_WAITING;
 
+import com.olbl.stickeymain.domain.admin.dto.ConfirmReq;
 import com.olbl.stickeymain.domain.admin.dto.SignUpListRes;
 import com.olbl.stickeymain.domain.admin.dto.SignUpOneRes;
 import com.olbl.stickeymain.domain.admin.dto.SignUpRes;
 import com.olbl.stickeymain.domain.admin.dto.WaitingSupportListRes;
 import com.olbl.stickeymain.domain.admin.dto.WaitingSupportOneRes;
 import com.olbl.stickeymain.domain.admin.dto.WaitingSupportRes;
+import com.olbl.stickeymain.domain.support.entity.Support;
+import com.olbl.stickeymain.domain.support.entity.SupportStatus;
 import com.olbl.stickeymain.domain.support.repository.SupportRepository;
 import com.olbl.stickeymain.domain.user.organization.entity.Organization;
 import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
@@ -94,7 +98,29 @@ public class AdminServiceImpl implements AdminService {
     public WaitingSupportOneRes getWaitingSupport(int id) {
         WaitingSupportOneRes waitingSupportOneRes = supportRepository.findOneById(id)
             .orElseThrow(() -> new BusinessException(SUPPORT_DO_NOT_EXISTS));
-        
+
         return waitingSupportOneRes;
+    }
+
+    @Override
+    @Transactional
+    public void confirmSupport(int id, ConfirmReq confirmReq) {
+        //TODO: 관리자 계정 확인 로직
+        Support support = supportRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(SUPPORT_DO_NOT_EXISTS));
+
+        if (support.getStatus() != SupportStatus.WAITING) {
+            throw new BusinessException(SUPPORT_NOT_WAITING);
+        }
+
+        if (confirmReq.getStatus().equals("1")) {
+            support.setStatus(SupportStatus.ACCEPTED);
+            support.setMessage(null);
+        } else if (confirmReq.getStatus().equals("2")) {
+            support.setStatus(SupportStatus.REJECTED);
+            support.setMessage(confirmReq.getMessage());
+        }
+
+        supportRepository.save(support);
     }
 }
