@@ -11,5 +11,6 @@ import lombok.Setter;
 public class SupportListRes {
 
     private List<SupportRes> supportResList;
-    private long count;
+    
+    // TODO: 무한스크롤 구현 예정.
 }
