@@ -1,16 +1,17 @@
 package com.olbl.stickeymain.domain.admin.service;
 
 import static com.olbl.stickeymain.domain.support.entity.SupportStatus.WAITING;
-import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_SIGNUP_DO_NOT_EXISTS;
-import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_SIGNUP_NOT_WAITING;
-
 import static com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus.ACCEPTED;
 import static com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus.REJECTED;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_SIGNUP_DO_NOT_EXISTS;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_SIGNUP_NOT_WAITING;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_DO_NOT_EXISTS;
 
 import com.olbl.stickeymain.domain.admin.dto.SignUpListRes;
 import com.olbl.stickeymain.domain.admin.dto.SignUpOneRes;
 import com.olbl.stickeymain.domain.admin.dto.SignUpRes;
 import com.olbl.stickeymain.domain.admin.dto.WaitingSupportListRes;
+import com.olbl.stickeymain.domain.admin.dto.WaitingSupportOneRes;
 import com.olbl.stickeymain.domain.admin.dto.WaitingSupportRes;
 import com.olbl.stickeymain.domain.support.repository.SupportRepository;
 import com.olbl.stickeymain.domain.user.organization.entity.Organization;
@@ -87,5 +88,13 @@ public class AdminServiceImpl implements AdminService {
         //TODO: 관리자 계정 확인 로직
         List<WaitingSupportRes> waitingSupportRes = supportRepository.findAllByStatus(WAITING);
         return new WaitingSupportListRes(waitingSupportRes, waitingSupportRes.size());
+    }
+
+    @Override
+    public WaitingSupportOneRes getWaitingSupport(int id) {
+        WaitingSupportOneRes waitingSupportOneRes = supportRepository.findOneById(id)
+            .orElseThrow(() -> new BusinessException(SUPPORT_DO_NOT_EXISTS));
+        
+        return waitingSupportOneRes;
     }
 }
