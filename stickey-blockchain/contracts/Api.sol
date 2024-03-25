@@ -11,9 +11,83 @@ contract Api is Support, Ticket, Item, Game {
 
   Reword reword; // ERC20 구현한 Reword 컨트랙트
 
+  // 티켓 조회 호출시 보내는 구조체
+  struct TicketDetail {
+    uint tokenId;
+    uint gameId;
+    string stadium;
+    string zoneName;
+    uint seatNumber;
+    uint price;
+    uint filterId;
+    uint backgroundId;
+    Category category;
+    string homeTeam;
+    string awayTeam;
+    string poster;
+  }
+
+  // 결제 이력 타입
+  enum PaymentType { ReserveTicket, RefundTicket, Supporting }
+
+  // 결제 이력
+  struct PaymentHistory {
+    PaymentType paymentType;
+    TicketPayment ticketPayment;
+    string supportName;
+    uint amount;
+    uint time;
+  }
+
+  // 결제 이력 중 예매, 환불
+  struct TicketPayment {
+    uint gameStartTime;
+    string stadium;
+    string zoneName;
+    uint[] seatNumber;
+  }
+
   constructor(address _rewordContractAddress) {
     reword = Reword(_rewordContractAddress);
     reword.setCaller(address(this));
+  }
+
+  // 결제 이력
+  mapping(address => PaymentHistory[]) _paymentHistory;
+
+
+  function addSupportingHistory(address _addr, uint _amount, string memory _supportName) private {
+    PaymentHistory memory ph = PaymentHistory({
+      paymentType : PaymentType.Supporting,
+      ticketPayment : TicketPayment(0, "","", new uint[](0)),
+      supportName : _supportName,
+      amount : _amount,
+      time : block.timestamp
+    });
+    _paymentHistory[_addr].push(ph);
+  }
+  
+  function addTicketHistory(bool _isReserve, address _addr, uint _amount, uint _gameId, uint _zoneId, uint[] memory _seatNumber) private {
+    GameInfo memory g = _getGame(_gameId);
+    
+    PaymentHistory memory ph = PaymentHistory({
+      paymentType : _isReserve ? PaymentType.ReserveTicket : PaymentType.RefundTicket,
+      ticketPayment : TicketPayment({
+        gameStartTime : g.gameStartTime,
+        stadium : g.stadium,
+        zoneName : _getZoneName(_zoneId),
+        seatNumber : _seatNumber
+      }),
+      supportName : "",
+      amount : _amount,
+      time : block.timestamp
+    });
+    _paymentHistory[_addr].push(ph);
+  }
+
+  function _donateWithHistory(uint _supportId, uint _amount, string memory _text) internal {
+    _donate(_supportId, _amount, _text);
+    addSupportingHistory(msg.sender, _amount, _getSupport(_supportId).name);
   }
 
 
@@ -33,6 +107,7 @@ contract Api is Support, Ticket, Item, Game {
       _setSeatState(_gameId, _zoneId, _seatNumber[i], true);
     }
     reword.mintReword(msg.sender, price * _number * 5 / 100); // 0.05% reword 
+    addTicketHistory(true, msg.sender, msg.value, _gameId, _zoneId, _seatNumber);
   }
 
 
@@ -59,23 +134,12 @@ contract Api is Support, Ticket, Item, Game {
     payable(msg.sender).transfer(refundPrice);
     _cancleTicket(_tokenId);
     _setSeatState(t.gameId, t.zoneId, t.seatNumber, false);
+    uint[] memory seatNumeber = new uint[](1); // 길이가 1인 동적 배열을 생성
+    seatNumeber[0] = t.seatNumber;
+    addTicketHistory(false, msg.sender, msg.value, t.gameId, t.zoneId, seatNumeber);
   }
 
-  // 티켓 조회 호출시 보내는 구조체
-  struct TicketDetail {
-    uint tokenId;
-    uint gameId;
-    string stadium;
-    string zoneName;
-    uint seatNumber;
-    uint price;
-    uint filterId;
-    uint backgroundId;
-    Category category;
-    string homeTeam;
-    string awayTeam;
-    string poster;
-  }
+
 
    // 가진 티켓 조회
   function _getTickets(address _addr) internal view returns (TicketDetail[] memory) {

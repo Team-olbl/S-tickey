@@ -108,7 +108,7 @@ contract ApplicationHandler is Api {
 
   // 후원
   function donate(uint _supportId, string memory _text) external payable {
-    _donate(_supportId, msg.value, _text);
+    _donateWithHistory(_supportId, msg.value, _text);
   }
 
   // 후원금 수령
