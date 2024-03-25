@@ -2,7 +2,10 @@ package com.olbl.stickeymain.domain.user.organization.service;
 
 import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.PLAYER_DO_NOT_EXISTS;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_DO_NOT_EXISTS;
 
+import com.olbl.stickeymain.domain.support.repository.SupportRepository;
+import com.olbl.stickeymain.domain.user.dto.MySupportOneRes;
 import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerListRes;
@@ -34,6 +37,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     //Repository
     private final OrganizationRepository organizationRepository;
     private final PlayerRepository playerRepository;
+    private final SupportRepository supportRepository;
 
     @Override
     @Transactional
@@ -112,5 +116,12 @@ public class OrganizationServiceImpl implements OrganizationService {
             .orElseThrow(() -> new BusinessException(PLAYER_DO_NOT_EXISTS));
         //TODO: 해당 player의 소속 기관이 로그인 한 유저와 같은지 확인하는 로직
         playerRepository.delete(player);
+    }
+
+    @Override
+    public MySupportOneRes getMySupportOne(int id) {
+        MySupportOneRes mySupportOneById = supportRepository.findMySupportOneById(id)
+            .orElseThrow(() -> new BusinessException(SUPPORT_DO_NOT_EXISTS));
+        return mySupportOneById;
     }
 }
