@@ -2,6 +2,7 @@ package com.olbl.stickeymain.domain.user.organization.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ public class OrganSignUpReq {
     private String email; // 이메일 아이디
 
     @NotBlank
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$")
     private String password; // 패스워드
 
     @NotBlank
