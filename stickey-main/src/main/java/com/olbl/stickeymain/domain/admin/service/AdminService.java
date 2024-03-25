@@ -12,7 +12,7 @@ public interface AdminService {
 
     SignUpOneRes getSignUp(int id);
 
-    void confirmOrganization(int id, String status);
+    void confirmOrganization(int id, ConfirmReq confirmReq);
 
     WaitingSupportListRes getWaitingSupportList();
 
