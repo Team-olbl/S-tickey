@@ -37,7 +37,7 @@ const BasketBallPage = () => {
 
   const {
     data : gameListInfo,
-  } = useGetGameList({catg: 'BASEBALL', club: '', date: ''});
+  } = useGetGameList({catg: 'BASKETBALL', club: '', date: ''});
 
   const info : IHeaderInfo = {
     left_1: (
