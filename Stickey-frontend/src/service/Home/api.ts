@@ -1,5 +1,5 @@
 import { axiosAuthInstance } from '../../apis/axiosInstance'
-import { IGameListReq, IGameListRes } from '../../types/Home'
+import { IGameListReq, IGameListRes, ITeamListReq, ITeamListRes } from '../../types/Home'
 import { APIResponse } from '../../types/model'
 
 export const getGameListReq = async({catg, club, date} : IGameListReq): Promise<APIResponse<IGameListRes>> => {
@@ -12,3 +12,12 @@ export const getGameListReq = async({catg, club, date} : IGameListReq): Promise<
     });
     return data;
 };
+
+export const getTeamLisReq = async(catg : ITeamListReq): Promise<APIResponse<ITeamListRes>> => {
+    const { data } = await axiosAuthInstance.get(`/games/clubs`, {
+        params: {
+            catg: catg,
+        }
+    })
+    return data;
+}

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getGameListReq } from "../../service/Home/api";
-import { IGameListReq } from "../../types/Home";
+import { getGameListReq, getTeamLisReq } from "../../service/Home/api";
+import { IGameListReq, ITeamListReq } from "../../types/Home";
 
 export const useGame = () => {
 
@@ -11,5 +11,14 @@ export const useGame = () => {
         })
     } 
 
-    return { useGetGameList}
+
+    const useTeamList = ( props: ITeamListReq ) => {
+        return useQuery({
+            queryKey: ['team', props],
+            queryFn: () => getTeamLisReq(props),
+        })
+    }
+
+    return { useGetGameList, useTeamList }
+
 }
