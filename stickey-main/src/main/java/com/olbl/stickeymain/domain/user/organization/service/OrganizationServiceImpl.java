@@ -5,6 +5,8 @@ import static com.olbl.stickeymain.global.result.error.ErrorCode.PLAYER_DO_NOT_E
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_DO_NOT_EXISTS;
 
 import com.olbl.stickeymain.domain.support.repository.SupportRepository;
+import com.olbl.stickeymain.domain.user.dto.MySupportListRes;
+import com.olbl.stickeymain.domain.user.dto.MySupportRes;
 import com.olbl.stickeymain.domain.user.dto.MySupportOneRes;
 import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
@@ -21,6 +23,10 @@ import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -116,6 +122,24 @@ public class OrganizationServiceImpl implements OrganizationService {
             .orElseThrow(() -> new BusinessException(PLAYER_DO_NOT_EXISTS));
         //TODO: 해당 player의 소속 기관이 로그인 한 유저와 같은지 확인하는 로직
         playerRepository.delete(player);
+    }
+
+    @Override
+    public MySupportListRes getMySupports(Pageable pageable) {
+        //TODO: 토큰에서 기업 id 가져오기
+        int id = 1;
+        Organization organization = organizationRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
+
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+            Sort.by("createTime").descending());
+
+        Slice<MySupportRes> mySupportRes = supportRepository.findAllByOrganizationId(
+            organization.getId(), sortedPageable);
+
+        return new MySupportListRes(mySupportRes.getContent(), mySupportRes.getNumber(),
+            mySupportRes.getSize(),
+            !mySupportRes.hasNext());
     }
 
     @Override

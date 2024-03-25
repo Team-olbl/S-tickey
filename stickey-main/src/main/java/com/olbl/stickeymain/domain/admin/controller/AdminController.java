@@ -2,6 +2,7 @@ package com.olbl.stickeymain.domain.admin.controller;
 
 
 import static com.olbl.stickeymain.global.result.ResultCode.CONFIRM_ORGANIZATION_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.CONFIRM_SUPPORT_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SIGNUPLIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SIGNUP_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_WAITING_SUPPORT_LIST_SUCCESS;
@@ -47,7 +48,7 @@ public class AdminController {
     @PatchMapping("/organizations/{id}")
     public ResponseEntity<ResultResponse> confirmOrganization(@PathVariable(value = "id") int id,
         @RequestBody @Valid ConfirmReq confirmReq) {
-        adminService.confirmOrganization(id, confirmReq.getStatus());
+        adminService.confirmOrganization(id, confirmReq);
         return ResponseEntity.ok(ResultResponse.of(CONFIRM_ORGANIZATION_SUCCESS));
     }
 
@@ -72,6 +73,14 @@ public class AdminController {
         WaitingSupportOneRes waitingSupport = adminService.getWaitingSupport(id);
         return ResponseEntity.ok(
             ResultResponse.of(GET_WAITING_SUPPORT_SUCCESS, waitingSupport));
+    }
+
+    @Operation(summary = "후원 승인, 거절 api")
+    @PatchMapping("/supports/{id}")
+    public ResponseEntity<ResultResponse> confirmSupport(@PathVariable(value = "id") int id,
+        @RequestBody @Valid ConfirmReq confirmReq) {
+        adminService.confirmSupport(id, confirmReq);
+        return ResponseEntity.ok(ResultResponse.of(CONFIRM_SUPPORT_SUCCESS));
     }
 
 }
