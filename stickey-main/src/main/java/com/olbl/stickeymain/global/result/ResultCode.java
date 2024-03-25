@@ -12,6 +12,7 @@ public enum ResultCode {
     VERIFICATION_SUCCESS(200, "이메일 인증에 성공하였습니다."),
     SEND_EMAIL_SUCCESS(200, "요청한 이메일로 메일이 발송되었습니다."),
     CHECK_EMAIL_SUCCESS(200, "이메일 인증에 성공하였습니다."),
+    TOKEN_REISSUE_SUCCESS(200, "액세스 토큰 재발급에 성공하였습니다."),
 
     //Admin
     GET_SIGNUPLIST_SUCCESS(200, "승인 대기중인 단체 회원 목록 조회에 성공하였습니다."),
