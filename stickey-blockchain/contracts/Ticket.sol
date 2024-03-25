@@ -12,7 +12,7 @@ contract Ticket is ERC721Enumerable{
   struct TicketInfo {
     uint tokenId;         // 토큰 ID
     uint gameId;          // 경기 ID
-    string zoneName;        // 구역 이름
+    uint zoneId;        // 구역 이름
     uint seatNumber;      // 좌석번호
     uint price;           // 가격
     uint filterId;        // 필터 아이디
@@ -28,20 +28,20 @@ contract Ticket is ERC721Enumerable{
   Counters.Counter private _tokenIds;
 
   // 티켓 정보 저장 ( 토큰 ID => 티켓 정보 )
-  mapping(uint => TicketInfo) private _ticketInfo;
+  mapping(uint => TicketInfo) internal _ticketInfo;
 
   // 지갑이 가진 티켓 정보 ( 지갑 주소 => 토큰 ID 배열 )
   mapping(address => uint[]) private _ownedTicket;
 
   // 티켓 예매 메소드
-  function _mintTicket(uint _gameId, string calldata _zoneName, uint _seatNumber, uint _price) internal returns (uint) {
+  function _mintTicket(uint _gameId, uint _zoneId, uint _seatNumber, uint _price) internal returns (uint) {
     _tokenIds.increment();
     uint _tokenId = _tokenIds.current();
 
     TicketInfo memory t = TicketInfo({
       tokenId: _tokenId, 
       gameId: _gameId,   
-      zoneName: _zoneName, 
+      zoneId: _zoneId, 
       seatNumber: _seatNumber,
       price: _price,
       filterId: 0, 

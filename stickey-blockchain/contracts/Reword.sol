@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract Reword is ERC20 {
 
   // 리워드 증감의 종류 3가지
-  enum RewordType { ReserveTicket, refundTicket, BuyItem } 
+  enum RewordType { ReserveTicket, RefundTicket, BuyItem } 
 
   // 리워드 증감 내역
   struct RewordHistory {
@@ -45,12 +45,13 @@ contract Reword is ERC20 {
   }
 
   // 토큰 파기
-  function burnReword(address _to, uint _amount, RewordType _rewordType) external checkCaller {
+  function burnReword(address _to, uint _amount, bool _isRefund) external checkCaller {
+    
     _rewordHistory[_to].push(RewordHistory({
       amount : _amount,
       balance : balanceOf(_to) - _amount,
       time : block.timestamp,
-      rewordType : _rewordType
+      rewordType : _isRefund ? RewordType.RefundTicket : RewordType.BuyItem
     }));
 
     _burn(_to, _amount);

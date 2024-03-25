@@ -29,7 +29,7 @@ contract Support {
   }
 
   // 후원 글 정보 ( 후원 글 ID => 후원 글 정보 )
-  mapping(uint => SupportInfo) private _supportInfo;
+  mapping(uint => SupportInfo) internal _supportInfo;
 
   // 후원한 내역 ( 내 지갑 주소 => 후원 내역 )
   mapping(address => SupportingHistory[]) private _supportingHistory;
@@ -83,7 +83,7 @@ contract Support {
   }
 
   // 후원 글 정보 조회
-  function _getSupportInfo(uint _supportId) internal view returns (SupportInfo memory) {
+  function _getSupport(uint _supportId) internal view returns (SupportInfo memory) {
     return _supportInfo[_supportId];
   }
 
