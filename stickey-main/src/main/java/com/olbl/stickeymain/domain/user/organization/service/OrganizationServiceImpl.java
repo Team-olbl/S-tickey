@@ -2,12 +2,16 @@ package com.olbl.stickeymain.domain.user.organization.service;
 
 import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
+import com.olbl.stickeymain.domain.user.organization.dto.PlayerListRes;
+import com.olbl.stickeymain.domain.user.organization.dto.PlayerRes;
 import com.olbl.stickeymain.domain.user.organization.entity.Organization;
 import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
 import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
+import com.olbl.stickeymain.domain.user.organization.repository.PlayerRepository;
 import com.olbl.stickeymain.global.result.error.ErrorCode;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +23,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     private final S3Util s3Util;
     private final BCryptPasswordEncoder passwordEncoder;
+
+    //Repository
     private final OrganizationRepository organizationRepository;
+    private final PlayerRepository playerRepository;
 
     @Override
     public void signup(OrganSignUpReq organSignUpReq, MultipartFile profile,
@@ -54,5 +61,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         // DB 저장
         organizationRepository.save(organization);
+    }
+
+    @Override
+    public PlayerListRes getPlayers() {
+        //TODO: 로그인 한 정보에서 organization id 가져오기
+        int organizationId = 1;
+        List<PlayerRes> playerResList = playerRepository.findAllByOrganizationId(organizationId);
+        return new PlayerListRes(playerResList);
     }
 }
