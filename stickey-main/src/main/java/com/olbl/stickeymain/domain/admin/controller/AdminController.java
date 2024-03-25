@@ -42,7 +42,7 @@ public class AdminController {
     }
 
     @Operation(summary = "단체 회원 승인, 거절 api")
-    @PatchMapping("/organizations/{id}/")
+    @PatchMapping("/organizations/{id}")
     public ResponseEntity<ResultResponse> confirmOrganization(@PathVariable(value = "id") int id,
         @RequestBody @Valid ConfirmReq confirmReq) {
         adminService.confirmOrganization(id, confirmReq.getStatus());

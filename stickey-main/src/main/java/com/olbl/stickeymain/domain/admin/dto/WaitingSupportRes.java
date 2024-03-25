@@ -6,8 +6,14 @@ public interface WaitingSupportRes {
 
     int getId();
 
-    int getOrganizationId();
+    OrganizationProfile getOrganization();
 
-    String getOrganizationName(); // 단체명
+    interface OrganizationProfile {
 
+        String getProfileImage();
+
+        String getName();
+
+        int getId();
+    }
 }
