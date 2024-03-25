@@ -69,10 +69,10 @@ const TicketEditPage = () => {
         </div>
 
         {/* 필터 섹션 (일단 더미) */}
-        <div className="flex justify-center fixed bottom-0 bg-black/50 max-h-2/5  max-w-[500px] w-full">
+        <div className="fixed bottom-0 bg-black/50 max-h-2/5  max-w-[500px] w-full">
           
-          <div className="pb-24">
-            <div className=" grid grid-cols-3">
+          <div className="pb-24 flex justify-center">
+            <div className=" grid grid-cols-3 ">
               <div className="bg-Stickey_Gray h-28 w-24 m-4 rounded-lg">티꾸자리</div>
               <div className="bg-Stickey_Gray h-28 w-24 m-4 rounded-lg">티꾸자리</div>
               <div className="bg-Stickey_Gray h-28 w-24 m-4 rounded-lg">티꾸자리</div>
@@ -80,7 +80,7 @@ const TicketEditPage = () => {
 
             {/* 필터바 */}
             <div className="fixed bottom-12 bg-[#2E2E3D] max-w-[500px] w-full">
-              <div className="flex items-center px-2 pt-3 pb-4">
+              <div className="flex w-full max-w-[500px] items-center px-2 pt-3 pb-4">
                 <img className="px-3" src={Nofilter} />
                 <div className="px-3 text-gray-200">필터</div>
                 <div className="px-3 text-gray-200">배경</div>
