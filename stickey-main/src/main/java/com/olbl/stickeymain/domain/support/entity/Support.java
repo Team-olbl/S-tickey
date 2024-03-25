@@ -39,6 +39,7 @@ public class Support {
     @Enumerated(EnumType.STRING)
     private SupportStatus status;
     private String supportImage; // 후원 글 첨부 사진
+    private String message; // 승인 거절 메시지
 
     @Builder
     public Support(Organization organization, String title, String content, LocalDateTime startTime,
@@ -50,5 +51,13 @@ public class Support {
         this.endTime = endTime;
         this.status = status;
         this.supportImage = supportImage;
+    }
+
+    public void setStatus(SupportStatus status) {
+        this.status = status;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
