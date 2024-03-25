@@ -1,8 +1,13 @@
 package com.olbl.stickeymain.global.config;
 
+import com.olbl.stickeymain.global.jwt.JWTUtil;
+import com.olbl.stickeymain.global.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -10,38 +15,66 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-  // 비밀번호 암호화를 위한 인코더 등록
-  @Bean
-  public BCryptPasswordEncoder bCryptPasswordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil;
+    private final RedisTemplate redisTemplate;
 
-  // 시큐리티 필터 등록
-  @Bean
-  protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-        .csrf(AbstractHttpConfigurer::disable)      // csrf disable
-        .formLogin(AbstractHttpConfigurer::disable) // form-login disable
-        .httpBasic(AbstractHttpConfigurer::disable) // http basic 인증 disable
-        .headers(header -> header.frameOptions(     // X-Frame-Options disable
-            HeadersConfigurer.FrameOptionsConfig::disable))
-        .sessionManagement(
-            SessionManagementConfigurer -> SessionManagementConfigurer.sessionCreationPolicy(
-                SessionCreationPolicy.STATELESS)) // session disable
-        .authorizeHttpRequests(authorizeRequests -> // 경로별 인가 작업
-            authorizeRequests
-//                Security Filter는 개발이 어느정도 완료되면 해제
-//                .requestMatchers("/user").authenticated()  // 개인 유저
-//                .requestMatchers("/user/organization").hasAnyRole("ORGANIZATION")     // 단체
-//                .requestMatchers("/admin").hasAnyRole("ADMIN")     // 관리자 권한 확인
-                .anyRequest().permitAll());
-    return http.build();
-  }
+    // 비밀번호 암호화를 위한 BCryptPasswordEncoder Bean 등록
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    // AuthenticationManager 등록
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
+        throws Exception {
+        return configuration.getAuthenticationManager();
+    }
+
+    // SecurityFilter Chain 등록
+    @Bean
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(AbstractHttpConfigurer::disable);
+
+        http
+            .headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+
+        http
+            .sessionManagement(sessionManagementConfigurer ->
+                sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        http
+            .httpBasic(
+                httpSecurityHttpBasicConfigurer -> httpSecurityHttpBasicConfigurer.disable());
+
+        http
+            .formLogin(form -> form.disable());
+
+        http
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/users/signup/**", "/login").permitAll()
+                .requestMatchers("/users/**").hasAnyRole("INDIVIDUAL", "ORGANIZATION", "ADMIN")
+                .requestMatchers("/organization/**").hasRole("ORGANIZATION")
+                .requestMatchers("/admin").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            );
+
+        http
+            .addFilterAt(
+                new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil,
+                    redisTemplate),
+                UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
 
 }
