@@ -7,9 +7,11 @@ import static com.olbl.stickeymain.global.result.error.ErrorCode.USER_NOT_EXISTS
 
 import com.olbl.stickeymain.domain.game.entity.SportsClub;
 import com.olbl.stickeymain.domain.game.repository.SportsClubRepository;
+import com.olbl.stickeymain.domain.user.dto.ClubInfoDto;
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.domain.user.dto.PreferenceReq;
+import com.olbl.stickeymain.domain.user.dto.ProfileRes;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
 import com.olbl.stickeymain.domain.user.entity.Preference;
 import com.olbl.stickeymain.domain.user.entity.Role;
@@ -113,6 +115,23 @@ public class UserServiceImpl implements UserService {
 
         user.changePassword(newPassword.toString());
         return newPassword.toString();
+    }
+
+    @Override
+    public ProfileRes getProfile(int id) {
+        //TODO: 개인 회원인지 단체 회원인지 확인, 입력받은 id값과 같은지 확인
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTS));
+        List<ClubInfoDto> preference;
+        preference = preferenceRepository.findAllByUserId(user.getId());
+
+        ProfileRes profileRes = ProfileRes.builder()
+            .profileImage(user.getProfileImage())
+            .name(user.getName())
+            .preference(preference).
+            build();
+
+        return profileRes;
     }
 
     @Override
