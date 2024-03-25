@@ -1,10 +1,31 @@
 package com.olbl.stickeymain.domain.support.dto;
 
-public interface SupportRes {
+import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    int getId();
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class SupportRes {
 
-    String getName();
+    private int id;
 
-    String getSupportImage();
+    private String title;
+
+    private String content;
+
+    private LocalDateTime startTime;
+
+    private LocalDateTime endTime;
+
+    private String supportImage;
+
+    private String organizationName;
+
+    private String profileImage;
+
 }
