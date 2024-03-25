@@ -27,7 +27,8 @@ public enum ResultCode {
     GET_GAMES_SUCCESS(200, "게임 목록 조회에 성공하였습니다."),
 
     //Support
-    SUPPORT_REGISTER_SUCCESS(201, "후원 글 등록에 성공하였습니다.");
+    SUPPORT_REGISTER_SUCCESS(201, "후원 글 등록에 성공하였습니다."),
+    GET_SUPPORTLIST_SUCCESS(200, "후원 글 목록 조회에 성공하였습니다.");
 
     private final int status;
     private final String message;
