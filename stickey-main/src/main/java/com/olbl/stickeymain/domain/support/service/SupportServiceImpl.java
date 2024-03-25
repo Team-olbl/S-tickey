@@ -1,5 +1,6 @@
 package com.olbl.stickeymain.domain.support.service;
 
+import com.olbl.stickeymain.domain.support.dto.SupportListRes;
 import com.olbl.stickeymain.domain.support.dto.SupportReq;
 import com.olbl.stickeymain.domain.support.entity.Support;
 import com.olbl.stickeymain.domain.support.entity.SupportStatus;
@@ -34,7 +35,7 @@ public class SupportServiceImpl implements SupportService {
         //TODO: token으로부터 organizationID 가져오는 코드 작성
         Organization organization = organizationRepository.findById(1)
             .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTS));
-        
+
         //TODO: 기본 이미지는 추후에 S:tickey 로고로 변경하기
         String fileURL = null;
         if (supportImage != null) {
@@ -53,6 +54,12 @@ public class SupportServiceImpl implements SupportService {
 
         // DB 저장
         supportRepository.save(support);
+    }
+
+    @Override
+    public SupportListRes getSupportList(Integer flag) {
+
+        return supportRepository.getSupportListByFlag(flag);
     }
 
 }

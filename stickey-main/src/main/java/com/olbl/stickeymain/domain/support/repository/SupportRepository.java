@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SupportRepository extends JpaRepository<Support, Integer> {
+public interface SupportRepository extends JpaRepository<Support, Integer>,
+    SupportRepositoryQuerydsl {
 
     List<WaitingSupportRes> findAllByStatus(SupportStatus status);
 

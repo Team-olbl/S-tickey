@@ -16,6 +16,11 @@ public enum ResultCode {
     GET_PROFILE_SUCCESS(200, "프로필 조회에 성공하였습니다."),
     MODIFY_PREFERENCE_SUCCESS(204, "선호구단 수정에 성공하였습니다."),
 
+    //Organization
+    GET_PLAYERS_SUCCESS(200, "단체 소속 선수 조회에 성공하였습니다."),
+    REGIST_PLAYER_SUCCESS(201, "단체 소속 선수 등록에 성공하였습니다."),
+    DELETE_PLAYER_SUCCESS(204, "단체 소속 선수 삭제에 성공하였습니다."),
+
     //Admin
     GET_SIGNUPLIST_SUCCESS(200, "승인 대기중인 단체 회원 목록 조회에 성공하였습니다."),
     CONFIRM_ORGANIZATION_SUCCESS(200, "단체 회원 상태 정보 변경에 성공하였습니다."),
@@ -31,7 +36,8 @@ public enum ResultCode {
     GET_CLUBS_SUCCESS(200, "구단 목록 조회에 성공하였습니다."),
 
     //Support
-    SUPPORT_REGISTER_SUCCESS(201, "후원 글 등록에 성공하였습니다.");
+    SUPPORT_REGISTER_SUCCESS(201, "후원 글 등록에 성공하였습니다."),
+    GET_SUPPORTLIST_SUCCESS(200, "후원 글 목록 조회에 성공하였습니다.");
 
     private final int status;
     private final String message;
