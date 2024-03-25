@@ -38,15 +38,17 @@ public class Support {
     private LocalDateTime endTime; //후원 마감일
     @Enumerated(EnumType.STRING)
     private SupportStatus status;
+    private String supportImage; // 후원 글 첨부 사진
 
     @Builder
     public Support(Organization organization, String title, String content, LocalDateTime startTime,
-        LocalDateTime endTime, SupportStatus status) {
+        LocalDateTime endTime, SupportStatus status, String supportImage) {
         this.organization = organization;
         this.title = title;
         this.content = content;
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = status;
+        this.supportImage = supportImage;
     }
 }
