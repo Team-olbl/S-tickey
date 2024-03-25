@@ -5,7 +5,6 @@ import com.olbl.stickeymain.global.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +24,7 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
-    private final RedisTemplate redisTemplate;
+    private final CorsFilter corsFilter;
 
     // 비밀번호 암호화를 위한 BCryptPasswordEncoder Bean 등록
     @Bean
@@ -61,7 +61,9 @@ public class SecurityConfig {
 
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/users/signup/**", "/login").permitAll()
+                .requestMatchers("/users/signup/**", "/login", "/swagger-ui/**", "/api-docs/**",
+                    "/swagger-resources/**", "/users/reissue", "/games/**", "/support/**")
+                .permitAll()
                 .requestMatchers("/users/**").hasAnyRole("INDIVIDUAL", "ORGANIZATION", "ADMIN")
                 .requestMatchers("/organization/**").hasRole("ORGANIZATION")
                 .requestMatchers("/admin").hasRole("ADMIN")
@@ -69,9 +71,11 @@ public class SecurityConfig {
             );
 
         http
+            .addFilter(corsFilter);
+
+        http // 로그인 필터 등록
             .addFilterAt(
-                new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil,
-                    redisTemplate),
+                new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil),
                 UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
