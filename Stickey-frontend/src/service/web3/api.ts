@@ -40,7 +40,7 @@ export const getWalletInfo = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const balance = await web3?.eth.getBalance(account[0]);
-    const dream = await contract.methods.getReword(account[0]).call();
+    const dream = await getReword();
     const etherValue = web3?.utils.fromWei(balance, 'ether');
 
     const data = { address: account[0], balance: etherValue, dream: dream.toString() }
@@ -157,6 +157,41 @@ export const getSupprtingHistory = async () => {
     alert("후원한 내역 조회 실패");
   }
 }
+
+// 결제 이력 조회
+export const getPaymentHistory = async () => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.getPaymentHistory(account[0]).call();
+    return ret;
+  } catch (err) {
+    alert("결제 이력 조회 실패");
+  }
+}
+
+// 꿈 증감 내역
+export const getRewordHistory = async () => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.getRewordHistory(account[0]).call();
+    return ret;
+  } catch (err) {
+    alert("꿈 내역 조회 실패");
+  }
+}
+
+// 꿈 잔액 조회
+export const getReword = async () => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.getReword(account[0]).call();
+    return ret;
+  } catch (err) {
+    alert("꿈 잔액 조회 실패");
+  }
+}
+
+
 
 
 
