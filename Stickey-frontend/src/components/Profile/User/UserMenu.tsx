@@ -1,22 +1,23 @@
 import { useNavigate } from "react-router-dom";
-import Next from '../../assets/image/Next.png';
+import Next from '../../../assets/image/Next.png';
 import { useEffect, useState } from "react";
-import LogoutModal from "../Login/LogoutModal";
-import BottomModal from "../@common/BottomModal";
+import LogoutModal from "../../Login/LogoutModal";
+import BottomModal from "../../@common/BottomModal";
 import { AiOutlineClose } from 'react-icons/ai';
 import { toast } from "react-toastify";
-import 대구FC from '../../assets/Logos/대구FC.png';
-import 광주FC from '../../assets/Logos/광주FC.png';
-import FC서울 from '../../assets/Logos/서울FC.png';
-import 수원FC from '../../assets/Logos/수원FC.png';
-import 강원FC from '../../assets/Logos/강원FC.png';
-import 김천상무 from '../../assets/Logos/김천상무.png';
-import 대전 from '../../assets/Logos/대전하나시티즌.png';
-import 울산HD from '../../assets/Logos/울산HD.png';
-import 인천UTD from '../../assets/Logos/인천UTD.png';
-import 전북현대 from '../../assets/Logos/전북현대.png';
-import 제주UTD from '../../assets/Logos/제주UTD.png';
-import 포항 from '../../assets/Logos/포항.png';
+import 대구FC from '../../../assets/Logos/대구FC.png';
+import 광주FC from '../../../assets/Logos/광주FC.png';
+import FC서울 from '../../../assets/Logos/서울FC.png';
+import 수원FC from '../../../assets/Logos/수원FC.png';
+import 강원FC from '../../../assets/Logos/강원FC.png';
+import 김천상무 from '../../../assets/Logos/김천상무.png';
+import 대전 from '../../../assets/Logos/대전하나시티즌.png';
+import 울산HD from '../../../assets/Logos/울산HD.png';
+import 인천UTD from '../../../assets/Logos/인천UTD.png';
+import 전북현대 from '../../../assets/Logos/전북현대.png';
+import 제주UTD from '../../../assets/Logos/제주UTD.png';
+import 포항 from '../../../assets/Logos/포항.png';
+// import { useGame } from "../../../hooks/Home/useGame";
 
 type teamList = {
   id: number;
@@ -27,7 +28,7 @@ type teamList = {
   logo: JSX.Element;
 }
 
-const Menu = () => {
+const UserMenu = () => {
   const navigate = useNavigate();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -74,6 +75,15 @@ const Menu = () => {
   const handleRemoveTeam = (index: number) => {
     setPreferredTeams(prev => prev.filter((_, i) => i !== index));
   }
+
+  // TODO 서버 더미 추가 후 더미 유저를 api 응답으로 바꿔야함 
+  // const { useGetTeamList } = useGame();
+
+  // const {
+  //   data : teamListInfo,
+  // } = useGetTeamList({catg: ''});
+
+  // console.log(teamListInfo?.data)
 
   const dummies: teamList[] = [
     {
@@ -279,4 +289,4 @@ const Menu = () => {
   )
 }
 
-export default Menu;
+export default UserMenu;

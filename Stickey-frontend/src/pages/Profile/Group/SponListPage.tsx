@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import Header, { IHeaderInfo } from "../../../../components/@common/Header";
-import Back from '../../../../assets/image/Back.png';
-import Bell from '../../../../assets/image/Bell.png';
-import NavigationBar from "../../../../components/@common/NavigationBar";
-import SponItem from "../../../../components/Profile/Group/SponItem";
+import Header, { IHeaderInfo } from "../../../components/@common/Header";
+import Back from '../../../assets/image/Back.png';
+import Bell from '../../../assets/image/Bell.png';
+import NavigationBar from "../../../components/@common/NavigationBar";
+import SponItem from "../../../components/Profile/Group/SponItem";
 
 export type SponData = {
   id: number;

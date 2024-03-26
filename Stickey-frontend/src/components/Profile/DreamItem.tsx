@@ -1,4 +1,4 @@
-import { DreamItemData } from "../../pages/Profile/Personal/Dream/DreamHistoryPage";
+import { DreamItemData } from "../../pages/Profile/User/DreamHistoryPage";
 
 interface DreamItemProps {
   data: DreamItemData;

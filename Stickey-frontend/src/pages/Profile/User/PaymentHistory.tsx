@@ -1,10 +1,12 @@
-import Calendar from "../../../../components/@common/Calendar";
-import Header, { IHeaderInfo } from "../../../../components/@common/Header";
-import NavigationBar from "../../../../components/@common/NavigationBar";
-import PaymentItem from "../../../../components/Profile/PaymentItem";
-import Back from '../../../../assets/image/Back.png'
-import Bell from '../../../../assets/image/Bell.png'
+import Calendar from "../../../components/@common/Calendar";
+import Header, { IHeaderInfo } from "../../../components/@common/Header";
+import NavigationBar from "../../../components/@common/NavigationBar";
+import PaymentItem from "../../../components/Profile/PaymentItem";
+import Back from '../../../assets/image/Back.png'
+import Bell from '../../../assets/image/Bell.png'
 import { useState } from "react";
+
+// TODO 실제 데이터로 변경해야함 
 
 export type PaymentItemData = {
   booking_info: {

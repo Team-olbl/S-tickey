@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { SponData } from "../../../pages/Profile/Group/SponList/SponListPage";
+import { SponData } from "../../../pages/Profile/Group/SponListPage";
 
 
 const SponItem = ({ data }: { data: SponData }) => {

@@ -1,8 +1,8 @@
-import Header, { IHeaderInfo } from "../../../../components/@common/Header";
-import NavigationBar from "../../../../components/@common/NavigationBar";
-import Back from '../../../../assets/image/Back.png';
-import Bell from '../../../../assets/image/Bell.png';
-import PlayerList from "../../../../components/Profile/Group/PlayerItem";
+import Header, { IHeaderInfo } from "../../../components/@common/Header";
+import NavigationBar from "../../../components/@common/NavigationBar";
+import Back from '../../../assets/image/Back.png';
+import Bell from '../../../assets/image/Bell.png';
+import PlayerList from "../../../components/Profile/Group/PlayerItem";
 import { useNavigate } from "react-router-dom";
 
 const PlayerListPage = () => {
