@@ -86,6 +86,8 @@ public class SecurityConfig {
                             Collections.singletonList("https://j10d211.p.ssafy.io"));
                         configuration.setAllowedOrigins(
                             Collections.singletonList("http://localhost:3000"));
+                        configuration.setAllowedOrigins(
+                            Collections.singletonList("http://app/api"));
 
                         // 허용할 HTTP 메소드
                         configuration.setAllowedMethods(Collections.singletonList("*"));
