@@ -1,16 +1,21 @@
 package com.olbl.stickeymain.global.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import java.security.Key;
 import java.util.Date;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class JWTUtil {
 
@@ -89,5 +94,41 @@ public class JWTUtil {
     // Redis에서 현재 유효한 Refresh Token 조회
     public String getRefreshEntity(String id) {
         return (String) redisTemplate.opsForHash().get("refresh", id);
+    }
+
+    // 유저에 대한 RefreshToken 삭제
+    public void removeRefreshEntity(String id) {
+        redisTemplate.opsForHash().delete("refresh", id);
+    }
+
+    // 토큰 유효성 검사
+    public boolean validateToken(String token, String originalCategory) {
+        try {
+            // 유효성 검사
+            Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+
+            // 토큰 카테고리 검사
+            String category = (String) claims.get("category");
+            if (!originalCategory.equals(category)) {
+                log.info("[JWTUtil] Access Token Not Exist");
+                return false;
+            }
+
+            return true;
+        } catch (ExpiredJwtException e) {
+            log.info("[JWTUtil] Token Expired");
+            // TODO: Filter Exception 구현
+        } catch (SignatureException | MalformedJwtException e) {
+            log.info("[JWTUtil] Signature Invalid");
+            // TODO: Filter Exception 구현
+        } catch (IllegalArgumentException e) {
+            log.info("[JWTUtil] JWT 토큰이 잘못되었습니다.");
+            // TODO: Filter Exception 구현
+        } catch (NullPointerException e) {
+            log.info("[JWTUtil] JWT is null");
+            // TODO: Filter Exception 구현
+        }
+
+        return false;
     }
 }
