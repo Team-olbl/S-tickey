@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getProfileReq } from "../../service/Profile/api"
+import { getPlayerListReq, getProfileReq } from "../../service/Profile/api"
 
 export const useProfile = () => {
 
@@ -10,5 +10,12 @@ export const useProfile = () => {
         })
     }
 
-    return { useGetProfile }
+    const useGetPlayerList = () => {
+        return useQuery({
+            queryKey: ['playerList'],
+            queryFn: () => getPlayerListReq(),
+        })
+    }
+
+    return { useGetProfile, useGetPlayerList }
 }
