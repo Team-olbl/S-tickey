@@ -1,14 +1,23 @@
 import Volley from '../../assets/image/Ground/VolleyballGround.png'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
+import { useBook } from '../../hooks/Book/useBook';
 
 const BookSection = () => {
 
     const { seatInfo, setSelectInfo } = useTicketStore();
-
     const navigate = useNavigate();
     
+    // params로 경기 id 추출
+    const { id } = useParams<{ id: string }>();
+    console.log("ID:", id);
 
+    // api 연결
+    const { useSectionSeatCnt } = useBook()
+    const { data: seatCntInfo } = useSectionSeatCnt(Number(id))
+
+    console.log( seatCntInfo?.data.leftSeatResList )
+     
     const getSeatColor = (seat: string): string => {
         switch (seat) {
             case 'S구역 1':
@@ -40,10 +49,10 @@ const BookSection = () => {
         navigate(-1)   
     }
 
-    const id: number = 1
-
     const goNext = () => {
-        navigate(`/${id}/seat`)
+        if (seatInfo.section !== '') {
+            navigate(`/${id}/seat`);
+        }
     }
 
 
@@ -198,7 +207,7 @@ const BookSection = () => {
                 {/* 버튼 */}
                     <div  className="w-full max-w-[500px] px-4 pt-4 pb-24 flex justify-center">
                         <button className="bg-Stickey_Gray w-36 mr-2 p-2 text-xs rounded-md" onClick={() => goBack()}>이전</button>
-                        <button className="bg-Stickey_Gray w-36 p-2 text-xs rounded-md" onClick={() => goNext()}>다음</button>
+                        <button className={`bg-Stickey_Gray w-36 p-2 text-xs rounded-md ${seatInfo.section ? '' : 'opacity-50 cursor-not-allowed'}`} onClick={() => goNext()}>다음</button>
                     </div>
             </div>
         </div>

@@ -16,7 +16,7 @@ const WaittingModal = ({ onClose, data }: { onClose: () => void; data: IGameSimp
         const timer = setTimeout(() => {
             onClose();
             if (data) {
-                navigate(`/${data.id}/section`); // 데이터가 있는 경우에만 해당 데이터의 id를 이용하여 경로 이동
+                navigate(`/${data.id}/section`);
             }
         }, 3000);
 
