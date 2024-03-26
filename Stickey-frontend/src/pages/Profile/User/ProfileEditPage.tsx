@@ -1,8 +1,8 @@
-import NavigationBar from "../../components/@common/NavigationBar";
-import Back from '../../assets/image/Back.png'
-import Bell from '../../assets/image/Bell.png'
-import Header, { IHeaderInfo } from "../../components/@common/Header";
-import IndividualForm from "../../components/Profile/IndividualEditForm";
+import NavigationBar from "../../../components/@common/NavigationBar";
+import Back from '../../../assets/image/Back.png'
+import Bell from '../../../assets/image/Bell.png'
+import Header, { IHeaderInfo } from "../../../components/@common/Header";
+import IndividualForm from "../../../components/Profile/User/IndividualEditForm";
 
 const info : IHeaderInfo = {
   left_1:  null,

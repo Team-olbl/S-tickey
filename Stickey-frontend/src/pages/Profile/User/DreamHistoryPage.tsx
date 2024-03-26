@@ -1,9 +1,9 @@
-import Header, { IHeaderInfo } from "../../../../components/@common/Header";
-import NavigationBar from "../../../../components/@common/NavigationBar";
-import Back from '../../../../assets/image/Back.png'
-import Bell from '../../../../assets/image/Bell.png'
-import DreamItem from "../../../../components/Profile/DreamItem";
-import DreamHeader from "../../../../components/Profile/DreamHeader";
+import Header, { IHeaderInfo } from "../../../components/@common/Header";
+import NavigationBar from "../../../components/@common/NavigationBar";
+import Back from '../../../assets/image/Back.png'
+import Bell from '../../../assets/image/Bell.png'
+import DreamItem from "../../../components/Profile/User/Dream/DreamItem";
+import DreamHeader from "../../../components/Profile/User/Dream/DreamHeader";
 
 const info : IHeaderInfo = {
   left_1:  null,
