@@ -24,7 +24,7 @@ contract Api is Support, Ticket, Item, Game {
     Category category;
     string homeTeam;
     string awayTeam;
-    string poster;
+    string gameImage;
   }
 
   // 결제 이력 타입
@@ -177,7 +177,7 @@ contract Api is Support, Ticket, Item, Game {
         category: g.category,
         homeTeam: g.homeTeam,
         awayTeam: g.awayTeam,
-        poster: g.poster
+        gameImage: g.gameImage
       });
     }
     return tickets;

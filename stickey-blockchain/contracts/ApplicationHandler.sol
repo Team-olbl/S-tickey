@@ -13,9 +13,9 @@ contract ApplicationHandler is Api {
   }
 
   function initDummy() private {
-    _setGame(GameInfo(1, block.timestamp, block.timestamp, unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, ""));
-    _setGame(GameInfo(2, block.timestamp, block.timestamp + 3 days,unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, ""));
-    _setGame(GameInfo(3, block.timestamp, block.timestamp + 5 days,unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, ""));
+    _setGame(1, block.timestamp, block.timestamp, unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, "");
+    _setGame(2, block.timestamp, block.timestamp + 3 days,unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, "");
+    _setGame(3, block.timestamp, block.timestamp + 5 days,unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, "");
   
     _setZoneName(1, unicode"R");
     _setSeatPrice(1, 1, 10**9);
@@ -31,8 +31,8 @@ contract ApplicationHandler is Api {
   */
 
   // 게임 정보 설정
-  function setGame(GameInfo memory _game) public isOwner {
-    _setGame(_game);
+  function setGame(uint _id, uint _bookStartTime, uint _gameStartTime, string memory _stadium, string memory _homeTeam, string memory _awayTeam, Category _category, string memory _gameImage) public isOwner {
+    _setGame(_id, _bookStartTime, _gameStartTime, _stadium, _homeTeam, _awayTeam, _category, _gameImage);
   }
 
   // 경기장 구역 가격 설정

@@ -33,7 +33,7 @@ contract Game {
   mapping(uint => mapping(uint => mapping(uint => bool))) private _seatState;
 
   // 경기 정보 설정
-  function _setGame( uint _id, uint _bookStartTime, uint _gameStartTime, string memory _stadium, string memory _homeTeam, string memory _awayTeam, Category _category, string memory _gameImage) internal {
+  function _setGame(uint _id, uint _bookStartTime, uint _gameStartTime, string memory _stadium, string memory _homeTeam, string memory _awayTeam, Category _category, string memory _gameImage) internal {
     _gameInfo[_id] = GameInfo({
       id: _id,
       bookStartTime: _bookStartTime,
