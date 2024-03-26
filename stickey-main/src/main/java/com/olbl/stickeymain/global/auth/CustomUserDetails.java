@@ -34,6 +34,11 @@ public class CustomUserDetails implements UserDetails {
         return String.valueOf(user.getId());
     }
 
+    // 계정의 ID 값 리턴
+    public int getId() {
+        return user.getId();
+    }
+
     // 계정의 만료 여부 리턴
     @Override
     public boolean isAccountNonExpired() {
