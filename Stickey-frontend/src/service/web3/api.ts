@@ -48,9 +48,9 @@ export const getWalletInfo = async () => {
   }
 }
 
-export const createTicket = async (number : number, gameId : number, stadiumId : number, zoneId : number, seatNumber : number[]) => {
+export const createTicket = async (number : number, gameId : number, stadiumId : number, zoneId : number, seatNumber : number[], price : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
-  const value = 10 ** 9 * number;
+  const value = price * number;
   try {
     const ret = await contract.methods.createTicket(number, gameId, stadiumId, zoneId, seatNumber).send({ from: account[0], value: value });
     return ret;
@@ -98,6 +98,7 @@ export const getTickets = async () => {
     alert("티켓 조회 실패");
   }
 }
+
 
 
 
