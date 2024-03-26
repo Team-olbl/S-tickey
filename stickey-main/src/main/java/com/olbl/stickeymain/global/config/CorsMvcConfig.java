@@ -12,11 +12,12 @@ public class CorsMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         // 허용할 출처
-        List<String> origins = List.of("http://i10d211.p.ssafy.io", "https://j10d211.p.ssafy.io",
+        List<String> origins = List.of("http://j10d211.p.ssafy.io", "https://j10d211.p.ssafy.io",
             "http://localhost:3000", "https://localhost:3000");
 
         registry.addMapping("/**") // 모든 경로에 대해
             .allowedOrigins(String.join(",", origins)) // 허용할 출처
             .allowedMethods("*"); // 모든 HTTP 메소드 허용
+        
     }
 }
