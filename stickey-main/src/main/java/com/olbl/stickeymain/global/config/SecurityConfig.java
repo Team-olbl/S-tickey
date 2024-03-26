@@ -7,6 +7,7 @@ import com.olbl.stickeymain.global.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,6 +30,7 @@ public class SecurityConfig {
     private final CorsFilter corsFilter;
     private final PreferenceRepository preferenceRepository;
     private final ObjectMapper objectMapper;
+    private final RedisTemplate redisTemplate;
 
     // 비밀번호 암호화를 위한 BCryptPasswordEncoder Bean 등록
     @Bean
@@ -63,31 +65,9 @@ public class SecurityConfig {
         http
             .formLogin(form -> form.disable());
 
-        http
+        http // 경로별 권한 설정, 배포 직전에 변경할 예정
             .authorizeHttpRequests((requests) -> requests
-                // Swagger 페이지 (O)
-                .requestMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
-
-                // 메인 페이지, 종목 별 페이지, 후원 페이지, 회원가입 페이지, 로그인 페이지 - 모두 접근 허용
-                .requestMatchers("/", "/api", "/api/games/**", "/api/support/**",
-                    "/users/signup/**", "/users/signup", "/users/login", "/users/logout")
-                .permitAll()
-
-                // 예매 상세 페이지, 마이 티켓, 개인 마이 페이지 - 개인 유저만 접근 허용
-                .requestMatchers("/api/tickets/**", "/api/items/**", "/api/users/profile/**")
-                .hasRole("INDIVIDUAL")
-
-                // 단체 마이 페이지 -  단체 유저만 접근 허용 (O)
-                .requestMatchers("/api/organizations/profile/**").hasRole("ORGANIZATION")
-
-                // 알림 페이지 - 개인, 단체 유저만 접근 허용
-                .requestMatchers("/api/alarm/**").hasAnyRole("INDIVIDUAL", "ORGANIZATION")
-
-                // 관리자 페이지 - 관리자만 접근 허용 (O)
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-
-                // 그 외 모든 요청은 인증 필요
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             );
 
         http // CORS 필터
