@@ -68,7 +68,7 @@ const BasketBallPage = () => {
       <Header info={info}/>
       <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet}/>
       <div className="py-16">
-        <TeamList />
+        <TeamList catg="BASKETBALL" />
         <Calendar onDateClick={handleDateClick}/>
         { filteredMatches?.length === 0 ? (
           <div className="flex flex-col items-center mt-40">
