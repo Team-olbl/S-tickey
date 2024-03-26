@@ -12,8 +12,8 @@ declare global {
     ethereum: any;
   }
 }
+
 // 지갑 연결
-// 처음 연결할때 사용
 export const connect = async () => {
   if (!window.ethereum) {
     alert("메타마스크를 설치하세요.");
@@ -29,11 +29,13 @@ export const connect = async () => {
   }
 } 
 
+// 메타마스크 연결
 const requestAccount = async () => {
   account = await window.ethereum?.request({ method: 'eth_requestAccounts' });
   web3.eth.handleRevert = true
 }
 
+// 지갑 조회
 export const getWalletInfo = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
@@ -48,6 +50,7 @@ export const getWalletInfo = async () => {
   }
 }
 
+// 티켓 예매
 export const createTicket = async (number : number, gameId : number, stadiumId : number, zoneId : number, seatNumber : number[], price : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   const value = price * number;
@@ -59,6 +62,7 @@ export const createTicket = async (number : number, gameId : number, stadiumId :
   }
 }
 
+// 티켓 환불
 export const refundTicket = async (tokenId: number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
@@ -69,36 +73,100 @@ export const refundTicket = async (tokenId: number) => {
   }
 }
 
+// 내 티켓 조회
 export const getTickets = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getTickets(account[0]).call();
-
-    const data = [];
-
-    for (let i = ret.length - 1; i >= 0; i--) {
-      data.push(
-        {
-          tokenId: ret[i].tokenId,
-          gameId: ret[i].gameId,
-          stadium: ret[i].stadium,
-          seat: ret[i].zoneName + " " + ret[i].seatNumber,
-          price: ret[i].price,
-          filterId: ret[i].filterId,
-          backgroundId: ret[i].backgroundId,
-          category: ret[i].category == 0 ? "SOCCER" : ret[i].category == 1 ? "BASEBALL" : "BESKETBALL",
-          homeTeam: ret[i].homeTeam,
-          awayTeam: ret[i].awayTeam,
-          gameImage: ret[i].gameImage
-        }
-      )
-    }
-    return data;
+    // const data = [];
+    // for (let i = ret.length - 1; i >= 0; i--) {
+    //   data.push(
+    //     {
+    //       tokenId: ret[i].tokenId,
+    //       gameId: ret[i].gameId,
+    //       stadium: ret[i].stadium,
+    //       seat: ret[i].zoneName + " " + ret[i].seatNumber,
+    //       price: ret[i].price,
+    //       filterId: ret[i].filterId,
+    //       backgroundId: ret[i].backgroundId,
+    //       category: ret[i].category == 0 ? "SOCCER" : ret[i].category == 1 ? "BASEBALL" : "BESKETBALL",
+    //       homeTeam: ret[i].homeTeam,
+    //       awayTeam: ret[i].awayTeam,
+    //       gameImage: ret[i].gameImage
+    //     }
+    //   )
+    // }
+    // return data;
+    return ret;
   } catch (err) {
     alert("티켓 조회 실패");
   }
 }
 
+// 후원글 등록
+export const setSupport = async (id : number, name : string, address : string, endTime : number) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.setSupport(id, name, address, endTime).send({ from: account[0] });
+    return ret;
+  } catch (err) {
+    alert("후원글 등록 실패");
+  }
+}
+
+// 후원 글에 대한 후원
+export const donate = async (id : number, text : string, value : number) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.donate(id, text).send({from : account[0], value : value})
+    return ret;
+  } catch (err) {
+    alert("후원 실패");
+  }
+}
+
+// 내가 적은 후원 글에 대한 후원금 수령
+export const withdraw = async(id : number) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.withdraw(id).send({ from: account[0] });
+    return ret;
+  } catch (err) {
+    alert("수령 실패");
+  }
+}
+
+// 후원글이 후원 받은 내역 조회
+export const getSupprtedHistory = async (id : number) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.getSupprtedHistory(id).call();
+    return ret;
+  } catch (err) {
+    alert("후원받은 내역 조회 실패");
+  }
+}
+
+// 내가 후원한 내역 조회
+export const getSupprtingHistory = async () => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.getSupprtingHistory(account[0]).call();
+    return ret;
+  } catch (err) {
+    alert("후원한 내역 조회 실패");
+  }
+}
 
 
 
+// API 더미
+// export const contractMethod = async (tokenId: number) => {
+//   if (contract === null || web3 === null) throw new Error("Invalid Call");
+//   try {
+//     const ret = await contract.methods.
+//     return ret;
+//   } catch (err) {
+//     alert("실패");
+//   }
+// }
