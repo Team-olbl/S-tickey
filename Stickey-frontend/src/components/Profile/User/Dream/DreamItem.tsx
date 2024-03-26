@@ -1,10 +1,8 @@
-import { DreamItemData } from "../../pages/Profile/User/DreamHistoryPage";
+import { DreamItemData } from "../../../../pages/Profile/User/DreamHistoryPage";
 
 interface DreamItemProps {
   data: DreamItemData;
 }
-
-
 
 const DreamItem = ({ data }: DreamItemProps) => { 
   const getColor = (type: string): string => {

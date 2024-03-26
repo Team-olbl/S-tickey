@@ -3,6 +3,8 @@ import { IPreTeamSimpleRes, IUserProfile } from "../../../types/Profile";
 const UserProfile = ({ userInfo }: { userInfo: IUserProfile | null }) => {
 
   return (
+    <>    
+    {/* 개인 유저 프로필 */}
     <div className="flex justify-center">
         <div className="flex flex-row gap-3 max-w-[500px] w-full h-[60px] border-none px-6">
           <div className="w-[56px] h-[56px] rounded-full border border-none bg-Stickey_Gray"></div>
@@ -18,6 +20,15 @@ const UserProfile = ({ userInfo }: { userInfo: IUserProfile | null }) => {
           </div>
         </div>
       </div>
+
+      {/* 지갑 */}
+      <div className="flex justify-center px-5">
+        <div className="w-full h-[128px] border-none bg-Stickey_Gray mt-4 rounded-[10px]">
+          
+        </div>
+      </div>
+    </>
+
   );
 };
 

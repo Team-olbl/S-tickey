@@ -1,7 +1,7 @@
 import Calendar from "../../../components/@common/Calendar";
 import Header, { IHeaderInfo } from "../../../components/@common/Header";
 import NavigationBar from "../../../components/@common/NavigationBar";
-import PaymentItem from "../../../components/Profile/PaymentItem";
+import PaymentItem from "../../../components/Profile/User/Payment/PaymentItem";
 import Back from '../../../assets/image/Back.png'
 import Bell from '../../../assets/image/Bell.png'
 import { useState } from "react";
