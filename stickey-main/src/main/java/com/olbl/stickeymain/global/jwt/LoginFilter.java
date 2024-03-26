@@ -94,8 +94,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         log.info("[LoginFilter] User {}'s role : {}", id, role);
 
         // JWT 토큰 발급 (Access, Refresh)
-        String access = jwtUtil.createJWT("access", id, role, 600000L);
-        String refresh = jwtUtil.createJWT("refresh", id, role, 86400000L);
+        String access = jwtUtil.createJWT("access", id, role, 10800000L);
+        String refresh = jwtUtil.createJWT("refresh", id, role, 259200000L);
 
         // Redis에 Refresh 토큰 저장
         jwtUtil.addRefreshEntity(id, refresh);
