@@ -399,51 +399,44 @@ export const contractABI = [
   {
     "inputs": [
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "bookStartTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "gameStartTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "stadium",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "homeTeam",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "awayTeam",
-            "type": "string"
-          },
-          {
-            "internalType": "enum Game.Category",
-            "name": "category",
-            "type": "uint8"
-          },
-          {
-            "internalType": "string",
-            "name": "poster",
-            "type": "string"
-          }
-        ],
-        "internalType": "struct Game.GameInfo",
-        "name": "_game",
-        "type": "tuple"
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_bookStartTime",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_gameStartTime",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_stadium",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_homeTeam",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_awayTeam",
+        "type": "string"
+      },
+      {
+        "internalType": "enum Game.Category",
+        "name": "_category",
+        "type": "uint8"
+      },
+      {
+        "internalType": "string",
+        "name": "_gameImage",
+        "type": "string"
       }
     ],
     "name": "setGame",
@@ -796,7 +789,7 @@ export const contractABI = [
           },
           {
             "internalType": "string",
-            "name": "poster",
+            "name": "gameImage",
             "type": "string"
           }
         ],
