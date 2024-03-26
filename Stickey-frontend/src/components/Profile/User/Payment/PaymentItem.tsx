@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { PaymentItemData } from "../../pages/Profile/Personal/Payment/PaymentHistory";
-import Down from '../../assets/image/FilledDown.png'
+import { PaymentItemData } from "../../../../pages/Profile/User/PaymentHistory";
+import Down from '../../../../assets/image/FilledDown.png'
 
 const PaymentItem = ({ data }: { data: PaymentItemData }) => {
   const [isOpenAccordion, setIsOpenAccordion] = useState<boolean>(false);
