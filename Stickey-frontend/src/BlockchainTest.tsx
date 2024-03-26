@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef } from "react";
-import { connect, createTicket, getTickets, getWalletInfo, refundTicket, setSupport, donate, withdraw, getSupprtedHistory, getSupprtingHistory } from './service/web3/api'
+import { connect, createTicket, getTickets, getWalletInfo, refundTicket, setSupport, donate, withdraw, getSupprtedHistory, getSupprtingHistory, getPaymentHistory, getRewordHistory } from './service/web3/api'
 
 const BlockchainTest = () => {
 
@@ -26,7 +26,6 @@ const BlockchainTest = () => {
 
     const data = Object.fromEntries(fd.entries());
     const seatNumber : any = fd.getAll('seatNumber');
-    console.log(data, seatNumber);
 
     const result = await createTicket(Number(data.number), Number(data.gameId), Number(data.stadiumId), Number(data.zoneId), seatNumber, 10**9);
     console.log(result);
@@ -83,6 +82,15 @@ const BlockchainTest = () => {
     console.log(result);
   }
 
+  const _getPaymentHistory = async () => {
+    const result = await getPaymentHistory();
+    console.log(result);
+  }
+
+  const _getRewordHistory = async () => {
+    const result = await getRewordHistory();
+    console.log(result);
+  }
 
   return <>
     <div className="text-black flex flex-col items-center w-full">
@@ -151,6 +159,18 @@ const BlockchainTest = () => {
           <button type="button" onClick={_getSupprtingHistory} >
           후원한 이력 보기
           </button>
+        </div>
+      </div>
+      <div className="text-center bg-sky-200 w-full">
+        <div className="text-[20px] underline underline-offset-2">마이페이지 관련 API</div>
+        <div className="flex gap-5">
+          <button type="button" onClick={_getPaymentHistory} >
+          결제이력 조회
+          </button>
+          <button type="button" onClick={_getRewordHistory} >
+          꿈 증감 내역 조회
+          </button>
+          
         </div>
       </div>
     </div>
