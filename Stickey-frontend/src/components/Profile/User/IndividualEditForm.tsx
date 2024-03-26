@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { CiCamera } from 'react-icons/ci';
-import ProfileEditModal from './ProfileEditModal';
+import ProfileEditModal from '../ProfileEditModal';
 
 const IndividualForm = () => {
 	const imgRef = useRef<HTMLInputElement>(null);

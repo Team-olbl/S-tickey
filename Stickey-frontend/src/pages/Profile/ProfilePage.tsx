@@ -1,13 +1,12 @@
 import Header, {IHeaderInfo} from "../../components/@common/Header";
 import NavigationBar from "../../components/@common/NavigationBar";
-import Notice from "../../components/Profile/Notice";
-import Wallet from "../../components/Profile/Wallet";
 import Bell from '../../assets/image/Bell.png'
 import { useProfile } from "../../hooks/Profile/useProfile";
 import { IUserProfile } from "../../types/Profile";
 import UserProfile from "../../components/Profile/User/UserProfile";
 import GroupProfile from "../../components/Profile/Group/GroupProfile";
 import UserMenu from "../../components/Profile/User/UserMenu";
+import YellowBell from '../../assets/image/YellowBell.png'
 
 const ProfilePage = () => {
 
@@ -52,16 +51,31 @@ const ProfilePage = () => {
         {role === 1 ? (
           <>
             <UserProfile userInfo={userInfo} />
-            <Wallet />
-            <Notice />
+
+            {/* 안내 문구 섹션 */}
+            <div className="flex justify-center pt-5 px-5">
+              <div className="w-full h-[32px] border-none bg-Stickey_Gray rounded flex flex-row items-center gap-1">
+                <img src={YellowBell} className="w-5 h-5 ml-2"/>
+                <p className="text-red-600 font-bold text-[12px]">[ TIP ]</p>
+                <p className="text-[12px]">IOS 서비스 미지원 기종이 있습니다.</p>
+              </div>
+            </div>
+
             <UserMenu />
      
           </>
         ) : (
           <>
             <GroupProfile userInfo={userInfo} />
-            <Wallet />
-            <Notice />
+
+            {/* 안내 문구 섹션 */}
+            <div className="flex justify-center pt-5 px-5">
+              <div className="w-full h-[32px] border-none bg-Stickey_Gray rounded flex flex-row items-center gap-1">
+                <img src={YellowBell} className="w-5 h-5 ml-2"/>
+                <p className="text-red-600 font-bold text-[12px]">[ TIP ]</p>
+                <p className="text-[12px]">IOS 서비스 미지원 기종이 있습니다.</p>
+              </div>
+            </div>
        
           </>
         )}
