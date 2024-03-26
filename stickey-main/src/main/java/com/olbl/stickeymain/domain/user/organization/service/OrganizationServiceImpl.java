@@ -4,10 +4,13 @@ import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_DO
 import static com.olbl.stickeymain.global.result.error.ErrorCode.PLAYER_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_DO_NOT_EXISTS;
 
+import com.olbl.stickeymain.domain.support.dto.SupportReq;
+import com.olbl.stickeymain.domain.support.entity.Support;
+import com.olbl.stickeymain.domain.support.entity.SupportStatus;
 import com.olbl.stickeymain.domain.support.repository.SupportRepository;
 import com.olbl.stickeymain.domain.user.dto.MySupportListRes;
-import com.olbl.stickeymain.domain.user.dto.MySupportRes;
 import com.olbl.stickeymain.domain.user.dto.MySupportOneRes;
+import com.olbl.stickeymain.domain.user.dto.MySupportRes;
 import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerListRes;
@@ -147,5 +150,20 @@ public class OrganizationServiceImpl implements OrganizationService {
         MySupportOneRes mySupportOneById = supportRepository.findMySupportOneById(id)
             .orElseThrow(() -> new BusinessException(SUPPORT_DO_NOT_EXISTS));
         return mySupportOneById;
+    }
+
+    @Override
+    @Transactional
+    public void requestRegistSupport(int id, SupportReq supportReq) {
+        Support support = supportRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(SUPPORT_DO_NOT_EXISTS));
+
+        //Rejected 상태인지 확인
+        support.setTitle(supportReq.getTitle());
+        support.setContent(supportReq.getContent());
+        support.setStartTime(supportReq.getStartTime());
+        support.setEndTime(supportReq.getEndTime());
+        support.setStatus(SupportStatus.WAITING); //대기 상태로 변경
+        support.setMessage(null);
     }
 }
