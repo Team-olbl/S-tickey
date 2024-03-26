@@ -8,6 +8,7 @@ interface SeatInfo {
 interface TicketStore {
   seatInfo: SeatInfo;
   setSelectInfo: (section: string, seat: string[]) => void;
+  clearSeatInfo: () => void;
 }
 
 const useTicketStore = create<TicketStore>((set) => {
@@ -19,6 +20,10 @@ const useTicketStore = create<TicketStore>((set) => {
     setSelectInfo: (section, seat) => {
       set({ seatInfo: { section, seat } });
       localStorage.setItem('seatInfo', JSON.stringify({ section, seat }));
+    },
+    clearSeatInfo: () => {
+      set({ seatInfo: { section: '', seat: [] } });
+      localStorage.removeItem('seatInfo');
     }
   };
 });

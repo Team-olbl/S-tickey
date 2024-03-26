@@ -1,5 +1,6 @@
 import Header, { IHeaderInfo } from "../../components/@common/Header";
 import Back from '../../assets/image/Back.png'
+import Bell from '../../assets/image/Bell.png'
 import Individual from '../../assets/image/individual.png'
 import Organization from '../../assets/image/organization.png'
 import NavigationBar from "../../components/@common/NavigationBar";
@@ -12,7 +13,7 @@ const SignupPage = () => {
     left_1:  null,
     left_2: <img src={Back} alt="" />,
     center: '회원가입',
-    right: <img src="src/assets/Alarm/Bell.png" alt="" />
+    right: <img src={Bell} alt="" />
   }
 
   const [selectedType, setSelectedType] = useState("");
@@ -63,7 +64,7 @@ const SignupPage = () => {
             </div>
           </div>
 
-          <div className="fixed bottom-16 w-full max-w-[360px] m-auto px-4">
+          <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
             <button className={`bg-Stickey_Main w-full text-white rounded-xl p-2 text-md ${selectedType ? '' : 'opacity-50 cursor-not-allowed'}`} disabled={!selectedType} onClick={() => handleFormState()}>다음</button>
           </div>
 

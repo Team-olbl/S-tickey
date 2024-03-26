@@ -28,7 +28,7 @@ const Modal = ({ width, height, title, onClose, children }: IModalProps) => {
                
   return (
     <div
-      className={`fixed top-0 w-[360px] bottom-0 ${isRendering ? 'bg-black/50' : 'bg-black/0'}`}
+      className={`fixed top-0 w-[500px] bottom-0 ${isRendering ? 'bg-black/50' : 'bg-black/0'}`}
     >
       {/* modal wrapper */}
       <div
@@ -40,7 +40,7 @@ const Modal = ({ width, height, title, onClose, children }: IModalProps) => {
         <div
           style={{ width: width, height: height }}
         >
-          <div className="w-full h-14 grid grid-cols-6 place-items-center">
+          <div className="w-full h-8 grid grid-cols-6 place-items-center">
             <div className="col-span-1">&nbsp;</div>
             <div className="col-span-4">{title}</div>
             <div className="col-span-1 w-5 h-5 cursor-pointer" onClick={handleClose}>

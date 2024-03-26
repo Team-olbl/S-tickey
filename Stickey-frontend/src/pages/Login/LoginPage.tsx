@@ -1,6 +1,7 @@
 import Header, { IHeaderInfo } from "../../components/@common/Header";
 import Back from '../../assets/image/Back.png'
 import NavigationBar from "../../components/@common/NavigationBar";
+import Bell from '../../assets/image/Bell.png'
 import TabBar from "../../components/@common/TabBar";
 import LoginForm from "../../components/Login/LoginForm";
 import { useState } from "react";
@@ -13,7 +14,7 @@ const LoginPage = () => {
     left_1:  null,
     left_2: <img src={Back} alt="" />,
     center:'로그인',
-    right: <img src="src/assets/Alarm/Bell.png" alt="" />
+    right: <img src={Bell} alt="" />
   }
 
   const handleTabChange = (tab: string) => {
