@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PaymentItemData } from "../../pages/Profile/Personal/Payment/PaymentHistory";
+import { PaymentItemData } from "../../pages/Profile/User/PaymentHistory";
 import Down from '../../assets/image/FilledDown.png'
 
 const PaymentItem = ({ data }: { data: PaymentItemData }) => {

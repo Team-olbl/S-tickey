@@ -1,6 +1,6 @@
-import { IPreTeamSimpleRes, IUserProfile } from "../../types/Profile";
+import { IPreTeamSimpleRes, IUserProfile } from "../../../types/Profile";
 
-const ProfilIteme = ({ userInfo }: { userInfo: IUserProfile | null }) => {
+const UserProfile = ({ userInfo }: { userInfo: IUserProfile | null }) => {
 
   return (
     <div className="flex justify-center">
@@ -21,4 +21,4 @@ const ProfilIteme = ({ userInfo }: { userInfo: IUserProfile | null }) => {
   );
 };
 
-export default ProfilIteme;
+export default UserProfile;
