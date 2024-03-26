@@ -19,7 +19,7 @@ const PlayerList = () => {
       {dummyPlayerList.playerResList.length > 0 ? (
         dummyPlayerList.playerResList.map((item, id) => (
           <div key={id} className="px-4">
-            <div className="flex items-center h-auto py-4 px-2 border-none rounded-[10px] bg-[#2E2E3D]">
+            <div className="flex items-center h-auto py-4 border-none rounded-[10px] bg-[#2E2E3D]">
               <div className="w-full flex flex-row px-4 gap-3">
                 <div className="w-20 h-20 border border-none rounded-full bg-Stickey_Gray">프로필 사진</div>
                 <div className="flex flex-col w-[208px] h-[20px] gap-2 text-white">
