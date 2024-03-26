@@ -9,8 +9,8 @@ services:
     networks:
       - stickey_network
     volumes:
-      - "/home/ubuntu/workspace/redis/redis.conf:/etc/redis/redis.conf"
-      - "/home/ubuntu/workspace/redis/backup-redis:/data"
+      - /home/ubuntu/workspace/redis/redis.conf:/etc/redis/redis.conf
+      - /home/ubuntu/workspace/redis/backup-redis:/data
     deploy:
       resources:
         limits:
