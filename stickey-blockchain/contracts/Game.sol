@@ -14,7 +14,7 @@ contract Game {
     string homeTeam;      // 홈팀 이름
     string awayTeam;      // 원정팀 이름
     Category category;    // 경기 종목
-    string poster;        // 포스터 url
+    string gameImage;        // 포스터 url
   }
 
   // 경기 정보 ( 경기 ID => 경기 정보 )
@@ -33,8 +33,17 @@ contract Game {
   mapping(uint => mapping(uint => mapping(uint => bool))) private _seatState;
 
   // 경기 정보 설정
-  function _setGame(GameInfo memory _game) internal {
-    _gameInfo[_game.id] = _game;
+  function _setGame( uint _id, uint _bookStartTime, uint _gameStartTime, string memory _stadium, string memory _homeTeam, string memory _awayTeam, Category _category, string memory _gameImage) internal {
+    _gameInfo[_id] = GameInfo({
+      id: _id,
+      bookStartTime: _bookStartTime,
+      gameStartTime : _gameStartTime,
+      stadium: _stadium,
+      homeTeam: _homeTeam,
+      awayTeam: _awayTeam,
+      category: _category,
+      gameImage: _gameImage
+    });
   }
 
   // 경기 정보 조회
