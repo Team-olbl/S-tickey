@@ -66,7 +66,7 @@ const SoccerPage = () => {
       <Header info={info}/>
       <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet} />
       <div className="py-16">
-        <TeamList />
+        <TeamList catg="SOCCER" />
         <Calendar onDateClick={handleDateClick}/>
         { filteredMatches?.length === 0 ? (
           <div className="flex flex-col items-center mt-40">
