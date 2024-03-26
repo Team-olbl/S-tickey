@@ -1,4 +1,3 @@
-import { categoryType } from "./model";
 
 export interface IPreTeamSimpleRes {
     sportsClubId: number;
@@ -10,7 +9,7 @@ export interface IPlayerSimpleRes {
     name: string;
     id: number;
     description: string;
-    category: categoryType;
+    category: string;
     birth: string
 }
 
@@ -24,4 +23,12 @@ export interface IUserProfile {
 // 단체 선수 목록 조회 Response
 export interface IPlayerListRes {
     playerResList: IPlayerSimpleRes[]
+}
+
+// 선수 등록 Request
+export interface ICreatePlayerReq {
+    name: string;
+    description: string;
+    category: string;
+    birth: string;
 }
