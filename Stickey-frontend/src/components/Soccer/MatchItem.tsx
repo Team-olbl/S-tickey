@@ -8,6 +8,8 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
 
+  const [modalData, setModalData] = useState<IGameSimpleRes | null>(null);
+
   const handleBookTicket = () => {
     setIsModalOpen(true);
   };
@@ -80,12 +82,15 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
             </div>
 
             <div className="pt-4">
-              <button onClick={() => setIsWaitModalOpen(true)} className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm">예매하기</button>
+              <button onClick={() => {
+                setModalData(data); 
+                setIsWaitModalOpen(true);
+              }} className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm">예매하기</button>
             </div>
           </div>
         </BottomModal>
       )}
-      {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)}/>}
+      {isWaitModalOpen && <WaittingModal data={modalData} onClose={() => setIsWaitModalOpen(false)}/>}
     </>
   );
 };
