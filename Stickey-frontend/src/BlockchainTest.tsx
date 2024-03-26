@@ -28,7 +28,7 @@ const BlockchainTest = () => {
     const seatNumber : any = fd.getAll('seatNumber');
     console.log(data, seatNumber);
 
-    const result = await createTicket(Number(data.number), Number(data.gameId), Number(data.stadiumId), Number(data.zoneId), seatNumber);
+    const result = await createTicket(Number(data.number), Number(data.gameId), Number(data.stadiumId), Number(data.zoneId), seatNumber, 10**9);
     console.log(result);
     alert("실행완료");
   } 
