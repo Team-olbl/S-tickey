@@ -71,8 +71,7 @@ public class SecurityConfig {
 
         http // 경로별 권한 설정, 배포 직전에 변경할 예정
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/users/login", "/users/signup").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             );
 
         http // CORS 설정
