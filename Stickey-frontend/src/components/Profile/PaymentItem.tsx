@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { PaymentItemData } from "../../pages/Profile/Personal/Payment/PaymentHistory";
+import Down from '../../assets/image/FilledDown.png'
 
 const PaymentItem = ({ data }: { data: PaymentItemData }) => {
   const [isOpenAccordion, setIsOpenAccordion] = useState<boolean>(false);
@@ -9,9 +10,9 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
   };
 
   return (
-    <div className="flex justify-center pb-2">
+    <div className="flex justify-center pb-2 pt-2">
       <div className="flex flex-col">
-        <div className="flex flex-row items-center justify-between w-[312px] h-[32px] border border-none rounded-[5px] bg-[#2E2E3D] px-2 gap-2">
+        <div className="flex flex-row items-center justify-between w-[340px] h-[32px] border border-none rounded-[5px] bg-[#2E2E3D] px-2 gap-2" onClick={toggleAccordion}>
           <div className="flex flex-row items-center">
             {data.booking_info.book_status ? (
               <div className="w-[36px] h-[18px] bg-[#545454] rounded-[5px] mr-2">
@@ -26,9 +27,9 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
               [하나원큐] K League1 2024
             </p>
           </div>
-          <div onClick={toggleAccordion}>
+          <div>
             <img
-              src="/src/assets/image/FilledDown.png"
+              src={Down}
               className={`w-4 h-4 transform transition-transform ${
                 isOpenAccordion ? "rotate-0" : "rotate-180"
               }`}
@@ -36,7 +37,7 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
           </div>
         </div>
         {isOpenAccordion && (
-          <div className="w-[312px] bg-white rounded-b-[5px] p-2">
+          <div className="w-[340px] bg-white rounded-b-[5px] p-2">
             <div className="flex flex-row gap-1 text-[12px] font-semibold">
               <p>{data.game_info.home_team}</p>
               <p>VS</p>
@@ -70,7 +71,9 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
                 </div>
               </div>
             </div>
-            <div className="border-b-[0.5px] border-[#F1F2F4] "></div>
+            <div className="pb-2">
+              <div className="border-b-[0.5px] border-[#F1F2F4]"></div>
+            </div>
             <div className="text-[10px] px-2">
               <div className="flex flex-row gap-5">
                 <div className="w-[50px] text-[#969799]">결제금액</div>

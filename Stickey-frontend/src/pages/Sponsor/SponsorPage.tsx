@@ -1,5 +1,6 @@
 import SponsorItem from "../../components/Sponsor/SponsorItem";
 import Dove from '../../assets/image/Dove.png'
+import Bell from '../../assets/image/Bell.png'
 import Header, { IHeaderInfo } from "../../components/@common/Header";
 import NavigationBar from "../../components/@common/NavigationBar";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +18,7 @@ const info : IHeaderInfo = {
   left_1:  null,
   left_2:  null,
   center:'후원',
-  right: <img src="/src/assets/image/Bell.png" alt="" />
+  right: <img src={Bell} />
 }
 const SponsorPage = () => {
   const navigate = useNavigate();
@@ -60,10 +61,10 @@ const SponsorPage = () => {
         <p className=" text-white text-sm mt-4">후원글이 없습니다</p>
         </div>
         ) : (
-          dummyList.map((item, id) => (
-            <div className="px-6 py-1">
+          dummyList.map((item) => (
+            <div className="flex flex-col px-6 py-1" key={item.id}>
               <button onClick={() => gotoSponsorDetail(item.id)}>
-               <SponsorItem key={id} data={item} />
+               <SponsorItem  data={item} />
                </button>
             </div>
           ))

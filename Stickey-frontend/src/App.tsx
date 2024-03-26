@@ -16,110 +16,126 @@ import SponsorPage from './pages/Sponsor/SponsorPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import PaymentHistoryPage from './pages/Profile/Personal/Payment/PaymentHistory';
 import DreamHistoryPage from './pages/Profile/Personal/Dream/DreamHistoryPage';
-import PreferredTeamPage from './pages/Profile/Personal/PreferredTeam/PreferredTeamPage';
 import ProfileEditPage from './pages/Profile/ProfileEditPage';
 import PlayerListPage from './pages/Profile/Group/PlayerList/PlayerListPage';
 import SponsorDetailPage from './pages/Sponsor/SponsorDetailPage/SponsorDetailPage';
 import SponListPage from './pages/Profile/Group/SponList/SponListPage';
 import TicketEditPage from './pages/MyTicket/TicketEdit/TicketEditPage';
 import SponsorCreatePage from './pages/Sponsor/SponsorCreatePage/SponsorCreatePage';
+import GroupProfilePage from './pages/Profile/Group/GroupProfilePage';
+import GroupProfileEditPage from './pages/Profile/Group/GroupProfileEditPage';
+import PlayerRegistration from './pages/Profile/Group/PlayerList/PlayerRegistrationPage';
+import BlockchainTest from "./BlockchainTest";
 
 
-const router = createBrowserRouter([
-  {
-    path:'/',
-    element: <HomePage />
-  },
-  {
-    path:'/soccer',
-    element: <SoccerPage />
-  },
-  {
-    path:'/baseball',
-    element: <BaseBallPage />
-  },
-  {
-    path:'/basketball',
-    element: <BasketBallPage />
-  },
-  {
-    path:'/alarm',
-    element: <AlarmPage />
-  },
-  {
-    path:'/:id/section',
-    element: <BookSectionPage />
-  },
-  {
-    path:'/:id/seat',
-    element: <BookSeatPage />
-  },
-  {
-    path:'/:id/payment',
-    element: <BookPaymentPage />
-  },
-  {
-    path:'/:id/confirm',
-    element: <BookConfirmPage />
-  },
-  {
-    path:'/mytickets',
-    element: <MyTicketPage />
-  },
-  {
-    path:'/mytickets/:id/edit',
-    element: <TicketEditPage />
-  },
-  {
-    path:'/signup',
-    element: <SignupPage />
-  },
-  {
-    path:'/login',
-    element: <LoginPage />
-  },
-  {
-    path:'/sponsor',
-    element: <SponsorPage />
-  },
-  {
-    path:'/sponsor/:id',
-    element: <SponsorDetailPage />
-  },
-  {
-    path:'/sponsor/create',
-    element: <SponsorCreatePage />
-  },
-  // 단체랑 개인은 role로 구분할 것
-  {
-    path:'/profile',
-    element: <ProfilePage />
-  },
-  {
-    path:'/profile/playerlist',
-    element: <PlayerListPage />
-  },
-  {
-    path:'/profile/edit',
-    element: <ProfileEditPage />
-  },
-  {
-    path:'/profile/sponlist',
-    element: <SponListPage />
-  },
-  {
-    path:'/profile/dreamhistory',
-    element: <DreamHistoryPage />
-  },
-  {
-    path:'/profile/paymenthistory',
-    element: <PaymentHistoryPage />
-  },
-  {
-    path:'/profile/preferredteam',
-    element: <PreferredTeamPage />
-  },
-]
+const router = createBrowserRouter(
+  [
+    {
+      path:'/',
+      element: <HomePage />
+    },
+    {
+      path:'/soccer',
+      element: <SoccerPage />
+    },
+    {
+      path:'/baseball',
+      element: <BaseBallPage />
+    },
+    {
+      path:'/basketball',
+      element: <BasketBallPage />
+    },
+    {
+      path:'/alarm',
+      element: <AlarmPage />
+    },
+    {
+      path:'/:id/section',
+      element: <BookSectionPage />
+    },
+    {
+      path:'/:id/seat',
+      element: <BookSeatPage />
+    },
+    {
+      path:'/:id/payment',
+      element: <BookPaymentPage />
+    },
+    {
+      path:'/:id/confirm',
+      element: <BookConfirmPage />
+    },
+    {
+      path:'/mytickets',
+      element: <MyTicketPage />
+    },
+    {
+      path:'/mytickets/:id/edit',
+      element: <TicketEditPage />
+    },
+    {
+      path:'/signup',
+      element: <SignupPage />
+    },
+    {
+      path:'/login',
+      element: <LoginPage />
+    },
+    {
+      path:'/sponsor',
+      element: <SponsorPage />
+    },
+    {
+      path:'/sponsor/:id',
+      element: <SponsorDetailPage />
+    },
+    {
+      path:'/sponsor/create',
+      element: <SponsorCreatePage />
+    },
+    // 단체랑 개인은 role로 구분할 것
+    {
+      path:'/profile',
+      element: <ProfilePage />
+    },
+    {
+      path:'/profile/group',
+      element: <GroupProfilePage />
+    },
+    {
+      path:'/profile/playerlist',
+      element: <PlayerListPage />
+    },
+    {
+      path:'/profile/playerlist/register',
+      element: <PlayerRegistration />
+    },
+    {
+      path:'/profile/edit',
+      element: <ProfileEditPage />
+    },
+    {
+      path:'/profile/group/edit',
+      element: <GroupProfileEditPage />
+    },
+    {
+      path:'/profile/sponlist',
+      element: <SponListPage />
+    },
+    {
+      path:'/profile/dreamhistory',
+      element: <DreamHistoryPage />
+    },
+    {
+      path:'/profile/paymenthistory',
+      element: <PaymentHistoryPage />
+    },
+    {
+      path:'/test',
+      element: <BlockchainTest/>
+    },
+  ]
 )
 
 function App() {

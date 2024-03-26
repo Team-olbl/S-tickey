@@ -14,7 +14,7 @@ const WaittingModal = ({ onClose}: { onClose: () => void;}) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();
-            navigate(`/${id}/seat` ); // 선택한 좌석과 함께 다음 페이지로 이동
+            navigate(`/${id}/section` ); 
         }, 3000);
 
         return () => clearTimeout(timer); 
@@ -39,7 +39,7 @@ const WaittingModal = ({ onClose}: { onClose: () => void;}) => {
                 <div className='flex flex-col px-4'>
                     <div className='text-[8px] text-center'>
                         <p>현재 접속 인원이 많아 대기중입니다.</p>
-                        <p>잠시만 기다려주시면 다음 단계 페이지로 연결됩니다.</p>
+                        <p>잠시만 기다려주시면 예매 페이지로 연결됩니다.</p>
                     </div>
                     <div className='text-[10px] font-semibold text-center py-2'>
                         <p>새로고침 하거나 재접속 히시면</p>

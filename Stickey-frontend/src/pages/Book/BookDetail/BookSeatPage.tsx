@@ -2,16 +2,8 @@ import Header, { IHeaderInfo } from "../../../components/@common/Header";
 import NavigationBar from "../../../components/@common/NavigationBar";
 import BookInfo from "../../../components/Book/BookInfo";
 import BookSeat from "../../../components/Book/BookSeat";
-
-export interface IGameInfo {
-  id: number;
-  stadium: string;
-  homeTeam: string;
-  awayTeam: string;
-  bookStartTime: string;
-  bookEndTime: string;
-  gameStartTime: string;
-}
+import Bell from '../../../assets/image/Bell.png';
+import { IGameInfo } from "./BookSectionPage";
 
 const dummyGameInfo: IGameInfo = {
   id: 4,
@@ -23,14 +15,13 @@ const dummyGameInfo: IGameInfo = {
   gameStartTime: "2024-03-21T01:42:48"
 };
 
-
 const BookSeatPage = () => {
 
   const info : IHeaderInfo = {
     left_1:  null,
     left_2: null,
     center:'예매하기',
-    right: <img src="/src/assets/image/Bell.png" />
+    right: <img src={Bell} />
   }
 
 

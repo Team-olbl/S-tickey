@@ -21,7 +21,7 @@ const DreamItem = ({ data }: DreamItemProps) => {
 
   return (
     <>
-      <div className="w-[360px] px-[30px] flex flex-row justify-between pb-4">
+      <div className="w-full px-[30px] flex flex-row justify-between pb-4">
         <div className="flex flex-col text-[8px] text-white mr-8">
           <div className="font-bold">{data.date}</div>
           <div>{data.time}</div>
