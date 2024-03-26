@@ -191,17 +191,126 @@ export const getReword = async () => {
   }
 }
 
+// 아이템 조회
+export const getItemList = async () => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.getItemList().call();
+    return ret;
+  } catch (err) {
+    alert("아이템 조회 실패");
+  }
+}
+
+// 티켓에 필터 적용
+export const setFilterOnTicket = async (tokenId : number, itemId : number, supportId : number) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.setFilterOnTicket(tokenId, itemId, supportId).send({ from: account[0] });
+    return ret;
+  } catch (err) {
+    alert("실패");
+  }
+}
 
 
+// 필터 아이템 추가
+export const addFilter = async (name : string, price : number) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.addFilter(name, price).send({ from: account[0] });
+    return ret;
+  } catch (err) {
+    alert("필터 등록 실패");
+  }
+}
 
+// 필터 아이템 삭제
+export const deleteFilter = async (id : number) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.deleteFilter(id).send({ from: account[0] });
+    return ret;
+  } catch (err) {
+    alert("실패");
+  }
+}
 
-// API 더미
-// export const contractMethod = async (tokenId: number) => {
-//   if (contract === null || web3 === null) throw new Error("Invalid Call");
-//   try {
-//     const ret = await contract.methods.
-//     return ret;
-//   } catch (err) {
-//     alert("실패");
-//   }
-// }
+// 티켓에 배경색 적용
+export const setBackgroundOnTicket = async (tokenId : number, itemId : number, supportId : number) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.setBackgroundOnTicket(tokenId, itemId, supportId).send({ from: account[0] });
+    return ret;
+  } catch (err) {
+    alert("실패");
+  }
+}
+
+// 배경색 아이템 추가
+export const addBackground = async (name : string, price : number) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.addBackground(name, price).send({ from: account[0] });
+    return ret;
+  } catch (err) {
+    alert("실패");
+  }
+}
+
+// 배경색 아이템 삭제
+export const deleteBackground = async (id : number) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.deleteBackground(id).send({ from: account[0] });
+    return ret;
+  } catch (err) {
+    alert("실패");
+  }
+}
+
+// 블록체인에 경기 정보 등록
+export const setGame = async (id : number, bookStartTime : number, gameStartTime : number, stadium : string, homeTeam : string, awayTeam : string, category : string, gameImage : string) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const cate = category === "SOCCER" ? 0 : category === "BASEBALL" ? 1 : 2;
+    console.log(id, bookStartTime, gameStartTime, stadium, homeTeam, awayTeam, cate, gameImage);
+    const ret = await contract.methods.setGame(id, bookStartTime, gameStartTime, stadium, homeTeam,awayTeam, cate, gameImage).send({ from: account[0] });
+    return ret;
+  } catch (err) {
+    alert("실패");
+  }
+}
+
+// 좌석 가격 설정
+export const setSeatPrice = async (stadiumId : number, zoneId : number, price : number) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.setSeatPrice(stadiumId, zoneId, price).send({ from: account[0] });
+    return ret;
+  } catch (err) {
+    alert("실패");
+  }
+}
+
+// 구역 이름 설정
+export const setZoneName = async (zoneId : number, zoneName : string) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.setZoneName(zoneId, zoneName).send({ from: account[0] });
+    return ret;
+  } catch (err) {
+    alert("실패");
+  }
+}
+
+// 좌석 상태 조회
+export const getSeatState = async (gameId : number, zoneId : number, seatNumber : number) => {
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  try {
+    const ret = await contract.methods.getSeatState(gameId, zoneId, seatNumber).call();
+    return ret;
+  } catch (err) {
+    alert("실패");
+  }
+}
