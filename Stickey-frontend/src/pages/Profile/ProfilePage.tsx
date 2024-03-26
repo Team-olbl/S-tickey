@@ -7,13 +7,14 @@ import UserProfile from "../../components/Profile/User/UserProfile";
 import GroupProfile from "../../components/Profile/Group/GroupProfile";
 import UserMenu from "../../components/Profile/User/UserMenu";
 import YellowBell from '../../assets/image/YellowBell.png'
+import GroupMenu from "../../components/Profile/Group/GroupMenu";
 
 const ProfilePage = () => {
 
   const { useGetProfile } = useProfile();
 
   const id: number = 1;
-  const role: number = 1;
+  const role: number = 0;
 
   console.log(role)
 
@@ -76,6 +77,8 @@ const ProfilePage = () => {
                 <p className="text-[12px]">IOS 서비스 미지원 기종이 있습니다.</p>
               </div>
             </div>
+
+            <GroupMenu />
        
           </>
         )}

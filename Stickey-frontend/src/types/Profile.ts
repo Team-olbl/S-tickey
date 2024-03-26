@@ -5,9 +5,30 @@ export interface IPreTeamSimpleRes {
     sportsClubName: string
 }
 
+export interface IPlayerSimpleRes {
+    name: string;
+    id: number;
+    description: string;
+    category: string;
+    birth: string
+}
+
 // 프로필 조회 Response
 export interface IUserProfile {
     profileImage: string;
     name: string;
     preference: IPreTeamSimpleRes[];    
+}
+
+// 단체 선수 목록 조회 Response
+export interface IPlayerListRes {
+    playerResList: IPlayerSimpleRes[]
+}
+
+// 선수 등록 Request
+export interface ICreatePlayerReq {
+    name: string;
+    description: string;
+    category: string;
+    birth: string;
 }

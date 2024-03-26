@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query"
-import { getProfileReq } from "../../service/Profile/api"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { getPlayerListReq, getProfileReq, postPlayerCreate } from "../../service/Profile/api"
+import { ICreatePlayerReq } from "../../types/Profile"
 
 export const useProfile = () => {
 
@@ -10,5 +11,18 @@ export const useProfile = () => {
         })
     }
 
-    return { useGetProfile }
+    const useGetPlayerList = () => {
+        return useQuery({
+            queryKey: ['playerList'],
+            queryFn: () => getPlayerListReq(),
+        })
+    }
+
+    const usePostPlayerCreate = (info: ICreatePlayerReq) => {
+        return useMutation({
+            mutationFn: () => postPlayerCreate(info)
+        })
+    }
+
+    return { useGetProfile, useGetPlayerList, usePostPlayerCreate }
 }
