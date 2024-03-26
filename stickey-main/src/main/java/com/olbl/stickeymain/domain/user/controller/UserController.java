@@ -141,8 +141,8 @@ public class UserController {
         }
 
         // 새로운 Access Token, Refresh Token 만들고, Response에 추가
-        String newAccess = jwtUtil.createJWT("access", username, role, 600000L);
-        String newRefresh = jwtUtil.createJWT("refresh", username, role, 86400000L);
+        String newAccess = jwtUtil.createJWT("access", username, role, 10800000L);
+        String newRefresh = jwtUtil.createJWT("refresh", username, role, 259200000L);
 
         response.setHeader("access", newAccess);
         response.setHeader("refresh", newRefresh);
