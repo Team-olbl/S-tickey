@@ -6,13 +6,8 @@ export interface IPreTeamSimpleRes {
 }
 
 // 프로필 조회 Response
-export interface IUserProfileRes {
+export interface IUserProfile {
     profileImage: string;
     name: string;
-    preference: IPreTeamSimpleRes[];
-}
-
-// 프로필 조회 Request
-export interface IUserProfileReq {
-    id : number;
+    preference: IPreTeamSimpleRes[];    
 }

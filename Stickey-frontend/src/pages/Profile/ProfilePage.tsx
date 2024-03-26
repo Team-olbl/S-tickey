@@ -5,12 +5,33 @@ import Notice from "../../components/Profile/Notice";
 import ProfileItem from "../../components/Profile/ProfileItem";
 import Wallet from "../../components/Profile/Wallet";
 import Bell from '../../assets/image/Bell.png'
-
-export type preferredTeam = {
-  name: string;
-}
+import { useProfile } from "../../hooks/Profile/useProfile";
+import { IUserProfile } from "../../types/Profile";
 
 const ProfilePage = () => {
+
+  const { useGetProfile } = useProfile();
+
+  const id: number = 1;
+  const { data: userProfileInfo } = useGetProfile(id);
+
+  console.log(userProfileInfo?.data, '프로필 조회')
+
+  const dummyUserProfile: IUserProfile = {
+    profileImage: 'image',
+    name: '더미 유저',
+    preference: [
+      {
+        sportsClubId: 1,
+        sportsClubLogo: 'logo',
+        sportsClubName: '대구 FC'
+      }
+    ]
+  };
+
+  const userInfo: IUserProfile | null =  dummyUserProfile;
+
+
   const info : IHeaderInfo = {
     left_1: null,
     left_2: null,
@@ -18,22 +39,11 @@ const ProfilePage = () => {
     right: <img src={Bell} />
   }
   
-  const dummies:preferredTeam[] = [
-    {
-      name: '대구FC'
-    },
-    {
-      name: 'FC서울'
-    },
-  ]
-
-  const teamNames = dummies.map((team) => team.name)
-
   return(
     <>
       <Header info={info} />
       <div className="pt-16">
-        <ProfileItem teamNames={teamNames} />
+        <ProfileItem userInfo={userInfo} />
         <Wallet />
         <Notice />
         <Menu />
