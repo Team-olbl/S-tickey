@@ -2,9 +2,10 @@ import Modal from '../@common/Modal'
 import Waitting from '../../assets/image/Waitting.png'
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { IGameSimpleRes } from '../../types/Home';
 
 
-const WaittingModal = ({ onClose}: { onClose: () => void;}) => {
+const WaittingModal = ({ onClose, data }: { onClose: () => void; data: IGameSimpleRes | null; }) => {
 
     const navigate = useNavigate(); 
 
@@ -14,14 +15,16 @@ const WaittingModal = ({ onClose}: { onClose: () => void;}) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();
-            navigate(`/${id}/section` ); 
+            if (data) {
+                navigate(`/${data.id}/section`); // 데이터가 있는 경우에만 해당 데이터의 id를 이용하여 경로 이동
+            }
         }, 3000);
 
         return () => clearTimeout(timer); 
-    }, [onClose, navigate]);
+    }, [onClose, navigate, data]);
 
-  
-
+    
+    console.log(id)
     
     return (
         <Modal width="300px" height="auto" title="현재 대기순서" onClose={onClose}>
