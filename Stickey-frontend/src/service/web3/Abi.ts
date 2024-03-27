@@ -526,14 +526,14 @@ export const contractABI = [
             "type": "uint256"
           },
           {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
             "internalType": "uint256",
             "name": "price",
             "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
           }
         ],
         "internalType": "struct Item.ItemInfo[]",
@@ -548,14 +548,14 @@ export const contractABI = [
             "type": "uint256"
           },
           {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
             "internalType": "uint256",
             "name": "price",
             "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
           }
         ],
         "internalType": "struct Item.ItemInfo[]",
@@ -743,16 +743,6 @@ export const contractABI = [
             "type": "uint256"
           },
           {
-            "internalType": "string",
-            "name": "stadium",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "zoneName",
-            "type": "string"
-          },
-          {
             "internalType": "uint256",
             "name": "seatNumber",
             "type": "uint256"
@@ -773,9 +763,14 @@ export const contractABI = [
             "type": "uint256"
           },
           {
-            "internalType": "enum Game.Category",
-            "name": "category",
-            "type": "uint8"
+            "internalType": "string",
+            "name": "zoneName",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "stadium",
+            "type": "string"
           },
           {
             "internalType": "string",
@@ -791,6 +786,11 @@ export const contractABI = [
             "internalType": "string",
             "name": "gameImage",
             "type": "string"
+          },
+          {
+            "internalType": "enum Game.Category",
+            "name": "category",
+            "type": "uint8"
           }
         ],
         "internalType": "struct Api.TicketDetail[]",
@@ -910,11 +910,6 @@ export const contractABI = [
         "components": [
           {
             "internalType": "uint256",
-            "name": "supportId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
             "name": "amount",
             "type": "uint256"
           },
@@ -922,6 +917,11 @@ export const contractABI = [
             "internalType": "uint256",
             "name": "time",
             "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "supportName",
+            "type": "string"
           },
           {
             "internalType": "string",
@@ -1010,9 +1010,14 @@ export const contractABI = [
       {
         "components": [
           {
-            "internalType": "enum Api.PaymentType",
-            "name": "paymentType",
-            "type": "uint8"
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "time",
+            "type": "uint256"
           },
           {
             "components": [
@@ -1020,6 +1025,26 @@ export const contractABI = [
                 "internalType": "uint256",
                 "name": "gameStartTime",
                 "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "gameId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256[]",
+                "name": "seatNumber",
+                "type": "uint256[]"
+              },
+              {
+                "internalType": "string",
+                "name": "homeTeam",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "awayTeam",
+                "type": "string"
               },
               {
                 "internalType": "string",
@@ -1030,11 +1055,6 @@ export const contractABI = [
                 "internalType": "string",
                 "name": "zoneName",
                 "type": "string"
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "seatNumber",
-                "type": "uint256[]"
               }
             ],
             "internalType": "struct Api.TicketPayment",
@@ -1047,14 +1067,9 @@ export const contractABI = [
             "type": "string"
           },
           {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "time",
-            "type": "uint256"
+            "internalType": "enum Api.PaymentType",
+            "name": "paymentType",
+            "type": "uint8"
           }
         ],
         "internalType": "struct Api.PaymentHistory[]",
