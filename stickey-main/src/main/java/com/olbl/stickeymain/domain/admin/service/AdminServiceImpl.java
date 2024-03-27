@@ -21,6 +21,7 @@ import com.olbl.stickeymain.domain.support.repository.SupportRepository;
 import com.olbl.stickeymain.domain.user.organization.entity.Organization;
 import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
 import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
+import com.olbl.stickeymain.domain.user.repository.UserRepository;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +37,10 @@ public class AdminServiceImpl implements AdminService {
 
     private final OrganizationRepository organizationRepository;
     private final SupportRepository supportRepository;
+    private final UserRepository userRepository;
 
     @Override
     public SignUpListRes getSignUpList() {
-        //TODO: 관리자 계정 확인 로직
         List<SignUpRes> signUpResList = organizationRepository.findAllByStatus(
             OrganizationStatus.WAITING);
         return new SignUpListRes(signUpResList, signUpResList.size());
@@ -47,7 +48,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public SignUpOneRes getSignUp(int id) {
-        //TODO: 관리자 계정 확인 로직
         Organization organization = organizationRepository.findById(id)
             .orElseThrow(() -> new BusinessException(ORGANIZATION_SIGNUP_DO_NOT_EXISTS));
         if (organization.getStatus() != OrganizationStatus.WAITING) {
@@ -71,7 +71,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public void confirmOrganization(int id, ConfirmReq confirmReq) {
-        //TODO: 관리자 계정 확인 로직
         Organization organization = organizationRepository.findById(id)
             .orElseThrow(() -> new BusinessException(ORGANIZATION_SIGNUP_DO_NOT_EXISTS));
         if (organization.getStatus() != OrganizationStatus.WAITING) {
@@ -91,7 +90,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public WaitingSupportListRes getWaitingSupportList() {
-        //TODO: 관리자 계정 확인 로직
         List<WaitingSupportRes> waitingSupportRes = supportRepository.findAllByStatus(WAITING);
         return new WaitingSupportListRes(waitingSupportRes, waitingSupportRes.size());
     }
@@ -107,7 +105,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public void confirmSupport(int id, ConfirmReq confirmReq) {
-        //TODO: 관리자 계정 확인 로직
         Support support = supportRepository.findById(id)
             .orElseThrow(() -> new BusinessException(SUPPORT_DO_NOT_EXISTS));
 
