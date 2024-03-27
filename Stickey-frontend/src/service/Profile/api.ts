@@ -1,5 +1,5 @@
 import { axiosAuthInstance } from "../../apis/axiosInstance";
-import { ICreatePlayerReq, IPlayerListRes, IUserProfile, } from "../../types/Profile";
+import { ICreatePlayerReq, IPlayerListRes, ITeamPreferReq, IUserProfile, } from "../../types/Profile";
 import { APIResponse } from "../../types/model";
 
 export const getProfileReq = async(): Promise<APIResponse<IUserProfile>> => {
@@ -14,5 +14,11 @@ export const getPlayerListReq = async() : Promise<APIResponse<IPlayerListRes>> =
 
 export const postPlayerCreate = async ( info: ICreatePlayerReq ) : Promise<APIResponse<string>> => {
     const { data } = await axiosAuthInstance.post(`/organizations/profile/players`, info);
+    return data;
+}
+
+// 선호구단 등록
+export const patchTeamPreference = async(info: ITeamPreferReq ): Promise<APIResponse<string>> => {
+    const { data } = await axiosAuthInstance.patch(`/users/profile/preference`, info)
     return data;
 }

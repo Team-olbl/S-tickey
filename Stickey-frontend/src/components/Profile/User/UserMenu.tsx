@@ -7,6 +7,8 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { toast } from "react-toastify";
 import { useGame } from "../../../hooks/Home/useGame";
 import { ITeamListRes } from "../../../types/Home";
+import { useProfile } from "../../../hooks/Profile/useProfile";
+import { ITeamPreferReq } from "../../../types/Profile";
 
 const UserMenu = () => {
   const navigate = useNavigate();
@@ -36,7 +38,7 @@ const UserMenu = () => {
     console.log(selectedTab)
   }, [selectedTab])
 
-  const handleAddTeam = () => {
+  const handleAddTeam = async () => {
     const selected = teamListInfo?.data.find(team => team.name === selectedTeam);
     // 선택된 팀이 이미 selectedTeams 배열에 있는지 확인
     const isAlreadySelected = preferredTeams.some(team => team.id === selected?.id);
@@ -49,14 +51,31 @@ const UserMenu = () => {
     } else if (isAlreadySelected) {
       toast.error('이미 선택된 팀입니다.')
     }
+    
   }
-  
+  const { usePatchTeamPrefer } = useProfile()
+
+  // 선호구단의 아이디값을 배열에 저장
+    const selectedTeamIds = preferredTeams.map(team => team.id);
+    console.log(selectedTeamIds)
+
+    const patchReq: ITeamPreferReq = {
+      preferences: selectedTeamIds
+    } 
+
+    const { mutate } = usePatchTeamPrefer(patchReq);
+
+    const handlePatchData = () => {
+      mutate()
+      setIsBottomSheetOpen(false)
+
+    }
+
 
   const handleRemoveTeam = (index: number) => {
     setPreferredTeams(prev => prev.filter((_, i) => i !== index));
   }
 
-  // TODO 서버 더미 추가 후 더미 유저를 api 응답으로 바꿔야함 
   const { useGetTeamList } = useGame();
 
   const {
@@ -143,8 +162,9 @@ const UserMenu = () => {
                 </div>
               ))}
               </div>
-              <div className="fixed max-w-[500px] w-full px-8 bottom-16">
-                <button className="w-full h-8 border border-none bg-Stickey_Main rounded-[5px]" onClick={handleAddTeam}>추가하기</button>
+              <div className="fixed flex justify-center max-w-[500px] w-full px-8 bottom-16">
+                <button className="p-2 w-40 mx-1 bg-Stickey_Main rounded-md" onClick={handleAddTeam}>추가하기</button>
+                <button className="p-2 w-40 mx-1 bg-Stickey_Main rounded-md" onClick={() => handlePatchData()}>저장하기</button>
               </div>
             </div>
           </BottomModal>}
