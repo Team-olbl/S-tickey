@@ -14,6 +14,8 @@ import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.domain.user.dto.PreferenceReq;
 import com.olbl.stickeymain.domain.user.dto.ProfileRes;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
+import com.olbl.stickeymain.domain.user.dto.UserInfoReq;
+import com.olbl.stickeymain.domain.user.dto.UserInfoRes;
 import com.olbl.stickeymain.domain.user.entity.Preference;
 import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.entity.User;
@@ -33,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -176,5 +179,35 @@ public class UserServiceImpl implements UserService {
 
         // User에 새로운 Preference 리스트 설정
         user.changePreferences(newPreferences);
+    }
+
+    @Override
+    public UserInfoRes getUserInfo() {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+        UserInfoRes userInfoRes = userRepository.findUserInfoById(userDetails.getId())
+            .orElseThrow(() -> new BusinessException(USER_NOT_EXISTS));
+
+        return userInfoRes;
+    }
+
+    @Override
+    @Transactional
+    public void updateUserInfo(UserInfoReq userInfoReq, MultipartFile profile) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+
+        User user = userRepository.findById(userDetails.getId())
+            .orElseThrow(() -> new BusinessException(USER_NOT_EXISTS));
+
+        if (profile != null && !profile.isEmpty()) {
+            String profileUrlBefore = user.getProfileImage();
+            String profileUrl = s3Util.uploadFile(profile, 1);
+
+            //TODO: 이전에 있던 사진 삭제 로직 추가
+            user.updateProfileImage(profileUrl);
+        }
+
+        user.updatePhone(userInfoReq.getPhone());
     }
 }
