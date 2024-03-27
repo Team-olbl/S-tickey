@@ -15,7 +15,7 @@ export const getGameListReq = async({catg, club, date} : IGameListReq): Promise<
     return data;
 };
 
-export const getTeamLisReq = async(catg : ITeamListReq): Promise<APIResponse<ITeamListRes>> => {
+export const getTeamListReq = async({catg} : ITeamListReq): Promise<APIResponse<ITeamListRes>> => {
     const { data } = await axiosAuthInstance.get(`/games/clubs`, {
         params: {
             catg: catg,

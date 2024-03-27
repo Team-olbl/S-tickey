@@ -10,6 +10,7 @@ import Hushed from "../../../assets/image/MatchItem.png";
 import MatchItem from "../../../components/Soccer/MatchItem";
 import { useGame } from "../../../hooks/Home/useGame";
 import { IGameSimpleRes } from "../../../types/Home";
+import dayjs from 'dayjs';
 
 const SoccerPage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -34,9 +35,11 @@ const SoccerPage = () => {
 
   const { useGetGameList } = useGame();
 
+  const date = dayjs().format('YYYYMM')
+
   const {
     data : gameListInfo,
-  } = useGetGameList({catg: 'SOCCER', club: '', date: ''});
+  } = useGetGameList({catg: 'SOCCER', club: [], date: date});
 
   console.log(gameListInfo)
 

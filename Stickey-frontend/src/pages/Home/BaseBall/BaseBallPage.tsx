@@ -10,6 +10,7 @@ import Hush from '../../../assets/image/MatchItem.png'
 import BottomSheet from "../../../components/@common/BottomSheet";
 import { useGame } from "../../../hooks/Home/useGame";
 import { IGameSimpleRes } from "../../../types/Home";
+import dayjs from 'dayjs';
 
 const BaseBallPage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -33,10 +34,11 @@ const BaseBallPage = () => {
   };
 
   const { useGetGameList } = useGame();
+  const date = dayjs().format('YYYYMM')
 
   const {
     data : gameListInfo,
-  } = useGetGameList({catg: 'BASEBALL', club: '', date: ''});
+  } = useGetGameList({catg: 'BASEBALL', club: [], date: date});
 
   const info : IHeaderInfo = {
     left_1: (
