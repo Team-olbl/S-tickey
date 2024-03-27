@@ -24,6 +24,7 @@ export type PaymentItemData = {
     seatNumber: number[];
   }
   supportName: string;
+  supportText: string;
 };
 
 const dateSet = new Set();
@@ -176,7 +177,7 @@ const PaymentHistoryPage = () => {
     if (!dateSet.has(Math.floor(value / 8640))) {
       dateSet.add(Math.floor(value / 8640));
       return (
-        <div className="text-white">{dayjs(value * 1000).format("YYYY-MM-DD")}</div>
+        <div className="text-white ps-3">{dayjs(value * 1000).format("YYYY-MM-DD")}</div>
       )
     }
   }
@@ -185,9 +186,9 @@ const PaymentHistoryPage = () => {
     <>
       <Header info={info} />
       <div className="pt-16">
-        {paymentHistroy && paymentHistroy.map((item) => {
+        {paymentHistroy && paymentHistroy.map((item, idx) => {
           return (
-            <Fragment key={item.time}>
+            <Fragment key={idx}>
               
               {displayDate( Number(item.time))} 
             <PaymentItem data={item} />

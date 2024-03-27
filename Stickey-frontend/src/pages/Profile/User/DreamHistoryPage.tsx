@@ -4,6 +4,8 @@ import Back from '../../../assets/image/Back.png'
 import Bell from '../../../assets/image/Bell.png'
 import DreamItem from "../../../components/Profile/User/Dream/DreamItem";
 import DreamHeader from "../../../components/Profile/User/Dream/DreamHeader";
+import { useEffect, useState } from "react";
+import { connect, getRewordHistory } from "../../../service/web3/api";
 
 const info : IHeaderInfo = {
   left_1:  null,
@@ -13,50 +15,32 @@ const info : IHeaderInfo = {
 }
 
 export type DreamItemData = {
-  date: string;
-  time: string;
-  content: string;
-  rewardChange: number;
-  totalReward: number;
-  type: string;
+  rewordType: number;
+  amount: bigint;
+  balance: bigint;
+  time: bigint;
 }
 
 const DreamHistoryPage = () => {
+  
+  const [dreamHistroy, setDreamHistory] = useState<DreamItemData[]>([]);
 
-  const dummies: DreamItemData[] = [
-    {
-      date: "2023. 1. 09",
-      time: "12:17:45",
-      content: "삼성 라이온즈 티켓 구매",
-      rewardChange: +20,
-      totalReward: 20,
-      type: '티켓'
-    },
-    {
-      date: "2023. 1. 10",
-      time: "15:42:30",
-      content: "아이템 구매",
-      rewardChange: -10,
-      totalReward: 10,
-      type: '아이템'
-    },
-    {
-      date: "2023. 1. 11",
-      time: "09:11:25",
-      content: "꿈나무 후원",
-      rewardChange: -10,
-      totalReward: 0,
-      type: '후원'
+  useEffect(() => {
+    async function getData() {
+      await connect();
+      const data = await getRewordHistory();
+      setDreamHistory(data);
     }
-  ];
+    getData();
+  }, []);
 
   return (
     <>
       <Header info={info}/>
       <div className="pt-12">
         <DreamHeader />
-        {dummies.map((item, id) => (
-          <DreamItem key={id} data={item} />
+        {dreamHistroy.map((item, idx) => (
+          <DreamItem key={idx} data={item} />
         ))}
       </div>
       <NavigationBar />
