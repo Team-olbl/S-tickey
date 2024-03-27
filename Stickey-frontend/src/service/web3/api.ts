@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Web3 from 'web3';
 import { contractABI } from './Abi';
-const contractAddress = "0x7C20b2c35Fb7aaF6f59166Aa50e3951db72a813b";
+const contractAddress = "0x799C214459B5cbBe9D86976B57178cd179Ac1817";
 
 let web3 : any = null;
 let contract: any = null;
@@ -11,6 +11,11 @@ declare global {
   interface Window {
     ethereum: any;
   }
+}
+
+// to Ether
+export const toEther = (value : bigint | number) => {
+  return web3?.utils.fromWei(value, 'ether');
 }
 
 // 지갑 연결
@@ -97,7 +102,7 @@ export const getTickets = async () => {
     //   )
     // }
     // return data;
-    return ret;
+    return ret.reverse();
   } catch (err) {
     alert("티켓 조회 실패");
   }
@@ -141,7 +146,7 @@ export const getSupprtedHistory = async (id : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getSupprtedHistory(id).call();
-    return ret;
+    return ret.reverse();
   } catch (err) {
     alert("후원받은 내역 조회 실패");
   }
@@ -152,7 +157,7 @@ export const getSupprtingHistory = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getSupprtingHistory(account[0]).call();
-    return ret;
+    return ret.reverse();
   } catch (err) {
     alert("후원한 내역 조회 실패");
   }
@@ -163,7 +168,7 @@ export const getPaymentHistory = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getPaymentHistory(account[0]).call();
-    return ret;
+    return ret.reverse();
   } catch (err) {
     alert("결제 이력 조회 실패");
   }
@@ -174,7 +179,7 @@ export const getRewordHistory = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getRewordHistory(account[0]).call();
-    return ret;
+    return ret.reverse();
   } catch (err) {
     alert("꿈 내역 조회 실패");
   }
