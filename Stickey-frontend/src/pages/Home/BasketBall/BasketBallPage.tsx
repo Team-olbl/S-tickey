@@ -11,6 +11,7 @@ import BottomSheet from "../../../components/@common/BottomSheet";
 import { useGame } from "../../../hooks/Home/useGame";
 import { IGameSimpleRes } from "../../../types/Home";
 import dayjs from 'dayjs';
+import { TeamStoreState } from "../../../stores/useTeamStateStore";
 
 
 const BasketBallPage = () => {
@@ -35,12 +36,13 @@ const BasketBallPage = () => {
   };
 
   const { useGetGameList } = useGame();
+  const { selectedTeams } = TeamStoreState();
 
   const date = dayjs().format('YYYYMM')
 
   const {
     data : gameListInfo,
-  } = useGetGameList({catg: 'BASKETBALL', club: [], date: date});
+  } = useGetGameList({catg: 'BASKETBALL', club: selectedTeams, date: date});
 
   const info : IHeaderInfo = {
     left_1: (
