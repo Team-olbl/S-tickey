@@ -30,7 +30,7 @@ const BottomModal = ({ height, title, onClose, children }: IBottomSheetProps) =>
     <>
       {isRendering && (
         <div
-          className={`fixed top-0 w-full h-screen max-w-[500px] z-[1] bottom-0 bg-black/50`}
+          className={`fixed top-0 w-full h-screen max-w-[500px] bottom-0 bg-black/50`}
           onClick={handleOverlayClick}
         >
           <div
