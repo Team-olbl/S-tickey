@@ -1,16 +1,16 @@
 package com.olbl.stickeymain.domain.user.controller;
 
 import static com.olbl.stickeymain.global.result.ResultCode.CHECK_EMAIL_SUCCESS;
-import static com.olbl.stickeymain.global.result.ResultCode.MODIFY_PREFERENCE_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_PROFILE_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.MODIFY_PREFERENCE_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.REGIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.SEND_EMAIL_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.TOKEN_REISSUE_SUCCESS;
 
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
-import com.olbl.stickeymain.domain.user.dto.ProfileRes;
 import com.olbl.stickeymain.domain.user.dto.PreferenceReq;
+import com.olbl.stickeymain.domain.user.dto.ProfileRes;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.service.OrganizationService;
@@ -116,39 +116,39 @@ public class UserController {
         HttpServletResponse response) {
 
         // 리프레시 토큰 획득
-        String refresh = request.getHeader("Authorization");
+        String token = request.getHeader("Authorization");
 
         // 리프레시 토큰이 없거나, 만료되었다면 예외 발생
-        if (refresh == null || jwtUtil.isExpired(refresh)) {
+        if (token == null || !token.startsWith("Bearer ")) {
             throw new BusinessException(ErrorCode.REFRESH_TOKEN_NOT_AVAILABLE);
         }
-        // 리프레시 토큰이 아니라면 예외 발생
-        String category = jwtUtil.getCategory(refresh);
-        if (!category.equals("refresh")) {
+
+        String refreshToken = token.split(" ")[1];
+
+        // 리프레시 토큰 유효성 검사 - 토큰 자체의 유효성 검사
+        if (!jwtUtil.validateToken(refreshToken, "refresh")) {
             throw new BusinessException(ErrorCode.REFRESH_TOKEN_NOT_AVAILABLE);
         }
 
         // Username, Role 정보 획득
-        String username = jwtUtil.getUsername(refresh);
-        String role = jwtUtil.getRole(refresh);
+        String username = jwtUtil.getUsername(refreshToken);
+        String role = jwtUtil.getRole(refreshToken);
 
-        // 유효한 RefreshToken이 아니라면 예외 발생
+        // 유효한 리프레시 토큰인지 검사  - 해당 유저의 토큰이 맞는지 검사
         String accurateRefresh = jwtUtil.getRefreshEntity(username);
-        if (accurateRefresh == null || !accurateRefresh.equals(refresh)) {
+        if (accurateRefresh == null || !accurateRefresh.equals(refreshToken)) {
             throw new BusinessException(ErrorCode.REFRESH_TOKEN_NOT_AVAILABLE);
         }
 
         // 새로운 Access Token, Refresh Token 만들고, Response에 추가
-        String newAccess = jwtUtil.createJWT("access", username, role, 600000L);
-        String newRefresh = jwtUtil.createJWT("refresh", username, role, 86400000L);
+        String newAccess = jwtUtil.createJWT("access", username, role, 10800000L);
+        String newRefresh = jwtUtil.createJWT("refresh", username, role, 259200000L);
 
         response.setHeader("access", newAccess);
         response.setHeader("refresh", newRefresh);
 
         // 기존 Refresh Token은 삭제하고 새 Refresh Token 업데이트
         jwtUtil.addRefreshEntity(username, newRefresh);
-
         return ResponseEntity.ok(ResultResponse.of(TOKEN_REISSUE_SUCCESS));
     }
-
 }
