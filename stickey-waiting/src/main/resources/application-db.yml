@@ -1,0 +1,22 @@
+---
+spring:
+  config:
+    activate:
+      on-profile: db-local
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      username:
+      password:
+---
+spring:
+  config:
+    activate:
+      on-profile: db-server
+  data:
+    redis:
+      host: ${server.redis.host}
+      port: ${server.redis.port}
+      username: ${server.redis.username}
+      password: ${server.redis.password}

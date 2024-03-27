@@ -41,7 +41,6 @@ public class JWTFilter extends OncePerRequestFilter { // 동일 요청 내에서
 
         // AccessToken 유효성 검사
         String accessToken = token.split(" ")[1];
-
         if (!jwtUtil.validateToken(accessToken, "access")) {
             // response status code
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -51,6 +50,9 @@ public class JWTFilter extends OncePerRequestFilter { // 동일 요청 내에서
         // 토큰 검증이 완료되면 ID, ROLE 값 획득
         String id = jwtUtil.getUsername(accessToken);
         String role = jwtUtil.getRole(accessToken);
+
+        log.info("id : {}", id);
+        log.info("role : {}", role);
 
         User user = User.builder()
             .id(Integer.parseInt(id))
