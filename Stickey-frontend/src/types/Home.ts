@@ -26,22 +26,13 @@ export interface IGameListReq {
 
 }
 
-// export interface ITeamSimpleRes {
-//     id: number;
-//     category: string;
-//     name: string;
-//     logo: string;
-//     isPrefer: boolean;
-// }
-
 // 구단 리스트 조회 Response 
 export interface ITeamListRes {
-    // clubListRes: ITeamSimpleRes;
     id: number;
     category: string;
     name: string;
     logo: string;
-    isPrefer: boolean;
+    isPrefer: number;
 }
 
 // 구단 리스트 조회 Request 
