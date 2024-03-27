@@ -8,40 +8,42 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
 
+  const [modalData, setModalData] = useState<IGameSimpleRes | null>(null);
+
   const handleBookTicket = () => {
     setIsModalOpen(true);
   };
 
   return (
     <>
-    <div className="px-4">
-      <div className=" w-full max-w-[500px] border-none border-[#2E2E3D] rounded-[15px] bg-[#2E2E3D] shadow-[2px_2px_rgba(0,0,0,0.25)] p-6 text-white">
+    <div className="px-4 py-1">
+      <div className="w-full max-w-[500px] border-none border-[#2E2E3D] rounded-[15px] bg-[#2E2E3D] shadow-[2px_2px_rgba(0,0,0,0.25)] p-6 text-white">
         <div className="flex flex-row text-center justify-center gap-10">
           <div className="flex flex-col justify-center items-center ">
-            <p className="text-[8px] pb-[2px]">홈 팀</p>
-            <div className="w-12 h-12 rounded-full border bg-Stickey_Gray relative mb-1">
-              {data.homeTeam}
+            <p className="text-[10px] pb-1">Home</p>
+            <div className="w-12 h-12 rounded-full bg-Stickey_Gray mb-1">
+              {data.homeTeamLogo}
             </div>
-            <p className="text-[16px]">{data.homeTeam}</p>
+            <p className="text-md">{data.homeTeam}</p>
           </div>
           <div className="flex items-center">
             <p className="text-[20px]">VS</p>
           </div>
           <div className="flex flex-col justify-center items-center">
-            <p className="text-[8px] pb-[2px]">원정 팀</p>
-            <div className="w-12 h-12 rounded-full border bg-Stickey_Gray relative mb-1">
+            <p className="text-[10px] pb-1">Away</p>
+            <div className="w-12 h-12 rounded-full bg-Stickey_Gray mb-1">
               {data.awayTeamLogo}
             </div>
-            <p className="text-[16px]">{data.awayTeam}</p>
+            <p className="text-md pt-2">{data.awayTeam}</p>
           </div>
         </div>
-        <div className="flex flex-col text-center pt-[10px] text-[10px]">
+        <div className="flex flex-col text-center pt-[10px] text-sm">
           <p>{data.stadium}</p>
           <p>{new Date(data.gameStartTime).toLocaleString()}</p>
         </div>
-        <div className="flex flex-col items-center pt-2">
+        <div className="flex flex-col items-center pt-4">
           <button className="w-full h-[36px] border-none bg-[#5959E7] rounded-[10px] flex justify-center items-center" onClick={handleBookTicket}>
-            <p className="text-[13px] text-center">티켓 예매하기</p>
+            <p className="text-sm text-center">티켓 예매하기</p>
           </button>
         </div>
       </div>
@@ -80,12 +82,15 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
             </div>
 
             <div className="pt-4">
-              <button onClick={() => setIsWaitModalOpen(true)} className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm">예매하기</button>
+              <button onClick={() => {
+                setModalData(data); 
+                setIsWaitModalOpen(true);
+              }} className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm">예매하기</button>
             </div>
           </div>
         </BottomModal>
       )}
-      {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)}/>}
+      {isWaitModalOpen && <WaittingModal data={modalData} onClose={() => setIsWaitModalOpen(false)}/>}
     </>
   );
 };

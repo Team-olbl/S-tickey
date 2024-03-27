@@ -38,6 +38,8 @@ const SoccerPage = () => {
     data : gameListInfo,
   } = useGetGameList({catg: 'SOCCER', club: '', date: ''});
 
+  console.log(gameListInfo)
+
   const info : IHeaderInfo = {
     left_1: (
       <div className="flex flex-row cursor-pointer" onClick={openBottomSheet}>
@@ -75,7 +77,7 @@ const SoccerPage = () => {
           </div>
         ) : (
           filteredMatches?.map((item) =>(
-            <div className="" key={item.id}>
+            <div key={item.id}>
               <MatchItem data={item} />
             </div>
           ))
