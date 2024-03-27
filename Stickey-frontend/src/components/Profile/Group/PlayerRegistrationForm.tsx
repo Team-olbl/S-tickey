@@ -22,26 +22,29 @@ const PlayerRegistrationForm = () => {
     birth: birthDate,
   }
 
-  const { mutate } = usePostPlayerCreate(playerReq)
+  const { mutate } = usePostPlayerCreate()
 
   const handlePlayerCreate = () => {
-	mutate();
+
+	const formData = new FormData();
+	const json = JSON.stringify(playerReq)
+	const blob = new Blob([json], {type: 'application/json'})
+
+	formData.append('playerReq ', blob)
+	formData.append('profile ', image!)
+	mutate(formData);
 	navigate(`/profile/playerlist`)
   }
 
   const [isAllFieldsFilled, setIsAllFieldsFilled] = useState<boolean>(false);
 
   useEffect(() => {
-    // Check if all fields are filled
     if (nameInput && descriptionInput && categoryInput && birthDate) {
       setIsAllFieldsFilled(true);
     } else {
       setIsAllFieldsFilled(false);
     }
   }, [nameInput, descriptionInput, categoryInput, birthDate]);
-  
-
-	console.log(image) 
 
 	// 이미지 저장
 	const saveImgFile = () => {
@@ -59,7 +62,6 @@ const PlayerRegistrationForm = () => {
 			}
 		}
 	};
-
 
   return (
 		<>

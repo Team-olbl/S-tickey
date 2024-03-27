@@ -10,7 +10,8 @@ export interface IPlayerSimpleRes {
     id: number;
     description: string;
     category: string;
-    birth: string
+    birth: string;
+    profile: string;
 }
 
 // 프로필 조회 Response
