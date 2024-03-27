@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>대기열 입장 예제</title>
+  <meta charset="utf-8">
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+</head>
+<body>
+
+<button id="subscribeButton">대기열 순위 업데이트 받기</button>
+
+<script>
+  var socket = new SockJS('http://localhost:8080/api/reserve'); // WebSocketConfig에서 설정한 Endpoint
+  var stompClient = Stomp.over(socket);
+  var gameId = 1; // 게임 ID 예시로 1을 사용
+  var email = "stickey@naver.com";
+
+  stompClient.connect({}, function (frame) {
+    console.log('Connected: ' + frame);
+
+    // 대기열 입장을 위해 서버로 메시지 보내기
+    // 여기서는 게임 ID를 URL 파라미터로 사용
+    stompClient.send("/games/wait/find", {},
+        JSON.stringify({"gameId": gameId, "email": email}));
+
+  });
+
+  document.getElementById("subscribeButton").addEventListener("click", function () {
+    // 서버로부터 대기열 순위 업데이트를 받기 위해 Subscribe
+    stompClient.subscribe('/sub/' + gameId, function (message) {
+      var waitRes = JSON.parse(message.body);
+      console.log("대기열 순위: " + waitRes.rank);
+      // 대기열 순위를 화면에 표시하는 등의 추가적인 작업 수행
+    });
+  });
+</script>
+
+</body>
+</html>
