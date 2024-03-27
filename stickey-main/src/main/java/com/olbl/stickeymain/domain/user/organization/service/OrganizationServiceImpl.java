@@ -16,6 +16,7 @@ import com.olbl.stickeymain.domain.user.dto.MySupportOneRes;
 import com.olbl.stickeymain.domain.user.dto.MySupportRes;
 import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
+import com.olbl.stickeymain.domain.user.organization.dto.OrganizationInfoRes;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerListRes;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerReq;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerRes;
@@ -203,5 +204,17 @@ public class OrganizationServiceImpl implements OrganizationService {
         support.setEndTime(supportReq.getEndTime());
         support.setStatus(SupportStatus.WAITING); //대기 상태로 변경
         support.setMessage(null);
+    }
+
+    @Override
+    public OrganizationInfoRes getOrganizationUserInfo() {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+
+        OrganizationInfoRes organizationInfoRes = organizationRepository.findOrganizationInfoById(
+                userDetails.getId())
+            .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
+
+        return organizationInfoRes;
     }
 }
