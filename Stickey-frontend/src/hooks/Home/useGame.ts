@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getGameListReq, getTeamLisReq } from "../../service/Home/api";
+import { getGameListReq, getTeamListReq } from "../../service/Home/api";
 import { IGameListReq, ITeamListReq } from "../../types/Home";
 
 export const useGame = () => {
@@ -8,6 +8,8 @@ export const useGame = () => {
         return useQuery({
             queryKey: ['game', props],
             queryFn: () => getGameListReq(props),
+            refetchOnWindowFocus: false,
+            staleTime: 30000,
         })
     } 
 
@@ -15,7 +17,9 @@ export const useGame = () => {
     const useGetTeamList = ( props: ITeamListReq ) => {
         return useQuery({
             queryKey: ['team', props],
-            queryFn: () => getTeamLisReq(props),
+            queryFn: () => getTeamListReq(props),
+            refetchOnWindowFocus: false,
+            staleTime: 30000,
         })
     }
 
