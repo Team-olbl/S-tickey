@@ -1,9 +1,8 @@
 // import Star from '../../assets/image/Star.png';
 import { useGame } from '../../hooks/Home/useGame';
 import { useTeamStateStore } from '../../stores/useTeamStateStore';
-import { categoryType } from '../../types/model';
 
-const TeamList = ({ catg }: { catg: categoryType }) => {
+const TeamList = ({ catg }: { catg: string }) => {
 
   const { useGetTeamList } = useGame();
 
