@@ -28,7 +28,7 @@ export interface IGameListRes {
 // 경기 목록 조회 Request
 export interface IGameListReq {
     catg?: string;
-    club?: string;
+    club?: string[];
     date?: string;
 
 }
