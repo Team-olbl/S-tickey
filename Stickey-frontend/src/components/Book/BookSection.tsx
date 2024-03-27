@@ -1,7 +1,7 @@
 import Volley from '../../assets/image/Ground/VolleyballGround.png'
 import { useNavigate, useParams } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
-import { useBook } from '../../hooks/Book/useBook';
+// import { useBook } from '../../hooks/Book/useBook';
 
 const BookSection = () => {
 
@@ -13,10 +13,10 @@ const BookSection = () => {
     console.log("ID:", id);
 
     // api 연결
-    const { useSectionSeatCnt } = useBook()
-    const { data: seatCntInfo } = useSectionSeatCnt(Number(id))
+    // const { useSectionSeatCnt } = useBook()
+    // const { data: seatCntInfo } = useSectionSeatCnt(Number(id))
 
-    console.log( seatCntInfo?.data.leftSeatResList )
+    // console.log( seatCntInfo?.data.leftSeatResList )
      
     const getSeatColor = (seat: string): string => {
         switch (seat) {

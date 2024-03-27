@@ -15,9 +15,9 @@ const WaittingModal = ({ onClose, data }: { onClose: () => void; data: IGameSimp
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();
-            if (data) {
-                navigate(`/${data.id}/section`);
-            }
+            // if (data) {
+                navigate(`/${id}/section`);
+            // }
         }, 3000);
 
         return () => clearTimeout(timer); 
@@ -28,7 +28,7 @@ const WaittingModal = ({ onClose, data }: { onClose: () => void; data: IGameSimp
     
     return (
         <Modal width="300px" height="auto" title="현재 대기순서" onClose={onClose}>
-            <div className="flex flex-col items-center px-4 pb-6">
+            <div className="flex flex-col items-center px-4 pb-6 z-[10]">
                 <div className='flex flex-col items-center pb-2'>
                     <img className='h-20' src={Waitting} />
                     <h1 className='text-4xl font-bold'>3562</h1>

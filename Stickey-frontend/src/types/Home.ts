@@ -1,4 +1,3 @@
-import {categoryType} from './model'
 
 export interface IGameSimpleRes {
     id: number;
@@ -28,7 +27,7 @@ export interface IGameListRes {
 
 // 경기 목록 조회 Request
 export interface IGameListReq {
-    catg?: categoryType;
+    catg?: string;
     club?: string;
     date?: string;
 
@@ -41,5 +40,5 @@ export interface ITeamListRes {
 
 // 구단 리스트 조회 Request 
 export interface ITeamListReq {
-    catg?: categoryType;
+    catg?: string;
 }
