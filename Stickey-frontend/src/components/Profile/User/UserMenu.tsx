@@ -5,28 +5,8 @@ import LogoutModal from "../../Login/LogoutModal";
 import BottomModal from "../../@common/BottomModal";
 import { AiOutlineClose } from 'react-icons/ai';
 import { toast } from "react-toastify";
-import 대구FC from '../../../assets/Logos/대구FC.png';
-import 광주FC from '../../../assets/Logos/광주FC.png';
-import FC서울 from '../../../assets/Logos/서울FC.png';
-import 수원FC from '../../../assets/Logos/수원FC.png';
-import 강원FC from '../../../assets/Logos/강원FC.png';
-import 김천상무 from '../../../assets/Logos/김천상무.png';
-import 대전 from '../../../assets/Logos/대전하나시티즌.png';
-import 울산HD from '../../../assets/Logos/울산HD.png';
-import 인천UTD from '../../../assets/Logos/인천UTD.png';
-import 전북현대 from '../../../assets/Logos/전북현대.png';
-import 제주UTD from '../../../assets/Logos/제주UTD.png';
-import 포항 from '../../../assets/Logos/포항.png';
-// import { useGame } from "../../../hooks/Home/useGame";
-
-type teamList = {
-  id: number;
-  type: string;
-  name: string;
-  homeground: string;
-  stadium: string;
-  logo: JSX.Element;
-}
+import { useGame } from "../../../hooks/Home/useGame";
+import { ITeamListRes } from "../../../types/Home";
 
 const UserMenu = () => {
   const navigate = useNavigate();
@@ -34,7 +14,7 @@ const UserMenu = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
   const [selectedTeam, setSelectedTeam] = useState<string>('');
   const [selectedTab, setSelectedTab] = useState<string>('');
-  const [preferredTeams, setPreferredTeams] = useState<teamList[]>([]);
+  const [preferredTeams, setPreferredTeams] = useState<ITeamListRes[]>([]);
 
   const handlePreferredTeam = () => {
     setIsBottomSheetOpen(true)
@@ -57,7 +37,7 @@ const UserMenu = () => {
   }, [selectedTab])
 
   const handleAddTeam = () => {
-    const selected = dummies.find(team => team.name === selectedTeam);
+    const selected = teamListInfo?.data.find(team => team.name === selectedTeam);
     // 선택된 팀이 이미 selectedTeams 배열에 있는지 확인
     const isAlreadySelected = preferredTeams.some(team => team.id === selected?.id);
     console.log(selectedTeam)
@@ -77,130 +57,15 @@ const UserMenu = () => {
   }
 
   // TODO 서버 더미 추가 후 더미 유저를 api 응답으로 바꿔야함 
-  // const { useGetTeamList } = useGame();
+  const { useGetTeamList } = useGame();
 
-  // const {
-  //   data : teamListInfo,
-  // } = useGetTeamList({catg: ''});
+  const {
+    data : teamListInfo,
+  } = useGetTeamList({catg: ""});
 
-  // console.log(teamListInfo?.data)
+  console.log(teamListInfo?.data)
 
-  const dummies: teamList[] = [
-    {
-      id: 1,
-      type: '축구',
-      name: '대구 FC',
-      homeground: '대구',
-      stadium: 'DGB 대구은행파크',
-      logo: <img src={대구FC} />
-    },
-    {
-      id: 2,
-      type: '축구',
-      name: '광주 FC',
-      homeground: '광주',
-      stadium: '광주 월드컵경기장',
-      logo: <img src={광주FC} />
-    },
-    {
-      id: 3,
-      type: '축구',
-      name: 'FC 서울',
-      homeground: '서울',
-      stadium: '서울 월드컵경기장',
-      logo: <img src={FC서울} />
-    },
-    {
-      id: 4,
-      type: '축구',
-      name: '수원 FC',
-      homeground: '수원',
-      stadium: '수원 월드컵경기장',
-      logo: <img src={수원FC} />
-    },
-    {
-      id: 5,
-      type: '축구',
-      name: '강원 FC',
-      homeground: '강원',
-      stadium: '강원 월드컵경기장',
-      logo: <img src={강원FC} />
-    },
-    {
-      id: 6,
-      type: '축구',
-      name: '김천 상무',
-      homeground: '김천',
-      stadium: '김천 월드컵경기장',
-      logo: <img src={김천상무} />
-    },
-    {
-      id: 7,
-      type: '축구',
-      name: '대전 하나시티즌',
-      homeground: '대전',
-      stadium: '대전 월드컵경기장',
-      logo: <img src={대전} />
-    },
-    {
-      id: 8,
-      type: '축구',
-      name: '울산 현대',
-      homeground: '울산',
-      stadium: '울산 월드컵경기장',
-      logo: <img src={울산HD} />
-    },
-    {
-      id: 9,
-      type: '축구',
-      name: '인천 UTD',
-      homeground: '인천',
-      stadium: '인천 월드컵경기장',
-      logo: <img src={인천UTD} />
-    },
-    {
-      id: 10,
-      type: '축구',
-      name: '전북 현대',
-      homeground: '전북',
-      stadium: '전북 월드컵경기장',
-      logo: <img src={전북현대} />
-    },
-    {
-      id: 11,
-      type: '축구',
-      name: '제주 UTD',
-      homeground: '제주',
-      stadium: '제주 월드컵경기장',
-      logo: <img src={제주UTD} />
-    },
-    {
-      id: 12,
-      type: '축구',
-      name: '포항 스틸러스',
-      homeground: '포항',
-      stadium: '포항 월드컵경기장',
-      logo: <img src={포항} />
-    },
-    {
-      id: 13,
-      type: '야구',
-      name: '야구',
-      homeground: '포항',
-      stadium: '포항 월드컵경기장',
-      logo: <img src={포항} />
-    },
-    {
-      id: 14,
-      type: '농구',
-      name: '농구',
-      homeground: '포항',
-      stadium: '포항 월드컵경기장',
-      logo: <img src={포항} />
-    },
-  ];
-
-  const filteredTeams = dummies.filter(team => team.type === selectedTab);
+  const filteredTeams = teamListInfo?.data.filter(team => team.category === selectedTab);
 
   return (
     <div className="max-w-[500px] w-full h-[208px] mt-4 border-t-[0.5px]">
@@ -240,7 +105,7 @@ const UserMenu = () => {
                     </div>
                     <div className="flex flex-col gap-1">
                       <div className="flex justify-center px-6">
-                        {team.logo}
+                        <img src={team.logo} />
                       </div>
                       <div className="text-[10px] flex justify-center">
                         {team.name}
@@ -253,28 +118,27 @@ const UserMenu = () => {
                 <div className="border-b-[0.5px] border-b-Stickey_Gray"></div>
               </div>
               <div className="flex flex-row w-full justify-between px-[96px] text-Stickey_Gray text-[12px] pb-4" >
-                <div onClick={() => handleTabClick('축구')} className={`${selectedTab === '축구' ? 'text-white font-bold underline underline-offset-4' : ''}`}>
+                <div onClick={() => handleTabClick('SOCCER')} className={`${selectedTab === 'SOCCER' ? 'text-white font-bold underline underline-offset-4' : ''}`}>
                   <p>축구</p>
                 </div>
-                <div onClick={() => handleTabClick('야구')} className={`${selectedTab === '야구' ? 'text-white font-bold underline underline-offset-4' : ''}`}>
+                <div onClick={() => handleTabClick('BASEBALL')} className={`${selectedTab === 'BASEBALL' ? 'text-white font-bold underline underline-offset-4' : ''}`}>
                   <p>야구</p>
                 </div>
-                <div onClick={() => handleTabClick('농구')} className={`${selectedTab === '농구' ? 'text-white font-bold underline underline-offset-4' : ''}`}>
+                <div onClick={() => handleTabClick('BASKETBALL')} className={`${selectedTab === 'BASKETBALL' ? 'text-white font-bold underline underline-offset-4' : ''}`}>
                   <p>농구</p>
                 </div>
               </div>
               <div className="h-[164px] overflow-y-auto pb-6" >
-              {filteredTeams.map((item) => (
-                <div key={item.id} className="w-full flex flex-row items-center justify-center gap-4 pb-4" onClick={() => handleClick(item.name)}>
+              {filteredTeams && filteredTeams.map((item) => (
+                <div key={item.id} className="w-full flex flex-row items-center justify-start pl-24 gap-12 pb-4" onClick={() => handleClick(item.name)}>
                   <div className="w-4 h-4 border-2 rounded-full flex items-center justify-center cursor-pointer" >
                     {selectedTeam === item.name && <div className="w-2 h-2 bg-white rounded-full"></div>}
                   </div>
-                  <div className="flex items-center w-10 h-10 border border-none bg-white rounded">
-                    {item.logo}
+                  <div className="flex items-center w-12 h-12 border border-none bg-white rounded">
+                    <img src={item.logo} />
                   </div>
                   <div className="flex flex-col">
                     <p className="text-sm">{item.name}</p>
-                    <p className="text-xs">연고지 : {item.homeground} / 구장 : {item.stadium}</p>
                   </div>
                 </div>
               ))}
