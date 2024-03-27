@@ -72,4 +72,8 @@ public class User {
     public void updateProfileImage(String profileUrl) {
         this.profileImage = profileUrl;
     }
+
+    public void updatePhone(String phone) {
+        this.phone = phone.isEmpty() ? this.phone : phone;
+    }
 }

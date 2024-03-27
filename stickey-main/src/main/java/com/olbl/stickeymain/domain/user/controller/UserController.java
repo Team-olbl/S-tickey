@@ -7,12 +7,14 @@ import static com.olbl.stickeymain.global.result.ResultCode.MODIFY_PREFERENCE_SU
 import static com.olbl.stickeymain.global.result.ResultCode.REGIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.SEND_EMAIL_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.TOKEN_REISSUE_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.UPDATE_USER_INFO_SUCCESS;
 
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.domain.user.dto.PreferenceReq;
 import com.olbl.stickeymain.domain.user.dto.ProfileRes;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
+import com.olbl.stickeymain.domain.user.dto.UserInfoReq;
 import com.olbl.stickeymain.domain.user.dto.UserInfoRes;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.service.OrganizationService;
@@ -108,6 +110,14 @@ public class UserController {
     public ResponseEntity<ResultResponse> getUserInfo() {
         UserInfoRes userInfo = userService.getUserInfo();
         return ResponseEntity.ok(ResultResponse.of(GET_USER_INFO_SUCCESS, userInfo));
+    }
+
+    @Operation(summary = "개인 유저 정보 수정")
+    @PatchMapping(value = "/profile/info", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ResultResponse> updateUserInfo(@RequestPart UserInfoReq userInfoReq,
+        @RequestPart(required = false) MultipartFile profile) {
+        userService.updateUserInfo(userInfoReq, profile);
+        return ResponseEntity.ok(ResultResponse.of(UPDATE_USER_INFO_SUCCESS));
     }
 
     @Operation(summary = "내 선호 구단 수정")

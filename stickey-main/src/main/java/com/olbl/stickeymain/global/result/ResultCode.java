@@ -16,6 +16,7 @@ public enum ResultCode {
     GET_PROFILE_SUCCESS(200, "프로필 조회에 성공하였습니다."),
     MODIFY_PREFERENCE_SUCCESS(204, "선호구단 수정에 성공하였습니다."),
     GET_USER_INFO_SUCCESS(200, "개인 회원 유저 정보 조회에 성공하였습니다."),
+    UPDATE_USER_INFO_SUCCESS(204, "개인 회원 유저 정보 수정에 성공하였습니다."),
 
     //Organization
     GET_PLAYERS_SUCCESS(200, "단체 소속 선수 조회에 성공하였습니다."),
