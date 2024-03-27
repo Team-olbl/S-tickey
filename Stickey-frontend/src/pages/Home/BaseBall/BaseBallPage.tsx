@@ -11,6 +11,7 @@ import BottomSheet from "../../../components/@common/BottomSheet";
 import { useGame } from "../../../hooks/Home/useGame";
 import { IGameSimpleRes } from "../../../types/Home";
 import dayjs from 'dayjs';
+import { TeamStoreState } from "../../../stores/useTeamStateStore";
 
 const BaseBallPage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -34,11 +35,12 @@ const BaseBallPage = () => {
   };
 
   const { useGetGameList } = useGame();
+  const { selectedTeams } = TeamStoreState();
   const date = dayjs().format('YYYYMM')
 
   const {
     data : gameListInfo,
-  } = useGetGameList({catg: 'BASEBALL', club: [], date: date});
+  } = useGetGameList({catg: 'BASEBALL', club: selectedTeams, date: date});
 
   const info : IHeaderInfo = {
     left_1: (
