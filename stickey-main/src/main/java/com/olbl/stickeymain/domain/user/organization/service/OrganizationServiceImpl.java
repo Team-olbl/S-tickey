@@ -2,7 +2,10 @@ package com.olbl.stickeymain.domain.user.organization.service;
 
 import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.PLAYER_DO_NOT_EXISTS;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.PLAYER_NOT_IN_ORGANIZATION;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_DO_NOT_EXISTS;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_DO_NOT_REJECTED;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_NOT_MATCH;
 
 import com.olbl.stickeymain.domain.support.dto.SupportReq;
 import com.olbl.stickeymain.domain.support.entity.Support;
@@ -21,6 +24,7 @@ import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
 import com.olbl.stickeymain.domain.user.organization.entity.Player;
 import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
 import com.olbl.stickeymain.domain.user.organization.repository.PlayerRepository;
+import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import com.olbl.stickeymain.global.result.error.ErrorCode;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
@@ -30,6 +34,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,18 +91,24 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public PlayerListRes getPlayers() {
-        //TODO: 로그인 한 정보에서 organization id 가져오기
-        int organizationId = 1;
-        List<PlayerRes> playerResList = playerRepository.findAllByOrganizationId(organizationId);
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+
+        Organization organization = organizationRepository.findById(userDetails.getId())
+            .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
+
+        List<PlayerRes> playerResList = playerRepository.findAllByOrganizationId(
+            organization.getId());
         return new PlayerListRes(playerResList);
     }
 
     @Override
     @Transactional
     public void registPlayer(PlayerReq playerReq, MultipartFile profile) {
-        //TODO: 로그인 한 정보에서 organization id 가져오기
-        int id = 1;
-        Organization organization = organizationRepository.findById(id)
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+
+        Organization organization = organizationRepository.findById(userDetails.getId())
             .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
 
         //이미지 저장
@@ -123,15 +134,27 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void deletePlayer(int id) {
         Player player = playerRepository.findById(id)
             .orElseThrow(() -> new BusinessException(PLAYER_DO_NOT_EXISTS));
-        //TODO: 해당 player의 소속 기관이 로그인 한 유저와 같은지 확인하는 로직
+
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+
+        Organization organization = organizationRepository.findById(userDetails.getId())
+            .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
+
+        //해당 player의 소속 기관이 로그인 한 유저와 같은지 확인
+        if (organization.getId() != player.getOrganization().getId()) {
+            throw new BusinessException(PLAYER_NOT_IN_ORGANIZATION);
+        }
+
         playerRepository.delete(player);
     }
 
     @Override
     public MySupportListRes getMySupports(Pageable pageable) {
-        //TODO: 토큰에서 기업 id 가져오기
-        int id = 1;
-        Organization organization = organizationRepository.findById(id)
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+
+        Organization organization = organizationRepository.findById(userDetails.getId())
             .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
 
         Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
@@ -146,7 +169,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public MySupportOneRes getMySupportOne(int id) {
+    public MySupportOneRes getMySupportOne(int id) { // 작성한 후원 글 상세 조회
         MySupportOneRes mySupportOneById = supportRepository.findMySupportOneById(id)
             .orElseThrow(() -> new BusinessException(SUPPORT_DO_NOT_EXISTS));
         return mySupportOneById;
@@ -154,11 +177,26 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional
-    public void requestRegistSupport(int id, SupportReq supportReq) {
+    public void requestRegistSupport(int id, SupportReq supportReq) { // 후원 글 등록 재요청
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+
         Support support = supportRepository.findById(id)
             .orElseThrow(() -> new BusinessException(SUPPORT_DO_NOT_EXISTS));
 
+        Organization organization = organizationRepository.findById(userDetails.getId())
+            .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
+
+        //수정하려는 기관이 해당 후원글을 등록한 기관인지 확인
+        if (support.getOrganization().getId() != organization.getId()) {
+            throw new BusinessException(SUPPORT_NOT_MATCH);
+        }
+
         //Rejected 상태인지 확인
+        if (support.getStatus() != SupportStatus.REJECTED) {
+            throw new BusinessException(SUPPORT_DO_NOT_REJECTED);
+        }
+
         support.setTitle(supportReq.getTitle());
         support.setContent(supportReq.getContent());
         support.setStartTime(supportReq.getStartTime());
