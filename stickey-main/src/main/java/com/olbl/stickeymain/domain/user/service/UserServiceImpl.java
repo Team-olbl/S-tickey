@@ -156,9 +156,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void modifyPreference(PreferenceReq preferenceReq) {
-        //TODO: 로그인 한 회원 확인 로직
-        User user = userRepository.findById(1)
+    public void modifyPreference(PreferenceReq preferenceReq, Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userRepository.findById(userDetails.getId())
             .orElseThrow(() -> new BusinessException(USER_NOT_EXISTS));
 
         //기존 정보 한번에 삭제
