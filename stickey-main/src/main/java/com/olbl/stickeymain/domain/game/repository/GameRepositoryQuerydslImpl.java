@@ -29,6 +29,7 @@ public class GameRepositoryQuerydslImpl implements GameRepositoryQuerydsl {
                 game.id.as("id"),
                 game.gameImage,
                 game.category,
+                game.stadium.id.as("stadiumId"),
                 game.stadium.name.as("stadium"),
                 game.homeTeam.name.as("homeTeam"),
                 game.homeTeam.logo.as("homeTeamLogo"),

@@ -1,10 +1,16 @@
 package com.olbl.stickeymain.global.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
+import com.olbl.stickeymain.global.jwt.JWTFilter;
 import com.olbl.stickeymain.global.jwt.JWTUtil;
 import com.olbl.stickeymain.global.jwt.LoginFilter;
+import java.util.Arrays;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +21,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +30,9 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
-    private final CorsFilter corsFilter;
+    private final PreferenceRepository preferenceRepository;
+    private final ObjectMapper objectMapper;
+    private final RedisTemplate redisTemplate;
 
     // 비밀번호 암호화를 위한 BCryptPasswordEncoder Bean 등록
     @Bean
@@ -59,24 +67,46 @@ public class SecurityConfig {
         http
             .formLogin(form -> form.disable());
 
-        http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/users/signup/**", "/login", "/swagger-ui/**", "/api-docs/**",
-                    "/swagger-resources/**", "/users/reissue", "/games/**", "/support/**")
-                .permitAll()
-                .requestMatchers("/users/**").hasAnyRole("INDIVIDUAL", "ORGANIZATION", "ADMIN")
-                .requestMatchers("/organization/**").hasRole("ORGANIZATION")
-                .requestMatchers("/admin").hasRole("ADMIN")
-                .anyRequest().authenticated()
+        http // 경로별 권한 설정, 배포 직전에 변경할 예정
+            .authorizeHttpRequests((requests) -> requests
+                .anyRequest().permitAll()
             );
 
-        http
-            .addFilter(corsFilter);
+        http // CORS 설정
+            .cors((corsCustomizer) -> corsCustomizer.configurationSource(
+                request -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
 
-        http // 로그인 필터 등록
+                    // 허용할 출처
+                    configuration.setAllowedOrigins(
+                        Arrays.asList("https://j10d211.p.ssafy.io", "http://localhost:3000",
+                            "http://app/api"));
+
+                    // 허용할 HTTP 메소드
+                    configuration.setAllowedMethods(Collections.singletonList("*"));
+
+                    // 자격 증명 정보 허용 설정
+                    configuration.setAllowCredentials(true);
+
+                    // 허용 헤더 설정
+                    configuration.setAllowedHeaders(Collections.singletonList("*"));
+
+                    // Pre-flight 요청 캐싱 시간 설정
+                    configuration.setMaxAge(3000L);
+
+                    // 브라우저에 노출할 헤더 설정
+                    configuration.setExposedHeaders(Arrays.asList("access", "refresh"));
+                    return configuration;
+                }));
+
+        http // 로그인 필터
             .addFilterAt(
-                new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil),
+                new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil,
+                    objectMapper, preferenceRepository),
                 UsernamePasswordAuthenticationFilter.class);
+
+        http // 토큰 검증 필터
+            .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
 
         return http.build();
     }
