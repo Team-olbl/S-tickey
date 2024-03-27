@@ -1,5 +1,5 @@
 import axios from 'axios';
-import setAuthorization from './imterceptors';
+import setAuthorization from './interceptors';
 
 const axiosRequestConfig = {
   baseURL: import.meta.env.VITE_BASE_URL,
