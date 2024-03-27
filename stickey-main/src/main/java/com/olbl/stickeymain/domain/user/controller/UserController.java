@@ -2,16 +2,20 @@ package com.olbl.stickeymain.domain.user.controller;
 
 import static com.olbl.stickeymain.global.result.ResultCode.CHECK_EMAIL_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_PROFILE_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.GET_USER_INFO_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.MODIFY_PREFERENCE_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.REGIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.SEND_EMAIL_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.TOKEN_REISSUE_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.UPDATE_USER_INFO_SUCCESS;
 
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.domain.user.dto.PreferenceReq;
 import com.olbl.stickeymain.domain.user.dto.ProfileRes;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
+import com.olbl.stickeymain.domain.user.dto.UserInfoReq;
+import com.olbl.stickeymain.domain.user.dto.UserInfoRes;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
 import com.olbl.stickeymain.domain.user.organization.service.OrganizationService;
 import com.olbl.stickeymain.domain.user.service.MailService;
@@ -68,7 +72,6 @@ public class UserController {
         return ResponseEntity.ok(ResultResponse.of(SEND_EMAIL_SUCCESS));
     }
 
-
     @Operation(summary = "이메일 인증 코드 확인")
     @PostMapping("/auth-check")
     public ResponseEntity<ResultResponse> checkAuthEmail(
@@ -102,8 +105,23 @@ public class UserController {
         return ResponseEntity.ok(ResultResponse.of(GET_PROFILE_SUCCESS, profile));
     }
 
+    @Operation(summary = "개인 유저 정보 조회 (수정 시)")
+    @GetMapping("/profile/info")
+    public ResponseEntity<ResultResponse> getUserInfo() {
+        UserInfoRes userInfo = userService.getUserInfo();
+        return ResponseEntity.ok(ResultResponse.of(GET_USER_INFO_SUCCESS, userInfo));
+    }
+
+    @Operation(summary = "개인 유저 정보 수정")
+    @PatchMapping(value = "/profile/info", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ResultResponse> updateUserInfo(@RequestPart UserInfoReq userInfoReq,
+        @RequestPart(required = false) MultipartFile profile) {
+        userService.updateUserInfo(userInfoReq, profile);
+        return ResponseEntity.ok(ResultResponse.of(UPDATE_USER_INFO_SUCCESS));
+    }
+
     @Operation(summary = "내 선호 구단 수정")
-    @PatchMapping("/profiles/preference")
+    @PatchMapping("/profile/preference")
     public ResponseEntity<ResultResponse> modifyPreference(
         @RequestBody PreferenceReq preferenceReq, Authentication authentication) {
         userService.modifyPreference(preferenceReq, authentication);
