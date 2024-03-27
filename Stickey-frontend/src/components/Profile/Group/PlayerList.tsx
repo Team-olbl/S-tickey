@@ -1,23 +1,18 @@
-// import { useProfile } from "../../../hooks/Profile/useProfile";
-import { IPlayerListRes } from "../../../types/Profile";
+import { useProfile } from "../../../hooks/Profile/useProfile";
 import Player from '../../../assets/image/Player.png'
 
 const PlayerList = () => {
   
-  // TODO 유저 완성 후 실제 api 데이터로 수정해야함
-  // const { useGetPlayerList } = useProfile();
-  // const { data: playerListInfo } = useGetPlayerList();
-  // const playerList = playerListInfo?.data.playerResList || [];
+  const { useGetPlayerList } = useProfile();
+  const { data: playerListInfo } = useGetPlayerList();
 
-  const dummyPlayerList: IPlayerListRes = {
-    playerResList: []
-  }
+  console.log(playerListInfo)
 
   return (
     <div>
     <div className="w-full flex flex-col justify-center gap-3 items-center px-4">
-      {dummyPlayerList.playerResList.length > 0 ? (
-        dummyPlayerList.playerResList.map((item, id) => (
+      {playerListInfo && playerListInfo?.data.playerResList.length > 0 ? (
+        playerListInfo?.data.playerResList.map((item, id) => (
           <div key={id} className="px-4">
             <div className="flex items-center h-auto py-4 border-none rounded-[10px] bg-[#2E2E3D]">
               <div className="w-full flex flex-row px-4 gap-3">
