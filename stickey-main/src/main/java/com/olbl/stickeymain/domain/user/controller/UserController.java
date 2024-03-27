@@ -103,7 +103,7 @@ public class UserController {
     }
 
     @Operation(summary = "내 선호 구단 수정")
-    @PatchMapping("/profiles/preference")
+    @PatchMapping("/profile/preference")
     public ResponseEntity<ResultResponse> modifyPreference(
         @RequestBody PreferenceReq preferenceReq, Authentication authentication) {
         userService.modifyPreference(preferenceReq, authentication);
