@@ -10,6 +10,7 @@ import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
 import com.olbl.stickeymain.domain.game.dto.Param;
 import com.olbl.stickeymain.domain.game.dto.SeatStatusRes;
+import com.olbl.stickeymain.domain.game.dto.SportsClubRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
 import com.olbl.stickeymain.domain.game.entity.Category;
 import com.olbl.stickeymain.domain.game.entity.Game;
@@ -22,11 +23,14 @@ import com.olbl.stickeymain.domain.game.repository.GameSeatRepository;
 import com.olbl.stickeymain.domain.game.repository.SportsClubRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumZoneRepository;
+import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
+import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -106,7 +110,17 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<SportsClub> getClubs(Param param) {
-        return sportsClubRepository.getSportsClubByParam(param);
+    public List<SportsClubRes> getClubs(Param param, Authentication authentication) {
+        int id = -1;
+
+        if (authentication != null) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            id = userDetails.getId();
+        }
+
+        List<SportsClubRes> sportsClubRes = sportsClubRepository.getSportsClubByParam(param, id);
+        sportsClubRes.sort(Comparator.comparing(SportsClubRes::getIsPrefer).reversed());
+
+        return sportsClubRes;
     }
 }
