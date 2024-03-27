@@ -1,36 +1,93 @@
 import { useRef, useState } from 'react';
 import { CiCamera } from 'react-icons/ci';
-import { useEmailVerificationMutation } from '../../hooks/User/useEmailVerification';
+import { useEmailVerificationMutation, useConfirmEmailVerificationMutation, useSignup } from '../../hooks/User/useEmailVerification';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 
 const IndividualForm = () => {
-
     const imgRef = useRef<HTMLInputElement>(null);
-    const [image, setImage] = useState<File>();
+    const [image, setImage] = useState<File | undefined>(undefined);
     const [photo, setPhoto] = useState<string>('');
     const [email, setEmail] = useState<string>('');
+    const [emailCode, setEmailCode] = useState<string>('');
     const [isEmailValid, setIsEmailValid] = useState<boolean | null>(null);
-    const { mutate: sendVerificationCode } = useEmailVerificationMutation();
+    const [password, setPassword] = useState<string>('');
+    const [phone, setPhone] = useState<string>('')
+    const [name, setName] = useState<string>('');
+    const [passwordConfirm, setPasswordConfirm] = useState<string>('');
+    const [isPasswordValid, setIsPasswordValid] = useState<boolean | null>(null);
+    const [isPasswordMatch, setIsPasswordMatch] = useState<boolean | null>(null);
+    const isButtonEnabled = email && password && passwordConfirm && phone && name && photo && isEmailValid && isPasswordValid && isPasswordMatch;
+    const navigate = useNavigate();
 
+    const { mutate: sendVerificationCode } = useEmailVerificationMutation();
+    const { mutate: verifyEmailCode } = useConfirmEmailVerificationMutation();
+    const { mutate: signup } = useSignup();
+    
     console.log(image) // 나중에 post 연결 시 처리할 것
 
-    // 이메일 변경 핸들러
-    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputEmail = e.target.value;
-        setEmail(inputEmail);
-        setIsEmailValid(isValidEmail(inputEmail));
-	};
+    // Input 변경 핸들러
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
 
-	const isValidEmail = (email:string) => {
-		const emailRegex = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
-		return emailRegex.test(email);
-	}
+        if (name === 'email') {
+            setEmail(value);
+            setIsEmailValid(isValidEmail(value));
+        } else if (name === 'password') {
+            setPassword(value);
+            setIsPasswordValid(isValidPassword(value));
+            setIsPasswordMatch(value === passwordConfirm);
+        } else if (name === 'passwordConfirm') {
+            setPasswordConfirm(value);
+            setIsPasswordMatch(password === value);
+        } else if (name === 'emailCode') {
+            setEmailCode(value);
+        } else if (name === 'phone') {
+            setPhone(value)
+        } else if (name === 'name') {
+            setName(value)
+        }
+        console.log(value)
+    };
 
-	const handleSendEmailVerification = () => {
-		if (isEmailValid) {
-			sendVerificationCode(email);
-		}
-	};
+    const isValidEmail = (email:string) => {
+        const emailRegex = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
+        return emailRegex.test(email);
+    };
+
+    const handleSendEmailVerification = () => {
+        if (isEmailValid) {
+            sendVerificationCode(email,{
+                onSuccess: () => {
+                    toast.info('인증코드가 발송되었습니다.')
+                },
+                onError: (error) => {
+                    toast.error(`중복된 이메일입니다 ${error.message}`)
+                }
+            });
+        }
+    };
+
+    const handleVerifyEmailCode = () => {
+        if (email && emailCode) {
+            verifyEmailCode({ email, authCode: emailCode }, {
+                onSuccess: (data) => {
+                    console.log('인증 성공:', data.message);
+                    toast.success('인증 성공')
+                },
+                onError: (error) => {
+                    console.error('인증 실패:', error);
+                    toast.error('인증 실패')
+                }
+            });
+        }
+    };
+
+    const isValidPassword = (password:string) => {
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[$@!^%#~?&])[A-Za-z\d$@!%~*^#?&]{8,}$/;
+        return passwordRegex.test(password);
+    }
 
     // 이미지 저장
     const saveImgFile = () => {
@@ -42,11 +99,31 @@ const IndividualForm = () => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onloadend = () => {
-            const result: string | null = reader.result as string;
-            setPhoto(result);
+                const result: string | null = reader.result as string;
+                setPhoto(result);
             };
         }
         }
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        // 회원가입 정보를 FormData 객체에 추가
+        const formData = new FormData();
+        formData.append('signUpReq', JSON.stringify({ name, email, password, phone }));
+        if (image) {
+            formData.append('profile', image);
+        }
+        signup(formData, {
+            onSuccess: () => {
+                toast.success('회원가입이 완료되었습니다.');
+                navigate('/login');
+            },
+            onError: (error) => {
+                toast.error(`회원가입 실패:${error.message}`)
+            }
+        });
     };
 
     return (
@@ -80,50 +157,77 @@ const IndividualForm = () => {
                 <p className="pt-2 pb-2 text-sm">이름</p>
                 <input
                     type="text"
+                    name='name'
                     placeholder="이름을 입력해주세요"
                     className="w-full outline-none border-b p-2 text-xs"
+                    autoComplete='off'
+                    onChange={handleInputChange}
                 />
                 <p className="pt-4 pb-2 text-sm">연락처</p>
                 <input
                     type="text"
-                    placeholder="010-0000-0000"
+                    name='phone'
+                    autoComplete='off'
+                    placeholder="전화번호를 입력해주세요"
                     className="w-full outline-none border-b p-2  text-xs"
+                    onChange={handleInputChange}
                 />
                 <p className="pt-4 pb-2 text-sm">이메일</p>
                 <div className='flex items-center'>    
                     <input
                         type="text"
+                        name='email'
                         placeholder="example@ssafy.com"
-                                            value={email}
+                        value={email}
                         className="w-full outline-none border-b p-2  text-xs"
-                        onChange={handleEmailChange}
+                        onChange={handleInputChange}
+                        autoComplete='off'
                     />
                     <button className="w-12 h-6 border border-Stickey_Main text-Stickey_Main rounded-xl text-[10px]" onClick={handleSendEmailVerification}>인증</button>
                 </div>
-								{isEmailValid === false && (<p className="p-2 text-xs text-red-500">이메일 형식이 유효하지 않습니다.</p>)}
-                <input
-                    type="text"
-                    placeholder="인증번호를 입력해주세요"
-                    className="w-full outline-none border-b p-2 pt-6  text-xs"
-                />
+                {isEmailValid === false && (<p className="p-2 text-xs text-red-500">이메일 형식이 유효하지 않습니다.</p>)}
+                <div className='flex items-center'>
+                    <input
+                        type="text"
+                        name='emailCode'
+                        autoComplete='off'
+                        placeholder="인증번호를 입력해주세요"
+                        className="w-full outline-none border-b p-2 pt-6  text-xs"
+                        onChange={handleInputChange}
+                    />
+                    <button className='w-[100px] h-6 border border-Stickey_Main text-Stickey_Main rounded-xl text-[10px]' onClick={handleVerifyEmailCode}>인증번호 확인</button>
+                </div>
                 <p className="pt-4 pb-2 text-sm">비밀번호</p>
                 <input
                     type="password"
-                    placeholder="영문,숫자 조합의 8자리 이상으로 작성해주세요"
+                    name='password'
+                    placeholder="영문,숫자, 특수문자 조합으로 8자리 이상 작성해주세요"
                     className="w-full outline-none border-b p-2  text-xs"
+                    onChange={handleInputChange}
                 />
+                {isPasswordValid === false && (<p className='p-2 text-xs text-red-500'>비밀번호 형식이 유효하지 않습니다.</p>)}
                 <p className="pt-4 pb-2 text-sm">비밀번호 확인</p>
                 <input
                     type="password"
+                    name='passwordConfirm'
                     placeholder="비밀번호를 한번 더 입력해주세요"
                     className="w-full outline-none border-b p-2  text-xs"
+                    onChange={handleInputChange}
                 />
+                {isPasswordMatch === false && (<p className='p-2 text-xs text-red-500'>패스워드가 일치하지 않습니다.</p>)}
             </div>
-
         </div>
+        <form onSubmit={handleSubmit} className="pt-16 text-sm">
             <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
-                <button className="bg-Stickey_Main w-full text-white rounded-md p-2 text-md">가입하기</button>
+                <button
+                    type='submit'
+                    disabled={!isButtonEnabled}
+                    className={`w-full text-white rounded-md p-2 text-md ${isButtonEnabled ? 'bg-Stickey_Main' : 'bg-gray-500'}`}
+                >
+                    가입하기
+                </button>
             </div>
+        </form>
         </div>
     );
 };

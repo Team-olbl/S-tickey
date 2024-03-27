@@ -13,13 +13,6 @@ export interface IGameSimpleRes {
     gameStartTime: string;
 }
 
-export interface ITeamSimpleRes {
-    id: number;
-    category: string;
-    name: string;
-    logo: string;
-}
-
 // 경기 목록 조회 Response
 export interface IGameListRes {
     gameResList: IGameSimpleRes[];
@@ -28,14 +21,18 @@ export interface IGameListRes {
 // 경기 목록 조회 Request
 export interface IGameListReq {
     catg?: string;
-    club?: string;
+    club?: string[];
     date?: string;
 
 }
 
 // 구단 리스트 조회 Response 
 export interface ITeamListRes {
-    clubListRes: ITeamSimpleRes[];
+    id: number;
+    category: string;
+    name: string;
+    logo: string;
+    isPrefer: number;
 }
 
 // 구단 리스트 조회 Request 
