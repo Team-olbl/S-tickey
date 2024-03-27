@@ -26,7 +26,7 @@ public class GameSeatRepositoryQuerydslImpl implements GameSeatRepositoryQueryds
                 LeftSeatRes.class,
                 gameSeat.count().as("totalSeatCnt"),
                 new CaseBuilder()
-                    .when(gameSeat.status.eq(SeatStatus.NOTSOLD))
+                    .when(gameSeat.status.eq(SeatStatus.AVAILABLE))
                     .then(1L)
                     .otherwise(0L)
                     .sum()
