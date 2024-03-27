@@ -36,6 +36,7 @@ contract Api is Support, Ticket, Item, Game {
     uint time;
     TicketPayment ticketPayment;
     string supportName;
+    string supportText;
     PaymentType paymentType;
   }
 
@@ -62,13 +63,14 @@ contract Api is Support, Ticket, Item, Game {
     return _paymentHistory[_addr];
   }
 
-  function addSupportingHistory(address _addr, uint _amount, string memory _supportName) private {
+  function addSupportingHistory(address _addr, uint _amount, string memory _supportName, string memory _text) private {
     TicketPayment memory tp;
 
     PaymentHistory memory ph = PaymentHistory({
       paymentType : PaymentType.Supporting,
       ticketPayment : tp,
       supportName : _supportName,
+      supportText : _text,
       amount : _amount,
       time : block.timestamp
     });
@@ -101,6 +103,7 @@ contract Api is Support, Ticket, Item, Game {
         gameId : g.id
       }),
       supportName : "",
+      supportText : "",
       amount : _amount,
       time : block.timestamp
     });
@@ -109,7 +112,7 @@ contract Api is Support, Ticket, Item, Game {
 
   function _donateWithHistory(uint _supportId, uint _amount, string memory _text) internal {
     _donate(_supportId, _amount, _text);
-    addSupportingHistory(msg.sender, _amount, _getSupport(_supportId).name);
+    addSupportingHistory(msg.sender, _amount, _getSupport(_supportId).name, _text);
   }
 
 
