@@ -30,6 +30,18 @@ services:
     networks:
       - stickey_network
 
+  waiting:
+    build:
+      context: "../stickey-waiting/"
+      dockerfile: Dockerfile
+    container_name: stickey_waiting
+    ports:
+      - "9091:9091"
+    depends_on:
+      - redis
+    networks:
+      - stickey_network
+
   frontend:
     build:
       context: "../Stickey-frontend/"
