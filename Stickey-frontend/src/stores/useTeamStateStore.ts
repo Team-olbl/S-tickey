@@ -1,16 +1,16 @@
 import { create } from 'zustand';
-import { ITeamSimpleRes } from '../types/Home'; 
 
-type TeamStoreState = {
-  preferredTeams: ITeamSimpleRes[] | null;
-  teamListsData: ITeamSimpleRes[] | null;
-  setPreferredTeams: (teams: ITeamSimpleRes[] | null) => void;
-  setTeamListsData: (teams: ITeamSimpleRes[] | null) => void;
-};
+interface ITeamType {
+  selectedTeams: string[];
+  toggleSelectTeam: (teamName: string) => void;
+}
 
-export const useTeamStateStore = create<TeamStoreState>((set) => ({
-  preferredTeams: null,
-  teamListsData: null,
-  setPreferredTeams: (teams) => set({ preferredTeams: teams }),
-  setTeamListsData: (teams) => set({ teamListsData: teams }),
+export const TeamStoreState = create<ITeamType>((set) => ({
+  selectedTeams: [],
+  toggleSelectTeam: (teamName) =>
+    set((state) => ({
+      selectedTeams: state.selectedTeams.includes(teamName)
+        ? state.selectedTeams.filter((name) => name !== teamName)
+        : [...state.selectedTeams, teamName],
+    })),
 }));
