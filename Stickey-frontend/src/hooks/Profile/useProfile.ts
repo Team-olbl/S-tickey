@@ -1,13 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { getPlayerListReq, getProfileReq, postPlayerCreate } from "../../service/Profile/api"
-import { ICreatePlayerReq } from "../../types/Profile"
+import { getPlayerListReq, getProfileReq, patchTeamPreference, postPlayerCreate } from "../../service/Profile/api"
+import { ICreatePlayerReq, ITeamPreferReq } from "../../types/Profile"
 
 export const useProfile = () => {
 
-    const useGetProfile = ( props: number ) => {
+    const useGetProfile = () => {
         return useQuery({
-            queryKey: ['profile', props],
-            queryFn: () => getProfileReq(props),
+            queryKey: ['profile'],
+            queryFn: () => getProfileReq(),
         })
     }
 
@@ -18,11 +18,19 @@ export const useProfile = () => {
         })
     }
 
+    // 단체 선수 등록
     const usePostPlayerCreate = (info: ICreatePlayerReq) => {
         return useMutation({
             mutationFn: () => postPlayerCreate(info)
         })
     }
 
-    return { useGetProfile, useGetPlayerList, usePostPlayerCreate }
+    // 선호구단 등록
+    const usePatchTeamPrefer = (info: ITeamPreferReq) => {
+        return useMutation({
+            mutationFn: () => patchTeamPreference(info)
+        })
+    }
+
+    return { useGetProfile, useGetPlayerList, usePostPlayerCreate, usePatchTeamPrefer }
 }
