@@ -34,3 +34,8 @@ export interface ICreatePlayerReq {
     category: string;
     birth: string;
 }
+
+// 선호구단 등록 Request 
+export interface ITeamPreferReq {
+    preferences: number[]
+}

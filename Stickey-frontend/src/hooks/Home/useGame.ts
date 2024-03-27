@@ -19,7 +19,6 @@ export const useGame = () => {
             queryKey: ['team', props],
             queryFn: () => getTeamListReq(props),
             refetchOnWindowFocus: false,
-            staleTime: 30000,
         })
     }
 
