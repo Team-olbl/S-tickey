@@ -10,7 +10,7 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
   const toggleAccordion = () => {
     setIsOpenAccordion(!isOpenAccordion);
   };
-  const time = dayjs(Number(data.time) * 1000).format('YYYY/MM/DD HH:MM:ss');
+  const time = dayjs(Number(data.time) * 1000).format('YYYY/MM/DD HH:mm:ss');
  
 
   const bookStatus = () => {
@@ -28,7 +28,7 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
     }  else if (data.paymentType == 2) {
       return (
         <div className="w-[36px] h-[18px] bg-[#ff8569] rounded-[5px] mr-2">
-          <p className="text-white text-[12px] text-center">수수료 환불</p>
+          <p className="text-white text-[12px] text-center">반환</p>
         </div>)
     } else {
       return (
@@ -74,7 +74,7 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
           <p>후원한 단체 : {data.supportName}</p> 
         </div>
         <div className="flex flex-row gap-1 text-[12px] font-semibold">
-          <p>내가 남긴 말 : TODO TEXT</p>
+          <p>내가 남긴 말 : {data.supportText}</p>
         </div>
         </>
       )
@@ -93,7 +93,7 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
               <div className="flex flex-row gap-5">
                 <div className="w-[50px] text-[#969799]">경기시간</div>
                 <div>{dayjs(Number(data.ticketPayment.gameStartTime)*1000).format(
-                  "YYYY-MM-DD HH:MM"
+                  "YYYY-MM-DD HH:mm"
                 )}</div>
               </div>
               <div className="flex flex-row gap-5">
@@ -146,7 +146,10 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
             <div className="text-[10px] px-2">
               <div className="flex flex-row gap-5">
                 <div className="w-[50px] text-[#969799]">결제금액</div>
-                <div>{toEther(data.amount)} ETH</div>
+                  <div className={`${data.paymentType == 0 || data.paymentType == 3 ? 'bg-red-300' : 'bg-green-300'} rounded-md`}>
+                    {data.paymentType == 0 || data.paymentType == 3 ? '-' : '+'}
+                    {toEther(data.amount)} ETH
+                  </div>
               </div>
               <div className="flex flex-row gap-5">
                 <div className="w-[50px] text-[#969799]">결제시간</div>

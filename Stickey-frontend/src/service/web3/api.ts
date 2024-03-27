@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Web3 from 'web3';
 import { contractABI } from './Abi';
-const contractAddress = "0x799C214459B5cbBe9D86976B57178cd179Ac1817";
+const contractAddress = "0xAF473bc19cCCe57d7171191d06edB0F4d0B46471";
 
 let web3 : any = null;
 let contract: any = null;
