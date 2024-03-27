@@ -1,6 +1,6 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getPlayerListReq, getProfileReq, patchTeamPreference, postPlayerCreate } from "../../service/Profile/api"
-import { ICreatePlayerReq, ITeamPreferReq } from "../../types/Profile"
+import { ITeamPreferReq } from "../../types/Profile"
 
 export const useProfile = () => {
 
@@ -18,10 +18,18 @@ export const useProfile = () => {
         })
     }
 
-    // 단체 선수 등록
-    const usePostPlayerCreate = (info: ICreatePlayerReq) => {
+    // // 단체 선수 등록
+    const usePostPlayerCreate = () => {
+        const queryClient = useQueryClient();
+
         return useMutation({
-            mutationFn: () => postPlayerCreate(info)
+            mutationKey: ['image'],
+            mutationFn: (formData: FormData) => postPlayerCreate(formData),
+
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: ['PlayerProfile']})
+                console.log('선수를 등록했습니다.')
+            }
         })
     }
 
@@ -32,5 +40,5 @@ export const useProfile = () => {
         })
     }
 
-    return { useGetProfile, useGetPlayerList, usePostPlayerCreate, usePatchTeamPrefer }
+    return { useGetProfile, useGetPlayerList, usePatchTeamPrefer, usePostPlayerCreate }
 }
