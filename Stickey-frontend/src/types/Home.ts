@@ -32,7 +32,7 @@ export interface ITeamListRes {
     category: string;
     name: string;
     logo: string;
-    isPrefer: boolean;
+    isPrefer: number;
 }
 
 // 구단 리스트 조회 Request 
