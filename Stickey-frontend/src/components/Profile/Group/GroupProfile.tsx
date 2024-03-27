@@ -8,12 +8,14 @@ const GroupProfile = ({ groupInfo }: { groupInfo: IUserProfile | null }) => {
     if (!groupInfo) {
       return null; // 렌더링하지 않고 종료
     }
-
-    if (groupInfo?.role === "ACCEPTED") {
+    console.log(groupInfo)
+    if (groupInfo?.status === "ACCEPTED") {
       return (
         <>
-          인증완료
-          <img className="h-12" src={Accept}  />
+        <div className="flex items-center">
+          <img className="h-6" src={Accept}  />
+          <p className="text-sm px-2">인증이 완료된 기관입니다.</p>
+          </div>
         </>
       );
     } else {
@@ -25,9 +27,9 @@ const GroupProfile = ({ groupInfo }: { groupInfo: IUserProfile | null }) => {
     <>    
     {/* 단체 유저 프로필  */}
     <div className="flex justify-center">
-        <div className="flex flex-row gap-3 max-w-[500px] w-full h-[60px] border-none px-6">
-          <div className="w-[56px] h-[56px] rounded-full border border-none bg-Stickey_Gray">
-          <img src={groupInfo?.profileImage} /> 
+        <div className="flex flex-row gap-3 max-w-[500px] w-full h-auto border-none px-6">
+          <div className="w-16 h-16 rounded-full bg-Stickey_Gray">
+            <img src={groupInfo?.profileImage} /> 
           </div>
           <div className="flex flex-col gap-2">
             <p className="text-[20px] text-white font-semibold">{groupInfo?.name}</p>
