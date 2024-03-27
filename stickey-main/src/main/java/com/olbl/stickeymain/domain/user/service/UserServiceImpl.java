@@ -175,6 +175,6 @@ public class UserServiceImpl implements UserService {
             }).collect(Collectors.toList());
 
         // User에 새로운 Preference 리스트 설정
-        user.setPreferences(newPreferences);
+        user.changePreferences(newPreferences);
     }
 }
