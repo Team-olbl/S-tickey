@@ -41,8 +41,6 @@ const SoccerPage = () => {
     data : gameListInfo,
   } = useGetGameList({catg: 'SOCCER', club: [], date: date});
 
-  console.log(gameListInfo)
-
   const info : IHeaderInfo = {
     left_1: (
       <div className="flex flex-row cursor-pointer" onClick={openBottomSheet}>
@@ -63,8 +61,6 @@ const SoccerPage = () => {
       matchDate.getFullYear() === selectedYear
     );
   }) : [];
-
-  console.log(filteredMatches)
 
   return(
     <>

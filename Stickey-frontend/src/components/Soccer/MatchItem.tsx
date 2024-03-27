@@ -22,7 +22,7 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
           <div className="flex flex-col justify-center items-center ">
             <p className="text-[10px] pb-1">Home</p>
             <div className="w-12 h-12 rounded-full bg-Stickey_Gray mb-1">
-              {data.homeTeamLogo}
+              <img src={data.homeTeamLogo || ''} />
             </div>
             <p className="text-md">{data.homeTeam}</p>
           </div>
@@ -32,7 +32,7 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
           <div className="flex flex-col justify-center items-center">
             <p className="text-[10px] pb-1">Away</p>
             <div className="w-12 h-12 rounded-full bg-Stickey_Gray mb-1">
-              {data.awayTeamLogo}
+              <img src={data.awayTeamLogo || ''} />
             </div>
             <p className="text-md pt-2">{data.awayTeam}</p>
           </div>
