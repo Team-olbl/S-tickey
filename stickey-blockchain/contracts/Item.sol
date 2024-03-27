@@ -6,8 +6,8 @@ contract Item {
   // 아이템 정보
   struct ItemInfo {
     uint id;          // 아이템 ID
-    string name;      // 아이템 이름
     uint price;           // 아이템 가격
+    string name;      // 아이템 이름
   }
 
   // autoIncrement key

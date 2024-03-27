@@ -7,10 +7,10 @@ contract Support {
   // 후원글에 대한 후원 정보
   struct SupportInfo {
     uint id;              // 후원글 ID
-    string name;          // 후원단체 이름
-    address addr;         // 후원단체의 지갑 주소 
     uint balance;         // 현재 모인 후원금
     uint endTime;         // 후원 마감 시간
+    string name;          // 후원단체 이름
+    address addr;         // 후원단체의 지갑 주소 
   }
 
   // 후원받은 내역 구조체
@@ -22,9 +22,9 @@ contract Support {
 
   // 후원한 내역 구조체
   struct SupportingHistory {
-    uint supportId;       // 후원한 후원글 ID
     uint amount;          // 후원한 양
     uint time;     // 후원한 시간
+    string supportName;       // 후원한 후원글 ID
     string text;          // 내가 남긴 글
   }
 
@@ -55,7 +55,7 @@ contract Support {
 
     // 후원한 내역 저장
     _supportingHistory[msg.sender].push(SupportingHistory({
-      supportId: _supportId,
+      supportName: _supportInfo[_supportId].name,
       amount: _amount,
       time: block.timestamp,
       text: _text

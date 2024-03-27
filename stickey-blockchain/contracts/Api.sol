@@ -15,16 +15,16 @@ contract Api is Support, Ticket, Item, Game {
   struct TicketDetail {
     uint tokenId;
     uint gameId;
-    string stadium;
-    string zoneName;
     uint seatNumber;
     uint price;
     uint filterId;
     uint backgroundId;
-    Category category;
+    string zoneName;
+    string stadium;
     string homeTeam;
     string awayTeam;
     string gameImage;
+    Category category;
   }
 
   // 결제 이력 타입
@@ -32,19 +32,22 @@ contract Api is Support, Ticket, Item, Game {
 
   // 결제 이력
   struct PaymentHistory {
-    PaymentType paymentType;
-    TicketPayment ticketPayment;
-    string supportName;
     uint amount;
     uint time;
+    TicketPayment ticketPayment;
+    string supportName;
+    PaymentType paymentType;
   }
 
   // 결제 이력 중 예매, 환불
   struct TicketPayment {
     uint gameStartTime;
+    uint gameId;
+    uint[] seatNumber;
+    string homeTeam;
+    string awayTeam;
     string stadium;
     string zoneName;
-    uint[] seatNumber;
   }
 
   constructor(address _rewordContractAddress) {
@@ -60,9 +63,11 @@ contract Api is Support, Ticket, Item, Game {
   }
 
   function addSupportingHistory(address _addr, uint _amount, string memory _supportName) private {
+    TicketPayment memory tp;
+
     PaymentHistory memory ph = PaymentHistory({
       paymentType : PaymentType.Supporting,
-      ticketPayment : TicketPayment(0, "","", new uint[](0)),
+      ticketPayment : tp,
       supportName : _supportName,
       amount : _amount,
       time : block.timestamp
@@ -90,7 +95,10 @@ contract Api is Support, Ticket, Item, Game {
         gameStartTime : g.gameStartTime,
         stadium : g.stadium,
         zoneName : _getZoneName(_zoneId),
-        seatNumber : _seatNumber
+        seatNumber : _seatNumber,
+        homeTeam : g.homeTeam,
+        awayTeam : g.awayTeam,
+        gameId : g.id
       }),
       supportName : "",
       amount : _amount,
@@ -109,8 +117,10 @@ contract Api is Support, Ticket, Item, Game {
   function _createTicket(uint _number, uint _gameId, uint _stadiumId, uint _zoneId, uint[] calldata _seatNumber) internal {
     require(0 < _number && _number < 5, "Wrong Ticket Number"); // 티켓의 매수는 1 ~ 4
     uint price = _getSeatPrice(_stadiumId, _zoneId); // 가격 확인, 좌석 가격 * 매수
-
     require(msg.value == price * _number, "Wrong price"); // 가격이 맞지않으면 반려
+    for(uint i = 0; i < _number; i++) {
+      require(!_getSeatState(_gameId, _zoneId, _seatNumber[i]), "Already Reserve");
+    }
 
     for(uint i = 0; i < _number; i++) { // 매수만큼 반복
       if(_getRefundAddress(_gameId, _zoneId, _seatNumber[i]) != address(0)) {

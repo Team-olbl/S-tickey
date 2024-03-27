@@ -13,8 +13,8 @@ contract Game {
     string stadium;       // 경기장 이름
     string homeTeam;      // 홈팀 이름
     string awayTeam;      // 원정팀 이름
-    Category category;    // 경기 종목
     string gameImage;        // 포스터 url
+    Category category;    // 경기 종목
   }
 
   // 경기 정보 ( 경기 ID => 경기 정보 )
@@ -72,23 +72,23 @@ contract Game {
   }
 
   // 좌석 상태 설정
-  function _setSeatState(uint _gameId, uint _zoneId, uint _seatNum, bool _state) internal {
-    _seatState[_gameId][_zoneId][_seatNum] = _state;
+  function _setSeatState(uint _gameId, uint _zoneId, uint _seatNumber, bool _state) internal {
+    _seatState[_gameId][_zoneId][_seatNumber] = _state;
   }
 
   // 좌석 상태 조회
-  function _getSeatState(uint _gameId, uint _zoneId, uint _seatNum) internal view returns (bool) {
-    return _seatState[_gameId][_zoneId][_seatNum];
+  function _getSeatState(uint _gameId, uint _zoneId, uint _seatNumber) internal view returns (bool) {
+    return _seatState[_gameId][_zoneId][_seatNumber];
   } 
 
   // 환불 주소 설정
-  function _setRefundAddress(uint _gameId, uint _zoneId, uint _seatNum, address _addr) internal {
-    _refundAddress[_gameId][_zoneId][_seatNum] = _addr;
+  function _setRefundAddress(uint _gameId, uint _zoneId, uint _seatNumber, address _addr) internal {
+    _refundAddress[_gameId][_zoneId][_seatNumber] = _addr;
   }
 
   // 환불 주소 조회
-  function _getRefundAddress(uint _gameId, uint _zoneId, uint _seatNum) internal view returns (address) {
-    return _refundAddress[_gameId][_zoneId][_seatNum];
+  function _getRefundAddress(uint _gameId, uint _zoneId, uint _seatNumber) internal view returns (address) {
+    return _refundAddress[_gameId][_zoneId][_seatNumber];
   }
 
 
