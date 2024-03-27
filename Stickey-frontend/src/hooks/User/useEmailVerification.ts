@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
-import { sendEmailVerification } from "../../service/User/api"
+import { confirmEmailVerification, sendEmailVerification } from "../../service/User/api"
+import { confirmEmailReq, confirmEmailRes } from "../../types/Email";
 
 export const useEmailVerificationMutation = () => {
   const mutation = useMutation<string, Error, string>({
@@ -13,3 +14,16 @@ export const useEmailVerificationMutation = () => {
   });
   return mutation;
 };
+
+export const useConfirmEmailVerificationMutation = () => {
+  const mutation = useMutation<confirmEmailRes, Error, confirmEmailReq>({
+    mutationFn: confirmEmailVerification,
+    onSuccess: (data) => {
+      console.log('인증에 성공했습니다.', data)
+    },
+    onError: (error: Error) => {
+      console.error('인증에 실패했습니다.', error)
+    }
+  })
+  return mutation;
+}
