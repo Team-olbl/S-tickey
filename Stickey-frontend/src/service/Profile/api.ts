@@ -1,9 +1,9 @@
 import { axiosAuthInstance } from "../../apis/axiosInstance";
-import { ICreatePlayerReq, IPlayerListRes, IPreTeamSimpleRes } from "../../types/Profile";
+import { ICreatePlayerReq, IPlayerListRes, IUserProfile, } from "../../types/Profile";
 import { APIResponse } from "../../types/model";
 
-export const getProfileReq = async(id : number): Promise<APIResponse<IPreTeamSimpleRes>> => {
-    const { data } = await axiosAuthInstance.get(`/user/profile/${id}`);
+export const getProfileReq = async(): Promise<APIResponse<IUserProfile>> => {
+    const { data } = await axiosAuthInstance.get(`/users/profiles`);
     return data;
 }
 

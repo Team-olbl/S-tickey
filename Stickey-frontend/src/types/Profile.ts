@@ -15,6 +15,8 @@ export interface IPlayerSimpleRes {
 
 // 프로필 조회 Response
 export interface IUserProfile {
+    role: string;
+    status: string | null;
     profileImage: string;
     name: string;
     preference: IPreTeamSimpleRes[];    

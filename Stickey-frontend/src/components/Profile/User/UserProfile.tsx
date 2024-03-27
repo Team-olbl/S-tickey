@@ -2,6 +2,10 @@ import { IPreTeamSimpleRes, IUserProfile } from "../../../types/Profile";
 
 const UserProfile = ({ userInfo }: { userInfo: IUserProfile | null }) => {
 
+  if (!userInfo) {
+    return null; // 렌더링하지 않고 종료
+  }
+
   return (
     <>    
     {/* 개인 유저 프로필 */}

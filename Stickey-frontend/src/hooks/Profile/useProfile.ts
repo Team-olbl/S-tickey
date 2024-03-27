@@ -4,10 +4,10 @@ import { ICreatePlayerReq } from "../../types/Profile"
 
 export const useProfile = () => {
 
-    const useGetProfile = ( props: number ) => {
+    const useGetProfile = () => {
         return useQuery({
-            queryKey: ['profile', props],
-            queryFn: () => getProfileReq(props),
+            queryKey: ['profile'],
+            queryFn: () => getProfileReq(),
         })
     }
 
