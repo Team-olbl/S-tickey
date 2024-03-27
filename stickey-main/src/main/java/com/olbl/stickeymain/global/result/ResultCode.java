@@ -24,6 +24,8 @@ public enum ResultCode {
     GET_SUPPORT_LIST_SUCCESS(200, "내가 작성한 후원 글 목록 조회에 성공하였습니다."),
     GET_SUPPORT_SUCCESS(200, "내가 작성한 후원 글 상세 조회에 성공하였습니다."),
     REQUEST_SUPPORT_SUCCESS(204, "후원 글 등록 재요청에 성공하였습니다."),
+    GET_ORGANIZATION_INFO_SUCCESS(200, "단체 유저 정보 조회에 성공하였습니다."),
+    MODIFY_ORGANIZATION_INFO_SUCCESS(204, "단체 유저 정보 수정/재요청에 성공하였습니다."),
 
     //Admin
     GET_SIGNUPLIST_SUCCESS(200, "승인 대기중인 단체 회원 목록 조회에 성공하였습니다."),
