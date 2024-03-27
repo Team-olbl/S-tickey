@@ -1,6 +1,7 @@
 package com.olbl.stickeymain.domain.user.organization.entity;
 
 import com.olbl.stickeymain.domain.user.entity.User;
+import com.olbl.stickeymain.domain.user.organization.dto.OrganizationInfoReq;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -32,4 +33,11 @@ public class Organization extends User {
     @OneToMany(mappedBy = "organization")
     private List<Player> players = new ArrayList<>();
 
+    public void updateInfo(OrganizationInfoReq dto) {
+        this.manager = dto.getManager().isEmpty() ? this.manager : dto.getManager();
+        this.address = dto.getName().isEmpty() ? this.address : dto.getAddress();
+        this.registrationNumber =
+            dto.getName().isEmpty() ? this.registrationNumber : dto.getRegistrationNumber();
+        this.message = null;
+    }
 }
