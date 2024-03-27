@@ -2,6 +2,7 @@ package com.olbl.stickeymain.domain.user.service;
 
 import static com.olbl.stickeymain.global.result.error.ErrorCode.EMAIL_VERIFICATION_INVAID;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.EMAIL_VERIFICATION_NOT_EXISTS;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.ORGANIZATION_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SPORTS_CLUB_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.USER_NOT_EXISTS;
 
@@ -16,16 +17,22 @@ import com.olbl.stickeymain.domain.user.dto.SignUpReq;
 import com.olbl.stickeymain.domain.user.entity.Preference;
 import com.olbl.stickeymain.domain.user.entity.Role;
 import com.olbl.stickeymain.domain.user.entity.User;
+import com.olbl.stickeymain.domain.user.organization.entity.Organization;
+import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
+import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
 import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
 import com.olbl.stickeymain.domain.user.repository.UserRepository;
+import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +48,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PreferenceRepository preferenceRepository;
     private final SportsClubRepository sportsClubRepository;
+    private final OrganizationRepository organizationRepository;
 
     //Util
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -118,14 +126,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ProfileRes getProfile(int id) {
-        //TODO: 개인 회원인지 단체 회원인지 확인, 입력받은 id값과 같은지 확인
-        User user = userRepository.findById(id)
+    public ProfileRes getProfile(Authentication authentication) {
+        //프로필 조회 확인
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userRepository.findById(userDetails.getId())
             .orElseThrow(() -> new BusinessException(USER_NOT_EXISTS));
-        List<ClubInfoDto> preference;
-        preference = preferenceRepository.findAllByUserId(user.getId());
+
+        List<ClubInfoDto> preference = new ArrayList<>();
+        OrganizationStatus status = null;
+
+        if (user.getRole().equals(Role.INDIVIDUAL)) { //개인 계정
+            preference = preferenceRepository.findAllByUserId(user.getId());
+        } else if (user.getRole().equals(Role.ORGANIZATION)) { //기관 계정
+            Organization organization = organizationRepository.findById(userDetails.getId())
+                .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
+            status = organization.getStatus();
+        }
 
         ProfileRes profileRes = ProfileRes.builder()
+            .role(user.getRole())
+            .status(status)
             .profileImage(user.getProfileImage())
             .name(user.getName())
             .preference(preference).
@@ -136,9 +156,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void modifyPreference(PreferenceReq preferenceReq) {
-        //TODO: 로그인 한 회원 확인 로직
-        User user = userRepository.findById(1)
+    public void modifyPreference(PreferenceReq preferenceReq, Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userRepository.findById(userDetails.getId())
             .orElseThrow(() -> new BusinessException(USER_NOT_EXISTS));
 
         //기존 정보 한번에 삭제

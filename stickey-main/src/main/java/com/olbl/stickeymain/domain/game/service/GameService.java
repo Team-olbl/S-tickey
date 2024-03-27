@@ -5,9 +5,10 @@ import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
 import com.olbl.stickeymain.domain.game.dto.Param;
 import com.olbl.stickeymain.domain.game.dto.SeatStatusRes;
+import com.olbl.stickeymain.domain.game.dto.SportsClubRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
-import com.olbl.stickeymain.domain.game.entity.SportsClub;
 import java.util.List;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface GameService {
@@ -20,5 +21,5 @@ public interface GameService {
 
     List<SeatStatusRes> getSeatStatus(int id, int zoneId);
 
-    List<SportsClub> getClubs(Param param);
+    List<SportsClubRes> getClubs(Param param, Authentication authentication);
 }

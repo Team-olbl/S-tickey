@@ -11,8 +11,8 @@ import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
 import com.olbl.stickeymain.domain.game.dto.Param;
 import com.olbl.stickeymain.domain.game.dto.SeatStatusRes;
+import com.olbl.stickeymain.domain.game.dto.SportsClubRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
-import com.olbl.stickeymain.domain.game.entity.SportsClub;
 import com.olbl.stickeymain.domain.game.service.GameService;
 import com.olbl.stickeymain.global.result.ResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,8 +77,9 @@ public class GameController {
 
     @Operation(summary = "구단 목록 조회")
     @GetMapping("/clubs")
-    public ResponseEntity<ResultResponse> getClubs(@ModelAttribute @ParameterObject Param param) {
-        List<SportsClub> sportsClubList = gameService.getClubs(param);
+    public ResponseEntity<ResultResponse> getClubs(@ModelAttribute @ParameterObject Param param,
+        Authentication authentication) {
+        List<SportsClubRes> sportsClubList = gameService.getClubs(param, authentication);
         return ResponseEntity.ok(ResultResponse.of(GET_CLUBS_SUCCESS, sportsClubList));
     }
 
