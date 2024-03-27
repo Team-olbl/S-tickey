@@ -5,16 +5,16 @@ import static com.olbl.stickeymain.global.result.error.ErrorCode.SPORTS_CLUB_DO_
 import static com.olbl.stickeymain.global.result.error.ErrorCode.STADIUM_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.STADIUM_ZONE_DO_NOT_EXISTS;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
 import com.olbl.stickeymain.domain.game.dto.Param;
-import com.olbl.stickeymain.domain.game.dto.SeatStatusRes;
+import com.olbl.stickeymain.domain.game.dto.SeatInfoRes;
 import com.olbl.stickeymain.domain.game.dto.SportsClubRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
 import com.olbl.stickeymain.domain.game.entity.Category;
 import com.olbl.stickeymain.domain.game.entity.Game;
-import com.olbl.stickeymain.domain.game.entity.GameSeat;
 import com.olbl.stickeymain.domain.game.entity.SportsClub;
 import com.olbl.stickeymain.domain.game.entity.Stadium;
 import com.olbl.stickeymain.domain.game.entity.StadiumZone;
@@ -26,10 +26,12 @@ import com.olbl.stickeymain.domain.game.repository.StadiumZoneRepository;
 import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +52,7 @@ public class GameServiceImpl implements GameService {
 
     //Util
     private final S3Util s3Util;
+    private final StringRedisTemplate redisTemplate;
 
     @Override
     @Transactional
@@ -100,13 +103,28 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<SeatStatusRes> getSeatStatus(int id, int zoneId) {
-        GameSeat gameSeat = gameSeatRepository.findOneByGameId(id)
+    public List<SeatInfoRes> getSeatStatus(int id, int zoneId) throws JsonProcessingException {
+        Game game = gameRepository.findById(id)
             .orElseThrow(() -> new BusinessException(GAME_DO_NOT_EXISTS)); //game id 있는지 확인
         StadiumZone stadiumZone = stadiumZoneRepository.findById(zoneId)
             .orElseThrow(() -> new BusinessException(STADIUM_ZONE_DO_NOT_EXISTS)); // zone id 있는지 확인
 
-        return gameSeatRepository.findByGameIdAndZoneId(id, zoneId);
+        String key = "game:" + game.getId() + ":zone:" + stadiumZone.getName(); //key 만들기
+        List<String> seatInfoList = redisTemplate.opsForList()
+            .range(key, 0, -1);//redis에서 key에 해당되는 모든 좌석정보 가져오기 - 좌석 번호, 좌석 상태
+
+        List<SeatInfoRes> seatInfos = new ArrayList<>();
+        int seatNum = 1;
+
+        for (String seatInfoStr : seatInfoList) {
+            SeatInfoRes seatInfoRes = new SeatInfoRes();
+            seatInfoRes.setStatus(seatInfoStr);
+            seatInfoRes.setSeatNumber(seatNum);
+
+            seatInfos.add(seatInfoRes);
+            seatNum++;
+        }
+        return seatInfos;
     }
 
     @Override

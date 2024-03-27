@@ -6,11 +6,12 @@ import static com.olbl.stickeymain.global.result.ResultCode.GET_GAMES_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_REMAINING_SEATS_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SEAT_STATUS_SUCCESS;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
 import com.olbl.stickeymain.domain.game.dto.Param;
-import com.olbl.stickeymain.domain.game.dto.SeatStatusRes;
+import com.olbl.stickeymain.domain.game.dto.SeatInfoRes;
 import com.olbl.stickeymain.domain.game.dto.SportsClubRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
 import com.olbl.stickeymain.domain.game.service.GameService;
@@ -70,8 +71,8 @@ public class GameController {
     @Operation(summary = "경기장 특정 구역의 전체 좌석 정보 조회")
     @GetMapping("/{id}/zones/{zoneId}/seats")
     public ResponseEntity<ResultResponse> getSeatStatus(@PathVariable(value = "id") int id,
-        @PathVariable(value = "zoneId") int zoneId) {
-        List<SeatStatusRes> seatStatusListRes = gameService.getSeatStatus(id, zoneId);
+        @PathVariable(value = "zoneId") int zoneId) throws JsonProcessingException {
+        List<SeatInfoRes> seatStatusListRes = gameService.getSeatStatus(id, zoneId);
         return ResponseEntity.ok(ResultResponse.of(GET_SEAT_STATUS_SUCCESS, seatStatusListRes));
     }
 
