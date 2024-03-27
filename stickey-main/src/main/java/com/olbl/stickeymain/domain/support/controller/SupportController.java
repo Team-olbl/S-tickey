@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
-@RequestMapping("/support")
+@RequestMapping("/supports")
 @RequiredArgsConstructor
 @Tag(name = "SupportController", description = "후원 관련 api")
 public class SupportController {
