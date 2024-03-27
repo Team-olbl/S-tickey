@@ -10,12 +10,15 @@ import com.olbl.stickeymain.domain.user.organization.dto.PlayerRes;
 import com.olbl.stickeymain.domain.user.organization.entity.Organization;
 import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
 import com.olbl.stickeymain.domain.user.organization.repository.PlayerRepository;
+import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import com.olbl.stickeymain.global.result.error.ErrorCode;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,8 +40,9 @@ public class SupportServiceImpl implements SupportService {
     @Override
     @Transactional
     public void registSupport(SupportReq supportReq, MultipartFile supportImage) {
-        //TODO: token으로부터 organizationID 가져오는 코드 작성
-        Organization organization = organizationRepository.findById(1)
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+        Organization organization = organizationRepository.findById(userDetails.getId())
             .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTS));
 
         //TODO: 기본 이미지는 추후에 S:tickey 로고로 변경하기
