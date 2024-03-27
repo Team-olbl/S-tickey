@@ -11,6 +11,7 @@ import MatchItem from "../../../components/Soccer/MatchItem";
 import { useGame } from "../../../hooks/Home/useGame";
 import { IGameSimpleRes } from "../../../types/Home";
 import dayjs from 'dayjs';
+import { TeamStoreState } from "../../../stores/useTeamStateStore";
 
 const SoccerPage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -34,12 +35,13 @@ const SoccerPage = () => {
   };
 
   const { useGetGameList } = useGame();
+  const { selectedTeams } = TeamStoreState();
 
   const date = dayjs().format('YYYYMM')
 
   const {
     data : gameListInfo,
-  } = useGetGameList({catg: 'SOCCER', club: [], date: date});
+  } = useGetGameList({catg: 'SOCCER', club: selectedTeams, date: date});
 
   const info : IHeaderInfo = {
     left_1: (
@@ -72,7 +74,7 @@ const SoccerPage = () => {
         { filteredMatches?.length === 0 ? (
           <div className="flex flex-col items-center mt-40">
             <img src={Hushed} className="h-20" />
-            <p className=" text-white text-sm mt-4">진행 중인 경기가 없어요!</p>
+            <p className=" text-white text-sm mt-4">해당 날짜에는 경기가 없어요!</p>
           </div>
         ) : (
           filteredMatches?.map((item) =>(
