@@ -6,6 +6,7 @@ import static com.olbl.stickeymain.global.result.error.ErrorCode.PLAYER_NOT_IN_O
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_DO_NOT_REJECTED;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_NOT_MATCH;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.USER_NOT_EXISTS;
 
 import com.olbl.stickeymain.domain.support.dto.SupportReq;
 import com.olbl.stickeymain.domain.support.entity.Support;
@@ -15,7 +16,9 @@ import com.olbl.stickeymain.domain.user.dto.MySupportListRes;
 import com.olbl.stickeymain.domain.user.dto.MySupportOneRes;
 import com.olbl.stickeymain.domain.user.dto.MySupportRes;
 import com.olbl.stickeymain.domain.user.entity.Role;
+import com.olbl.stickeymain.domain.user.entity.User;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
+import com.olbl.stickeymain.domain.user.organization.dto.OrganizationInfoReq;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganizationInfoRes;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerListRes;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerReq;
@@ -25,6 +28,7 @@ import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
 import com.olbl.stickeymain.domain.user.organization.entity.Player;
 import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
 import com.olbl.stickeymain.domain.user.organization.repository.PlayerRepository;
+import com.olbl.stickeymain.domain.user.repository.UserRepository;
 import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import com.olbl.stickeymain.global.result.error.ErrorCode;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
@@ -53,6 +57,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final OrganizationRepository organizationRepository;
     private final PlayerRepository playerRepository;
     private final SupportRepository supportRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
@@ -216,5 +221,37 @@ public class OrganizationServiceImpl implements OrganizationService {
             .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
 
         return organizationInfoRes;
+    }
+
+    @Override
+    @Transactional
+    public void modifyOrganizationUserInfo(OrganizationInfoReq organizationInfoReq,
+        MultipartFile profile, MultipartFile registrationFile) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+
+        User user = userRepository.findById(userDetails.getId())
+            .orElseThrow(() -> new BusinessException(USER_NOT_EXISTS));
+        Organization organization = organizationRepository.findById(userDetails.getId())
+            .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
+
+        if (profile != null && !profile.isEmpty()) {
+            String profileUrlBefore = user.getProfileImage();
+            String profileUrl = s3Util.uploadFile(profile, 1);
+
+            //TODO: 이전에 있던 사진 삭제 로직 추가
+            user.updateProfileImage(profileUrl);
+        }
+
+        if (registrationFile != null && !registrationFile.isEmpty()) {
+            String fileUrlBefore = organization.getRegistrationFile();
+            String fileUrl = s3Util.uploadFile(registrationFile, 3);
+
+            //TODO: 이전에 있던 파일 삭제 로직 추가
+            organization.setRegistrationFile(fileUrl);
+        }
+
+        organization.updateInfo(organizationInfoReq);
+        user.updateUserInfo(organizationInfoReq);
     }
 }

@@ -5,12 +5,14 @@ import static com.olbl.stickeymain.global.result.ResultCode.GET_ORGANIZATION_INF
 import static com.olbl.stickeymain.global.result.ResultCode.GET_PLAYERS_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SUPPORT_LIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SUPPORT_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.MODIFY_ORGANIZATION_INFO_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.REGIST_PLAYER_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.REQUEST_SUPPORT_SUCCESS;
 
 import com.olbl.stickeymain.domain.support.dto.SupportReq;
 import com.olbl.stickeymain.domain.user.dto.MySupportListRes;
 import com.olbl.stickeymain.domain.user.dto.MySupportOneRes;
+import com.olbl.stickeymain.domain.user.organization.dto.OrganizationInfoReq;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganizationInfoRes;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerListRes;
 import com.olbl.stickeymain.domain.user.organization.dto.PlayerReq;
@@ -50,6 +52,16 @@ public class OrganizationController {
         OrganizationInfoRes organizationUserInfo = organizationService.getOrganizationUserInfo();
         return ResponseEntity.ok(
             ResultResponse.of(GET_ORGANIZATION_INFO_SUCCESS, organizationUserInfo));
+    }
+
+    @Operation(summary = "단체 유저 정보 수정/재요청")
+    @PatchMapping(value = "/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ResultResponse> modifyOrganizationUserInfo(@RequestPart
+    OrganizationInfoReq organizationInfoReq, @RequestPart(required = false) MultipartFile profile,
+        @RequestPart(required = false) MultipartFile registrationFile) {
+        organizationService.modifyOrganizationUserInfo(organizationInfoReq, profile,
+            registrationFile);
+        return ResponseEntity.ok(ResultResponse.of(MODIFY_ORGANIZATION_INFO_SUCCESS));
     }
 
     @Operation(summary = "단체 소속 선수 목록 조회")
