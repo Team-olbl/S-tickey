@@ -1,13 +1,36 @@
 import { useRef, useState } from 'react';
 import { CiCamera } from 'react-icons/ci';
+import { useEmailVerificationMutation } from '../../hooks/User/useEmailVerification';
+
 
 const IndividualForm = () => {
 
     const imgRef = useRef<HTMLInputElement>(null);
     const [image, setImage] = useState<File>();
     const [photo, setPhoto] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [isEmailValid, setIsEmailValid] = useState<boolean | null>(null);
+    const { mutate: sendVerificationCode } = useEmailVerificationMutation();
 
     console.log(image) // 나중에 post 연결 시 처리할 것
+
+    // 이메일 변경 핸들러
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const inputEmail = e.target.value;
+        setEmail(inputEmail);
+        setIsEmailValid(isValidEmail(inputEmail));
+	};
+
+	const isValidEmail = (email:string) => {
+		const emailRegex = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
+		return emailRegex.test(email);
+	}
+
+	const handleSendEmailVerification = () => {
+		if (isEmailValid) {
+			sendVerificationCode(email);
+		}
+	};
 
     // 이미지 저장
     const saveImgFile = () => {
@@ -26,12 +49,12 @@ const IndividualForm = () => {
         }
     };
 
-  return (
+    return (
     <div className="pt-16 text-sm ">
         <div className='px-4 border-b border-Stickey_BGC'>
             <p className="pb-2">개인회원가입</p>
         </div>
-      <div className='px-4 pb-28'>
+        <div className='px-4 pb-28'>
             {/* 프로필 사진 */}
             <div className='flex flex-col items-center pt-2'>
                 <p className='text-xs py-2'>프로필 사진</p>
@@ -71,10 +94,13 @@ const IndividualForm = () => {
                     <input
                         type="text"
                         placeholder="example@ssafy.com"
+                                            value={email}
                         className="w-full outline-none border-b p-2  text-xs"
+                        onChange={handleEmailChange}
                     />
-                    <button className="w-12 h-6 border border-Stickey_Main text-Stickey_Main rounded-xl text-[10px]">인증</button>
+                    <button className="w-12 h-6 border border-Stickey_Main text-Stickey_Main rounded-xl text-[10px]" onClick={handleSendEmailVerification}>인증</button>
                 </div>
+								{isEmailValid === false && (<p className="p-2 text-xs text-red-500">이메일 형식이 유효하지 않습니다.</p>)}
                 <input
                     type="text"
                     placeholder="인증번호를 입력해주세요"
@@ -94,11 +120,11 @@ const IndividualForm = () => {
                 />
             </div>
 
-      </div>
-        <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
-            <button className="bg-Stickey_Main w-full text-white rounded-md p-2 text-md">가입하기</button>
-          </div>
-      </div>
-  );
+        </div>
+            <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
+                <button className="bg-Stickey_Main w-full text-white rounded-md p-2 text-md">가입하기</button>
+            </div>
+        </div>
+    );
 };
 export default IndividualForm;
