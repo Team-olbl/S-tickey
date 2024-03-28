@@ -21,3 +21,17 @@ export const patchSeatConfirm = async({id, zoneId, info}: {id: number, zoneId: n
     console.log(data)
     return data;
 }
+
+export const registSeats = async ({ gameId, zoneId, seatNumbers, isRefund }: { gameId: number, zoneId: number, seatNumbers: number[], isRefund: boolean }): Promise<APIResponse<string>> => {
+    console.log(gameId, zoneId, seatNumbers, isRefund)
+    
+    const { data } = await axiosAuthInstance.patch(`/games/${gameId}`, {
+        gameId,
+        zoneId,
+        seatNumbers,
+        isRefund
+    })
+    console.log("registSeats", data);
+    return data;
+
+}

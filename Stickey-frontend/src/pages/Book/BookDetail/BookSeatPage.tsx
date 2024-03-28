@@ -6,6 +6,7 @@ import Bell from '../../../assets/image/Bell.png';
 import { useTicketInfoStore } from "../../../stores/useTicketInfoStore";
 import { useNavigate } from "react-router-dom";
 import useTicketStore from "../../../stores/useTicketStore";
+import { useEffect } from "react";
 
 
 const BookSeatPage = () => {
@@ -14,14 +15,13 @@ const BookSeatPage = () => {
   const { clearSeatInfo } = useTicketStore();
   const navigate = useNavigate(); 
   
-  
-  if(!gameInfo?.id) { 
-
-    alert('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
-    navigate('/', {replace: true})
-    clearSeatInfo()
-    return ;
-  }
+  useEffect(() => {
+    if(!gameInfo?.id) { 
+      alert('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
+      navigate('/', {replace: true})
+      clearSeatInfo()
+    }
+  },[])
 
   const info : IHeaderInfo = {
     left_1:  null,
