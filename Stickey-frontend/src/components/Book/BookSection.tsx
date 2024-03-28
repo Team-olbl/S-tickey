@@ -1,4 +1,6 @@
-import Volley from '../../assets/image/Ground/VolleyballGround.png'
+import SOCCER from '../../assets/image/Ground/SoccerGround.png'
+import BASEBALL from '../../assets/image/Ground/BaseballGround.png'
+import BASKETBALL from '../../assets/image/Ground/BasketballGround.png'
 import { useNavigate, useParams } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
 import { useBook } from '../../hooks/Book/useBook';
@@ -20,6 +22,7 @@ const BookSection = () => {
     const { data: seatCntInfo } = useSectionSeatCnt(1)
 
     console.log( seatCntInfo?.data.leftSeatResList )
+    console.log(gameInfo?.category)
      
     const getSeatColor = (seat: string): string => {
         switch (seat) {
@@ -92,7 +95,9 @@ const BookSection = () => {
                         </div>
                     </div>
                     <div className="flex">
-                        <img className="h-24 w-40" src={Volley} />
+                        {gameInfo?.category === 'SOCCER' && <img className="h-24 w-40" src={SOCCER} />}
+                        {gameInfo?.category === 'BASEBALL' && <img className="h-24 w-40" src={BASEBALL} />}
+                        {gameInfo?.category === 'BASKETBALL' && <img className="h-24 w-40" src={BASKETBALL} />}
                     </div>
                     <div className="flex px-1">
                         <div 
