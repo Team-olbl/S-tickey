@@ -5,6 +5,7 @@ import useTicketStore from "../../../stores/useTicketStore";
 import { useNavigate } from "react-router-dom";
 import { useTicketInfoStore } from "../../../stores/useTicketInfoStore";
 import dayjs from "dayjs";
+import { useEffect } from "react";
 
 export interface DummyUserInfo {
   name: string;
@@ -58,11 +59,18 @@ const goBack = () => {
 
 const gameInfo = useTicketInfoStore((state) => state.modalData);
 
+useEffect(() => {
+  if(!gameInfo?.id) {
+      alert('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
+      navigate('/', {replace: true})
+  }
+}, [])
+
 const gameDate = dayjs(gameInfo?.gameStartTime).format('YYYY년 MM월 DD일 HH시 mm분')
 
 
   const goConformTicket = () => {
-  navigate(`/${gameInfo?.id}/confirm`)
+  navigate(`/${gameInfo?.id}/confirm`,  {replace:true})
   clearSeatInfo()
   }
 
