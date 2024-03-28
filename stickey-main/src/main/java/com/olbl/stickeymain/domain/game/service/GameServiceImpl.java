@@ -1,6 +1,9 @@
 package com.olbl.stickeymain.domain.game.service;
 
+import static com.olbl.stickeymain.global.result.error.ErrorCode.FORBIDDEN_ERROR;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.GAME_DO_NOT_EXISTS;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.GAME_NOT_IN_RESERVATOIN_PROGRESS;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.HOLDING_TIME_OVER;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SPORTS_CLUB_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.STADIUM_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.STADIUM_ZONE_DO_NOT_EXISTS;
@@ -10,12 +13,15 @@ import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
 import com.olbl.stickeymain.domain.game.dto.Param;
+import com.olbl.stickeymain.domain.game.dto.PaymentReq;
 import com.olbl.stickeymain.domain.game.dto.SeatInfoReq;
 import com.olbl.stickeymain.domain.game.dto.SeatInfoRes;
 import com.olbl.stickeymain.domain.game.dto.SportsClubRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
 import com.olbl.stickeymain.domain.game.entity.Category;
 import com.olbl.stickeymain.domain.game.entity.Game;
+import com.olbl.stickeymain.domain.game.entity.GameSeat;
+import com.olbl.stickeymain.domain.game.entity.SeatStatus;
 import com.olbl.stickeymain.domain.game.entity.SportsClub;
 import com.olbl.stickeymain.domain.game.entity.Stadium;
 import com.olbl.stickeymain.domain.game.entity.StadiumZone;
@@ -33,6 +39,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -198,7 +205,7 @@ public class GameServiceImpl implements GameService {
             };
 
             // 현재 시간으로부터 15분 후 - test용 3분 후
-            Date fifteenMinutesLater = new Date(System.currentTimeMillis() + 3 * 60 * 1000);
+            Date fifteenMinutesLater = new Date(System.currentTimeMillis() + 1 * 60 * 1000);
 
             // TaskScheduler를 사용하여 작업을 스케줄링
             taskScheduler.schedule(releaseTask, fifteenMinutesLater);
@@ -206,6 +213,57 @@ public class GameServiceImpl implements GameService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void registSeats(PaymentReq paymentReq) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            throw new BusinessException(FORBIDDEN_ERROR);
+        }
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal(); //로그인 한 유저정보 확인
+
+        String key = String.format("game:%s:zone:%s", paymentReq.getGameId(),
+            paymentReq.getZoneId()); // Redis 키 생성
+
+        // 좌석 번호 목록을 스트림으로 변환하여 Redis에 저장된 선점 상태 확인
+        List<String> seatNumbersStr = paymentReq.getSeatNumbers().stream().map(Object::toString)
+            .collect(Collectors.toList());
+
+        String checkScript =
+            "local userId = ARGV[1] " +
+                "local key = KEYS[1] " +
+                "for i = 2, #ARGV do " +
+                "    local seatIndex = tonumber(ARGV[i]) - 1 " + // 좌석 번호를 인덱스로 변환
+                "    if redis.call('LINDEX', key, seatIndex) ~= 'HOLDING:' .. userId then " +
+                "        return 0 " + // 하나라도 일치하지 않으면 선점 확인 실패
+                "    end " +
+                "end " +
+                "for i = 2, #ARGV do " +
+                "    local seatIndex = tonumber(ARGV[i]) - 1 " +
+                "    redis.call('LSET', key, seatIndex, 'SOLD') " + // 선점 확인 성공 시, SOLD로 상태 변경
+                "end " +
+                "return 1"; // 모두 일치하면 선점 확인 성공
+
+        Long result = redisTemplate.execute(new DefaultRedisScript<Long>(checkScript, Long.class),
+            Collections.singletonList(key),
+            Stream.concat(Stream.of(String.valueOf(userDetails.getId())), seatNumbersStr.stream())
+                .toArray(String[]::new));
+
+        if (result == null || result != 1) {
+            throw new BusinessException(HOLDING_TIME_OVER); // 선점 확인 실패 또는 SOLD로 상태 변경 실패 처리
+        }
+
+        // 좌석 결제 완료 시
+        for (int seatNum : paymentReq.getSeatNumbers()) {
+            GameSeat gameSeat = gameSeatRepository.findGameSeatByGameIdAndZoneIdAndSeatNumber(
+                    paymentReq.getGameId(),
+                    paymentReq.getZoneId(), seatNum)
+                .orElseThrow(() -> new BusinessException(GAME_NOT_IN_RESERVATOIN_PROGRESS));
+
+            gameSeat.changeStatus(SeatStatus.SOLD);
         }
     }
 
