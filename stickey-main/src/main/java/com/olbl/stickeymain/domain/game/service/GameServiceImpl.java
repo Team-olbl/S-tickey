@@ -118,7 +118,7 @@ public class GameServiceImpl implements GameService {
         StadiumZone stadiumZone = stadiumZoneRepository.findById(zoneId)
             .orElseThrow(() -> new BusinessException(STADIUM_ZONE_DO_NOT_EXISTS)); // zone id 있는지 확인
 
-        String key = "game:" + game.getId() + ":zone:" + stadiumZone.getName(); //key 만들기
+        String key = "game:" + game.getId() + ":zone:" + stadiumZone.getId(); //key 만들기
         List<String> seatInfoList = redisTemplate.opsForList()
             .range(key, 0, -1);//redis에서 key에 해당되는 모든 좌석정보 가져오기 - 좌석 번호, 좌석 상태
 
