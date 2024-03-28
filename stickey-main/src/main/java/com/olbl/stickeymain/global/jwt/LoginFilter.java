@@ -2,8 +2,8 @@ package com.olbl.stickeymain.global.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.olbl.stickeymain.domain.user.dto.ClubInfoDto;
-import com.olbl.stickeymain.domain.user.dto.LoginOrganizationRes;
 import com.olbl.stickeymain.domain.user.dto.LoginRes;
+import com.olbl.stickeymain.domain.user.organization.dto.LoginOrganizationRes;
 import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
 import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
 import com.olbl.stickeymain.domain.user.repository.UserRepository;
