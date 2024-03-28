@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
 import NotSoldModal from "./NotSoldModal";
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import { useBook } from "../../hooks/Book/useBook";
 import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
 
@@ -13,7 +13,14 @@ const BookSeat = () => {
     const gameInfo = useTicketInfoStore((state) => state.modalData);
 
     const { useSeatInfoCnt, useSeatconfirm } = useBook();
-    const { data: seatInfoCnt } = useSeatInfoCnt({id : gameInfo!.id, zoneId: seatInfo.sectionId})
+    const { data: seatInfoCnt, refetch: refetchSeatInfoCnt } = useSeatInfoCnt({id : gameInfo!.id, zoneId: seatInfo.sectionId})
+
+    useEffect(() => {
+        if (isModalOpen) {
+            setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, []);
+            refetchSeatInfoCnt();
+        }
+    }, [isModalOpen, refetchSeatInfoCnt, setSelectInfo, seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice]);
 
     //선점확인 api 호출
     const { data: seatConfirmCheck , mutate } = useSeatconfirm({id : gameInfo!.id, zoneId: seatInfo.sectionId, info: seatInfo.seat})
@@ -59,13 +66,17 @@ const BookSeat = () => {
     };
 
     const goBack = () => {
-        navigate(-1)   
+        navigate(`/${gameInfo?.id}/section`)
     }
 
     const goPayment = () => {
         if (seatInfo.seat.length > 0) {
             mutate();
-            // navigate(`/${gameInfo?.id}/payment`, {replace:true});
+            if (seatConfirmCheck?.message == '좌석 선점에 성공했습니다.') {
+                navigate(`/${gameInfo?.id}/payment`, {replace:true});
+            } else {
+                setIsModalOpen(true)
+            }
         }
     };
 
@@ -84,7 +95,7 @@ const BookSeat = () => {
                     className={`w-10 h-10 flex items-center justify-center rounded-md ${
                         seat.status === 'SOLD' || seat.status === 'HOLDING' ? 'bg-black/50' :
                         seat.status === 'AVAILABLE' ? (seatInfo.seat.includes(seat.seatNumber) ? 'bg-purple-500 cursor-pointer' : 'bg-gray-300 cursor-pointer') :
-                        'bg-white' 
+                        'bg-gray-300' 
                     }`}
                     onClick={() => {
                         if (seat.status === 'SOLD' || seat.status === 'HOLDING') {
