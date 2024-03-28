@@ -58,17 +58,6 @@ services:
     networks:
       - stickey_network
 
-  blockchain:
-    build:
-      context: "../stickey-blockchain/"
-      dockerfile: Dockerfile
-    container_name: stickey_blockchain
-    image: ganache
-    ports:
-      - "8545:8545"
-    networks:
-      - stickey_network
-
   mysql:
     image: mysql:8.0.36
     container_name: stickey_mysql
