@@ -39,6 +39,21 @@ public class CustomUserDetails implements UserDetails {
         return user.getId();
     }
 
+    // 계정의 전화번호 값 리턴
+    public String getPhone() {
+        return user.getPhone();
+    }
+
+    // 계정의 이메일 값 리턴
+    public String getEmail() {
+        return user.getEmail();
+    }
+
+    // 계정의 회원명 리턴
+    public String getName() {
+        return user.getName();
+    }
+
     // 계정의 만료 여부 리턴
     @Override
     public boolean isAccountNonExpired() {

@@ -1,7 +1,9 @@
 package com.olbl.stickeymain.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
 import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
+import com.olbl.stickeymain.domain.user.repository.UserRepository;
 import com.olbl.stickeymain.global.jwt.CustomLogoutFilter;
 import com.olbl.stickeymain.global.jwt.JWTFilter;
 import com.olbl.stickeymain.global.jwt.JWTUtil;
@@ -12,7 +14,6 @@ import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,8 +35,9 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
     private final PreferenceRepository preferenceRepository;
+    private final OrganizationRepository organizationRepository;
+    private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
-    private final RedisTemplate redisTemplate;
 
     // 비밀번호 암호화를 위한 BCryptPasswordEncoder Bean 등록
     @Bean
@@ -104,7 +106,7 @@ public class SecurityConfig {
         http // 로그인 필터
             .addFilterAt(
                 new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil,
-                    objectMapper, preferenceRepository),
+                    preferenceRepository, objectMapper, organizationRepository, userRepository),
                 UsernamePasswordAuthenticationFilter.class);
 
         http // 토큰 검증 필터
