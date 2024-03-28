@@ -29,7 +29,7 @@ const GroupProfile = ({ groupInfo }: { groupInfo: IUserProfile | null }) => {
     <div className="flex justify-center">
         <div className="flex flex-row gap-3 max-w-[500px] w-full h-auto border-none px-6">
           <div className="w-16 h-16 rounded-full bg-Stickey_Gray">
-            <img src={groupInfo?.profileImage} /> 
+            <img className="w-[56px] h-[56px] rounded-full" src={groupInfo?.profileImage} /> 
           </div>
           <div className="flex flex-col gap-2">
             <p className="text-[20px] text-white font-semibold">{groupInfo?.name}</p>
