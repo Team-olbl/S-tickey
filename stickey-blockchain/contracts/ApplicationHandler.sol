@@ -115,8 +115,8 @@ contract ApplicationHandler is Api {
   }
 
   // 티켓 취소 
-  function refundTicket(uint256 _tokenId) external payable {
-    _refundTicket(_tokenId);
+  function refundTicket(uint256 _tokenId) external returns (RefundReturn memory) {
+    return _refundTicket(_tokenId);
   }
 
   // 가진 티켓 조회

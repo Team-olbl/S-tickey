@@ -28,6 +28,12 @@ contract Api is Support, Ticket, Item, Game {
     Category category;
   }
 
+  struct RefundReturn {
+    uint gameId;
+    uint zoneId;
+    uint seatNumber;
+  }
+
   // 결제 이력 타입
   enum PaymentType { ReserveTicket, RefundTicket, RestRefund, Supporting }
 
@@ -139,7 +145,7 @@ contract Api is Support, Ticket, Item, Game {
 
 
   // 티켓 취소 
-  function _refundTicket(uint256 _tokenId) internal {
+  function _refundTicket(uint256 _tokenId) internal returns (RefundReturn memory) {
     require(ownerOf(_tokenId) == msg.sender, "you're not owner of this ticket"); // 티켓 소유자 확인
     
     uint256 nowTime = block.timestamp;
@@ -164,6 +170,8 @@ contract Api is Support, Ticket, Item, Game {
     uint[] memory seatNumeber = new uint[](1); // 길이가 1인 동적 배열을 생성
     seatNumeber[0] = t.seatNumber;
     addTicketHistory(1, msg.sender, refundPrice, t.gameId, t.zoneId, seatNumeber);
+
+    return RefundReturn(t.gameId, t.zoneId, t.seatNumber);
   }
 
 
