@@ -12,8 +12,12 @@ const BookSeat = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const gameInfo = useTicketInfoStore((state) => state.modalData);
 
-    const { useSeatInfoCnt } = useBook();
+    const { useSeatInfoCnt, useSeatconfirm } = useBook();
     const { data: seatInfoCnt } = useSeatInfoCnt({id : gameInfo!.id, zoneId: seatInfo.sectionId})
+
+    //선점확인 api 호출
+    const { data: seatConfirmCheck , mutate } = useSeatconfirm({id : gameInfo!.id, zoneId: seatInfo.sectionId, info: seatInfo.seat})
+    console.log(seatConfirmCheck)
 
     const getSeatColor = (seat: string): string => {
         switch (seat) {
@@ -38,7 +42,7 @@ const BookSeat = () => {
         }
     };
 
-    const handleSeatClick = (seat: string) => {
+    const handleSeatClick = (seat: number) => {
         if (seatInfo.seat.length >= 4 && !seatInfo.seat.includes(seat)) {
             return;
         }
@@ -60,7 +64,8 @@ const BookSeat = () => {
 
     const goPayment = () => {
         if (seatInfo.seat.length > 0) {
-            navigate(`/${gameInfo?.id}/payment`, {replace:true});
+            mutate();
+            // navigate(`/${gameInfo?.id}/payment`, {replace:true});
         }
     };
 
@@ -69,31 +74,32 @@ const BookSeat = () => {
         <div className="pt-4">
 
                 {/* 좌석 */}
-                    <div className="bg-Stickey_Gray w-full h-[260px] flex flex-col flex-wrap justify-center items-center">
-                        <p className="text-xs text-gray-800">경기장 방향</p>
-                        <div className="py-2 grid grid-cols-6 gap-1">
-                            {seatInfoCnt?.data && (
-                                seatInfoCnt.data.map((seat, index) => (
-                                    <div
-                                        key={index}
-                                        className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                                            seat.status === 'SOLD' || seat.status === 'HOLDING' ? 'bg-black/50' :
-                                            seat.status === 'AVAILABLE' ? (seatInfo.seat.includes(`${seat.seatNumber}`) ? 'bg-purple-500 cursor-pointer' : 'bg-gray-300 cursor-pointer') :
-                                            'bg-white' 
-                                        }`}
-                                        onClick={() => {
-                                            if (seat.status === 'SOLD' || seat.status === 'HOLDING') {
-                                                setIsModalOpen(true);
-                                            } else if (seat.status === 'AVAILABLE') {
-                                                handleSeatClick(`${seat.seatNumber}`);
-                                            }
-                                        }}
-                                    >
-                                    </div>
-                                ))
-                            )}
-                        </div>
-                    </div>
+<div className="bg-Stickey_Gray w-full h-[260px] flex flex-col flex-wrap justify-center items-center">
+    <p className="text-xs text-gray-800">경기장 방향</p>
+    <div className="py-2 grid grid-cols-6 gap-1">
+        {seatInfoCnt?.data && (
+            seatInfoCnt.data.map((seat, index) => (
+                <div
+                    key={index}
+                    className={`w-10 h-10 flex items-center justify-center rounded-md ${
+                        seat.status === 'SOLD' || seat.status === 'HOLDING' ? 'bg-black/50' :
+                        seat.status === 'AVAILABLE' ? (seatInfo.seat.includes(seat.seatNumber) ? 'bg-purple-500 cursor-pointer' : 'bg-gray-300 cursor-pointer') :
+                        'bg-white' 
+                    }`}
+                    onClick={() => {
+                        if (seat.status === 'SOLD' || seat.status === 'HOLDING') {
+                            setIsModalOpen(true);
+                        } else if (seat.status === 'AVAILABLE') {
+                            handleSeatClick(seat.seatNumber);
+                        }
+                    }}
+                >
+                </div>
+            ))
+        )}
+    </div>
+</div>
+
 
                                     
 
