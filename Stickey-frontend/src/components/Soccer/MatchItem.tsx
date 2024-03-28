@@ -4,6 +4,7 @@ import Prohibit from '../../assets/image/Prohibited.png'
 import WaittingModal from "../Book/WaittingModal";
 import { IGameSimpleRes } from "../../types/Home";
 import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
+import dayjs from "dayjs";
 
 const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,13 +25,15 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
     const bookEndTime = new Date(data.bookEndTime);
 
     if (currentTime < bookStartTime) {
-      return "notOpen";
+      return "notopen";
     } else if (currentTime >= bookStartTime && currentTime <= bookEndTime) {
       return "ticketing";
     } else {
       return "close";
     }
   }
+
+  const gameDate = dayjs(data.gameStartTime).format('YYYY년 MM월 DD일 HH시 mm분')
 
   return (
     <>
@@ -57,12 +60,12 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
         </div>
         <div className="flex flex-col text-center pt-[10px] text-sm">
           <p>{data.stadium}</p>
-          <p>{new Date(data.gameStartTime).toLocaleString()}</p>
+          <p>{gameDate}</p>
         </div>
         <div className="flex flex-col items-center pt-4">
         <button
             className={`w-full h-[36px] border-none rounded-[10px] flex justify-center items-center ${
-              bookingStatus === 'notOpen' || bookingStatus === 'close' ? 'bg-gray-400' : 
+              bookingStatus === 'notopen' || bookingStatus === 'close' ? 'bg-gray-400' : 
               bookingStatus === 'ticketing' ? 'bg-Stickey_Main cursor-pointer' : ''
             }`}
             onClick={bookingStatus === 'ticketing' ? handleBookTicket : undefined}
