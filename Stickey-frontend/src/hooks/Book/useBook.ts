@@ -13,7 +13,8 @@ export const useBook = () => {
     const useSeatInfoCnt = ({id, zoneId}: {id: number, zoneId: number}) => {
         return useQuery({
             queryKey: ['seat', id, zoneId],
-            queryFn: () => getSeatInfoReq({id, zoneId})
+            queryFn: () => getSeatInfoReq({ id, zoneId }),
+            enabled: id != 0,
         })
     }
 
