@@ -26,8 +26,9 @@ const BlockchainTest = () => {
 
     const data = Object.fromEntries(fd.entries());
     const seatNumber: any = fd.getAll('seatNumber');
+    const price = Number(prompt("티켓가격"));
 
-    const result = await createTicket(Number(data.number), Number(data.gameId), Number(data.stadiumId), Number(data.zoneId), seatNumber, 10 ** 9);
+    const result = await createTicket(Number(data.number), Number(data.gameId), Number(data.stadiumId), Number(data.zoneId), seatNumber, price);
     console.log(result);
     alert("실행완료");
   }
@@ -179,8 +180,11 @@ const BlockchainTest = () => {
       console.log(arr);
       alert("취소");
       return;
-    }
-    const result = await setGame(Number(arr[0]), Number(arr[1]), Number(arr[2]), arr[3]!, arr[4]!, arr[5]!, arr[6]!, arr[7]!);
+    } 
+    arr[1] = Math.floor(new Date(arr[1]!.toString()).getTime() / 1000);
+    arr[2] = Math.floor(new Date(arr[2]!.toString()).getTime() / 1000);
+    
+    const result = await setGame(Number(arr[0]), arr[1], arr[2], arr[3]!.toString(), arr[4]!.toString(), arr[5]!.toString(), arr[6]!.toString(), arr[7]!.toString());
     console.log(result);
   }
 
@@ -219,6 +223,7 @@ const BlockchainTest = () => {
       console.log(result);
     }
 
+  
     return <>
       <div className="text-black flex flex-col items-center w-full">
 
@@ -262,7 +267,7 @@ const BlockchainTest = () => {
             </div>
             <div className="w-[20%]">
               <div>티켓 환불</div>
-              티켓ID<input type="text" ref={refundRet} />
+              티켓ID<input type="text" className="w-full" ref={refundRet} />
               <button onClick={_refundTicket}>환불하기</button>
             </div>
           </div>

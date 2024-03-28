@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Web3 from 'web3';
 import { contractABI } from './Abi';
-const contractAddress = "0x7C20b2c35Fb7aaF6f59166Aa50e3951db72a813b";
+const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
 
 let web3 : any = null;
 let contract: any = null;
@@ -11,6 +11,11 @@ declare global {
   interface Window {
     ethereum: any;
   }
+}
+
+// to Ether
+export const toEther = (value : bigint | number) => {
+  return web3?.utils.fromWei(value, 'ether');
 }
 
 // 지갑 연결
@@ -53,9 +58,9 @@ export const getWalletInfo = async () => {
 // 티켓 예매
 export const createTicket = async (number : number, gameId : number, stadiumId : number, zoneId : number, seatNumber : number[], price : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
-  const value = price * number;
+  const value = price * 50000 * number;
   try {
-    const ret = await contract.methods.createTicket(number, gameId, stadiumId, zoneId, seatNumber).send({ from: account[0], value: value });
+    const ret = await contract.methods.createTicket(number, gameId, stadiumId, zoneId, seatNumber).send({ from: account[0], value: value});
     return ret;
   } catch (err) {
     alert("티켓 예매 실패");
@@ -78,26 +83,7 @@ export const getTickets = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getTickets(account[0]).call();
-    // const data = [];
-    // for (let i = ret.length - 1; i >= 0; i--) {
-    //   data.push(
-    //     {
-    //       tokenId: ret[i].tokenId,
-    //       gameId: ret[i].gameId,
-    //       stadium: ret[i].stadium,
-    //       seat: ret[i].zoneName + " " + ret[i].seatNumber,
-    //       price: ret[i].price,
-    //       filterId: ret[i].filterId,
-    //       backgroundId: ret[i].backgroundId,
-    //       category: ret[i].category == 0 ? "SOCCER" : ret[i].category == 1 ? "BASEBALL" : "BESKETBALL",
-    //       homeTeam: ret[i].homeTeam,
-    //       awayTeam: ret[i].awayTeam,
-    //       gameImage: ret[i].gameImage
-    //     }
-    //   )
-    // }
-    // return data;
-    return ret;
+    return ret.reverse();
   } catch (err) {
     alert("티켓 조회 실패");
   }
@@ -141,7 +127,7 @@ export const getSupprtedHistory = async (id : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getSupprtedHistory(id).call();
-    return ret;
+    return ret.reverse();
   } catch (err) {
     alert("후원받은 내역 조회 실패");
   }
@@ -152,7 +138,7 @@ export const getSupprtingHistory = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getSupprtingHistory(account[0]).call();
-    return ret;
+    return ret.reverse();
   } catch (err) {
     alert("후원한 내역 조회 실패");
   }
@@ -163,7 +149,7 @@ export const getPaymentHistory = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getPaymentHistory(account[0]).call();
-    return ret;
+    return ret.reverse();
   } catch (err) {
     alert("결제 이력 조회 실패");
   }
@@ -174,7 +160,7 @@ export const getRewordHistory = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getRewordHistory(account[0]).call();
-    return ret;
+    return ret.reverse();
   } catch (err) {
     alert("꿈 내역 조회 실패");
   }
