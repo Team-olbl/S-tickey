@@ -64,16 +64,8 @@ const HomePage = () => {
       awayTeam: 'FC서울',
       awayTeamLogo: <img src={서울} />,
     },
-
   ]
 
-  const dummydata:preferredClub[] = [
-    {
-      id: 1,
-      team_1: <img src={대구} alt="" />,
-      team_2: <img src={서울} alt="" />,
-    }
-  ]
 
   return(
     <>
@@ -81,9 +73,7 @@ const HomePage = () => {
       <div className="pt-16 pb-16">
         <Carousel />
         <Category />
-        {dummydata.map((item, id) => (
-          <GameScheduleHeader data={item} key={id}/>
-        ))}
+        <GameScheduleHeader/>
         {dummies.map((item, id) => (
           <GameSchedule data={item} key={id}/>
         ))
