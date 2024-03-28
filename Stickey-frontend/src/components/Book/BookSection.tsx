@@ -1,5 +1,5 @@
 import Volley from '../../assets/image/Ground/VolleyballGround.png'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
 import { useBook } from '../../hooks/Book/useBook';
 import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
@@ -11,10 +11,13 @@ const BookSection = () => {
 
     const gameInfo = useTicketInfoStore((state) => state.modalData);
 
-    
+    const { id } = useParams<{ id: string }>();
+    console.log("ID:", id);
+    // const intId = Number(id)
+
     // api 연결
     const { useSectionSeatCnt } = useBook()
-    const { data: seatCntInfo } = useSectionSeatCnt(Number(gameInfo?.id))
+    const { data: seatCntInfo } = useSectionSeatCnt(1)
 
     console.log( seatCntInfo?.data.leftSeatResList )
      
@@ -55,6 +58,7 @@ const BookSection = () => {
         }
     }
 
+    // 고정값이므로 하드코딩하겠습니다 !
 
     return (
         <div className="pt-4">
@@ -62,12 +66,14 @@ const BookSection = () => {
 
                 <div className="flex px-1">
                     <div  
-                        className={`bg-[#FEACAC] h-8 w-20 mr-1 ${seatInfo.section === 'S구역 1' ? 'opacity-100' : 'opacity-50'}`} 
+                        className={`bg-[#FEACAC] flex justify-center items-center h-8 w-20 mr-1 ${seatInfo.section === 'S구역 1' ? 'opacity-100' : 'opacity-50'}`} 
                         onClick={() => handleSeatClick('S구역 1')}>
+                            <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[0].leftSeatCnt}</p> 
                     </div>
                     <div 
-                        className={`bg-[#FEACAC] h-8 w-20 ${seatInfo.section === 'S구역 2' ? 'opacity-100' : 'opacity-50'}`} 
+                        className={`bg-[#FEACAC] flex justify-center items-center h-8 w-20 ${seatInfo.section === 'S구역 2' ? 'opacity-100' : 'opacity-50'}`} 
                         onClick={() => handleSeatClick('S구역 2')}>
+                             <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[1].leftSeatCnt}</p>
                     </div>
                 </div>
 
@@ -75,12 +81,14 @@ const BookSection = () => {
                 <div className="flex p-1">
                     <div className="flex px-1">
                         <div 
-                            className={`bg-[#D2C2FF] w-8 h-24 mr-1 ${seatInfo.section === 'R구역 1' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#D2C2FF] flex justify-center items-center w-8 h-24 mr-1 ${seatInfo.section === 'R구역 1' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('R구역 1')}>
+                                 <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[2].leftSeatCnt}</p>
                         </div>
                         <div 
-                            className={`bg-[#D2C2FF] w-8 h-24 ${seatInfo.section === 'R구역 2' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#D2C2FF] flex justify-center items-center w-8 h-24 ${seatInfo.section === 'R구역 2' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('R구역 2')}>
+                                 <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[3].leftSeatCnt}</p>
                         </div>
                     </div>
                     <div className="flex">
@@ -88,12 +96,14 @@ const BookSection = () => {
                     </div>
                     <div className="flex px-1">
                         <div 
-                            className={`bg-[#D2C2FF] w-8 h-24 ${seatInfo.section === 'R구역 3' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#D2C2FF] flex justify-center items-center w-8 h-24 ${seatInfo.section === 'R구역 3' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('R구역 3')}>
+                                 <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[0].leftSeatCnt}</p>
                         </div>
                         <div 
-                            className={`bg-[#D2C2FF] w-8 h-24 ml-1 ${seatInfo.section === 'R구역 4' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#D2C2FF] flex justify-center items-center w-8 h-24 ml-1 ${seatInfo.section === 'R구역 4' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('R구역 4')}>
+                                 <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[0].leftSeatCnt}</p>
                         </div>
                     </div>
                 </div>
@@ -102,35 +112,41 @@ const BookSection = () => {
                 <div className="flex px-1">
                     <div className="px-1">
                         <div 
-                            className={`bg-[#FAF8B7] w-16 h-12 rounded-bl-full ${seatInfo.section === 'W구역 1' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#FAF8B7] flex justify-center items-center w-16 h-12 rounded-bl-full ${seatInfo.section === 'W구역 1' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('W구역 1')}>
+                                 <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[0].leftSeatCnt}</p>
                         </div>
                     </div>
 
                     <div>
                         <div 
-                            className={`bg-[#C3E7FF] h-6 w-20 mr-1 ${seatInfo.section === 'E구역 1' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#C3E7FF] flex justify-center items-center h-6 w-20 mr-1 ${seatInfo.section === 'E구역 1' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('E구역 1')}>
+                                 <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[0].leftSeatCnt}</p>
                         </div>
                         <div 
-                            className={`bg-[#C3E7FF] h-6 w-20 mt-1 ${seatInfo.section === 'E구역 3' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#C3E7FF] flex justify-center items-center h-6 w-20 mt-1 ${seatInfo.section === 'E구역 3' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('E구역 3')}>
+                                 <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[0].leftSeatCnt}</p>
                         </div>
                     </div>
                     <div>
                         <div 
-                            className={`bg-[#C3E7FF] h-6 w-20 ${seatInfo.section === 'E구역 2' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#C3E7FF] flex justify-center items-center h-6 w-20 ${seatInfo.section === 'E구역 2' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('E구역 2')}>
+                                 <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[0].leftSeatCnt}</p>
                         </div>
                         <div 
-                            className={`bg-[#C3E7FF] h-6 w-20 mt-1 ${seatInfo.section === 'E구역 4' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#C3E7FF] flex justify-center items-center h-6 w-20 mt-1 ${seatInfo.section === 'E구역 4' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('E구역 4')}>
+                                 <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[0].leftSeatCnt}</p>
                         </div>
                     </div>
                     <div className="px-1">    
                         <div 
-                            className={`bg-[#FAF8B7] w-16 h-12 rounded-br-full ${seatInfo.section === 'W구역 2' ? 'opacity-100' : 'opacity-50'}`} 
+                            className={`bg-[#FAF8B7] flex justify-center items-center w-16 h-12 rounded-br-full ${seatInfo.section === 'W구역 2' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('W구역 2')}>
+                                 <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[0].leftSeatCnt}</p>
                         </div>
                     </div>
                 </div>
