@@ -37,7 +37,7 @@ const DreamHistoryPage = () => {
   return (
     <>
       <Header info={info}/>
-      <div className="pt-12">
+      <div className="pt-12 pb-16">
         <DreamHeader />
         {dreamHistroy.map((item, idx) => (
           <DreamItem key={idx} data={item} />
