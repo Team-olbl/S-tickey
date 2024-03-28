@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
 import NotSoldModal from "./NotSoldModal";
-import { useState } from "react";
+import {  useState } from "react";
 import { useBook } from "../../hooks/Book/useBook";
 import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
 
@@ -14,7 +14,7 @@ const BookSeat = () => {
 
     const { useSeatInfoCnt } = useBook();
     const { data: seatInfoCnt } = useSeatInfoCnt({id : gameInfo!.id, zoneId: seatInfo.sectionId})
-    
+
     const getSeatColor = (seat: string): string => {
         switch (seat) {
             case 'S구역 1':
@@ -60,7 +60,7 @@ const BookSeat = () => {
 
     const goPayment = () => {
         if (seatInfo.seat.length > 0) {
-            navigate(`/${gameInfo?.id}/payment`);
+            navigate(`/${gameInfo?.id}/payment`, {replace:true});
         }
     };
 

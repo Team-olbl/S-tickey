@@ -57,7 +57,7 @@ const BookSection = () => {
 
     const goNext = () => {
         if (seatInfo.section !== '') {
-            navigate(`/${gameInfo?.id}/seat`);
+            navigate(`/${gameInfo?.id}/seat`, {replace:true});
         }
     }
 
