@@ -13,7 +13,8 @@ const BookSeat = () => {
     const gameInfo = useTicketInfoStore((state) => state.modalData);
 
     const { useSeatInfoCnt, useSeatconfirm } = useBook();
-    const { data: seatInfoCnt, refetch: refetchSeatInfoCnt } = useSeatInfoCnt({id : gameInfo!.id, zoneId: seatInfo.sectionId})
+    const { data: seatInfoCnt, refetch: refetchSeatInfoCnt } = useSeatInfoCnt({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId})
+    const { data: seatConfirmCheck, isSuccess , mutate } = useSeatconfirm({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId, info: seatInfo.seat})
 
     useEffect(() => {
         if (isModalOpen) {
@@ -22,9 +23,17 @@ const BookSeat = () => {
         }
     }, [isModalOpen, refetchSeatInfoCnt, setSelectInfo, seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice]);
 
+    useEffect(() => {
+        if (!isSuccess) return;
+        console.log("aaaa",seatConfirmCheck);
+        if (seatConfirmCheck?.data !== undefined) {
+            navigate(`/${gameInfo?.id}/payment`, { replace: true });
+        } else {
+            setIsModalOpen(true)
+        }
+    }, [isSuccess]);
+
     //선점확인 api 호출
-    const { data: seatConfirmCheck , mutate } = useSeatconfirm({id : gameInfo!.id, zoneId: seatInfo.sectionId, info: seatInfo.seat})
-    console.log(seatConfirmCheck)
 
     const getSeatColor = (seat: string): string => {
         switch (seat) {
@@ -67,17 +76,13 @@ const BookSeat = () => {
 
     const goBack = () => {
         setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, []);
-        navigate(`/${gameInfo?.id}/section`)
+        navigate(`/${gameInfo?.id}/section`, {replace : true})
     }
 
     const goPayment = () => {
         if (seatInfo.seat.length > 0) {
             mutate();
-            if (seatConfirmCheck?.message == '좌석 선점에 성공했습니다.') {
-                navigate(`/${gameInfo?.id}/payment`, {replace:true});
-            } else {
-                setIsModalOpen(true)
-            }
+
         }
     };
 
