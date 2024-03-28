@@ -42,6 +42,8 @@ public enum ResultCode {
     GET_SEAT_STATUS_SUCCESS(200, "전체 좌석 상태 정보 조회에 성공하였습니다."),
     GET_GAMES_SUCCESS(200, "게임 목록 조회에 성공하였습니다."),
     GET_CLUBS_SUCCESS(200, "구단 목록 조회에 성공하였습니다."),
+    HOLD_SEATS_SUCCESS(200, "좌석 선점에 성공하였습니다."),
+    HOLD_SEATS_FAIL(200, "이미 선택된 좌석입니다."),
 
     //Support
     SUPPORT_REGISTER_SUCCESS(201, "후원 글 등록에 성공하였습니다."),
