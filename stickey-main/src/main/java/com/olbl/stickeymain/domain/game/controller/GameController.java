@@ -95,7 +95,7 @@ public class GameController {
     }
 
     @Operation(summary = "결제 시 좌석 상태 변경")
-    @PatchMapping("/{id}/")
+    @PatchMapping("/{id}")
     public ResponseEntity<ResultResponse> registSeats(@RequestBody PaymentReq paymentReq) {
         gameService.registSeats(paymentReq);
         return ResponseEntity.ok(ResultResponse.of(PAYMENT_SUCCESS));
