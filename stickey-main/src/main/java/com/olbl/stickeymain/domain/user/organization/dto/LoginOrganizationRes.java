@@ -1,4 +1,4 @@
-package com.olbl.stickeymain.domain.user.dto;
+package com.olbl.stickeymain.domain.user.organization.dto;
 
 import com.olbl.stickeymain.domain.user.organization.entity.Organization;
 import lombok.Builder;
@@ -36,9 +36,6 @@ public class LoginOrganizationRes {
     // 사업자등록증
     String registrationFile;
 
-    // 승인 상태
-    String status;
-
     // Entity - DTO 변환
     @Builder
     public LoginOrganizationRes(Organization organization) {
@@ -51,6 +48,5 @@ public class LoginOrganizationRes {
         this.address = organization.getAddress();
         this.registrationNumber = organization.getRegistrationNumber();
         this.registrationFile = organization.getRegistrationFile();
-        this.status = String.valueOf(organization.getStatus());
     }
 }
