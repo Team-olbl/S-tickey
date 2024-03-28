@@ -93,4 +93,15 @@ public class WaitingServiceImpl implements WaitingService {
             }
         }
     }
+
+    @Override
+    public boolean cancelWaitQueue(int id, int gameId) {
+        // 대기열에 있는지 확인
+        String key = baseWaitKey + gameId;
+        if (redisTemplate.opsForZSet().rank(key, String.valueOf(id)) != null) {
+            redisTemplate.opsForZSet().remove(key, String.valueOf(id));
+            return true;
+        }
+        return false;
+    }
 }
