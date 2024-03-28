@@ -77,11 +77,17 @@ const BookSeat = () => {
                                     <div
                                         key={index}
                                         className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                                            seat.status === 'SOLD' || seat.status === 'HOLDING' ? 'bg-black' :
+                                            seat.status === 'SOLD' || seat.status === 'HOLDING' ? 'bg-black/50' :
                                             seat.status === 'AVAILABLE' ? (seatInfo.seat.includes(`${seat.seatNumber}`) ? 'bg-purple-500 cursor-pointer' : 'bg-gray-300 cursor-pointer') :
                                             'bg-white' 
                                         }`}
-                                        onClick={() => seat.status === 'AVAILABLE' && handleSeatClick(`${seat.seatNumber}`)}
+                                        onClick={() => {
+                                            if (seat.status === 'SOLD' || seat.status === 'HOLDING') {
+                                                setIsModalOpen(true);
+                                            } else if (seat.status === 'AVAILABLE') {
+                                                handleSeatClick(`${seat.seatNumber}`);
+                                            }
+                                        }}
                                     >
                                     </div>
                                 ))
