@@ -1,19 +1,5 @@
 import {create} from 'zustand';
 
-export interface ITicket {
-    id: number;
-    gameStartTime: Date;
-    stadium: string;
-    homeTeam: string;
-    awayTeam: string;
-    category: string;
-    poster: string;
-    areaId: string;
-    seatNum: number;
-    price: number;
-    filterId: number;
-    backGroundId: number;
-}
 
 export interface ITicketStore {
     tickets: ITicket[];
