@@ -4,12 +4,12 @@ interface SeatInfo {
   section: string;
   sectionId: number;
   sectionPrice: number;
-  seat: string[];
+  seat: number[];
 }
 
 interface TicketStore {
   seatInfo: SeatInfo;
-  setSelectInfo: (section: string, sectionId: number, sectionPrice: number, seat: string[]) => void; 
+  setSelectInfo: (section: string, sectionId: number, sectionPrice: number, seat: number[]) => void; 
   clearSeatInfo: () => void;
 }
 
