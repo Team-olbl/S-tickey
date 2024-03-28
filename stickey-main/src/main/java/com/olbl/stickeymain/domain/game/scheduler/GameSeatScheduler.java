@@ -21,7 +21,7 @@ public class GameSeatScheduler {
     private final StringRedisTemplate redisTemplate;
 
     //TODO: 테스트 이후에 시간 늘리기
-    @Scheduled(fixedRate = 600000 * 2) // 20분마다 실행
+    @Scheduled(fixedRate = 60000) // 1분마다 실행
     public void checkAndExecuteTask() {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime twentyMinutesFromNow = now.plusMinutes(20);
