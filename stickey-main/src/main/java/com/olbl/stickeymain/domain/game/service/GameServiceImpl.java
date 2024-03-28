@@ -219,16 +219,14 @@ public class GameServiceImpl implements GameService {
     @Override
     @Transactional
     public void registSeats(PaymentReq paymentReq) {
-
-        String key = String.format("game:%s:zone:%s", paymentReq.getGameId(),
-            paymentReq.getZoneId()); // Redis 키 생성
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             throw new BusinessException(FORBIDDEN_ERROR);
         }
-
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal(); //로그인 한 유저정보 확인
+
+        String key = String.format("game:%s:zone:%s", paymentReq.getGameId(),
+            paymentReq.getZoneId()); // Redis 키 생성
 
         // 좌석 번호 목록을 스트림으로 변환하여 Redis에 저장된 선점 상태 확인
         List<String> seatNumbersStr = paymentReq.getSeatNumbers().stream().map(Object::toString)
