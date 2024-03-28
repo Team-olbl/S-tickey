@@ -2,9 +2,11 @@ package com.olbl.stickeymain.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
+import com.olbl.stickeymain.global.jwt.CustomLogoutFilter;
 import com.olbl.stickeymain.global.jwt.JWTFilter;
 import com.olbl.stickeymain.global.jwt.JWTUtil;
 import com.olbl.stickeymain.global.jwt.LoginFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
@@ -79,8 +82,7 @@ public class SecurityConfig {
 
                     // 허용할 출처
                     configuration.setAllowedOrigins(
-                        Arrays.asList("https://j10d211.p.ssafy.io", "http://localhost:3000",
-                            "http://app/api"));
+                        Arrays.asList("https://j10d211.p.ssafy.io", "http://localhost:3000"));
 
                     // 허용할 HTTP 메소드
                     configuration.setAllowedMethods(Collections.singletonList("*"));
@@ -107,6 +109,15 @@ public class SecurityConfig {
 
         http // 토큰 검증 필터
             .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
+
+        http // 로그아웃 필터
+            .addFilterBefore(new CustomLogoutFilter(redisTemplate, jwtUtil), LogoutFilter.class)
+            .logout(logout -> logout
+                .logoutUrl("/users/logout")
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    // 로그아웃 성공 시, 리다이렉트 하지 않는다
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }));
 
         return http.build();
     }
