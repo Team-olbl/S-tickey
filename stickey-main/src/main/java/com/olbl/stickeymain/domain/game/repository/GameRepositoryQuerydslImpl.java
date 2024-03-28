@@ -23,12 +23,13 @@ public class GameRepositoryQuerydslImpl implements GameRepositoryQuerydsl {
 
     @Override
     public GameListRes getGameListResByViewParam(ViewParam viewParam) {
-        BooleanBuilder booleanBuilder = createBooleanBuilder(viewParam);
+        BooleanBuilder booleanBuilder = generateQueryCondition(viewParam);
         List<GameRes> gameResList = jpaQueryFactory.select(Projections.fields(
                 GameRes.class,
                 game.id.as("id"),
                 game.gameImage,
                 game.category,
+                game.stadium.id.as("stadiumId"),
                 game.stadium.name.as("stadium"),
                 game.homeTeam.name.as("homeTeam"),
                 game.homeTeam.logo.as("homeTeamLogo"),
@@ -46,7 +47,7 @@ public class GameRepositoryQuerydslImpl implements GameRepositoryQuerydsl {
         return new GameListRes(gameResList);
     }
 
-    private BooleanBuilder createBooleanBuilder(ViewParam viewParam) {
+    private BooleanBuilder generateQueryCondition(ViewParam viewParam) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
         if (viewParam.getClub() != null && !viewParam.getClub().isEmpty()) {

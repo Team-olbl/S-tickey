@@ -110,7 +110,7 @@ public class JWTUtil {
             // 토큰 카테고리 검사
             String category = (String) claims.get("category");
             if (!originalCategory.equals(category)) {
-                log.info("[JWTUtil] Access Token Not Exist");
+                log.info("[JWTUtil] Token Not Exist");
                 return false;
             }
 

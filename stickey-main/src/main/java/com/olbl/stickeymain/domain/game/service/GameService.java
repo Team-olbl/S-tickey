@@ -1,13 +1,16 @@
 package com.olbl.stickeymain.domain.game.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
 import com.olbl.stickeymain.domain.game.dto.Param;
-import com.olbl.stickeymain.domain.game.dto.SeatStatusRes;
+import com.olbl.stickeymain.domain.game.dto.SeatInfoReq;
+import com.olbl.stickeymain.domain.game.dto.SeatInfoRes;
+import com.olbl.stickeymain.domain.game.dto.SportsClubRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
-import com.olbl.stickeymain.domain.game.entity.SportsClub;
 import java.util.List;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface GameService {
@@ -18,7 +21,9 @@ public interface GameService {
 
     LeftSeatListRes getLeftSeats(int id);
 
-    List<SeatStatusRes> getSeatStatus(int id, int zoneId);
+    List<SeatInfoRes> getSeatStatus(int id, int zoneId) throws JsonProcessingException;
 
-    List<SportsClub> getClubs(Param param);
+    Boolean tryReserveSeats(int id, int zoneId, SeatInfoReq seatInfoReq);
+
+    List<SportsClubRes> getClubs(Param param, Authentication authentication);
 }
