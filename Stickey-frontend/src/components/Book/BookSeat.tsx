@@ -2,14 +2,25 @@ import { useNavigate } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
 import NotSoldModal from "./NotSoldModal";
 import { useState } from "react";
+import { useBook } from "../../hooks/Book/useBook";
+import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
 
 const BookSeat = () => {
 
     const navigate = useNavigate();
     const { seatInfo, setSelectInfo } = useTicketStore();
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    console.log(seatInfo.sectionId)
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const gameInfo = useTicketInfoStore((state) => state.modalData);
+
+
+    const { useSeatInfoCnt } = useBook();
+    const { data: seatInfoCnt } = useSeatInfoCnt({id : gameInfo!.id, zoneId: seatInfo.sectionId})
+
+    console.log(seatInfoCnt?.data)
+    
     const getSeatColor = (seat: string): string => {
         switch (seat) {
             case 'S구역 1':
@@ -41,8 +52,9 @@ const BookSeat = () => {
             ? seatInfo.seat.filter(s => s !== seat)
             : [...seatInfo.seat, seat];
         
-        setSelectInfo(seatInfo.section, newSelectedSeats);
+            setSelectInfo(seatInfo.section, seatInfo.sectionId, newSelectedSeats);
     };
+
 
     const generateSeatNumbers = (rows: number, cols: number) => {
         const seats = [];
@@ -75,8 +87,6 @@ const BookSeat = () => {
     const goPayment = () => {
     navigate(`/${id}/payment`)
     }
-
-
 
     return(
         <>
