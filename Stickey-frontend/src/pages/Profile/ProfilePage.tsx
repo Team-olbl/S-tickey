@@ -35,7 +35,7 @@ const ProfilePage = () => {
 
             {/* 안내 문구 섹션 */}
             <div className="flex justify-center py-2 px-5">
-              <div className="w-full h-auto py-2 border-none bg-Stickey_Gray rounded flex flex-row items-center gap-1">
+              <div className="w-full h-auto py-2 border-none bg-white rounded-lg flex flex-row items-center gap-1">
                 <img src={YellowBell} className="w-5 h-5 ml-2"/>
                 <p className="text-red-600 font-bold text-sm">[ TIP ]</p>
                 <p className="text-sm">IOS 서비스 미지원 기종이 있습니다.</p>
@@ -51,7 +51,7 @@ const ProfilePage = () => {
 
             {/* 안내 문구 섹션 */}
             <div className="flex justify-center py-2 px-5">
-              <div className="w-full h-[32px] border-none bg-Stickey_Gray rounded flex flex-row items-center gap-1">
+              <div className="w-full h-[32px] border-none bg-white rounded-lg flex flex-row items-center gap-1">
                 <img src={YellowBell} className="w-5 h-5 ml-2"/>
                 <p className="text-red-600 font-bold text-[12px]">[ TIP ]</p>
                 <p className="text-[12px]">IOS 서비스 미지원 기종이 있습니다.</p>

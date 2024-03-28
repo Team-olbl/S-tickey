@@ -3,6 +3,9 @@ import Bell from '../../../assets/image/Bell.png';
 import NavigationBar from "../../../components/@common/NavigationBar";
 import useTicketStore from "../../../stores/useTicketStore";
 import { useNavigate } from "react-router-dom";
+import { useTicketInfoStore } from "../../../stores/useTicketInfoStore";
+import dayjs from "dayjs";
+import { useEffect } from "react";
 
 export interface DummyUserInfo {
   name: string;
@@ -54,15 +57,25 @@ const goBack = () => {
   navigate(-1)   
 }
 
-const id: number = 1;
+const gameInfo = useTicketInfoStore((state) => state.modalData);
 
-    const goConformTicket = () => {
-    navigate(`/${id}/confirm`)
-    clearSeatInfo()
-    }
+useEffect(() => {
+  if(!gameInfo?.id) {
+      alert('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
+      navigate('/', {replace: true})
+  }
+}, [])
+
+const gameDate = dayjs(gameInfo?.gameStartTime).format('YYYY년 MM월 DD일 HH시 mm분')
+
+
+  const goConformTicket = () => {
+  navigate(`/${gameInfo?.id}/confirm`,  {replace:true})
+  clearSeatInfo()
+  }
 
 const totalPrice = () => {
-  const pricePerSeat = 10000; 
+  const pricePerSeat = seatInfo.sectionPrice; 
   return seatInfo.seat.length * pricePerSeat;
 };
 
@@ -109,9 +122,9 @@ const totalPrice = () => {
 
               {/* 예매정보 */}
               <div className="bg-[#2E2E3D] w-full h-auto p-6 text-white text-sm rounded-lg">
-                <div className="py-2">예매경기 : 대구FC vs 광주FC</div>
-                <div className="py-2">경기장소 : DGB대구은행파크</div>
-                <div className="py-2">경기일정 : 2024-03-21T01:42:48</div>
+                <div className="py-2">예매경기 : {gameInfo?.homeTeam} vs {gameInfo?.awayTeam}</div>
+                <div className="py-2">경기장소 : {gameInfo?.stadium}</div>
+                <div className="py-2">경기일정 : {gameDate}</div>
 
                 <div className="py-2 flex items-center">
                 <div>좌석등급 :</div>
@@ -122,7 +135,7 @@ const totalPrice = () => {
                 <div className="py-2 flex flex-wrap items-center">
                 <div className="mr-2">좌석정보 :</div>
                     {seatInfo.seat.map((seat, index) => (
-                        <div key={index} className="bg-gray-100 text-center w-6 mx-1 text-black font-bold text-xs rounded-md">{seat}</div>
+                        <div key={index} className="bg-purple-500 text-center w-6 mx-1 text-black font-bold text-xs rounded-md">{seat}</div>
                     ))}
                 </div>
 
