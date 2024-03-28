@@ -5,6 +5,7 @@ import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
 import com.olbl.stickeymain.domain.game.dto.Param;
+import com.olbl.stickeymain.domain.game.dto.SeatInfoReq;
 import com.olbl.stickeymain.domain.game.dto.SeatInfoRes;
 import com.olbl.stickeymain.domain.game.dto.SportsClubRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
@@ -21,6 +22,8 @@ public interface GameService {
     LeftSeatListRes getLeftSeats(int id);
 
     List<SeatInfoRes> getSeatStatus(int id, int zoneId) throws JsonProcessingException;
+
+    Boolean tryReserveSeats(int id, int zoneId, SeatInfoReq seatInfoReq);
 
     List<SportsClubRes> getClubs(Param param, Authentication authentication);
 }

@@ -20,7 +20,8 @@ public class GameSeatScheduler {
     private final GameRepository gameRepository;
     private final StringRedisTemplate redisTemplate;
 
-    @Scheduled(fixedRate = 3600000) // 1시간마다 실행 (3600000ms = 1시간)
+    //TODO: 테스트 이후에 시간 늘리기
+    @Scheduled(fixedRate = 600000 * 2) // 20분마다 실행
     public void checkAndExecuteTask() {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime twentyMinutesFromNow = now.plusMinutes(20);
@@ -34,10 +35,10 @@ public class GameSeatScheduler {
 
             //redis에 좌석 정보 넣기
             ListOperations<String, String> listOps = redisTemplate.opsForList();
-            String[] zones = {"E", "W", "R", "S"}; //구역 명으로 변경
-            int seatsPerSection = 32; //구역 별 좌석 수로 변경
+            Integer[] zones = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}; //구역 id
+            int seatsPerSection = 30; //구역 별 좌석 수로 변경
 
-            for (String zone : zones) {
+            for (Integer zone : zones) {
                 String key = "game:" + game.getId() + ":zone:" + zone;
                 Boolean exists = redisTemplate.hasKey(key); //키가 이미 존재하는지 확인
                 if (Boolean.FALSE.equals(exists)) {
