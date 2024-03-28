@@ -13,6 +13,9 @@ public interface GameSeatRepository extends JpaRepository<GameSeat, Integer>,
 
     List<SeatStatusRes> findByGameIdAndZoneId(Integer gameId, Integer zoneId);
 
+    Optional<GameSeat> findGameSeatByGameIdAndZoneIdAndSeatNumber(int gameId, int zoneId,
+        int seatNumber);
+
     List<GameSeat> findByGameId(int gameId);
 
 }

@@ -7,12 +7,14 @@ import static com.olbl.stickeymain.global.result.ResultCode.GET_REMAINING_SEATS_
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SEAT_STATUS_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.HOLD_SEATS_FAIL;
 import static com.olbl.stickeymain.global.result.ResultCode.HOLD_SEATS_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.PAYMENT_SUCCESS;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
 import com.olbl.stickeymain.domain.game.dto.Param;
+import com.olbl.stickeymain.domain.game.dto.PaymentReq;
 import com.olbl.stickeymain.domain.game.dto.SeatInfoReq;
 import com.olbl.stickeymain.domain.game.dto.SeatInfoRes;
 import com.olbl.stickeymain.domain.game.dto.SportsClubRes;
@@ -90,6 +92,13 @@ public class GameController {
             return ResponseEntity.ok(ResultResponse.of(HOLD_SEATS_SUCCESS));
         }
         return ResponseEntity.ok(ResultResponse.of(HOLD_SEATS_FAIL));
+    }
+
+    @Operation(summary = "결제 시 좌석 상태 변경")
+    @PatchMapping("/{id}/")
+    public ResponseEntity<ResultResponse> registSeats(@RequestBody PaymentReq paymentReq) {
+        gameService.registSeats(paymentReq);
+        return ResponseEntity.ok(ResultResponse.of(PAYMENT_SUCCESS));
     }
 
     @Operation(summary = "구단 목록 조회")
