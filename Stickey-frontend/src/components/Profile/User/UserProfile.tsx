@@ -2,7 +2,7 @@ import { IPreTeamSimpleRes, IUserProfile } from "../../../types/Profile";
 import userStore from "../../../stores/userStore";
 
 const UserProfile = ({ userInfo }: { userInfo: IUserProfile | null }) => {
-  const { name, profile } = userStore();
+  const { name } = userStore();
   if (!userInfo) {
     return null; // 렌더링하지 않고 종료
   }
@@ -13,7 +13,7 @@ const UserProfile = ({ userInfo }: { userInfo: IUserProfile | null }) => {
     <div className="flex justify-center">
         <div className="flex flex-row gap-3 max-w-[500px] w-full h-[60px] border-none px-6">
           <div className="w-[56px] h-[56px] rounded-full bg-Stickey_Gray">
-            <img className="w-[56px] h-[56px] rounded-full" src={userInfo.profileImage} /> 
+            <img className="w-[56px] h-[56px] rounded-full" src={userInfo.profileImage} />
           </div>
           <div className="flex flex-col gap-2">
             <p className="text-[20px] text-white font-semibold">{name}</p>
