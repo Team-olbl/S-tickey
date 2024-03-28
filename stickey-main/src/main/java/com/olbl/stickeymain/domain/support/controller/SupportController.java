@@ -1,7 +1,11 @@
 package com.olbl.stickeymain.domain.support.controller;
 
+import static com.olbl.stickeymain.global.result.ResultCode.GET_SUPPORTLIST_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.GET_SUPPORTONE_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.SUPPORT_REGISTER_SUCCESS;
 
+import com.olbl.stickeymain.domain.support.dto.SupportListRes;
+import com.olbl.stickeymain.domain.support.dto.SupportOneRes;
 import com.olbl.stickeymain.domain.support.dto.SupportReq;
 import com.olbl.stickeymain.domain.support.service.SupportService;
 import com.olbl.stickeymain.global.result.ResultResponse;
@@ -11,15 +15,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
-@RequestMapping("/support")
+@RequestMapping("/supports")
 @RequiredArgsConstructor
 @Tag(name = "SupportController", description = "후원 관련 api")
 public class SupportController {
@@ -35,5 +42,18 @@ public class SupportController {
         return ResponseEntity.ok(ResultResponse.of(SUPPORT_REGISTER_SUCCESS));
     }
 
+    @Operation(summary = "후원 글 목록 조회")
+    @GetMapping
+    public ResponseEntity<ResultResponse> getSupportList(
+        @RequestParam(name = "flag") int flag) {
+        SupportListRes supportListRes = supportService.getSupportList(flag);
+        return ResponseEntity.ok(ResultResponse.of(GET_SUPPORTLIST_SUCCESS, supportListRes));
+    }
 
+    @Operation(summary = "후원 글 상세 조회")
+    @GetMapping("/{id}")
+    public ResponseEntity<ResultResponse> getSupportDetail(@PathVariable("id") int supportId) {
+        SupportOneRes supportOneRes = supportService.getSupportOneById(supportId);
+        return ResponseEntity.ok(ResultResponse.of(GET_SUPPORTONE_SUCCESS, supportOneRes));
+    }
 }
