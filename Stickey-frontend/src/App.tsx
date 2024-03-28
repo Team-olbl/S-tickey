@@ -14,14 +14,17 @@ import SignupPage from './pages/SignUp/SignupPage';
 import LoginPage from './pages/Login/LoginPage';
 import SponsorPage from './pages/Sponsor/SponsorPage';
 import ProfilePage from './pages/Profile/ProfilePage';
-import PaymentHistoryPage from './pages/Profile/Personal/Payment/PaymentHistory';
-import DreamHistoryPage from './pages/Profile/Personal/Dream/DreamHistoryPage';
-import ProfileEditPage from './pages/Profile/ProfileEditPage';
-import PlayerListPage from './pages/Profile/Group/PlayerList/PlayerListPage';
+import PaymentHistoryPage from './pages/Profile/User/PaymentHistory';
+import DreamHistoryPage from './pages/Profile/User/DreamHistoryPage';
+import ProfileEditPage from './pages/Profile/User/ProfileEditPage';
+import PlayerListPage from './pages/Profile/Group/PlayerListPage';
 import SponsorDetailPage from './pages/Sponsor/SponsorDetailPage/SponsorDetailPage';
-import SponListPage from './pages/Profile/Group/SponList/SponListPage';
+import SponListPage from './pages/Profile/Group/SponListPage';
 import TicketEditPage from './pages/MyTicket/TicketEdit/TicketEditPage';
 import SponsorCreatePage from './pages/Sponsor/SponsorCreatePage/SponsorCreatePage';
+import GroupProfileEditPage from './pages/Profile/Group/GroupProfileEditPage';
+import PlayerRegistration from './pages/Profile/Group/PlayerRegistrationPage';
+import BlockchainTest from "./BlockchainTest";
 
 
 const router = createBrowserRouter(
@@ -100,8 +103,16 @@ const router = createBrowserRouter(
       element: <PlayerListPage />
     },
     {
+      path:'/profile/playerlist/register',
+      element: <PlayerRegistration />
+    },
+    {
       path:'/profile/edit',
       element: <ProfileEditPage />
+    },
+    {
+      path:'/profile/group/edit',
+      element: <GroupProfileEditPage />
     },
     {
       path:'/profile/sponlist',
@@ -114,6 +125,10 @@ const router = createBrowserRouter(
     {
       path:'/profile/paymenthistory',
       element: <PaymentHistoryPage />
+    },
+    {
+      path:'/test',
+      element: <BlockchainTest/>
     },
   ]
 )
