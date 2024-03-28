@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
 
 const BookInfo = () => {
@@ -5,6 +6,8 @@ const BookInfo = () => {
     const gameInfo = useTicketInfoStore((state) => state.modalData);
 
     console.log(gameInfo)
+
+    const gameDate = dayjs(gameInfo?.gameStartTime).format('YYYY년 MM월 DD일 HH시 mm분')
 
     return (
         <div>
@@ -19,7 +22,7 @@ const BookInfo = () => {
                 </div>
             </div>
             <div className="text-center text-[8px] text-white py-2">
-                <p className="px-1">{gameInfo?.stadium} {gameInfo?.gameStartTime}</p>
+                <p className="px-1">{gameInfo?.stadium} {gameDate}</p>
             </div>
             
         </div>

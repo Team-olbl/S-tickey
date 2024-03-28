@@ -47,8 +47,8 @@ const BookSection = () => {
         }
     };
 
-    const handleSeatClick = (seat:string, sectionId: number) => {
-        setSelectInfo(seat, sectionId, []);
+    const handleSeatClick = (seat:string, sectionId: number, sectionPrice: number) => {
+        setSelectInfo(seat, sectionId, sectionPrice, []);
     };
 
     const goBack = () => {
@@ -70,12 +70,12 @@ const BookSection = () => {
                 <div className="flex px-1">
                     <div  
                         className={`bg-[#FEACAC] flex justify-center items-center h-8 w-20 mr-1 ${seatInfo.section === 'S구역 1' ? 'opacity-100' : 'opacity-50'}`} 
-                        onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[0].leftSeatCnt !== 0 ? () => handleSeatClick('S구역 1', 1) : undefined}>
+                        onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[0].leftSeatCnt !== 0 ? () => handleSeatClick('S구역 1', 1, 20000) : undefined}>
                             <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[0].leftSeatCnt}</p> 
                     </div>
                     <div 
                         className={`bg-[#FEACAC] flex justify-center items-center h-8 w-20 ${seatInfo.section === 'S구역 2' ? 'opacity-100' : 'opacity-50'}`} 
-                        onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[1].leftSeatCnt !== 0 ? () => handleSeatClick('S구역 2', 2) : undefined}>
+                        onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[1].leftSeatCnt !== 0 ? () => handleSeatClick('S구역 2', 2, 20000) : undefined}>
                              <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[1].leftSeatCnt}</p>
                     </div>
                 </div>
@@ -85,12 +85,12 @@ const BookSection = () => {
                     <div className="flex px-1">
                         <div 
                             className={`bg-[#D2C2FF] flex justify-center items-center w-8 h-24 mr-1 ${seatInfo.section === 'R구역 1' ? 'opacity-100' : 'opacity-50'}`} 
-                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[2].leftSeatCnt !== 0 ? () => handleSeatClick('R구역 1', 3) : undefined}>
+                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[2].leftSeatCnt !== 0 ? () => handleSeatClick('R구역 1', 3, 15000) : undefined}>
                                  <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[2].leftSeatCnt}</p>
                         </div>
                         <div 
                             className={`bg-[#D2C2FF] flex justify-center items-center w-8 h-24 ${seatInfo.section === 'R구역 2' ? 'opacity-100' : 'opacity-50'}`} 
-                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[3].leftSeatCnt !== 0 ? () => handleSeatClick('R구역 2', 4) : undefined}>
+                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[3].leftSeatCnt !== 0 ? () => handleSeatClick('R구역 2', 4, 15000) : undefined}>
                                  <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[3].leftSeatCnt}</p>
                         </div>
                     </div>
@@ -102,12 +102,12 @@ const BookSection = () => {
                     <div className="flex px-1">
                         <div 
                             className={`bg-[#D2C2FF] flex justify-center items-center w-8 h-24 ${seatInfo.section === 'R구역 3' ? 'opacity-100' : 'opacity-50'}`} 
-                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[4].leftSeatCnt !== 0 ? () => handleSeatClick('R구역 3', 5) : undefined}>
+                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[4].leftSeatCnt !== 0 ? () => handleSeatClick('R구역 3', 5, 15000) : undefined}>
                                  <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[4].leftSeatCnt}</p>
                         </div>
                         <div 
                             className={`bg-[#D2C2FF] flex justify-center items-center w-8 h-24 ml-1 ${seatInfo.section === 'R구역 4' ? 'opacity-100' : 'opacity-50'}`} 
-                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[5].leftSeatCnt !== 0 ? () => handleSeatClick('R구역 4', 6) : undefined}>
+                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[5].leftSeatCnt !== 0 ? () => handleSeatClick('R구역 4', 6, 15000) : undefined}>
                                  <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[5].leftSeatCnt}</p>
                         </div>       
                     </div>
@@ -118,7 +118,7 @@ const BookSection = () => {
                     <div className="px-1">
                         <div 
                             className={`bg-[#FAF8B7] flex justify-center items-center w-16 h-12 rounded-bl-full ${seatInfo.section === 'W구역 1' ? 'opacity-100' : 'opacity-50'}`} 
-                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[6].leftSeatCnt !== 0 ? () => handleSeatClick('W구역 1', 7) : undefined}>
+                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[6].leftSeatCnt !== 0 ? () => handleSeatClick('W구역 1', 7, 10000) : undefined}>
                                  <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[6].leftSeatCnt}</p>
                         </div>
                     </div>
@@ -126,31 +126,31 @@ const BookSection = () => {
                     <div>
                         <div 
                             className={`bg-[#C3E7FF] flex justify-center items-center h-6 w-20 mr-1 ${seatInfo.section === 'E구역 1' ? 'opacity-100' : 'opacity-50'}`} 
-                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[8].leftSeatCnt !== 0 ? () => handleSeatClick('E구역 1', 9) : undefined}>
+                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[8].leftSeatCnt !== 0 ? () => handleSeatClick('E구역 1', 9, 10000) : undefined}>
                                  <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[8].leftSeatCnt}</p>
                         </div>
                         <div 
                             className={`bg-[#C3E7FF] flex justify-center items-center h-6 w-20 mt-1 ${seatInfo.section === 'E구역 3' ? 'opacity-100' : 'opacity-50'}`} 
-                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[10].leftSeatCnt !== 0 ? () => handleSeatClick('E구역 3', 11) : undefined}>
+                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[10].leftSeatCnt !== 0 ? () => handleSeatClick('E구역 3', 11, 10000) : undefined}>
                                  <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[10].leftSeatCnt}</p>
                         </div>
                     </div>
                     <div>
                         <div 
                             className={`bg-[#C3E7FF] flex justify-center items-center h-6 w-20 ${seatInfo.section === 'E구역 2' ? 'opacity-100' : 'opacity-50'}`} 
-                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[9].leftSeatCnt !== 0 ? () => handleSeatClick('E구역 2', 10) : undefined}>
+                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[9].leftSeatCnt !== 0 ? () => handleSeatClick('E구역 2', 10, 10000) : undefined}>
                                  <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[9].leftSeatCnt}</p>
                         </div>
                         <div 
                             className={`bg-[#C3E7FF] flex justify-center items-center h-6 w-20 mt-1 ${seatInfo.section === 'E구역 4' ? 'opacity-100' : 'opacity-50'}`} 
-                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[11].leftSeatCnt !== 0 ? () => handleSeatClick('E구역 4', 12) : undefined}>
+                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[11].leftSeatCnt !== 0 ? () => handleSeatClick('E구역 4', 12, 10000) : undefined}>
                                  <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[11].leftSeatCnt}</p>
                         </div>
                     </div>
                     <div className="px-1">    
                         <div 
                             className={`bg-[#FAF8B7] flex justify-center items-center w-16 h-12 rounded-br-full ${seatInfo.section === 'W구역 2' ? 'opacity-100' : 'opacity-50'}`} 
-                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[7].leftSeatCnt !== 0 ? () => handleSeatClick('W구역 2', 8) : undefined}>
+                            onClick={seatCntInfo && seatCntInfo.data.leftSeatResList[7].leftSeatCnt !== 0 ? () => handleSeatClick('W구역 2', 8, 10000) : undefined}>
                                  <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[7].leftSeatCnt}</p>
                         </div>
                     </div>
@@ -172,11 +172,11 @@ const BookSection = () => {
                     <div className="flex">
                     <div className="flex items-center">
                             <div className="h-2 w-6 bg-[#C3E7FF]" />
-                            <p className="px-1 text-[10px] text-white">E구역 : {seatCntInfo?.data.leftSeatResList[2].price}</p>
+                            <p className="px-1 text-[10px] text-white">E구역 : {seatCntInfo?.data.leftSeatResList[6].price}</p>
                         </div>
                         <div className="flex items-center">
                             <div className="h-2 w-6 bg-[#FAF8B7]" />
-                            <p className="px-1 text-[10px] text-white">W구역 : {seatCntInfo?.data.leftSeatResList[2].price}</p>
+                            <p className="px-1 text-[10px] text-white">W구역 : {seatCntInfo?.data.leftSeatResList[8].price}</p>
                         </div>
                     </div>
 

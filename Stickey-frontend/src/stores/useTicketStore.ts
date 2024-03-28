@@ -3,12 +3,13 @@ import { create } from 'zustand';
 interface SeatInfo {
   section: string;
   sectionId: number;
+  sectionPrice: number;
   seat: string[];
 }
 
 interface TicketStore {
   seatInfo: SeatInfo;
-  setSelectInfo: (section: string, sectionId: number, seat: string[]) => void; 
+  setSelectInfo: (section: string, sectionId: number, sectionPrice: number, seat: string[]) => void; 
   clearSeatInfo: () => void;
 }
 
@@ -19,14 +20,15 @@ const useTicketStore = create<TicketStore>((set) => {
     seatInfo: {
       section: storedSeatInfo.section || '',
       sectionId: storedSeatInfo.sectionId || 0,
+      sectionPrice: storedSeatInfo.sectionPrice || 0,
       seat: storedSeatInfo.seat || []
     },
-    setSelectInfo: (section, sectionId, seat) => {
-      set({ seatInfo: { section, sectionId, seat } }); 
-      localStorage.setItem('seatInfo', JSON.stringify({ section, sectionId, seat }));
+    setSelectInfo: (section, sectionId, sectionPrice, seat) => {
+      set({ seatInfo: { section, sectionId, sectionPrice, seat } }); 
+      localStorage.setItem('seatInfo', JSON.stringify({ section, sectionId,sectionPrice, seat }));
     },
     clearSeatInfo: () => {
-      set({ seatInfo: { section: '', sectionId: 0, seat: [] } });
+      set({ seatInfo: { section: '', sectionId: 0, sectionPrice: 0, seat: [] } });
       localStorage.removeItem('seatInfo');
     }
   };
