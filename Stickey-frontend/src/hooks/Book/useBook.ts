@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query"
-import { getSeatInfoReq, getSectionSeatCntReq } from "../../service/Book/api"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { getSeatInfoReq, getSectionSeatCntReq, patchSeatConfirm } from "../../service/Book/api"
 
 export const useBook = () => {
 
@@ -17,5 +17,12 @@ export const useBook = () => {
         })
     }
 
-    return { useSectionSeatCnt, useSeatInfoCnt }
+    // 선점 좌석 확인
+    const useSeatconfirm = ({id, zoneId, info}: {id: number, zoneId: number, info:number[]}) => {
+        return useMutation({
+            mutationFn: () => patchSeatConfirm({id, zoneId, info})
+        })
+    }
+
+    return { useSectionSeatCnt, useSeatInfoCnt, useSeatconfirm }
 }
