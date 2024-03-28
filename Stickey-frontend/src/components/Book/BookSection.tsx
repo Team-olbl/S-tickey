@@ -109,7 +109,7 @@ const BookSection = () => {
                             className={`bg-[#D2C2FF] flex justify-center items-center w-8 h-24 ml-1 ${seatInfo.section === 'R구역 4' ? 'opacity-100' : 'opacity-50'}`} 
                             onClick={() => handleSeatClick('R구역 4')}>
                                  <p className='font-semibold text-sm'>{seatCntInfo?.data.leftSeatResList[0].leftSeatCnt}</p>
-                        </div>
+                        </div>       
                     </div>
                 </div>
 
@@ -162,21 +162,21 @@ const BookSection = () => {
                     <div className="flex">
                         <div className="flex items-center">
                             <div className="h-2 w-6 bg-[#FEACAC]" />
-                            <p className="px-1 text-[10px] text-white">S구역 : 10,000</p>
+                            <p className="px-1 text-[10px] text-white">S구역 : {seatCntInfo?.data.leftSeatResList[0].price}</p>
                         </div>
                         <div className="flex items-center">
                             <div className="h-2 w-6 bg-[#D2C2FF]" />
-                            <p className="px-1 text-[10px] text-white">R구역 : 10,000</p>
+                            <p className="px-1 text-[10px] text-white">R구역 : {seatCntInfo?.data.leftSeatResList[2].price}</p>
                         </div>
                     </div>
                     <div className="flex">
                     <div className="flex items-center">
                             <div className="h-2 w-6 bg-[#C3E7FF]" />
-                            <p className="px-1 text-[10px] text-white">E구역 : 10,000</p>
+                            <p className="px-1 text-[10px] text-white">E구역 : {seatCntInfo?.data.leftSeatResList[2].price}</p>
                         </div>
                         <div className="flex items-center">
                             <div className="h-2 w-6 bg-[#FAF8B7]" />
-                            <p className="px-1 text-[10px] text-white">W구역 : 10,000</p>
+                            <p className="px-1 text-[10px] text-white">W구역 : {seatCntInfo?.data.leftSeatResList[2].price}</p>
                         </div>
                     </div>
 
