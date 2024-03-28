@@ -5,9 +5,9 @@ export interface IGameSimpleRes {
     category: string;
     stadium: string;
     homeTeam: string;
-    homeTeamLogo:string | null;
+    homeTeamLogo:string;
     awayTeam: string;
-    awayTeamLogo:string | null;
+    awayTeamLogo:string;
     bookStartTime: string;
     bookEndTime: string;
     gameStartTime: string;

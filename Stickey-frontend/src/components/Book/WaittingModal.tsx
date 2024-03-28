@@ -2,29 +2,24 @@ import Modal from '../@common/Modal'
 import Waitting from '../../assets/image/Waitting.png'
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { IGameSimpleRes } from '../../types/Home';
+import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
 
-
-const WaittingModal = ({ onClose, data }: { onClose: () => void; data: IGameSimpleRes | null; }) => {
+const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
 
     const navigate = useNavigate(); 
-
-    const id: number = 1;
+    const ticketInfo = useTicketInfoStore((state) => state.modalData)
 
     // 임시 대기열
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();
-            // if (data) {
-                navigate(`/${id}/section`);
-            // }
+                navigate(`/${ticketInfo?.id}/section`);
         }, 3000);
 
         return () => clearTimeout(timer); 
-    }, [onClose, navigate, data]);
-
+    }, [onClose, navigate, ticketInfo]);
     
-    console.log(id)
+    console.log(ticketInfo)
     
     return (
         <Modal width="300px" height="auto" title="현재 대기순서" onClose={onClose}>

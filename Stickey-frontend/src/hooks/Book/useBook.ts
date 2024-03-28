@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getSectionSeatCntReq } from "../../service/Book/api"
+import { getSeatInfoReq, getSectionSeatCntReq } from "../../service/Book/api"
 
 export const useBook = () => {
 
@@ -10,5 +10,12 @@ export const useBook = () => {
         })
     }
 
-    return { useSectionSeatCnt }
+    const useSeatInfoCnt = ({id, zoneId}: {id: number, zoneId: number}) => {
+        return useQuery({
+            queryKey: ['seat', id, zoneId],
+            queryFn: () => getSeatInfoReq({id, zoneId})
+        })
+    }
+
+    return { useSectionSeatCnt, useSeatInfoCnt }
 }
