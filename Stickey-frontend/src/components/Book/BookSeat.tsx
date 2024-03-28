@@ -66,6 +66,7 @@ const BookSeat = () => {
     };
 
     const goBack = () => {
+        setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, []);
         navigate(`/${gameInfo?.id}/section`)
     }
 
