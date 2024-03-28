@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLogin } from '../../hooks/User/useLogin';
+import { useLogin } from '../../hooks/Individual/useLogin';
 import { toast } from 'react-toastify';
 
 const LoginForm: React.FC = () => {
