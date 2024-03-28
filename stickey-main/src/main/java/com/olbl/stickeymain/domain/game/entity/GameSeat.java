@@ -31,4 +31,7 @@ public class GameSeat {
     private SeatStatus status;
     private int price;
 
+    public void changeStatus(SeatStatus seatStatus) {
+        this.status = seatStatus;
+    }
 }
