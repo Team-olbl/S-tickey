@@ -5,7 +5,7 @@ const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
 
 let web3 : any = null;
 let contract: any = null;
-let account : any = [] ;
+let account: any = [];
 
 declare global {
   interface Window {
@@ -58,11 +58,14 @@ export const getWalletInfo = async () => {
 // 티켓 예매
 export const createTicket = async (number : number, gameId : number, stadiumId : number, zoneId : number, seatNumber : number[], price : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
+  console.log(number, gameId, stadiumId, zoneId, seatNumber, price);
+
   const value = price * 50000 * number;
   try {
-    const ret = await contract.methods.createTicket(number, gameId, stadiumId, zoneId, seatNumber).send({ from: account[0], value: value});
+    const ret = await contract.methods.createTicket(number, gameId, stadiumId, zoneId, seatNumber).send({ from: account[0], value: value, gasPrice : 3000000});
     return ret;
   } catch (err) {
+    console.log(err);
     alert("티켓 예매 실패");
   }
 }
@@ -71,7 +74,7 @@ export const createTicket = async (number : number, gameId : number, stadiumId :
 export const refundTicket = async (tokenId: number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.refundTicket(tokenId).send({ from: account[0] });
+    const ret = await contract.methods.refundTicket(tokenId).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
     alert("환불 실패");
@@ -93,7 +96,7 @@ export const getTickets = async () => {
 export const setSupport = async (id : number, name : string, address : string, endTime : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.setSupport(id, name, address, endTime).send({ from: account[0] });
+    const ret = await contract.methods.setSupport(id, name, address, endTime).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
     alert("후원글 등록 실패");
@@ -104,7 +107,7 @@ export const setSupport = async (id : number, name : string, address : string, e
 export const donate = async (id : number, text : string, value : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.donate(id, text).send({from : account[0], value : value})
+    const ret = await contract.methods.donate(id, text).send({from : account[0], value : value, gasPrice : 3000000})
     return ret;
   } catch (err) {
     alert("후원 실패");
@@ -115,7 +118,7 @@ export const donate = async (id : number, text : string, value : number) => {
 export const withdraw = async(id : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.withdraw(id).send({ from: account[0] });
+    const ret = await contract.methods.withdraw(id).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
     alert("수령 실패");
@@ -192,7 +195,7 @@ export const getItemList = async () => {
 export const setFilterOnTicket = async (tokenId : number, itemId : number, supportId : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.setFilterOnTicket(tokenId, itemId, supportId).send({ from: account[0] });
+    const ret = await contract.methods.setFilterOnTicket(tokenId, itemId, supportId).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
     alert("실패");
@@ -204,7 +207,7 @@ export const setFilterOnTicket = async (tokenId : number, itemId : number, suppo
 export const addFilter = async (name : string, price : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.addFilter(name, price).send({ from: account[0] });
+    const ret = await contract.methods.addFilter(name, price).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
     alert("필터 등록 실패");
@@ -215,7 +218,7 @@ export const addFilter = async (name : string, price : number) => {
 export const deleteFilter = async (id : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.deleteFilter(id).send({ from: account[0] });
+    const ret = await contract.methods.deleteFilter(id).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
     alert("실패");
@@ -226,7 +229,7 @@ export const deleteFilter = async (id : number) => {
 export const setBackgroundOnTicket = async (tokenId : number, itemId : number, supportId : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.setBackgroundOnTicket(tokenId, itemId, supportId).send({ from: account[0] });
+    const ret = await contract.methods.setBackgroundOnTicket(tokenId, itemId, supportId).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
     alert("실패");
@@ -237,7 +240,7 @@ export const setBackgroundOnTicket = async (tokenId : number, itemId : number, s
 export const addBackground = async (name : string, price : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.addBackground(name, price).send({ from: account[0] });
+    const ret = await contract.methods.addBackground(name, price).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
     alert("실패");
@@ -248,7 +251,7 @@ export const addBackground = async (name : string, price : number) => {
 export const deleteBackground = async (id : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.deleteBackground(id).send({ from: account[0] });
+    const ret = await contract.methods.deleteBackground(id).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
     alert("실패");
@@ -261,7 +264,7 @@ export const setGame = async (id : number, bookStartTime : number, gameStartTime
   try {
     const cate = category === "SOCCER" ? 0 : category === "BASEBALL" ? 1 : 2;
     console.log(id, bookStartTime, gameStartTime, stadium, homeTeam, awayTeam, cate, gameImage);
-    const ret = await contract.methods.setGame(id, bookStartTime, gameStartTime, stadium, homeTeam,awayTeam, cate, gameImage).send({ from: account[0] });
+    const ret = await contract.methods.setGame(id, bookStartTime, gameStartTime, stadium, homeTeam,awayTeam, cate, gameImage).send({ from: account[0] , gasPrice : 3000000});
     return ret;
   } catch (err) {
     alert("실패");
@@ -272,7 +275,7 @@ export const setGame = async (id : number, bookStartTime : number, gameStartTime
 export const setSeatPrice = async (stadiumId : number, zoneId : number, price : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.setSeatPrice(stadiumId, zoneId, price).send({ from: account[0] });
+    const ret = await contract.methods.setSeatPrice(stadiumId, zoneId, price).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
     alert("실패");
@@ -283,7 +286,7 @@ export const setSeatPrice = async (stadiumId : number, zoneId : number, price : 
 export const setZoneName = async (zoneId : number, zoneName : string) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.setZoneName(zoneId, zoneName).send({ from: account[0] });
+    const ret = await contract.methods.setZoneName(zoneId, zoneName).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
     alert("실패");

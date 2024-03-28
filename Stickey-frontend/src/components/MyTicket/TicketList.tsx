@@ -1,19 +1,43 @@
+import { connect, getTickets } from "../../service/web3/api";
 import TicketItem from "./TicketItem";
-import { ITicket } from "../../pages/MyTicket/MyTicketPage";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-interface TicketProps {
-    data: ITicket[];
-  }
+export interface ITicket {
+    tokenId: number;
+    gameId: number;
+    gameStartTime: number;
+    stadium: string;
+    category: number;
+    homeTeam: string;
+    awayTeam: string;
+    gameImage: string;
+    zoneId: number;
+    zoneName: string;
+    seatNumber: number;
+    price: bigint;
+}
 
-const TicketList = ({ data }: TicketProps) => {
+
+const TicketList = () => {
     const [showUpcoming, setShowUpcoming] = useState<boolean>(false);
-
-    console.log(data);
+    const [myTickets, setMyTickets] = useState<ITicket[]>([]);
     
+    const getData = useCallback(async () => {
+        await connect();
+        const data = await getTickets();
+        if (data) {
+            setMyTickets(data);
+        }
+    }, []);
+    
+    useEffect(() => {
+        getData();
+    }, []);
+
+
     const filteredTickets = showUpcoming
-        ? data.filter((item) => new Date(Number(item.gameStartTime) * 1000) > new Date())
-        : data;
+        ? myTickets.filter((item) => new Date(Number(item.gameStartTime) * 1000) > new Date())
+        : myTickets;
 
     return(
         <>
@@ -26,9 +50,17 @@ const TicketList = ({ data }: TicketProps) => {
                     {showUpcoming ? '전체' : '사용전'}
                 </button></div>
                 <div className="pt-4 pb-16 flex flex-wrap justify-center">
-                {filteredTickets.map((ticket) => (
-                    <TicketItem key={ticket.tokenId} ticket={ticket} />
-                ))}
+                    {filteredTickets.length == 0 ? 
+
+                        <div>티켓 정보가 없어요</div>
+                    
+                : filteredTickets.map((ticket) => (
+                    <TicketItem key={ticket.tokenId} ticket={ticket} getData={getData} />
+                ))
+            
+                }
+                
+                {}
                 </div>
             </div>
         </>

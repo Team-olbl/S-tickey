@@ -1,8 +1,10 @@
-import { ITicket } from "../../pages/MyTicket/MyTicketPage"; 
 import X from '../../assets/image/XCircle.png'
 import Edit from '../../assets/image/Edit.png'
 import { useNavigate } from "react-router-dom";
-import { toEther } from "../../service/web3/api";
+import { refundTicket, toEther } from "../../service/web3/api";
+import dayjs from "dayjs";
+import { ITicket } from './TicketList';
+import { registSeats } from "../../service/Book/api";
 
 interface TicketOpenModalProps {
     ticket: ITicket; 
@@ -18,8 +20,32 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
     };
 
     const handleRefund = () => {
+        if (refundEnd <= dayjs()) {
+            alert("환불 가능 시간대가 아닙니다.");
+            return;
+        }
+
+        if (!confirm("정말 환불하시겠습니까?")) return;
+
+        const cancleTicket = async () => {
+            const tx = await refundTicket(ticket.tokenId);
+            if (tx) {
+                const res = await registSeats({ gameId: Number(ticket.gameId), zoneId: Number(ticket.zoneId), seatNumbers: [Number(ticket.seatNumber)], isRefund: true });
+                
+                if (res.status == 200) {
+                    alert("환불 성공!");
+                    onClose();
+                    return;
+                }
+            }
+            alert("환불 실패..");
+        }
+
+        cancleTicket();
 
     }
+
+    const refundEnd = dayjs((Number(ticket.gameStartTime)) * 1000).subtract(1);
 
 
     return (
