@@ -3,18 +3,15 @@ import BottomModal from "../@common/BottomModal";
 import Prohibit from '../../assets/image/Prohibited.png'
 import WaittingModal from "../Book/WaittingModal";
 import { IGameSimpleRes } from "../../types/Home";
-import userStore from "../../stores/userStore";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
+import dayjs from "dayjs";
 
 const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
-  const { isLogin } = userStore();
-  
-  const navigate = useNavigate();
-  console.log(isLogin)
-  const [modalData, setModalData] = useState<IGameSimpleRes | null>(null);
+
+  const setModalData = useTicketInfoStore((state) => state.setModalData);
+  const [bookingStatus, setBookingStatus] = useState(getBookingStatus(data));
 
   const handleBookTicket = () => {
     if (!isLogin) {
@@ -24,6 +21,24 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
     }
     setIsModalOpen(true);
   };
+
+  console.log(setBookingStatus)
+
+  function getBookingStatus(data: IGameSimpleRes) {
+    const currentTime = new Date();
+    const bookStartTime = new Date(data.bookStartTime);
+    const bookEndTime = new Date(data.bookEndTime);
+
+    if (currentTime < bookStartTime) {
+      return "notopen";
+    } else if (currentTime >= bookStartTime && currentTime <= bookEndTime) {
+      return "ticketing";
+    } else {
+      return "close";
+    }
+  }
+
+  const gameDate = dayjs(data.gameStartTime).format('YYYY년 MM월 DD일 HH시 mm분')
 
   return (
     <>
@@ -50,10 +65,16 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
         </div>
         <div className="flex flex-col text-center pt-[10px] text-sm">
           <p>{data.stadium}</p>
-          <p>{new Date(data.gameStartTime).toLocaleString()}</p>
+          <p>{gameDate}</p>
         </div>
         <div className="flex flex-col items-center pt-4">
-          <button className="w-full h-[36px] border-none bg-[#5959E7] rounded-[10px] flex justify-center items-center" onClick={handleBookTicket}>
+        <button
+            className={`w-full h-[36px] border-none rounded-[10px] flex justify-center items-center ${
+              bookingStatus === 'notopen' || bookingStatus === 'close' ? 'bg-gray-400' : 
+              bookingStatus === 'ticketing' ? 'bg-Stickey_Main cursor-pointer' : ''
+            }`}
+            onClick={bookingStatus === 'ticketing' ? handleBookTicket : undefined}
+          >
             <p className="text-sm text-center">티켓 예매하기</p>
           </button>
         </div>
@@ -101,7 +122,7 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
           </div>
         </BottomModal>
       )}
-      {isWaitModalOpen && <WaittingModal data={modalData} onClose={() => setIsWaitModalOpen(false)}/>}
+      {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)}/>}
     </>
   );
 };
