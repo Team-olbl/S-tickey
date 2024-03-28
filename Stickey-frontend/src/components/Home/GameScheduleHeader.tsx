@@ -1,15 +1,18 @@
-import { preferredClub } from "../../pages/Home/HomePage";
+import userStore from "../../stores/userStore";
 
-const GameScheduleHeader = ({data} : {data:preferredClub}) => {
+const GameScheduleHeader = () => {
+  const { preferences } = userStore();
+  console.log(preferences);
   return (
     <>
       <div className="flex flex-row items-center p-4">
-        <div className="w-[28px] h-[28px]">{data.team_1}</div>
-        <div className="w-[28px] h-[28px]">{data.team_2}</div>
+        {preferences.map((preference, index) => (
+          <img key={index} src={preference.sportsClubLogo} className="w-[28px] h-[28px]" />
+        ))}
         <p className="text-white text-[15px]">경기정보 한눈에 보기</p>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default GameScheduleHeader;
