@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { CiCamera } from 'react-icons/ci';
-import { useEmailVerificationMutation, useConfirmEmailVerificationMutation, useSignup } from '../../hooks/User/useEmailVerification';
+import { useSignup } from '../../hooks/Individual/useSignup';
+import { useEmailVerificationMutation, useConfirmEmailVerificationMutation } from '../../hooks/Email/useEmailVerification';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,7 +22,7 @@ const IndividualForm = () => {
     const isButtonEnabled = email && password && passwordConfirm && phone && name && photo && isEmailValid && isPasswordValid && isPasswordMatch;
     const navigate = useNavigate();
 
-    const { mutate: sendVerificationCode } = useEmailVerificationMutation();
+    const { mutate } = useEmailVerificationMutation();
     const { mutate: verifyEmailCode } = useConfirmEmailVerificationMutation();
     const { mutate: signup } = useSignup();
     
@@ -58,7 +59,7 @@ const IndividualForm = () => {
 
     const handleSendEmailVerification = () => {
         if (isEmailValid) {
-            sendVerificationCode(email,{
+            mutate(email,{
                 onSuccess: () => {
                     toast.info('인증코드가 발송되었습니다.')
                 },
@@ -214,7 +215,7 @@ const IndividualForm = () => {
                     className="w-full outline-none border-b p-2  text-xs"
                     onChange={handleInputChange}
                 />
-                {isPasswordMatch === false && (<p className='p-2 text-xs text-red-500'>패스워드가 일치하지 않습니다.</p>)}
+                {isPasswordMatch === false && (<p className='p-2 text-xs text-red-500'>비밀번호가 서로 일치하지 않습니다.</p>)}
             </div>
         </div>
         <form onSubmit={handleSubmit} className="pt-16 text-sm">
