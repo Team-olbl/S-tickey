@@ -15,6 +15,7 @@ contract Api is Support, Ticket, Item, Game {
   struct TicketDetail {
     uint tokenId;
     uint gameId;
+    uint gameStartTime;
     uint seatNumber;
     uint price;
     uint filterId;
@@ -121,9 +122,7 @@ contract Api is Support, Ticket, Item, Game {
     require(0 < _number && _number < 5, "Wrong Ticket Number"); // 티켓의 매수는 1 ~ 4
     uint price = _getSeatPrice(_stadiumId, _zoneId); // 가격 확인, 좌석 가격 * 매수
     require(msg.value == price * _number, "Wrong price"); // 가격이 맞지않으면 반려
-    for(uint i = 0; i < _number; i++) {
-      require(!_getSeatState(_gameId, _zoneId, _seatNumber[i]), "Already Reserve");
-    }
+
 
     for(uint i = 0; i < _number; i++) { // 매수만큼 반복
       if(_getRefundAddress(_gameId, _zoneId, _seatNumber[i]) != address(0)) {
@@ -181,6 +180,7 @@ contract Api is Support, Ticket, Item, Game {
       tickets[i] = TicketDetail({
         tokenId: ticketIds[i],
         gameId: t.gameId,
+        gameStartTime: g.gameStartTime,
         stadium: g.stadium,
         zoneName: _getZoneName(t.zoneId),
         seatNumber: t.seatNumber,

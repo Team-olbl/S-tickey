@@ -13,17 +13,27 @@ contract ApplicationHandler is Api {
   }
 
   function initDummy() private {
-    _setGame(1, block.timestamp, block.timestamp, unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, "");
-    _setGame(2, block.timestamp, block.timestamp + 3 days,unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, "");
-    _setGame(3, block.timestamp, block.timestamp + 5 days,unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, "");
-  
-    _setZoneName(1, unicode"R");
-    _setSeatPrice(1, 1, 10**9);
+    _setZoneName(1, unicode"S구역 1"); 
+    _setZoneName(2, unicode"S구역 2"); 
+    _setZoneName(3, unicode"R구역 1"); 
+    _setZoneName(4, unicode"R구역 2"); 
+    _setZoneName(5, unicode"R구역 3"); 
+    _setZoneName(6, unicode"R구역 4"); 
+    _setZoneName(7, unicode"W구역 1"); 
+    _setZoneName(8, unicode"W구역 2"); 
+    _setZoneName(9, unicode"E구역 1"); 
+    _setZoneName(10, unicode"E구역 2"); 
+    _setZoneName(11, unicode"E구역 3"); 
+    _setZoneName(12, unicode"E구역 4"); 
 
-    _addFilter(unicode"반짝반짝필터", 10 * 3);
-    _addFilter(unicode"홀로그램필터", 10 * 3);
-    _addBackground(unicode"빨간배경", 10 * 2);
-    _addBackground(unicode"파란배경", 10 * 2);
+    uint[3] memory prices = [20000, 15000, 10000];
+
+    uint idx = 0;
+    for(uint i = 1; i <= 12; i++) {
+      _setSeatPrice(1, i, prices[idx] * 50000);
+      if(i == 2 || i == 6) idx++;
+    }
+
   } 
 
   /*
