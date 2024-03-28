@@ -4,6 +4,7 @@ import static com.olbl.stickeymain.global.result.error.ErrorCode.FORBIDDEN_ERROR
 import static com.olbl.stickeymain.global.result.error.ErrorCode.GAME_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.GAME_NOT_IN_RESERVATOIN_PROGRESS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.HOLDING_TIME_OVER;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.SEAT_NOT_SOLD;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SPORTS_CLUB_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.STADIUM_DO_NOT_EXISTS;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.STADIUM_ZONE_DO_NOT_EXISTS;
@@ -228,42 +229,77 @@ public class GameServiceImpl implements GameService {
         String key = String.format("game:%s:zone:%s", paymentReq.getGameId(),
             paymentReq.getZoneId()); // Redis 키 생성
 
-        // 좌석 번호 목록을 스트림으로 변환하여 Redis에 저장된 선점 상태 확인
-        List<String> seatNumbersStr = paymentReq.getSeatNumbers().stream().map(Object::toString)
-            .collect(Collectors.toList());
+        if (!paymentReq.getIsRefund()) { //결제 요청시
+            // 좌석 번호 목록을 스트림으로 변환하여 Redis에 저장된 선점 상태 확인
+            List<String> seatNumbersStr = paymentReq.getSeatNumbers().stream().map(Object::toString)
+                .collect(Collectors.toList());
 
-        String checkScript =
-            "local userId = ARGV[1] " +
+            String checkAndSetScript =
+                "local userId = ARGV[1] " +
+                    "local key = KEYS[1] " +
+                    "for i = 2, #ARGV do " +
+                    "    local seatIndex = tonumber(ARGV[i]) - 1 " + // 좌석 번호를 인덱스로 변환
+                    "    if redis.call('LINDEX', key, seatIndex) ~= 'HOLDING:' .. userId then " +
+                    "        return 0 " + // 하나라도 일치하지 않으면 선점 확인 실패
+                    "    end " +
+                    "end " +
+                    "for i = 2, #ARGV do " +
+                    "    local seatIndex = tonumber(ARGV[i]) - 1 " +
+                    "    redis.call('LSET', key, seatIndex, 'SOLD') " + // 선점 확인 성공 시, SOLD로 상태 변경
+                    "end " +
+                    "return 1"; // 모두 일치하면 선점 확인 성공
+
+            Long result = redisTemplate.execute(
+                new DefaultRedisScript<Long>(checkAndSetScript, Long.class),
+                Collections.singletonList(key),
+                Stream.concat(Stream.of(String.valueOf(userDetails.getId())),
+                        seatNumbersStr.stream())
+                    .toArray(String[]::new));
+
+            if (result == null || result != 1) {
+                throw new BusinessException(HOLDING_TIME_OVER); // 선점 확인 실패 또는 SOLD로 상태 변경 실패 처리
+            }
+
+            // 좌석 결제 완료 시
+            for (int seatNum : paymentReq.getSeatNumbers()) {
+                GameSeat gameSeat = gameSeatRepository.findGameSeatByGameIdAndZoneIdAndSeatNumber(
+                        paymentReq.getGameId(),
+                        paymentReq.getZoneId(), seatNum)
+                    .orElseThrow(() -> new BusinessException(GAME_NOT_IN_RESERVATOIN_PROGRESS));
+
+                gameSeat.changeStatus(SeatStatus.SOLD);
+                //TODO: 데이터 베이스 작업 실패 시 Redis에서 변경 사항 롤백하는 보상 트랜잭션 실행 로직 작성
+            }
+
+        } else { //환불 요청시
+            String seatNumberStr = paymentReq.getSeatNumbers().get(0).toString();
+
+            String checkAndSetScript =
                 "local key = KEYS[1] " +
-                "for i = 2, #ARGV do " +
-                "    local seatIndex = tonumber(ARGV[i]) - 1 " + // 좌석 번호를 인덱스로 변환
-                "    if redis.call('LINDEX', key, seatIndex) ~= 'HOLDING:' .. userId then " +
-                "        return 0 " + // 하나라도 일치하지 않으면 선점 확인 실패
-                "    end " +
-                "end " +
-                "for i = 2, #ARGV do " +
-                "    local seatIndex = tonumber(ARGV[i]) - 1 " +
-                "    redis.call('LSET', key, seatIndex, 'SOLD') " + // 선점 확인 성공 시, SOLD로 상태 변경
-                "end " +
-                "return 1"; // 모두 일치하면 선점 확인 성공
+                    "local seatIndex = tonumber(ARGV[1]) - 1 " + // 좌석 번호를 인덱스로 변환
+                    "if redis.call('LINDEX', key, seatIndex) ~= 'SOLD' then " +
+                    "    return 0 " + // SOLD 상태가 아니면 변경 작업 실패
+                    "end " +
+                    "redis.call('LSET', key, seatIndex, 'AVAILABLE') " +
+                    // SOLD 상태 확인 성공 시, AVAILABLE로 상태 변경
+                    "return 1"; // 확인된 SOLD 상태 좌석을 AVAILABLE로 변경 성공
 
-        Long result = redisTemplate.execute(new DefaultRedisScript<Long>(checkScript, Long.class),
-            Collections.singletonList(key),
-            Stream.concat(Stream.of(String.valueOf(userDetails.getId())), seatNumbersStr.stream())
-                .toArray(String[]::new));
+            Long result = redisTemplate.execute(
+                new DefaultRedisScript<Long>(checkAndSetScript, Long.class),
+                Collections.singletonList(key), seatNumberStr);
 
-        if (result == null || result != 1) {
-            throw new BusinessException(HOLDING_TIME_OVER); // 선점 확인 실패 또는 SOLD로 상태 변경 실패 처리
-        }
+            if (result == null || result != 1) {
+                throw new BusinessException(SEAT_NOT_SOLD);
+            }
 
-        // 좌석 결제 완료 시
-        for (int seatNum : paymentReq.getSeatNumbers()) {
+            // 좌석 정보 AVAILABLE로 수정
             GameSeat gameSeat = gameSeatRepository.findGameSeatByGameIdAndZoneIdAndSeatNumber(
                     paymentReq.getGameId(),
-                    paymentReq.getZoneId(), seatNum)
+                    paymentReq.getZoneId(), Integer.parseInt(seatNumberStr))
                 .orElseThrow(() -> new BusinessException(GAME_NOT_IN_RESERVATOIN_PROGRESS));
 
-            gameSeat.changeStatus(SeatStatus.SOLD);
+            gameSeat.changeStatus(SeatStatus.AVAILABLE);
+            //TODO: 데이터 베이스 작업 실패 시 Redis에서 변경 사항 롤백하는 보상 트랜잭션 실행 로직 작성
         }
     }
 
