@@ -13,6 +13,7 @@ public class GameRes { //경기 목록 조회
     private String gameImage; ///경기 포스터 이미지
     private Category category; //경기 카테고리
     private String stadium; //경기장 명
+    private int stadiumId;
     private String homeTeam; //홈팀 명
     private String homeTeamLogo; //홈팀 로고
     private String awayTeam; //원정팀 명

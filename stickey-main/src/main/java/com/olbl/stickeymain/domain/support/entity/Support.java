@@ -15,11 +15,13 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @EntityListeners(value = AuditingEntityListener.class)
 public class Support {
@@ -39,6 +41,7 @@ public class Support {
     @Enumerated(EnumType.STRING)
     private SupportStatus status;
     private String supportImage; // 후원 글 첨부 사진
+    private String message; // 승인 거절 메시지
 
     @Builder
     public Support(Organization organization, String title, String content, LocalDateTime startTime,
