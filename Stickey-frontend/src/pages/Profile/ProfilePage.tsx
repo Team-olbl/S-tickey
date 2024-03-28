@@ -43,7 +43,6 @@ const ProfilePage = () => {
             </div>
 
             <UserMenu />
-     
           </>
         ) : (
           <>
