@@ -56,10 +56,10 @@ const goBack = () => {
 
 const id: number = 1;
 
-    const goConformTicket = () => {
-    navigate(`/${id}/confirm`)
-    clearSeatInfo()
-    }
+  const goConformTicket = () => {
+  navigate(`/${id}/confirm`)
+  clearSeatInfo()
+  }
 
 const totalPrice = () => {
   const pricePerSeat = 10000; 

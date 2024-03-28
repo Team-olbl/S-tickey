@@ -1,22 +1,22 @@
 import Volley from '../../assets/image/Ground/VolleyballGround.png'
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
-// import { useBook } from '../../hooks/Book/useBook';
+import { useBook } from '../../hooks/Book/useBook';
+import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
 
 const BookSection = () => {
 
     const { seatInfo, setSelectInfo } = useTicketStore();
     const navigate = useNavigate();
+
+    const gameInfo = useTicketInfoStore((state) => state.modalData);
+
     
-    // params로 경기 id 추출
-    const { id } = useParams<{ id: string }>();
-    console.log("ID:", id);
-
     // api 연결
-    // const { useSectionSeatCnt } = useBook()
-    // const { data: seatCntInfo } = useSectionSeatCnt(Number(id))
+    const { useSectionSeatCnt } = useBook()
+    const { data: seatCntInfo } = useSectionSeatCnt(Number(gameInfo?.id))
 
-    // console.log( seatCntInfo?.data.leftSeatResList )
+    console.log( seatCntInfo?.data.leftSeatResList )
      
     const getSeatColor = (seat: string): string => {
         switch (seat) {
@@ -51,7 +51,7 @@ const BookSection = () => {
 
     const goNext = () => {
         if (seatInfo.section !== '') {
-            navigate(`/${id}/seat`);
+            navigate(`/${gameInfo?.id}/seat`);
         }
     }
 

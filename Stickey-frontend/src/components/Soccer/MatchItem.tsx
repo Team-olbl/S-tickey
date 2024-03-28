@@ -3,12 +3,13 @@ import BottomModal from "../@common/BottomModal";
 import Prohibit from '../../assets/image/Prohibited.png'
 import WaittingModal from "../Book/WaittingModal";
 import { IGameSimpleRes } from "../../types/Home";
+import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
 
 const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
 
-  const [modalData, setModalData] = useState<IGameSimpleRes | null>(null);
+  const setModalData = useTicketInfoStore((state) => state.setModalData);
 
   const handleBookTicket = () => {
     setIsModalOpen(true);
@@ -90,7 +91,7 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
           </div>
         </BottomModal>
       )}
-      {isWaitModalOpen && <WaittingModal data={modalData} onClose={() => setIsWaitModalOpen(false)}/>}
+      {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)}/>}
     </>
   );
 };
