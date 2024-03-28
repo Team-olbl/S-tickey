@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.olbl.stickeymain.domain.user.dto.ClubInfoDto;
 import com.olbl.stickeymain.domain.user.dto.LoginRes;
 import com.olbl.stickeymain.domain.user.organization.dto.LoginOrganizationRes;
+import com.olbl.stickeymain.domain.user.organization.entity.Organization;
 import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
 import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
 import com.olbl.stickeymain.domain.user.repository.UserRepository;
@@ -113,15 +114,26 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
 
-        if (role.equals("ROLE_ORGANIZATION")) { // 단체 유저는 추가 정보
-            LoginOrganizationRes res = new LoginOrganizationRes(
-                organizationRepository.findById(Integer.parseInt(id)).get());
+        if (role.equals("ROLE_ORGANIZATION")) { // 단체 유저
+            Organization organization = organizationRepository.findById(Integer.parseInt(id)).get();
+            LoginOrganizationRes res = LoginOrganizationRes.builder()
+                .id(organization.getId())
+                .name(organization.getName())
+                .status(String.valueOf(organization.getStatus()))
+                .build();
+
             response.getWriter().write(objectMapper.writeValueAsString(res));
-        } else {
+        } else { // 개인 유저
             List<ClubInfoDto> preferences = preferenceRepository.findAllByUserId(
                 Integer.parseInt(id));
-            LoginRes res = new LoginRes(userRepository.findById(Integer.parseInt(id)).get(),
-                preferences);
+            LoginRes res = LoginRes.builder()
+                .id(customUserDetails.getId())
+                .name(customUserDetails.getName())
+                .email(customUserDetails.getEmail())
+                .phone(customUserDetails.getPhone())
+                .preferences(preferences)
+                .build();
+
             response.getWriter().write(objectMapper.writeValueAsString(res));
         }
 
