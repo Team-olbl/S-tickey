@@ -4,11 +4,13 @@ services:
   redis:
     image: redis:7.2
     container_name: stickey_redis
+    ports:
+      - "6379:6379"
     networks:
       - stickey_network
     volumes:
-      - "/home/ubuntu/workspace/redis/redis.conf:/etc/redis/redis.conf"
-      - "/home/ubuntu/workspace/redis/backup-redis:/data"
+      - /home/ubuntu/workspace/redis/redis.conf:/etc/redis/redis.conf
+      - /home/ubuntu/workspace/redis/backup-redis:/data
     deploy:
       resources:
         limits:
@@ -20,8 +22,22 @@ services:
       context: "../stickey-main/"
       dockerfile: Dockerfile
     container_name: stickey_main
+    ports:
+      - "9090:9090"
     depends_on:
       - mysql
+      - redis
+    networks:
+      - stickey_network
+
+  waiting:
+    build:
+      context: "../stickey-waiting/"
+      dockerfile: Dockerfile
+    container_name: stickey_waiting
+    ports:
+      - "9091:9091"
+    depends_on:
       - redis
     networks:
       - stickey_network

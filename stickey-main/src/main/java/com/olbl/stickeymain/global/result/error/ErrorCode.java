@@ -18,9 +18,16 @@ public enum ErrorCode {
     FORBIDDEN_ERROR(403, "작업을 수행하기 위한 권한이 없습니다."),
     IS_NOT_IMAGE(400, "이미지가 아닙니다."),
 
-    //User
+    //Organization
     ORGANIZATION_SIGNUP_DO_NOT_EXISTS(400, "존재하지 않는 단체 가입 요청입니다."),
     ORGANIZATION_SIGNUP_NOT_WAITING(400, "대기중인 단체 가입 요청이 아닙니다."),
+    SUPPORT_DO_NOT_EXISTS(400, "존재하지 않는 후원 요청 글입니다."),
+    ORGANIZATION_DO_NOT_EXISTS(400, "존재하지 않는 기관회원입니다."),
+    PLAYER_DO_NOT_EXISTS(400, "존재하지 않는 선수 입니다."),
+    SUPPORT_NOT_WAITING(400, "대기중인 후원글 등록 요청이 아닙니다."),
+    SUPPORT_NOT_MATCH(403, "해당 기관이 등록한 후원 글이 아닙니다."),
+    SUPPORT_DO_NOT_REJECTED(400, "거절당한 후원 글이 아닙니다."),
+    PLAYER_NOT_IN_ORGANIZATION(403, "해당 기관에 소속되어있지 않은 선수입니다."),
 
     //Game
     SPORTS_CLUB_DO_NOT_EXISTS(400, "존재하지 않는 스포츠 구단입니다."),

@@ -1,5 +1,6 @@
 package com.olbl.stickeymain.domain.user.entity;
 
+import com.olbl.stickeymain.domain.user.organization.dto.OrganizationInfoReq;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -49,7 +50,7 @@ public class User {
     }
 
     // 기존 Preference 리스트를 새로운 리스트로 교체하는 메소드
-    public void setPreferences(List<Preference> newPreferences) {
+    public void changePreferences(List<Preference> newPreferences) {
         this.preference.clear(); // 기존 Preference 객체들을 모두 삭제
         for (Preference pref : newPreferences) { // 새로운 Preference 객체들을 추가
             this.addPreference(pref);
@@ -60,5 +61,19 @@ public class User {
     public void addPreference(Preference preference) {
         this.preference.add(preference);
         preference.setUser(this);
+    }
+
+    public void updateUserInfo(OrganizationInfoReq dto) {
+        this.name = dto.getName().isEmpty() ? this.name : dto.getName();
+        this.email = dto.getEmail().isEmpty() ? this.email : dto.getEmail();
+        this.phone = dto.getPhone().isEmpty() ? this.phone : dto.getPhone();
+    }
+
+    public void updateProfileImage(String profileUrl) {
+        this.profileImage = profileUrl;
+    }
+
+    public void updatePhone(String phone) {
+        this.phone = phone.isEmpty() ? this.phone : phone;
     }
 }
