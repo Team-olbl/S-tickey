@@ -3,7 +3,6 @@ import useTicketStore from "../../stores/useTicketStore";
 import NotSoldModal from "./NotSoldModal";
 import { useState } from "react";
 
-
 const BookSeat = () => {
 
     const navigate = useNavigate();
