@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Web3 from 'web3';
 import { contractABI } from './Abi';
-const contractAddress = "0xAF473bc19cCCe57d7171191d06edB0F4d0B46471";
+const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
 
 let web3 : any = null;
 let contract: any = null;
@@ -58,9 +58,9 @@ export const getWalletInfo = async () => {
 // 티켓 예매
 export const createTicket = async (number : number, gameId : number, stadiumId : number, zoneId : number, seatNumber : number[], price : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
-  const value = price * number;
+  const value = price * 50000 * number;
   try {
-    const ret = await contract.methods.createTicket(number, gameId, stadiumId, zoneId, seatNumber).send({ from: account[0], value: value });
+    const ret = await contract.methods.createTicket(number, gameId, stadiumId, zoneId, seatNumber).send({ from: account[0], value: value});
     return ret;
   } catch (err) {
     alert("티켓 예매 실패");
@@ -83,25 +83,6 @@ export const getTickets = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getTickets(account[0]).call();
-    // const data = [];
-    // for (let i = ret.length - 1; i >= 0; i--) {
-    //   data.push(
-    //     {
-    //       tokenId: ret[i].tokenId,
-    //       gameId: ret[i].gameId,
-    //       stadium: ret[i].stadium,
-    //       seat: ret[i].zoneName + " " + ret[i].seatNumber,
-    //       price: ret[i].price,
-    //       filterId: ret[i].filterId,
-    //       backgroundId: ret[i].backgroundId,
-    //       category: ret[i].category == 0 ? "SOCCER" : ret[i].category == 1 ? "BASEBALL" : "BESKETBALL",
-    //       homeTeam: ret[i].homeTeam,
-    //       awayTeam: ret[i].awayTeam,
-    //       gameImage: ret[i].gameImage
-    //     }
-    //   )
-    // }
-    // return data;
     return ret.reverse();
   } catch (err) {
     alert("티켓 조회 실패");
