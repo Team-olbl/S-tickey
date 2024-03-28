@@ -3,14 +3,25 @@ import BottomModal from "../@common/BottomModal";
 import Prohibit from '../../assets/image/Prohibited.png'
 import WaittingModal from "../Book/WaittingModal";
 import { IGameSimpleRes } from "../../types/Home";
+import userStore from "../../stores/userStore";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
-
+  const { isLogin } = userStore();
+  
+  const navigate = useNavigate();
+  console.log(isLogin)
   const [modalData, setModalData] = useState<IGameSimpleRes | null>(null);
 
   const handleBookTicket = () => {
+    if (!isLogin) {
+      toast.error('예매를 하려면 로그인이 필요합니다.')
+      navigate('/login')
+      return;
+    }
     setIsModalOpen(true);
   };
 

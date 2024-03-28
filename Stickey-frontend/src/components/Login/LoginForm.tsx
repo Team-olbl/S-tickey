@@ -25,8 +25,9 @@ const LoginForm: React.FC = () => {
         }
 
         mutate({ email, password }, {
-            onSuccess: () => {
+            onSuccess: (data) => {
                 toast.success('로그인에 성공했습니다.');
+                console.log(data)
                 navigate('/');
             },
             onError: (error) => {
