@@ -43,8 +43,10 @@ export interface ITeamPreferReq {
 
 // 개인정보 수정
 export interface IEditUserDataReq {
-    phone: string;
-    profileImage: string;
+    userInfoReq: {
+        phone: string;
+    };
+    profileImage?: File;
 }
 
 export interface IEditUserDataRes {
