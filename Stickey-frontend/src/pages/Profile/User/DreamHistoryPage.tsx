@@ -28,8 +28,9 @@ const DreamHistoryPage = () => {
   useEffect(() => {
     async function getData() {
       await connect();
-      const data = await getRewordHistory();
-      setDreamHistory(data);
+      const data : DreamItemData[] | undefined = await getRewordHistory();
+      if(data)
+        setDreamHistory(data);
     }
     getData();
   }, []);
