@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +22,6 @@ public class GameSeatScheduler {
     private final StringRedisTemplate redisTemplate;
 
     //TODO: 테스트 이후에 시간 수정하기
-    @Scheduled(cron = "0 48 16 * * *") //오후 4시 45분에 실행
     public void checkAndExecuteTask() {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime twentyMinutesFromNow = now.plusMinutes(20);
