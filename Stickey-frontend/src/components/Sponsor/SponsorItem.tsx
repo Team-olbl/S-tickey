@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { ISupportSimpleRes } from '../../types/Sponsor';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const SponsorItem = ({ data }: { data: ISupportSimpleRes }) => {
   const [progress, setProgress] = useState(0);

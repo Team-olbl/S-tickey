@@ -6,7 +6,7 @@ import NavigationBar from '../../components/@common/NavigationBar';
 import { useNavigate } from 'react-router-dom';
 import { useSponsor } from '../../hooks/Sponsor/useSponsor';
 import { ISupportSimpleRes } from '../../types/Sponsor';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export type SponsorItemData = {
   id: number;
