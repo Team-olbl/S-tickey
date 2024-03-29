@@ -57,6 +57,7 @@ export const getWalletInfo = async () => {
 
 // 티켓 예매
 export const createTicket = async (number : number, gameId : number, stadiumId : number, zoneId : number, seatNumber : number[], price : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   console.log(number, gameId, stadiumId, zoneId, seatNumber, price);
 
@@ -72,6 +73,7 @@ export const createTicket = async (number : number, gameId : number, stadiumId :
 
 // 티켓 환불
 export const refundTicket = async (tokenId: number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.refundTicket(tokenId).send({ from: account[0], gasPrice : 3000000 });
@@ -83,6 +85,7 @@ export const refundTicket = async (tokenId: number) => {
 
 // 내 티켓 조회
 export const getTickets = async () => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getTickets(account[0]).call();
@@ -94,6 +97,7 @@ export const getTickets = async () => {
 
 // 후원글 등록
 export const setSupport = async (id : number, name : string, address : string, endTime : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.setSupport(id, name, address, endTime).send({ from: account[0], gasPrice : 3000000 });
@@ -105,6 +109,7 @@ export const setSupport = async (id : number, name : string, address : string, e
 
 // 후원 글에 대한 후원
 export const donate = async (id : number, text : string, value : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.donate(id, text).send({from : account[0], value : value, gasPrice : 3000000})
@@ -116,6 +121,7 @@ export const donate = async (id : number, text : string, value : number) => {
 
 // 내가 적은 후원 글에 대한 후원금 수령
 export const withdraw = async(id : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.withdraw(id).send({ from: account[0], gasPrice : 3000000 });
@@ -127,6 +133,7 @@ export const withdraw = async(id : number) => {
 
 // 후원글이 후원 받은 내역 조회
 export const getSupprtedHistory = async (id : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getSupprtedHistory(id).call();
@@ -138,6 +145,7 @@ export const getSupprtedHistory = async (id : number) => {
 
 // 내가 후원한 내역 조회
 export const getSupprtingHistory = async () => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getSupprtingHistory(account[0]).call();
@@ -149,6 +157,7 @@ export const getSupprtingHistory = async () => {
 
 // 결제 이력 조회
 export const getPaymentHistory = async () => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getPaymentHistory(account[0]).call();
@@ -160,6 +169,7 @@ export const getPaymentHistory = async () => {
 
 // 꿈 증감 내역
 export const getRewordHistory = async () => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getRewordHistory(account[0]).call();
@@ -171,6 +181,7 @@ export const getRewordHistory = async () => {
 
 // 꿈 잔액 조회
 export const getReword = async () => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getReword(account[0]).call();
@@ -182,6 +193,7 @@ export const getReword = async () => {
 
 // 아이템 조회
 export const getItemList = async () => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getItemList().call();
@@ -193,6 +205,7 @@ export const getItemList = async () => {
 
 // 티켓에 필터 적용
 export const setFilterOnTicket = async (tokenId : number, itemId : number, supportId : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.setFilterOnTicket(tokenId, itemId, supportId).send({ from: account[0], gasPrice : 3000000 });
@@ -205,6 +218,7 @@ export const setFilterOnTicket = async (tokenId : number, itemId : number, suppo
 
 // 필터 아이템 추가
 export const addFilter = async (name : string, price : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.addFilter(name, price).send({ from: account[0], gasPrice : 3000000 });
@@ -216,6 +230,7 @@ export const addFilter = async (name : string, price : number) => {
 
 // 필터 아이템 삭제
 export const deleteFilter = async (id : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.deleteFilter(id).send({ from: account[0], gasPrice : 3000000 });
@@ -227,6 +242,7 @@ export const deleteFilter = async (id : number) => {
 
 // 티켓에 배경색 적용
 export const setBackgroundOnTicket = async (tokenId : number, itemId : number, supportId : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.setBackgroundOnTicket(tokenId, itemId, supportId).send({ from: account[0], gasPrice : 3000000 });
@@ -238,6 +254,7 @@ export const setBackgroundOnTicket = async (tokenId : number, itemId : number, s
 
 // 배경색 아이템 추가
 export const addBackground = async (name : string, price : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.addBackground(name, price).send({ from: account[0], gasPrice : 3000000 });
@@ -249,6 +266,7 @@ export const addBackground = async (name : string, price : number) => {
 
 // 배경색 아이템 삭제
 export const deleteBackground = async (id : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.deleteBackground(id).send({ from: account[0], gasPrice : 3000000 });
@@ -260,6 +278,7 @@ export const deleteBackground = async (id : number) => {
 
 // 블록체인에 경기 정보 등록
 export const setGame = async (id : number, bookStartTime : number, gameStartTime : number, stadium : string, homeTeam : string, awayTeam : string, category : string, gameImage : string) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const cate = category === "SOCCER" ? 0 : category === "BASEBALL" ? 1 : 2;
@@ -273,6 +292,7 @@ export const setGame = async (id : number, bookStartTime : number, gameStartTime
 
 // 좌석 가격 설정
 export const setSeatPrice = async (stadiumId : number, zoneId : number, price : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.setSeatPrice(stadiumId, zoneId, price).send({ from: account[0], gasPrice : 3000000 });
@@ -284,6 +304,7 @@ export const setSeatPrice = async (stadiumId : number, zoneId : number, price : 
 
 // 구역 이름 설정
 export const setZoneName = async (zoneId : number, zoneName : string) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.setZoneName(zoneId, zoneName).send({ from: account[0], gasPrice : 3000000 });
@@ -295,6 +316,7 @@ export const setZoneName = async (zoneId : number, zoneName : string) => {
 
 // 좌석 상태 조회
 export const getSeatState = async (gameId : number, zoneId : number, seatNumber : number) => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getSeatState(gameId, zoneId, seatNumber).call();
