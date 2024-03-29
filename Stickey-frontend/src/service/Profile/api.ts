@@ -27,3 +27,20 @@ export const patchTeamPreference = async(info: ITeamPreferReq ): Promise<APIResp
     const { data } = await axiosAuthInstance.patch(`/users/profile/preference`, info)
     return data;
 }
+
+// 개인 유저 정보 조회
+export const getUserData = async () => {
+    const res = await axiosAuthInstance.get(`/users/profile/info`);
+    return res.data.data;
+}
+
+// 개인 유저 정보 수정
+export const patchEditUserData = async (info: FormData): Promise<APIResponse<string>> => {
+    const res = await axiosAuthInstance.patch(`/users/profile/info`, info, {
+        headers: {
+            'Content-Type':'multipart/form-data',
+        }
+    });
+    console.log(res.data);
+    return res.data;
+};
