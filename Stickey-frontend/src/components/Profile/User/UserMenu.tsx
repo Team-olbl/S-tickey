@@ -61,7 +61,7 @@ const UserMenu = () => {
 
     const patchReq: ITeamPreferReq = {
       preferences: selectedTeamIds
-    } 
+    }
 
     const { mutate } = usePatchTeamPrefer(patchReq);
 
