@@ -33,7 +33,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
         const userId = 1; // 유저 PK
 
         const connectWebSocket = () => {
-            const socket = new SockJS('http://j10d211.p.ssafy.io:9091/api/reserve');
+            const socket = new SockJS('http://localhost:9091/api/reserve');
             const client = Stomp.over(socket);
 
             client.connect({}, () => {
