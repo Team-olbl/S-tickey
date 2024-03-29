@@ -41,12 +41,10 @@ export interface ITeamPreferReq {
     preferences: number[]
 }
 
-// 개인정보 수정 Request
+// 개인정보 수정
 export interface IEditUserDataReq {
-    name: string;
     phone: string;
     profileImage: string;
-    email: string;
 }
 
 export interface IEditUserDataRes {

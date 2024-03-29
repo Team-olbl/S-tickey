@@ -38,9 +38,9 @@ export const getUserData = async () => {
 export const patchEditUserData = async (info: FormData): Promise<APIResponse<string>> => {
     const res = await axiosAuthInstance.patch(`/users/profile/info`, info, {
         headers: {
-            'Content-Type':'multipart/form-data',
-        }
+            'Content-Type': 'multipart/form-data',
+        },
     });
-    console.log(res.data);
+    console.log(res);
     return res.data;
 };
