@@ -40,3 +40,15 @@ export interface ICreatePlayerReq {
 export interface ITeamPreferReq {
     preferences: number[]
 }
+
+// 개인정보 수정 Request
+export interface IEditUserDataReq {
+    name: string;
+    phone: string;
+    profileImage: string;
+    email: string;
+}
+
+export interface IEditUserDataRes {
+    message:string;
+}
