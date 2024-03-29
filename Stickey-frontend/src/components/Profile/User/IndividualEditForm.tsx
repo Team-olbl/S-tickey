@@ -4,20 +4,21 @@ import ProfileEditModal from '../ProfileEditModal';
 import { useProfile } from '../../../hooks/Profile/useProfile';
 import { useNavigate } from 'react-router-dom';
 
-const IndividualForm = () => {
+const IndividualEditForm = () => {
   const imgRef = useRef<HTMLInputElement>(null);
-  const [image, setImage] = useState<File | null>(null); 
+  const [image, setImage] = useState<File | null>(null);
   const [photo, setPhoto] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const { useGetUserData, useEditUserData } = useProfile();
-  const { mutate } = useEditUserData(); 
   const navigate = useNavigate();
-
+	
 	console.log(image)
-
+	
+  const { mutate } = useEditUserData();
   const { data: userData } = useGetUserData();
 
   useEffect(() => {
@@ -29,17 +30,13 @@ const IndividualForm = () => {
     }
   }, [userData]);
 
-  const saveImgFile = () => {
-    if (imgRef.current && imgRef.current.files) {
-      const file = imgRef.current.files[0];
-      setImage(file);
-      if (file) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-          setPhoto(reader.result as string);
-        };
-      }
+	const saveImgFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    setImage(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => setPhoto(reader.result as string);
     }
   };
 
@@ -47,23 +44,23 @@ const IndividualForm = () => {
     setIsModalOpen(true);
   };
 
-  const handleConfirmEdit = () => {
+	const handleConfirmEdit = () => {
     const formData = new FormData();
-  
+    if (image) formData.append('profileImage', image);
+    formData.append('phone', phone);
+
     mutate(formData, {
-      onSuccess: () => {
-        setIsModalOpen(false);
-        navigate('/profile');
-      },
-      onError: (error) => {
-        console.error('사용자 정보 수정 실패:', error);
-        setIsModalOpen(false);
-      },
+        onSuccess: () => {
+            navigate('/profile');
+        },
+        onError: (error) => {
+            console.error('프로필 정보 수정 실패', error);
+        }
     });
-  };
+    setIsModalOpen(false);
+};
 
-
-
+	
   return (
 		<>
     <div className="pt-16 text-sm">
@@ -77,7 +74,6 @@ const IndividualForm = () => {
 								) : (
 									<CiCamera className="flex justify-center" size="2rem" color="#878787" />
 						)}<input
-							name="photo"
 							multiple
 							type="file"
 							onChange={saveImgFile}
@@ -90,19 +86,18 @@ const IndividualForm = () => {
 
 				{/* 개인 정보 */}
 				<div>
-						<p className="pt-2 pb-2 text-sm">이름</p>
+						<label className="pt-2 pb-2 text-sm">이름</label>
 						<input
 								type="text"
-								placeholder="사용자"
 								value={name}
-								onChange={(e) => setName(e.target.value)}
+								readOnly
 								className="w-full outline-none border-b p-2 text-xs"
 						/>
 						<p className="pt-4 pb-2 text-sm">이메일</p>
 						<input
-								type="text"
+								type="email"
 								value={email}
-								onChange={(e) => setEmail(e.target.value)}
+								readOnly
 								placeholder=""
 								className="w-full outline-none border-b p-2 text-xs"
 						/>
@@ -111,7 +106,7 @@ const IndividualForm = () => {
 								type="text"
 								value={phone}
 								onChange={(e) => setPhone(e.target.value)}
-								placeholder="010-1234-5678"
+								placeholder="전화번호를 입력해주세요"
 								className="w-full outline-none border-b p-2 text-xs"
 						/>
 				</div>
@@ -125,4 +120,4 @@ const IndividualForm = () => {
   );
 };
 
-export default IndividualForm;
+export default IndividualEditForm;
