@@ -201,7 +201,7 @@ export const contractABI = [
 		],
 		"name": "refundTicket",
 		"outputs": [],
-		"stateMutability": "payable",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -886,6 +886,11 @@ export const contractABI = [
 					{
 						"internalType": "uint256",
 						"name": "backgroundId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "zoneId",
 						"type": "uint256"
 					},
 					{
