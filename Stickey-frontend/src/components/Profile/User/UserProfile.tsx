@@ -2,9 +2,10 @@ import { IPreTeamSimpleRes, IUserProfile } from "../../../types/Profile";
 import userStore from "../../../stores/userStore";
 
 const UserProfile = ({ userInfo }: { userInfo: IUserProfile | null }) => {
-  const { name } = userStore();
+  const name = userStore((state) => state.name);
+  // console.log(name)
   if (!userInfo) {
-    return null; // 렌더링하지 않고 종료
+    return null;
   }
 
   return (

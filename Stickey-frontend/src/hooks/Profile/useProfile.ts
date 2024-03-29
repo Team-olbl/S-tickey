@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { getPlayerListReq, getProfileReq, patchTeamPreference, postPlayerCreate } from "../../service/Profile/api"
-import { ITeamPreferReq } from "../../types/Profile"
+import { getPlayerListReq, getProfileReq, getUserData, patchEditUserData, patchTeamPreference, postPlayerCreate } from "../../service/Profile/api"
+import { IEditUserDataRes, ITeamPreferReq } from "../../types/Profile"
 
 export const useProfile = () => {
 
@@ -40,5 +40,27 @@ export const useProfile = () => {
         })
     }
 
-    return { useGetProfile, useGetPlayerList, usePatchTeamPrefer, usePostPlayerCreate }
+    // 개인 유저 정보 조회
+    const useGetUserData = () => {
+        return useQuery({
+            queryKey: ['userData'],
+            queryFn: () => getUserData(),
+        })
+    }
+
+    // 개인 유저 정보 수정
+    const useEditUserData = () => {
+        const mutation = useMutation<IEditUserDataRes, Error, FormData>({
+            mutationFn: patchEditUserData,
+            onSuccess: (data) => {
+                console.log('수정이 완료되었습니다.', data)
+            },
+            onError: (error:Error) => {
+                console.error('수정에 실패했습니다.', error.message)
+            }
+        })
+        return mutation
+    }
+
+    return { useGetProfile, useGetPlayerList, usePatchTeamPrefer, usePostPlayerCreate, useGetUserData, useEditUserData }
 }

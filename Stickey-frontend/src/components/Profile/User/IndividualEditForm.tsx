@@ -1,31 +1,67 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CiCamera } from 'react-icons/ci';
 import ProfileEditModal from '../ProfileEditModal';
+import { useProfile } from '../../../hooks/Profile/useProfile';
+import { useNavigate } from 'react-router-dom';
 
 const IndividualForm = () => {
-	const imgRef = useRef<HTMLInputElement>(null);
-	const [image, setImage] = useState<File>();
-	const [photo, setPhoto] = useState<string>('');
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const imgRef = useRef<HTMLInputElement>(null);
+  const [image, setImage] = useState<File | null>(null); 
+  const [photo, setPhoto] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { useGetUserData, useEditUserData } = useProfile();
+  const { mutate } = useEditUserData(); 
+  const navigate = useNavigate();
 
-	console.log(image) // 나중에 post 연결 시 처리할 것
+	console.log(image)
 
-	// 이미지 저장
-	const saveImgFile = () => {
-			// 이미지 업로드 input의 onChange
-			if (imgRef.current && imgRef.current.files) {
-			const file: File | undefined = imgRef.current.files[0];
-			setImage(file);
-			if (file) {
-				const reader = new FileReader();
-				reader.readAsDataURL(file);
-				reader.onloadend = () => {
-				const result: string | null = reader.result as string;
-				setPhoto(result);
-				};
-			}
-		}
-	};
+  const { data: userData } = useGetUserData();
+
+  useEffect(() => {
+    if (userData) {
+      setName(userData.name);
+      setPhone(userData.phone);
+      setPhoto(userData.profileImage);
+      setEmail(userData.email);
+    }
+  }, [userData]);
+
+  const saveImgFile = () => {
+    if (imgRef.current && imgRef.current.files) {
+      const file = imgRef.current.files[0];
+      setImage(file);
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          setPhoto(reader.result as string);
+        };
+      }
+    }
+  };
+
+  const handleEditSubmit = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmEdit = () => {
+    const formData = new FormData();
+  
+    mutate(formData, {
+      onSuccess: () => {
+        setIsModalOpen(false);
+        navigate('/profile');
+      },
+      onError: (error) => {
+        console.error('사용자 정보 수정 실패:', error);
+        setIsModalOpen(false);
+      },
+    });
+  };
+
 
 
   return (
@@ -58,33 +94,33 @@ const IndividualForm = () => {
 						<input
 								type="text"
 								placeholder="사용자"
+								value={name}
+								onChange={(e) => setName(e.target.value)}
 								className="w-full outline-none border-b p-2 text-xs"
 						/>
-							<p className="pt-4 pb-2 text-sm">연락처</p>
+						<p className="pt-4 pb-2 text-sm">이메일</p>
 						<input
 								type="text"
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								placeholder=""
+								className="w-full outline-none border-b p-2 text-xs"
+						/>
+						<p className="pt-4 pb-2 text-sm">연락처</p>
+						<input
+								type="text"
+								value={phone}
+								onChange={(e) => setPhone(e.target.value)}
 								placeholder="010-1234-5678"
-								className="w-full outline-none border-b p-2 text-xs"
-						/>
-						<p className="pt-4 pb-2 text-sm">비밀번호</p>
-						<input
-								type="password"
-								placeholder="영문,숫자 조합의 8자리 이상으로 작성해주세요"
-								className="w-full outline-none border-b p-2 text-xs"
-						/>
-						<p className="pt-4 pb-2 text-sm">비밀번호 확인</p>
-						<input
-								type="password"
-								placeholder="비밀번호를 한번 더 입력해주세요"
 								className="w-full outline-none border-b p-2 text-xs"
 						/>
 				</div>
 			</div>
 			<div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
-				<button className="bg-Stickey_Main w-full text-white rounded-md p-2 text-md" onClick={() => setIsModalOpen(true)}>수정하기</button>
+				<button className="bg-Stickey_Main w-full text-white rounded-md p-2 text-md" onClick={handleEditSubmit}>수정하기</button>
 			</div>
 		</div>
-		{isModalOpen && <ProfileEditModal onClose={() => setIsModalOpen(false)}/>}
+		{isModalOpen && <ProfileEditModal onClose={() => setIsModalOpen(false)} handleConfirmEdit={handleConfirmEdit} />}
 		</>
   );
 };
