@@ -57,7 +57,9 @@ const BookPaymentPage = () => {
 
   const goBack = () => {
   if (confirm("결제 작업을 취소하시겠습니까? 그 동안의 작업이 사라집니다")) {
-      navigate(-1)   
+      navigate(-1)
+      clearSeatInfo()
+      return;
   }
 }
 
