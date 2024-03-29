@@ -107,30 +107,25 @@ const IndividualForm = () => {
         }
     };
 
-    const handleConfirmEdit = () => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        // 회원가입 정보를 FormData 객체에 추가
         const formData = new FormData();
-        // 사용자 정보를 FormData 객체에 추가
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('phone', phone);
-      
-        // 이미지 파일이 있을 경우에만 FormData 객체에 추가
+        formData.append('signUpReq', JSON.stringify({ name, email, password, phone }));
         if (image) {
-          formData.append('profileImage', image);
+            formData.append('profile', image);
         }
-      
-        // patchUserData.mutate 호출 시 첫 번째 인자로 formData 전달
-        patchUserData.mutate(formData, {
-          onSuccess: () => {
-            setIsModalOpen(false);
-            navigate('/profile');
-          },
-          onError: (error) => {
-            console.error('사용자 정보 수정 실패:', error.message);
-            setIsModalOpen(false);
-          },
+        signup(formData, {
+            onSuccess: () => {
+                toast.success('회원가입이 완료되었습니다.');
+                navigate('/login');
+            },
+            onError: (error) => {
+                toast.error(`회원가입 실패:${error.message}`)
+            }
         });
-      };
+    };
 
     return (
     <div className="pt-16 text-sm ">
