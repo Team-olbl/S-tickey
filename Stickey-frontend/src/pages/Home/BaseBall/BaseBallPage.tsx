@@ -11,7 +11,6 @@ import BottomSheet from "../../../components/@common/BottomSheet";
 import { useGame } from "../../../hooks/Home/useGame";
 import { IGameSimpleRes } from "../../../types/Home";
 import dayjs from 'dayjs';
-import { TeamStoreState } from "../../../stores/useTeamStateStore";
 
 const BaseBallPage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -19,6 +18,7 @@ const BaseBallPage = () => {
   const [selectedDate, setSelectedDate] = useState<number>(today.getDate());
   const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth());
   const [selectedYear, setSelectedYear] = useState<number>(today.getFullYear());
+  const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
 
   const openBottomSheet = () => {
     setIsBottomSheetOpen(true);
@@ -35,7 +35,6 @@ const BaseBallPage = () => {
   };
 
   const { useGetGameList } = useGame();
-  const { selectedTeams } = TeamStoreState();
   const date = dayjs().format('YYYYMM')
 
   const {
@@ -70,7 +69,7 @@ const BaseBallPage = () => {
       <Header info={info}/>
       <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet}/>
       <div className="py-16">
-        <TeamList catg="BASEBALL" />
+        <TeamList catg="BASEBALL" selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} />
         <Calendar onDateClick={handleDateClick}/>
         { filteredMatches?.length === 0 ? (
           <div className="flex flex-col items-center mt-40">

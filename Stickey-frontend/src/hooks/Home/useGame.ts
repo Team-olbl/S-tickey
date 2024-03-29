@@ -4,12 +4,12 @@ import { IGameListReq, ITeamListReq } from "../../types/Home";
 
 export const useGame = () => {
 
-    const useGetGameList = ( props: IGameListReq ) => {
+    const useGetGameList = (props: IGameListReq) => {
         return useQuery({
             queryKey: ['game', props],
             queryFn: () => getGameListReq(props),
             refetchOnWindowFocus: false,
-            staleTime: 30000,
+            staleTime:30000,
         })
     } 
 

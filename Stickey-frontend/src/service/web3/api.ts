@@ -13,6 +13,10 @@ declare global {
   }
 }
 
+export const canConnect = () => {
+  return !web3 && !contract;
+}
+
 // to Ether
 export const toEther = (value : bigint | number) => {
   return web3?.utils.fromWei(value, 'ether');
@@ -51,7 +55,7 @@ export const getWalletInfo = async () => {
     const data = { address: account[0], balance: etherValue, dream: dream.toString() }
     return data;
   } catch (err) {
-    alert("지갑 조회 실패");
+    console.log(err);
   }
 }
 
@@ -67,7 +71,6 @@ export const createTicket = async (number : number, gameId : number, stadiumId :
     return ret;
   } catch (err) {
     console.log(err);
-    alert("티켓 예매 실패");
   }
 }
 
@@ -80,7 +83,6 @@ export const refundTicket = async (tokenId: number) => {
     return ret;
   } catch (err) {
     console.log(err);
-    alert("환불 실패");
   }
 }
 
@@ -93,7 +95,6 @@ export const getTickets = async () => {
     return [...ret].reverse();
   } catch (err) {
     console.log(err);
-    alert("티켓 조회 실패");
   }
 }
 
@@ -106,7 +107,6 @@ export const setSupport = async (id : number, name : string, address : string, e
     return ret;
   } catch (err) {
     console.log(err);
-    alert("후원글 등록 실패");
   }
 }
 
@@ -119,7 +119,6 @@ export const donate = async (id : number, text : string, value : number) => {
     return ret;
   } catch (err) {
     console.log(err);
-    alert("후원 실패");
   }
 }
 
@@ -132,7 +131,6 @@ export const withdraw = async(id : number) => {
     return ret;
   } catch (err) {
     console.log(err);
-    alert("수령 실패");
   }
 }
 
@@ -145,7 +143,6 @@ export const getSupprtedHistory = async (id : number) => {
     return [...ret].reverse();
   } catch (err) {
     console.log(err);
-    alert("후원받은 내역 조회 실패");
   }
 }
 
@@ -158,7 +155,6 @@ export const getSupprtingHistory = async () => {
     return [...ret].reverse();
   } catch (err) {
     console.log(err);
-    alert("후원한 내역 조회 실패");
   }
 }
 
@@ -171,7 +167,6 @@ export const getPaymentHistory = async () => {
     return [...ret].reverse();
   } catch (err) {
     console.log(err);
-    alert("결제 이력 조회 실패");
   }
 }
 
@@ -184,7 +179,6 @@ export const getRewordHistory = async () => {
     return [...ret].reverse();
   } catch (err) {
     console.log(err);
-    alert("꿈 내역 조회 실패");
   }
 }
 
@@ -197,7 +191,6 @@ export const getReword = async () => {
     return ret;
   } catch (err) {
     console.log(err);
-    alert("꿈 잔액 조회 실패");
   }
 }
 
@@ -210,7 +203,6 @@ export const getItemList = async () => {
     return ret;
   } catch (err) {
     console.log(err);
-    alert("아이템 조회 실패");
   }
 }
 
@@ -223,7 +215,6 @@ export const setFilterOnTicket = async (tokenId : number, itemId : number, suppo
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -237,7 +228,6 @@ export const addFilter = async (name : string, price : number) => {
     return ret;
   } catch (err) {
     console.log(err);
-    alert("필터 등록 실패");
   }
 }
 
@@ -250,7 +240,6 @@ export const deleteFilter = async (id : number) => {
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -263,7 +252,6 @@ export const setBackgroundOnTicket = async (tokenId : number, itemId : number, s
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -276,7 +264,6 @@ export const addBackground = async (name : string, price : number) => {
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -289,7 +276,6 @@ export const deleteBackground = async (id : number) => {
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -299,12 +285,10 @@ export const setGame = async (id : number, bookStartTime : number, gameStartTime
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const cate = category === "SOCCER" ? 0 : category === "BASEBALL" ? 1 : 2;
-    console.log(id, bookStartTime, gameStartTime, stadium, homeTeam, awayTeam, cate, gameImage);
     const ret = await contract.methods.setGame(id, bookStartTime, gameStartTime, stadium, homeTeam,awayTeam, cate, gameImage).send({ from: account[0] , gasPrice : 3000000});
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -317,7 +301,6 @@ export const setSeatPrice = async (stadiumId : number, zoneId : number, price : 
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -330,7 +313,6 @@ export const setZoneName = async (zoneId : number, zoneName : string) => {
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -343,6 +325,5 @@ export const getSeatState = async (gameId : number, zoneId : number, seatNumber 
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
