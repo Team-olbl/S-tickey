@@ -5,6 +5,9 @@ import Bell from '../../../assets/image/Bell.png'
 import map from '../../../assets/image/map.png'
 import { useState } from "react";
 import SponsorModal from "../../../components/Sponsor/SponsorModal";
+import userStore from "../../../stores/userStore";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 // import { useParams } from "react-router-dom";
 
 type SupportInfo = {
@@ -46,12 +49,21 @@ const info : IHeaderInfo = {
 }
 
 const SponsorDetailPage = () => {
-
+  const navigate = useNavigate();
+  const { isLogin } = userStore();
   // const params = useParams<{ id: string }>();
   // const sponsorId = params.id;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleSponsorClick = () => {
+    if (isLogin) {
+      setIsModalOpen(true);
+    } else {
+      toast.error('로그인이 필요합니다.');
+      navigate('/login'); 
+    }
+  };
 
   const dummyData: SponsorDetailData = {
     support_info: {
@@ -156,7 +168,7 @@ const SponsorDetailPage = () => {
       </div>
       {/* 후원 버튼 */}
       <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
-          <button className="bg-[#5959E7] w-full text-white rounded-xl p-2 text-md" onClick={() => setIsModalOpen(true)}>후원하기</button>
+          <button className="bg-[#5959E7] w-full text-white rounded-xl p-2 text-md" onClick={handleSponsorClick}>후원하기</button>
       </div>
 
       {isModalOpen && <SponsorModal onClose={() => setIsModalOpen(false)} />}

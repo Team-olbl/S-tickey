@@ -22,7 +22,7 @@ interface IUserState {
   registrationNumber?: string;
   registrationFile?: string;
   preferences: IPreferences[];
-  loginUser: ({ id, name, email, phone, profile, accessToken, refreshToken, role, preferences }: {
+  loginUser: ({ id, name, email, phone, profile, accessToken, refreshToken, role, preferences } : {
     id: number;
     name?: string;
     email?: string;
