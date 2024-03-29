@@ -26,18 +26,20 @@ contract ApplicationHandler is Api {
     _setZoneName(11, unicode"E구역 3"); 
     _setZoneName(12, unicode"E구역 4"); 
 
-    _setSeatPrice(1, 1, 20000*50000);
-    _setSeatPrice(1, 2, 20000*50000);
-    _setSeatPrice(1, 3, 15000*50000);
-    _setSeatPrice(1, 4, 15000*50000);
-    _setSeatPrice(1, 5, 15000*50000);
-    _setSeatPrice(1, 6, 15000*50000);
-    _setSeatPrice(1, 7, 10000*50000);
-    _setSeatPrice(1, 8, 10000*50000);
-    _setSeatPrice(1, 9, 10000*50000);
-    _setSeatPrice(1, 10, 10000*50000);
-    _setSeatPrice(1, 11, 10000*50000);
-    _setSeatPrice(1, 12, 10000*50000);
+    uint value = 500000;
+
+    _setSeatPrice(1, 1, 20000*value);
+    _setSeatPrice(1, 2, 20000*value);
+    _setSeatPrice(1, 3, 15000*value);
+    _setSeatPrice(1, 4, 15000*value);
+    _setSeatPrice(1, 5, 15000*value);
+    _setSeatPrice(1, 6, 15000*value);
+    _setSeatPrice(1, 7, 10000*value);
+    _setSeatPrice(1, 8, 10000*value);
+    _setSeatPrice(1, 9, 10000*value);
+    _setSeatPrice(1, 10, 10000*value);
+    _setSeatPrice(1, 11, 10000*value);
+    _setSeatPrice(1, 12, 10000*value);
   } 
 
   /*
