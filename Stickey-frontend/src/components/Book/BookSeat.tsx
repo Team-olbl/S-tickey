@@ -1,15 +1,39 @@
 import { useNavigate } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
 import NotSoldModal from "./NotSoldModal";
-import { useState } from "react";
-
+import {  useEffect, useState } from "react";
+import { useBook } from "../../hooks/Book/useBook";
+import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
 
 const BookSeat = () => {
 
     const navigate = useNavigate();
     const { seatInfo, setSelectInfo } = useTicketStore();
-
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const gameInfo = useTicketInfoStore((state) => state.modalData);
+
+    const { useSeatInfoCnt, useSeatconfirm } = useBook();
+    const { data: seatInfoCnt, refetch: refetchSeatInfoCnt } = useSeatInfoCnt({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId})
+    const { data: seatConfirmCheck, isSuccess , mutate } = useSeatconfirm({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId, info: seatInfo.seat})
+
+    useEffect(() => {
+        if (isModalOpen) {
+            setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, []);
+            refetchSeatInfoCnt();
+        }
+    }, [isModalOpen, refetchSeatInfoCnt, setSelectInfo, seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice]);
+
+    useEffect(() => {
+        if (!isSuccess) return;
+        console.log("aaaa",seatConfirmCheck);
+        if (seatConfirmCheck?.data !== undefined) {
+            navigate(`/${gameInfo?.id}/payment`, { replace: true });
+        } else {
+            setIsModalOpen(true)
+        }
+    }, [isSuccess]);
+
+    //선점확인 api 호출
 
     const getSeatColor = (seat: string): string => {
         switch (seat) {
@@ -34,7 +58,7 @@ const BookSeat = () => {
         }
     };
 
-    const handleSeatClick = (seat: string) => {
+    const handleSeatClick = (seat: number) => {
         if (seatInfo.seat.length >= 4 && !seatInfo.seat.includes(seat)) {
             return;
         }
@@ -42,67 +66,59 @@ const BookSeat = () => {
             ? seatInfo.seat.filter(s => s !== seat)
             : [...seatInfo.seat, seat];
         
-        setSelectInfo(seatInfo.section, newSelectedSeats);
+            setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, newSelectedSeats);
     };
 
-    const generateSeatNumbers = (rows: number, cols: number) => {
-        const seats = [];
-        let count = 1;
-        for (let i = 1; i <= rows; i++) {
-            const row = [];
-            for (let j = 1; j <= cols; j++) {
-                row.push(count++);
-            }
-            seats.push(row);
-        }
-        return seats;
-    };
-
-    const seats = generateSeatNumbers(5, 6);
-
-
-    // 결제 금액 함수 ( 나중에 바꿔야함 )
     const calculateTotalPrice = () => {
-        const pricePerSeat = 10000; // 임시 좌석당 가격
+        const pricePerSeat = seatInfo.sectionPrice; 
         return seatInfo.seat.length * pricePerSeat;
     };
 
     const goBack = () => {
-        navigate(-1)   
+        setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, []);
+        navigate(`/${gameInfo?.id}/section`, {replace : true})
     }
-
-    const id: number = 1;
 
     const goPayment = () => {
-    navigate(`/${id}/payment`)
-    }
+        if (seatInfo.seat.length > 0) {
+            mutate();
 
-
+        }
+    };
 
     return(
         <>
         <div className="pt-4">
 
                 {/* 좌석 */}
-                    <div className="bg-Stickey_Gray w-full h-[260px] flex flex-col flex-wrap justify-center items-center">
-                    <p className="text-xs text-gray-800">경기장 방향</p>
-                        <div className="py-2">
-                            {seats.map((row, rowIndex) => (
-                                <div key={rowIndex} className="flex">
-                                    {row.map((seatNumber, colIndex) => (
-                                        <div
-                                            key={colIndex}
-                                            className={`w-8 h-8 m-1 flex items-center justify-center  rounded-md ${seatInfo.seat.includes(`${seatNumber}`) ? 'bg-purple-500' : 'bg-gray-300'}`}
-                                            onClick={() => handleSeatClick(`${seatNumber}`)}
-                                        >
-                                        </div>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                
- 
+<div className="bg-Stickey_Gray w-full h-[260px] flex flex-col flex-wrap justify-center items-center">
+    <p className="text-xs text-gray-800">경기장 방향</p>
+    <div className="py-2 grid grid-cols-6 gap-1">
+        {seatInfoCnt?.data && (
+            seatInfoCnt.data.map((seat, index) => (
+                <div
+                    key={index}
+                    className={`w-10 h-10 flex items-center justify-center rounded-md ${
+                        seat.status === 'SOLD' || seat.status === 'HOLDING' ? 'bg-black/50' :
+                        seat.status === 'AVAILABLE' ? (seatInfo.seat.includes(seat.seatNumber) ? 'bg-purple-500 cursor-pointer' : 'bg-gray-300 cursor-pointer') :
+                        'bg-gray-300' 
+                    }`}
+                    onClick={() => {
+                        if (seat.status === 'SOLD' || seat.status === 'HOLDING') {
+                            setIsModalOpen(true);
+                        } else if (seat.status === 'AVAILABLE') {
+                            handleSeatClick(seat.seatNumber);
+                        }
+                    }}
+                >
+                </div>
+            ))
+        )}
+    </div>
+</div>
+
+
+                                    
 
             <div className="fixed bottom-0 max-w-[500px] w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
 
@@ -142,7 +158,7 @@ const BookSeat = () => {
                             <div className="col-span-3 flex items-center h-12">
                             {/* 선택한 좌석들을 출력 */}
                             {seatInfo.seat.map((seat, index) => (
-                                <div className="w-6 h-6 text-sm text-white bg-Stickey_Main text-center rounded-md m-1" key={index}>{seat} </div>
+                                <div className="w-6 h-6 text-sm text-white bg-purple-700 text-center rounded-md m-1" key={index}>{seat} </div>
                             ))}
                         </div>
                         </div>

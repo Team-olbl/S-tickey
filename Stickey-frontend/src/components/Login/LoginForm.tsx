@@ -1,45 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLogin } from '../../hooks/Individual/useLogin';
+import { toast } from 'react-toastify';
 
-interface LoginFormProps {
-  selectedTab: string; // 새로 추가된 prop
-}
+const LoginForm: React.FC = () => {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [tryLogin, setTryLogin] = useState<boolean>(false);
+    const {mutate} = useLogin();
 
-const LoginForm: React.FC<LoginFormProps> = ({ selectedTab }) => {
-
-    console.log(selectedTab)
     const navigate = useNavigate()
 
     const gotoSignup = () => {
         navigate('/signup')
     }
 
+    // 로그인 버튼 클릭 핸들러
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault();
+        setTryLogin(true);
+
+        if (!email || !password) {
+            return;
+        }
+
+        mutate({ email, password }, {
+            onSuccess: (data) => {
+                toast.success('로그인에 성공했습니다.');
+                console.log(data)
+                navigate('/');
+            },
+            onError: (error) => {
+                toast.error(`이메일과 비밀번호를 다시 확인해주세요.`);
+                console.log(error.message);
+            }
+        });
+    };
+
     return (
         <>
-        <div className="px-4">
-            <p className="pt-4 pb-2 text-sm">ID</p>
-            <input
-                type="text"
-                placeholder="아이디를 입력해주세요"
-                className="w-full outline-none border-b p-2 text-xs"
-            />
-            <p className="pt-4 pb-2 text-sm">PW</p>
-            <input
-                type="password"
-                placeholder="비밀번호를 입력해주세요"
-                className="w-full outline-none border-b p-2  text-xs"
-            />
-        </div>
-        <div className="max-w-[500px] m-auto px-4 py-8">
-                <button className="bg-[#5959E7] w-full text-white rounded-md p-2 text-md">로그인</button>
+            <div className="px-4">
+                <p className="pt-4 pb-2 text-sm">ID</p>
+                <input
+                    type="text"
+                    placeholder="이메일을 입력해주세요."
+                    className="w-full outline-none border-b p-2 text-xs"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                {tryLogin && !email && <p className="px-2 text-xs text-red-500">이메일을 입력해주세요.</p>}
+                <p className="pt-6 pb-2 text-sm">PW</p>
+                <input
+                    type="password"
+                    placeholder="비밀번호를 입력해주세요"
+                    className="w-full outline-none border-b p-2  text-xs"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                {tryLogin && !password && <p className='px-2 text-xs text-red-500'>비밀번호를 입력해주세요.</p>}
             </div>
-            <div className="flex justify-around text-xs px-4">
-                <button>아이디찾기</button>
-                <p>|</p>
+            <form onSubmit={handleLogin}>
+                <div className="max-w-[500px] m-auto px-4 py-8" >
+                    <button type='submit' className="bg-[#5959E7] w-full text-white rounded-md p-2 text-md">로그인</button>
+            </div>
+            </form>
+            <div className="flex justify-center text-xs px-4 gap-8">
                 <button>비밀번호찾기</button>
                 <p>|</p>
                 <button onClick={gotoSignup}>회원가입</button>
-        </div>     
+            </div>
         </>
     )
 

@@ -3,19 +3,25 @@ import NavigationBar from "../../../components/@common/NavigationBar";
 import BookInfo from "../../../components/Book/BookInfo";
 import BookSeat from "../../../components/Book/BookSeat";
 import Bell from '../../../assets/image/Bell.png';
-import { IGameInfo } from "./BookSectionPage";
+import { useTicketInfoStore } from "../../../stores/useTicketInfoStore";
+import { useNavigate } from "react-router-dom";
+import useTicketStore from "../../../stores/useTicketStore";
+import { useEffect } from "react";
 
-const dummyGameInfo: IGameInfo = {
-  id: 4,
-  stadium: "DGB대구은행파크",
-  homeTeam: "전북FC",
-  awayTeam: "FC서울",
-  bookStartTime: "2024-03-15T01:42:48",
-  bookEndTime: "2024-03-21T01:42:48",
-  gameStartTime: "2024-03-21T01:42:48"
-};
 
 const BookSeatPage = () => {
+
+  const gameInfo = useTicketInfoStore((state) => state.modalData);
+  const { clearSeatInfo } = useTicketStore();
+  const navigate = useNavigate(); 
+  
+  useEffect(() => {
+    if(!gameInfo?.id) { 
+      alert('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
+      navigate('/', {replace: true})
+      clearSeatInfo()
+    }
+  },[])
 
   const info : IHeaderInfo = {
     left_1:  null,
@@ -30,7 +36,7 @@ const BookSeatPage = () => {
       <div>
         <Header info={info} />
         <div className="pt-14">
-          <BookInfo gameInfo={dummyGameInfo} />
+          <BookInfo />
           <BookSeat />
         </div>
         <NavigationBar />

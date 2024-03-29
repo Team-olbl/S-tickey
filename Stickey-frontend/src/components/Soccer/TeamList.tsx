@@ -1,45 +1,44 @@
-// import Star from '../../assets/image/Star.png';
+import { useState } from 'react';
+import Star from '../../assets/image/Star.png';
 import { useGame } from '../../hooks/Home/useGame';
-import { useTeamStateStore } from '../../stores/useTeamStateStore';
-import { categoryType } from '../../types/model';
 
-const TeamList = ({ catg }: { catg: categoryType }) => {
-
+const TeamList = ({ catg }: { catg: string }) => {
   const { useGetTeamList } = useGame();
+  const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
 
-  const {
-    data : teamListInfo,
-  } = useGetTeamList({ catg });
+  const handleTeamClick = (teamName: string) => {
+    if (selectedTeams.includes(teamName)) {
+      setSelectedTeams(selectedTeams.filter(name => name !== teamName));
+    } else {
+      setSelectedTeams([...selectedTeams, teamName]);
+    }
+  };
 
-  console.log(teamListInfo?.data)
+  console.log(selectedTeams);
 
-  const { teamListsData } = useTeamStateStore();
+  const { data: teamListInfo } = useGetTeamList({ catg });
+
+  console.log(teamListInfo?.data);
 
   return (
-    <div className="flex flex-row z-[2] overflow-x-auto">
-      {/* <div className="pl-3 flex flex-row gap-2">
-      {preferredTeams && preferredTeams.map((team) => (
-        <div key={team.id} className={`relative w-14 h-16 border border-none flex flex-col shadow-[2px_2px_rgba(0,0,0,0.25)] justify-center items-center gap-1 rounded-[5px] bg-[#2E2E3D] `} >
-          <img src={Star} className='absolute w-2 h-2 left-1 top-1'/>
-          <div className="w-7 h-8">
-            {team.logo}
-          </div>
-          <p className="text-[6px] text-white">{team.name}</p>
-        </div>
-      ))}
-      </div> */}
-      <div className="mx-3 flex flex-col items-center justify-center">
-        <div className="border-l border-Stickey_Gray h-[48px]"></div>
-      </div>
+    <div className="px-4 flex flex-row z-[2] overflow-x-auto">
       <div className="flex flex-row gap-2">
-        {teamListsData && teamListsData.map((team) => (
-          <div key={team.id} className={`w-14 h-16 border border-none flex flex-col shadow-[2px_2px_rgba(0,0,0,0.25)] justify-center items-center gap-1 rounded-[5px] bg-[#2E2E3D] `}  >
-            <div className="w-7 h-8">
-              {team.logo}
+        {teamListInfo &&
+          teamListInfo.data.map((team) => (
+            <div
+              key={team.id}
+              onClick={() => handleTeamClick(team.name)}
+              className={`relative w-14 h-16 border border-none flex flex-col shadow-[2px_2px_rgba(0,0,0,0.25)] justify-center items-center gap-1 rounded-[5px] ${
+                selectedTeams.includes(team.name) ? 'bg-black/50' : 'bg-[#2E2E3D]'
+              } `}
+            >
+              {team.isPrefer === 1 && <img src={Star} className="absolute w-3 h-3 left-1 top-1" />}
+              <div className="w-7 h-8">
+                <img src={team.logo} alt={team.name} />
+              </div>
+              <p className="text-[6px] text-white">{team.name}</p>
             </div>
-            <p className="text-[6px] text-white">{team.name}</p>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

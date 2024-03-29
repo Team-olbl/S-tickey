@@ -3,6 +3,11 @@ import Bell from '../../../assets/image/Bell.png';
 import NavigationBar from "../../../components/@common/NavigationBar";
 import useTicketStore from "../../../stores/useTicketStore";
 import { useNavigate } from "react-router-dom";
+import { useTicketInfoStore } from "../../../stores/useTicketInfoStore";
+import dayjs from "dayjs";
+import { useEffect } from "react";
+import { connect, createTicket } from "../../../service/web3/api";
+import { registSeats } from "../../../service/Book/api";
 
 export interface DummyUserInfo {
   name: string;
@@ -50,19 +55,49 @@ const BookPaymentPage = () => {
     }
 };
 
-const goBack = () => {
-  navigate(-1)   
+  const goBack = () => {
+  if (confirm("결제 작업을 취소하시겠습니까? 그 동안의 작업이 사라집니다")) {
+      navigate(-1)
+      clearSeatInfo()
+      return;
+  }
 }
 
-const id: number = 1;
+const gameInfo = useTicketInfoStore((state) => state.modalData);
 
-    const goConformTicket = () => {
-    navigate(`/${id}/confirm`)
-    clearSeatInfo()
+  useEffect(() => {
+    connect();
+  if(!gameInfo?.id) {
+      alert('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
+      navigate('/', {replace: true})
+  }
+}, [])
+
+const gameDate = dayjs(gameInfo?.gameStartTime).format('YYYY년 MM월 DD일 HH시 mm분')
+
+
+  const goConformTicket = () => {
+
+    const buyTicket = async () => {
+      const tx = await createTicket(seatInfo.seat.length, gameInfo!.id, 1, seatInfo.sectionId, seatInfo.seat, seatInfo.sectionPrice);
+      if (tx) {
+        const res = await registSeats({ gameId: gameInfo!.id, zoneId: seatInfo.sectionId, seatNumbers: seatInfo.seat, isRefund: false });
+
+        if (res.status == 200) {
+          navigate(`/${gameInfo?.id}/confirm`,  {replace:true})
+          clearSeatInfo()
+          return;
+        } 
+      } 
+      alert("오류가 발생했습니다. 홈으로 되돌아갑니다.");
+      navigate('/', { replace: true });
     }
 
+    buyTicket();
+  }
+
 const totalPrice = () => {
-  const pricePerSeat = 10000; 
+  const pricePerSeat = seatInfo.sectionPrice; 
   return seatInfo.seat.length * pricePerSeat;
 };
 
@@ -109,9 +144,9 @@ const totalPrice = () => {
 
               {/* 예매정보 */}
               <div className="bg-[#2E2E3D] w-full h-auto p-6 text-white text-sm rounded-lg">
-                <div className="py-2">예매경기 : 대구FC vs 광주FC</div>
-                <div className="py-2">경기장소 : DGB대구은행파크</div>
-                <div className="py-2">경기일정 : 2024-03-21T01:42:48</div>
+                <div className="py-2">예매경기 : {gameInfo?.homeTeam} vs {gameInfo?.awayTeam}</div>
+                <div className="py-2">경기장소 : {gameInfo?.stadium}</div>
+                <div className="py-2">경기일정 : {gameDate}</div>
 
                 <div className="py-2 flex items-center">
                 <div>좌석등급 :</div>
@@ -122,7 +157,7 @@ const totalPrice = () => {
                 <div className="py-2 flex flex-wrap items-center">
                 <div className="mr-2">좌석정보 :</div>
                     {seatInfo.seat.map((seat, index) => (
-                        <div key={index} className="bg-gray-100 text-center w-6 mx-1 text-black font-bold text-xs rounded-md">{seat}</div>
+                        <div key={index} className="bg-purple-500 text-center w-6 mx-1 text-black font-bold text-xs rounded-md">{seat}</div>
                     ))}
                 </div>
 
@@ -130,14 +165,14 @@ const totalPrice = () => {
 
                 <div className="text-center text-[10px] pt-6">
                   <p>티켓 취소는  경기 시작 1시간 전까지 가능합니다.</p>
-                  <p>취소수수료 : ~ 경기 시작 3일 전 | 티켓금액의 20%</p>
+                  <p>취소수수료 : 경기 시작 3일 전부터 티켓금액의 30%</p>
                 </div>
 
               </div>
 
               {/* 결제버튼 */}
               <div className="w-full max-w-[500px] px-4 pt-6 pb-24 flex justify-center">
-                  <button className="bg-Stickey_Gray w-1/2 mr-2 p-3 text-xs rounded-md" onClick={() => goBack()}>이전</button>
+                  <button className="bg-Stickey_Gray w-1/2 mr-2 p-3 text-xs rounded-md" onClick={() => goBack()}>취소</button>
                   <button className="bg-Stickey_Main w-1/2 p-3 text-xs rounded-md" onClick={() => goConformTicket()}>결제하기</button>
               </div>
         </div>
