@@ -46,8 +46,15 @@ const IndividualEditForm = () => {
 
 	const handleConfirmEdit = () => {
     const formData = new FormData();
-    if (image) formData.append('profileImage', image);
-    formData.append('phone', phone);
+    formData.append('userInfoReq', JSON.stringify({ phone: phone }));
+
+    if (image) {
+        formData.append('profileImage', image);
+    }
+
+    for (const [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+    }
 
     mutate(formData, {
         onSuccess: () => {
@@ -57,8 +64,9 @@ const IndividualEditForm = () => {
             console.error('프로필 정보 수정 실패', error);
         }
     });
+
     setIsModalOpen(false);
-};
+	};
 
 	
   return (
