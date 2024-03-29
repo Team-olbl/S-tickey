@@ -1,5 +1,5 @@
 import './index.css'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/Home/HomePage';
 import SoccerPage from './pages/Home/Soccer/SoccerPage';
 import BaseBallPage from './pages/Home/BaseBall/BaseBallPage';
@@ -14,19 +14,32 @@ import SignupPage from './pages/SignUp/SignupPage';
 import LoginPage from './pages/Login/LoginPage';
 import SponsorPage from './pages/Sponsor/SponsorPage';
 import ProfilePage from './pages/Profile/ProfilePage';
-import PaymentHistoryPage from './pages/Profile/Personal/Payment/PaymentHistory';
-import DreamHistoryPage from './pages/Profile/Personal/Dream/DreamHistoryPage';
-import ProfileEditPage from './pages/Profile/ProfileEditPage';
-import PlayerListPage from './pages/Profile/Group/PlayerList/PlayerListPage';
+import PaymentHistoryPage from './pages/Profile/User/PaymentHistory';
+import DreamHistoryPage from './pages/Profile/User/DreamHistoryPage';
+import ProfileEditPage from './pages/Profile/User/ProfileEditPage';
+import PlayerListPage from './pages/Profile/Group/PlayerListPage';
 import SponsorDetailPage from './pages/Sponsor/SponsorDetailPage/SponsorDetailPage';
-import SponListPage from './pages/Profile/Group/SponList/SponListPage';
+import SponListPage from './pages/Profile/Group/SponListPage';
 import TicketEditPage from './pages/MyTicket/TicketEdit/TicketEditPage';
 import SponsorCreatePage from './pages/Sponsor/SponsorCreatePage/SponsorCreatePage';
-import GroupProfilePage from './pages/Profile/Group/GroupProfilePage';
 import GroupProfileEditPage from './pages/Profile/Group/GroupProfileEditPage';
-import PlayerRegistration from './pages/Profile/Group/PlayerList/PlayerRegistrationPage';
+import PlayerRegistration from './pages/Profile/Group/PlayerRegistrationPage';
 import BlockchainTest from "./BlockchainTest";
+import userStore from './stores/userStore';
 
+interface AuthWrapperProps {
+  children: React.ReactNode;
+}
+
+const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
+  const isLogin = userStore((state) => state.isLogin);
+
+  if (!isLogin) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+};
 
 const router = createBrowserRouter(
   [
@@ -48,31 +61,59 @@ const router = createBrowserRouter(
     },
     {
       path:'/alarm',
-      element: <AlarmPage />
+      element: (
+        <AuthWrapper>
+          <AlarmPage/>
+        </AuthWrapper>
+      ) 
     },
     {
       path:'/:id/section',
-      element: <BookSectionPage />
+      element:  (
+        <AuthWrapper>
+          <BookSectionPage />
+        </AuthWrapper>
+      )
     },
     {
       path:'/:id/seat',
-      element: <BookSeatPage />
+      element: (
+        <AuthWrapper>
+          <BookSeatPage />
+        </AuthWrapper>
+      )
     },
     {
       path:'/:id/payment',
-      element: <BookPaymentPage />
+      element: (
+        <AuthWrapper>
+          <BookPaymentPage /> 
+        </AuthWrapper>
+      )
     },
     {
       path:'/:id/confirm',
-      element: <BookConfirmPage />
+      element: (
+        <AuthWrapper>
+          <BookConfirmPage /> 
+        </AuthWrapper>
+      ) 
     },
     {
       path:'/mytickets',
-      element: <MyTicketPage />
+      element: (
+        <AuthWrapper>
+          <MyTicketPage />
+        </AuthWrapper>
+      )
     },
     {
       path:'/mytickets/:id/edit',
-      element: <TicketEditPage />
+      element: (
+        <AuthWrapper>
+          <TicketEditPage /> 
+        </AuthWrapper>
+      )
     },
     {
       path:'/signup',
@@ -92,48 +133,80 @@ const router = createBrowserRouter(
     },
     {
       path:'/sponsor/create',
-      element: <SponsorCreatePage />
+      element: (
+        <AuthWrapper>
+          <SponsorCreatePage /> 
+        </AuthWrapper>
+      )
     },
     // 단체랑 개인은 role로 구분할 것
     {
       path:'/profile',
-      element: <ProfilePage />
-    },
-    {
-      path:'/profile/group',
-      element: <GroupProfilePage />
+      element: (
+        <AuthWrapper>
+          <ProfilePage /> 
+        </AuthWrapper>
+      )
     },
     {
       path:'/profile/playerlist',
-      element: <PlayerListPage />
+      element: (
+        <AuthWrapper>
+          <PlayerListPage />
+        </AuthWrapper>
+      )
     },
     {
       path:'/profile/playerlist/register',
-      element: <PlayerRegistration />
+      element: (
+        <AuthWrapper>
+          <PlayerRegistration />
+        </AuthWrapper>
+      ) 
     },
     {
       path:'/profile/edit',
-      element: <ProfileEditPage />
+      element: (
+        <AuthWrapper>
+          <ProfileEditPage />
+        </AuthWrapper>
+      )   
     },
     {
       path:'/profile/group/edit',
-      element: <GroupProfileEditPage />
+      element: (
+        <AuthWrapper>
+          <GroupProfileEditPage />
+        </AuthWrapper>
+      )
     },
     {
       path:'/profile/sponlist',
-      element: <SponListPage />
+      element: (
+        <AuthWrapper>
+          <SponListPage /> 
+        </AuthWrapper>
+      )
     },
     {
       path:'/profile/dreamhistory',
-      element: <DreamHistoryPage />
+      element: (
+        <AuthWrapper>
+          <DreamHistoryPage />
+        </AuthWrapper>
+      )  
     },
     {
       path:'/profile/paymenthistory',
-      element: <PaymentHistoryPage />
+      element: (
+        <AuthWrapper>
+          <PaymentHistoryPage />
+          </AuthWrapper>
+      )  
     },
     {
       path:'/test',
-      element: <BlockchainTest/>
+      element: <BlockchainTest/> 
     },
   ]
 )

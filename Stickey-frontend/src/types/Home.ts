@@ -1,4 +1,3 @@
-import {categoryType} from './model'
 
 export interface IGameSimpleRes {
     id: number;
@@ -6,19 +5,12 @@ export interface IGameSimpleRes {
     category: string;
     stadium: string;
     homeTeam: string;
-    homeTeamLogo:string | null;
+    homeTeamLogo:string;
     awayTeam: string;
-    awayTeamLogo:string | null;
+    awayTeamLogo:string;
     bookStartTime: string;
     bookEndTime: string;
     gameStartTime: string;
-}
-
-export interface ITeamSimpleRes {
-    id: number;
-    category: string;
-    name: string;
-    logo: string;
 }
 
 // 경기 목록 조회 Response
@@ -28,18 +20,22 @@ export interface IGameListRes {
 
 // 경기 목록 조회 Request
 export interface IGameListReq {
-    catg?: categoryType;
-    club?: string;
+    catg?: string;
+    club?: string[];
     date?: string;
 
 }
 
 // 구단 리스트 조회 Response 
 export interface ITeamListRes {
-    clubListRes: ITeamSimpleRes[];
+    id: number;
+    category: string;
+    name: string;
+    logo: string;
+    isPrefer: number;
 }
 
 // 구단 리스트 조회 Request 
 export interface ITeamListReq {
-    catg?: categoryType;
+    catg?: string;
 }
