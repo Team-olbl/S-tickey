@@ -36,7 +36,6 @@ public class User {
     private String email;
     private String password;
     private String phone;
-    private String account;
     private String profileImage;
     @CreatedDate
     private LocalDateTime createTime;
