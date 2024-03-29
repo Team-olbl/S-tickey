@@ -1,81 +1,82 @@
 import Modal from '../@common/Modal';
 import Waitting from '../../assets/image/Waitting.png';
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
-import { Stomp } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
+import { Client } from '@stomp/stompjs';
+import userStore from '../../stores/userStore';
 
 const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
-    const navigate = useNavigate();
     const ticketInfo = useTicketInfoStore((state) => state.modalData);
-
-    // 테스트용
-
-    // 조건부 랜덤 숫자 함수
-    const getRandomWaitNumbers = () => {
-        const waitNumbers = [];
-        let num = 28;
-        while (num >= 3) {
-            waitNumbers.push(num);
-            num -= Math.floor(Math.random() * 2) ? 7 : 9;
-        }
-        return waitNumbers;
-    };
-
-
-    const [waitNumbers, setWaitNumbers] = useState<number[]>(getRandomWaitNumbers());
+    const { id: userId } = userStore();
+    const [waitNumbers, setWaitNumbers] = useState<number[]>([]);
     const [currentNumberIndex, setCurrentNumberIndex] = useState(0);
-    console.log(setWaitNumbers)
+    const [client, setClient] = useState<Client | null>(null);
+
+    console.log(setWaitNumbers, setCurrentNumberIndex, client)
 
     useEffect(() => {
-        const gameId = 1; // 게임 ID
-        const userId = 1; // 유저 PK
+    
+        const newClient = new Client({
+          brokerURL: 'ws://j10d211.p.ssafy.io:9091/api/reserve',
+        //   connectHeaders: {
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+          beforeConnect: () => {
+            console.log("Connecting to WebSocket");
+          },
+          onConnect: () => {
+            console.log("Connected to WebSocket");
+          },
+          onDisconnect: () => {
+            console.log("Disconnected from WebSocket");
+          },
+          onWebSocketClose: (closeEvent) => {
+            console.log("WebSocket closed", closeEvent);
+          },
+          onWebSocketError: (error) => {
+            console.log("WebSocket error: ", error);
+          },
+          heartbeatIncoming: 0,
+          heartbeatOutgoing: 0,
+        });
+    
+        setClient(newClient);
+        newClient.activate();
+      }, []);
 
-        const connectWebSocket = () => {
-            const socket = new SockJS('http://localhost:9091/api/reserve');
-            const client = Stomp.over(socket);
+    useEffect(() => {
+        const newClient = new Client();
+        newClient.configure({
+            brokerURL: 'ws://j10d211.p.ssafy.io:9091/api/reserve',
+            onConnect: () => {
+                newClient.subscribe(
+                    `/sub/id/${userId}`,
+                    message => {
+                        const parsedMessage = JSON.parse(message.body);
+                        console.log(parsedMessage);
+                    },
+                );
+                console.log('웹소켓 연결 확인');
+            },
+            onDisconnect: () => {
+                console.log('웹소켓 연결 종료');
+            },
+        });
 
-            client.connect({}, () => {
-                console.log('연결시도?')
-                client.subscribe(`/sub/id/${userId}`, (message) => {
-                    const waitStateRes = JSON.parse(message.body);
-
-                    // 대기
-                    console.log("내 차례인지: " + waitStateRes.myTurn);
-                    console.log("대기열 순위: " + waitStateRes.rank);
-                    console.log("key: " + waitStateRes.key);
-                });
-
-                client.send("/games/wait/enter", {}, JSON.stringify({ "gameId": gameId, "id": userId }));
-            });
-        };
-
-        connectWebSocket();
-
-        // 테스트용 코드
-
-        const waitNumberInterval = setInterval(() => {
-            if (currentNumberIndex === waitNumbers.length - 1) {
-                setTimeout(() => {
-                    navigate(`/${gameId}/section`);
-                }, 1000);
-                clearInterval(waitNumberInterval);
-            } else {
-                setCurrentNumberIndex(prevIndex => prevIndex + 1);
-            }
-        }, 1000);
+        newClient.activate();
+        setClient(newClient);
 
         return () => {
-            clearInterval(waitNumberInterval);
+            newClient.deactivate();
         };
-    }, [onClose, navigate, ticketInfo, waitNumbers, currentNumberIndex]);
-    
+    }, [ticketInfo, userId]);
+
+
     return (
         <Modal width="300px" height="auto" title="" onClose={onClose}>
             <div className="flex flex-col items-center px-4 pb-6 z-[10]">
                 <div className='flex flex-col items-center pb-2'>
-                    <img className='h-20' src={Waitting} />
+                    <img className='h-20' src={Waitting} alt="Waitting" />
                     <p className='text-sm py-2'>나의 대기</p>
                     <h1 className='text-4xl font-bold'>{waitNumbers[currentNumberIndex]}</h1>
                 </div>
@@ -85,7 +86,6 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                     <div className="absolute top-0 left-0 h-2 bg-Stickey_Main rounded-xl" style={{ width: `${(currentNumberIndex + 1) * (100 / waitNumbers.length)}%` }}></div>
                 </div>
         
-           
                 <div className='flex flex-col px-4'>
                     <div className='text-[8px] text-center'>
                         <p>현재 접속 인원이 많아 대기중입니다.</p>
@@ -99,8 +99,6 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
             </div>
         </Modal>
     )
-    
 }
-
 
 export default WaittingModal;
