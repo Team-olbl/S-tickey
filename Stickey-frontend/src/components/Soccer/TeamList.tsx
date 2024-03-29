@@ -1,24 +1,20 @@
-import { useState } from 'react';
 import Star from '../../assets/image/Star.png';
 import { useGame } from '../../hooks/Home/useGame';
 
-const TeamList = ({ catg }: { catg: string }) => {
+const TeamList = ({ catg, selectedTeams, setSelectedTeams }: { catg: string, selectedTeams:string[], setSelectedTeams:React.Dispatch<React.SetStateAction<string[]>> }) => {
   const { useGetTeamList } = useGame();
-  const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
 
   const handleTeamClick = (teamName: string) => {
     if (selectedTeams.includes(teamName)) {
       setSelectedTeams(selectedTeams.filter(name => name !== teamName));
     } else {
-      setSelectedTeams([...selectedTeams, teamName]);
+      setSelectedTeams((state) => [...state, teamName]);
     }
   };
 
-  console.log(selectedTeams);
 
   const { data: teamListInfo } = useGetTeamList({ catg });
 
-  console.log(teamListInfo?.data);
 
   return (
     <div className="px-4 flex flex-row z-[2] overflow-x-auto">
