@@ -79,6 +79,7 @@ export const refundTicket = async (tokenId: number) => {
     const ret = await contract.methods.refundTicket(tokenId).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
+    console.log(err);
     alert("환불 실패");
   }
 }
@@ -89,8 +90,9 @@ export const getTickets = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getTickets(account[0]).call();
-    return ret.reverse();
+    return [...ret].reverse();
   } catch (err) {
+    console.log(err);
     alert("티켓 조회 실패");
   }
 }
@@ -103,6 +105,7 @@ export const setSupport = async (id : number, name : string, address : string, e
     const ret = await contract.methods.setSupport(id, name, address, endTime).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
+    console.log(err);
     alert("후원글 등록 실패");
   }
 }
@@ -115,6 +118,7 @@ export const donate = async (id : number, text : string, value : number) => {
     const ret = await contract.methods.donate(id, text).send({from : account[0], value : value, gasPrice : 3000000})
     return ret;
   } catch (err) {
+    console.log(err);
     alert("후원 실패");
   }
 }
@@ -127,6 +131,7 @@ export const withdraw = async(id : number) => {
     const ret = await contract.methods.withdraw(id).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
+    console.log(err);
     alert("수령 실패");
   }
 }
@@ -137,8 +142,9 @@ export const getSupprtedHistory = async (id : number) => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getSupprtedHistory(id).call();
-    return ret.reverse();
+    return [...ret].reverse();
   } catch (err) {
+    console.log(err);
     alert("후원받은 내역 조회 실패");
   }
 }
@@ -149,8 +155,9 @@ export const getSupprtingHistory = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getSupprtingHistory(account[0]).call();
-    return ret.reverse();
+    return [...ret].reverse();
   } catch (err) {
+    console.log(err);
     alert("후원한 내역 조회 실패");
   }
 }
@@ -161,8 +168,9 @@ export const getPaymentHistory = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getPaymentHistory(account[0]).call();
-    return ret.reverse();
+    return [...ret].reverse();
   } catch (err) {
+    console.log(err);
     alert("결제 이력 조회 실패");
   }
 }
@@ -173,8 +181,9 @@ export const getRewordHistory = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const ret = await contract.methods.getRewordHistory(account[0]).call();
-    return ret.reverse();
+    return [...ret].reverse();
   } catch (err) {
+    console.log(err);
     alert("꿈 내역 조회 실패");
   }
 }
@@ -187,6 +196,7 @@ export const getReword = async () => {
     const ret = await contract.methods.getReword(account[0]).call();
     return ret;
   } catch (err) {
+    console.log(err);
     alert("꿈 잔액 조회 실패");
   }
 }
@@ -199,6 +209,7 @@ export const getItemList = async () => {
     const ret = await contract.methods.getItemList().call();
     return ret;
   } catch (err) {
+    console.log(err);
     alert("아이템 조회 실패");
   }
 }
@@ -211,6 +222,7 @@ export const setFilterOnTicket = async (tokenId : number, itemId : number, suppo
     const ret = await contract.methods.setFilterOnTicket(tokenId, itemId, supportId).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
+    console.log(err);
     alert("실패");
   }
 }
@@ -224,6 +236,7 @@ export const addFilter = async (name : string, price : number) => {
     const ret = await contract.methods.addFilter(name, price).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
+    console.log(err);
     alert("필터 등록 실패");
   }
 }
@@ -236,6 +249,7 @@ export const deleteFilter = async (id : number) => {
     const ret = await contract.methods.deleteFilter(id).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
+    console.log(err);
     alert("실패");
   }
 }
@@ -248,6 +262,7 @@ export const setBackgroundOnTicket = async (tokenId : number, itemId : number, s
     const ret = await contract.methods.setBackgroundOnTicket(tokenId, itemId, supportId).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
+    console.log(err);
     alert("실패");
   }
 }
@@ -260,6 +275,7 @@ export const addBackground = async (name : string, price : number) => {
     const ret = await contract.methods.addBackground(name, price).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
+    console.log(err);
     alert("실패");
   }
 }
@@ -272,6 +288,7 @@ export const deleteBackground = async (id : number) => {
     const ret = await contract.methods.deleteBackground(id).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
+    console.log(err);
     alert("실패");
   }
 }
@@ -286,6 +303,7 @@ export const setGame = async (id : number, bookStartTime : number, gameStartTime
     const ret = await contract.methods.setGame(id, bookStartTime, gameStartTime, stadium, homeTeam,awayTeam, cate, gameImage).send({ from: account[0] , gasPrice : 3000000});
     return ret;
   } catch (err) {
+    console.log(err);
     alert("실패");
   }
 }
@@ -298,6 +316,7 @@ export const setSeatPrice = async (stadiumId : number, zoneId : number, price : 
     const ret = await contract.methods.setSeatPrice(stadiumId, zoneId, price).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
+    console.log(err);
     alert("실패");
   }
 }
@@ -310,6 +329,7 @@ export const setZoneName = async (zoneId : number, zoneName : string) => {
     const ret = await contract.methods.setZoneName(zoneId, zoneName).send({ from: account[0], gasPrice : 3000000 });
     return ret;
   } catch (err) {
+    console.log(err);
     alert("실패");
   }
 }
@@ -322,6 +342,7 @@ export const getSeatState = async (gameId : number, zoneId : number, seatNumber 
     const ret = await contract.methods.getSeatState(gameId, zoneId, seatNumber).call();
     return ret;
   } catch (err) {
+    console.log(err);
     alert("실패");
   }
 }

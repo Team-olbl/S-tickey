@@ -34,8 +34,9 @@ const PaymentHistoryPage = () => {
   useEffect(() => {
     async function getData() {
       await connect();
-      const data = await getPaymentHistory();
-      setPaymentHistory(data);
+      const data : PaymentItemData[] | undefined = await getPaymentHistory();
+      if(data)
+        setPaymentHistory(data);
     }
     getData();
   }, []);
