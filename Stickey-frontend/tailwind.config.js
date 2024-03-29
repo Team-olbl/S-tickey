@@ -10,6 +10,9 @@ export default {
         Stickey_Gray: '#A9A9A9',
         Stickey_Middle: '#2E2E3D',
       },
+      fontFamily: {
+        Pretendard: ['Pretendard-Regular'],
+      },
     },
   },
   plugins: [],
