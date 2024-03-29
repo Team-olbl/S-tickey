@@ -25,11 +25,11 @@ export type PaymentItemData = {
   supportText: string;
 };
 
-const dateSet = new Set();
 
 const PaymentHistoryPage = () => {
 
   const [paymentHistroy, setPaymentHistory] = useState<PaymentItemData[]>([]);
+  const dateSet = new Set();
 
   useEffect(() => {
     async function getData() {
@@ -51,8 +51,8 @@ const PaymentHistoryPage = () => {
 
 
   const displayDate = (value : number) => {
-    if (!dateSet.has(Math.floor(value / 8640))) {
-      dateSet.add(Math.floor(value / 8640));
+    if (!dateSet.has(Math.floor(value / 86400))) {
+      dateSet.add(Math.floor(value / 86400));
       return (
         <div className="text-white ps-3">{dayjs(value * 1000).format("YYYY-MM-DD")}</div>
       )
