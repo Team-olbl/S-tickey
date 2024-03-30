@@ -2,35 +2,14 @@ import { useState } from "react";
 import unlock from  '../../assets/image/Unlocked.png'
 import SignupApprove from "../../components/Admin/SignupApprove";
 import PostApprove from "../../components/Admin/PostApprove";
+import LogoutModal from "../../components/Login/LogoutModal";
 
-// 가입승인 타입
-interface ISignupResProps {
-    signUpResList: {
-      name: string;
-      id: number;
-      profileImage: string | null;
-    }[];
-    count: number;
-  }
-// 후원글승인 타입
-interface IPostApproveProps {
-    waitingSupportRes: {
-    id: number;
-    title: string;
-    organization: {
-        name: string;
-        id: number;
-        profileImage: string | null;
-    };
-    }[];
-    count: number;
-}
 
 const AdminPage = () => {
-    
-    const leftTab: string = '단체 회원 승인';
-    const rightTab: string = '후원글 승인';
-    const [activeTab, setActiveTab] = useState(leftTab);
+  const leftTab: string = '단체 회원 승인';
+  const rightTab: string = '후원글 승인';
+  const [activeTab, setActiveTab] = useState(leftTab);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const handleLeftTabClick = () => {
     setActiveTab(leftTab);
@@ -45,7 +24,7 @@ const AdminPage = () => {
         {/* 관리자페이지 안내 */}
         <div className="flex justify-between items-center pt-4 px-8">
             <p className="text-xl py-6 text-white">Stickey 관리자 페이지 입니다</p>
-            <div className="text-white flex items-center border rounded-lg p-2">
+            <div className="text-white flex items-center border rounded-lg p-2 cursor-pointer" onClick={() => setIsLogoutModalOpen(true)}>
                 <img className="w-8 mr-2" src={unlock} />
                 <p>로그아웃</p>
             </div>
@@ -72,8 +51,9 @@ const AdminPage = () => {
             </button>
         </div>
 
-        {activeTab === leftTab && <SignupApprove signUpResList={SignupdummyData.signUpResList} />}
-        {activeTab === rightTab && <PostApprove waitingSupportRes={PostdummyData.waitingSupportRes} />}
+        {activeTab === leftTab && <SignupApprove />}
+      {activeTab === rightTab && <PostApprove />}
+      {isLogoutModalOpen && <LogoutModal onClose={() => setIsLogoutModalOpen(false)}/>}
   </>
   )
 }
@@ -81,37 +61,37 @@ const AdminPage = () => {
 export default AdminPage;
 
 
-// 더미
-const SignupdummyData: ISignupResProps = {
-    signUpResList: [
-      { name: "최민경", id: 1, profileImage: null },
-      { name: "전찬혁", id: 2, profileImage: null },
-      { name: "류지윤", id: 3, profileImage: null },
-      { name: "최부광", id: 4, profileImage: null },
-    ],
-    count: 4
-  };
+// // 더미
+// const SignupdummyData: ISignupResProps = {
+//     signUpResList: [
+//       { name: "최민경", id: 1, profileImage: null },
+//       { name: "전찬혁", id: 2, profileImage: null },
+//       { name: "류지윤", id: 3, profileImage: null },
+//       { name: "최부광", id: 4, profileImage: null },
+//     ],
+//     count: 4
+//   };
 
-const PostdummyData: IPostApproveProps = {
-    waitingSupportRes: [
-      {
-        id: 1,
-        title: "ㅇㅇ중학교 배구 유망주 체육관 수리 후원",
-        organization: {
-          name: "룰루랄라협회",
-          id: 1,
-          profileImage: "C:\\Users\\SSAFY\\Desktop\\heewon\\aaa.jpg"
-        }
-      },
-      {
-        id: 2,
-        title: "ㅇㅇ고등학교 단체 축구 유니폼 기부",
-        organization: {
-          name: "하기싫다키키",
-          id: 2,
-          profileImage: "C:\\Users\\SSAFY\\Desktop\\heewon\\aaa.jpg"
-        }
-      }
-    ],
-    count: 2
-  };
+// const PostdummyData: IPostApproveProps = {
+//     waitingSupportRes: [
+//       {
+//         id: 1,
+//         title: "ㅇㅇ중학교 배구 유망주 체육관 수리 후원",
+//         organization: {
+//           name: "룰루랄라협회",
+//           id: 1,
+//           profileImage: "C:\\Users\\SSAFY\\Desktop\\heewon\\aaa.jpg"
+//         }
+//       },
+//       {
+//         id: 2,
+//         title: "ㅇㅇ고등학교 단체 축구 유니폼 기부",
+//         organization: {
+//           name: "하기싫다키키",
+//           id: 2,
+//           profileImage: "C:\\Users\\SSAFY\\Desktop\\heewon\\aaa.jpg"
+//         }
+//       }
+//     ],
+//     count: 2
+//   };

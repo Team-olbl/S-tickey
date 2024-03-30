@@ -1,9 +1,18 @@
 import Modal from '../@common/Modal'
 import Crying from '../../assets/image/Crying2.png'
+import userStore from "../../stores/userStore";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const LogoutModal = ({ onClose }: { onClose: () => void; }) => {
+	const navigate = useNavigate();
+	const { logoutUser } = userStore();
 
-    // 로그아웃 로직 추가하기
+	const handleLogout = () => {
+    logoutUser();
+    toast.success("로그아웃 되었습니다.");
+    navigate('/',)
+  }
     
     return (
         <Modal width="300px" height="auto" title="" onClose={onClose}>
@@ -15,7 +24,7 @@ const LogoutModal = ({ onClose }: { onClose: () => void; }) => {
 							<p className="text-xs">로그아웃 하시겠습니까 ?</p>
 						</div>
 						<div className="flex justify-center space-x-2 pt-4">
-								<button className="bg-[#5959E7] w-20 text-white px-4 py-1 rounded-lg text-xs" >로그아웃</button>
+								<button className="bg-[#5959E7] w-20 text-white px-4 py-1 rounded-lg text-xs" onClick={handleLogout} >로그아웃</button>
 								<button className="bg-gray-500 w-20 text-white px-4 py-1 rounded-lg text-xs" onClick={onClose}>취소</button>
 						</div>
 					</div>

@@ -63,14 +63,18 @@ const PaymentHistoryPage = () => {
     <>
       <Header info={info} />
       <div className="pt-16 pb-16">
-        {paymentHistroy && paymentHistroy.map((item, idx) => {
+        {paymentHistroy.length > 0 ?
+          paymentHistroy && paymentHistroy.map((item, idx) => {
           return (
             <Fragment key={idx}>
               
               {displayDate( Number(item.time))} 
             <PaymentItem data={item} />
           </Fragment>)
-        })
+          }) :
+          <div className="flex flex-col items-center mt-40">
+            <p className=" text-white text-sm mt-4">아직 기록이 없어요!</p>
+          </div>
         }
       </div>
       <NavigationBar />
