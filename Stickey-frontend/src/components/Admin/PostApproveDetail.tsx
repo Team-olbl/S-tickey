@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import { useAdmin } from "../../hooks/Admin/useAdmin";
 import Modal from "../@common/Modal";
 import dayjs from "dayjs";
+import { setSupport } from "../../service/web3/api";
 
 const PostApproveDetail = ({ id, onClose, refetch }: { id: number;  onClose: () => void, refetch : () => void}) => {
 
@@ -11,16 +12,25 @@ const PostApproveDetail = ({ id, onClose, refetch }: { id: number;  onClose: () 
 
   const handleApprove = () => {
     if (!confirm("승인하시겠습니까?")) return;
-    mutate({ id, status: "1", message: "" }, {
-      onSuccess: () => {
-        toast.success("승인되었습니다.");
-        refetch();
-        onClose();
-      },
-      onError: () => {
-        toast.error("에러가 발생했습니다.");
-      }
-    });
+
+    const time = Math.floor(new Date(data!.endTime).getTime() / 1000);
+
+    setSupport(id, data!.organization.name, time).then(() => {
+        mutate({ id, status: "1", message: "" }, {
+          onSuccess: () => {
+            toast.success("승인되었습니다.");
+            refetch();
+            onClose();
+          },
+          onError: () => {
+            toast.error("에러가 발생했습니다.");
+          }
+        });
+    }).catch((err: Error) => {
+      toast.error(`후원 글 등록 실패, ${err}`);
+    })
+
+
   }
 
   const handleReject = () => {
