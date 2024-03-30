@@ -13,17 +13,33 @@ contract ApplicationHandler is Api {
   }
 
   function initDummy() private {
-    _setGame(GameInfo(1, block.timestamp, block.timestamp, unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, ""));
-    _setGame(GameInfo(2, block.timestamp, block.timestamp + 3 days,unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, ""));
-    _setGame(GameInfo(3, block.timestamp, block.timestamp + 5 days,unicode"DGB대구은행파크", unicode"대구FC", unicode"FC서울", Category.SOCCER, ""));
-  
-    _setZoneName(1, unicode"R");
-    _setSeatPrice(1, 1, 10**9);
+    _setZoneName(1, unicode"S구역 1"); 
+    _setZoneName(2, unicode"S구역 2"); 
+    _setZoneName(3, unicode"R구역 1"); 
+    _setZoneName(4, unicode"R구역 2"); 
+    _setZoneName(5, unicode"R구역 3"); 
+    _setZoneName(6, unicode"R구역 4"); 
+    _setZoneName(7, unicode"W구역 1"); 
+    _setZoneName(8, unicode"W구역 2"); 
+    _setZoneName(9, unicode"E구역 1"); 
+    _setZoneName(10, unicode"E구역 2"); 
+    _setZoneName(11, unicode"E구역 3"); 
+    _setZoneName(12, unicode"E구역 4"); 
 
-    _addFilter(unicode"반짝반짝필터", 10 * 3);
-    _addFilter(unicode"홀로그램필터", 10 * 3);
-    _addBackground(unicode"빨간배경", 10 * 2);
-    _addBackground(unicode"파란배경", 10 * 2);
+    uint value = 500000;
+
+    _setSeatPrice(1, 1, 20000*value);
+    _setSeatPrice(1, 2, 20000*value);
+    _setSeatPrice(1, 3, 15000*value);
+    _setSeatPrice(1, 4, 15000*value);
+    _setSeatPrice(1, 5, 15000*value);
+    _setSeatPrice(1, 6, 15000*value);
+    _setSeatPrice(1, 7, 10000*value);
+    _setSeatPrice(1, 8, 10000*value);
+    _setSeatPrice(1, 9, 10000*value);
+    _setSeatPrice(1, 10, 10000*value);
+    _setSeatPrice(1, 11, 10000*value);
+    _setSeatPrice(1, 12, 10000*value);
   } 
 
   /*
@@ -31,8 +47,8 @@ contract ApplicationHandler is Api {
   */
 
   // 게임 정보 설정
-  function setGame(GameInfo memory _game) public isOwner {
-    _setGame(_game);
+  function setGame(uint _id, uint _bookStartTime, uint _gameStartTime, string memory _stadium, string memory _homeTeam, string memory _awayTeam, Category _category, string memory _gameImage) public isOwner {
+    _setGame(_id, _bookStartTime, _gameStartTime, _stadium, _homeTeam, _awayTeam, _category, _gameImage);
   }
 
   // 경기장 구역 가격 설정
@@ -101,7 +117,7 @@ contract ApplicationHandler is Api {
   }
 
   // 티켓 취소 
-  function refundTicket(uint256 _tokenId) external payable {
+  function refundTicket(uint256 _tokenId) external {
     _refundTicket(_tokenId);
   }
 
