@@ -1,13 +1,29 @@
+import dayjs from "dayjs";
 import { useRef, useState } from "react";
 import { CiCamera } from 'react-icons/ci';
+import { useSponsor } from "../../hooks/Sponsor/useSponsor";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+
+interface ISupportReq  {
+  "title": string;
+  "content": string;
+  "startTime" :  string;
+  "endTime" :  string;
+}
+
 
 const SponsorForm = () => {
-
-    const imgRef = useRef<HTMLInputElement>(null);
-    const [image, setImage] = useState<File>();
-    const [photo, setPhoto] = useState<string>('');
-
-    console.log(image) // 나중에 post 연결 시 처리할 것
+  const navigate = useNavigate();
+  const [supportReq, setSupportReq] = useState<ISupportReq>();
+  const imgRef = useRef<HTMLInputElement>(null);
+  const [image, setImage] = useState<File>();
+  const [photo, setPhoto] = useState<string>('');
+  const { usePostSupport } = useSponsor();
+  const { mutate } = usePostSupport();
+    const isEnable = !!(supportReq?.title && supportReq.content && supportReq.startTime && supportReq.endTime && photo)
+    // const isEnable = !!(supportReq?.title && supportReq.content && supportReq.start_time && supportReq.end_time && photo)
 
     // 이미지 저장
     const saveImgFile = () => {
@@ -24,8 +40,27 @@ const SponsorForm = () => {
             };
         }
         }
-    };
+  };
+  
+  console.log(supportReq);
 
+  const handleSupportRegist = () => {
+    const formData = new FormData();
+
+    formData.append("supportReq", JSON.stringify(supportReq));
+    formData.append("support_image", image!);
+    console.log(supportReq);
+    mutate(formData, {
+      onSuccess: () => {
+        toast.success("후원 글 등록 성공!");
+        navigate("/profile/sponlist", { replace: true });
+      },
+      onError: () => {
+        toast.error("후원 글 등록 실패..");
+      }
+    });
+  }
+  
     return(
         <>
         <div className='px-4 py-16'>
@@ -57,7 +92,9 @@ const SponsorForm = () => {
                 name="title"
                 type="text"
                 placeholder="제목을 입력해주세요"
-                className="text-xs w-full outline-none border rounded-md p-3"
+              className="text-xs w-full outline-none border rounded-md p-3"
+              value={supportReq?.title}
+              onChange={(e) => setSupportReq(state=>({...state!, title : e.target.value}))}
               ></input>
             </div>
 
@@ -69,6 +106,8 @@ const SponsorForm = () => {
                 name="content"
                 className="text-xs w-full p-4 rounded-md outline-none resize-none border"
                 placeholder="단체를 소개할 수 있는 글을 작성해주세요"
+                value={supportReq?.content}
+                onChange={(e) => setSupportReq(state=>({...state!, content : e.target.value}))}
               ></textarea>
             </div>
 
@@ -77,15 +116,20 @@ const SponsorForm = () => {
               <div className="w-full flex gap-3">
                 <input
                   type="date"
-                  min={'2024-02-04'}
+                  min={dayjs().format('YYYY-MM-DD')}
                   name="start_date"
                   className="text-xs w-1/2 outline-none border p-2 rounded-md"
+                value={supportReq?.startTime}
+                
+                  onChange={(e) => setSupportReq(state=>({...state!, startTime : e.target.value}))}
                 />
                 <input
                   type="date"
-                  min={'2024-02-04'}
+                  min={dayjs().format('YYYY-MM-DD')}
                   name="end_date"
                   className="text-xs w-1/2 outline-none border p-2 rounded-md"
+                  value={supportReq?.endTime}
+                  onChange={(e) => setSupportReq(state=>({...state!, endTime : e.target.value}))}
                 />
               </div>
             </div>
@@ -95,8 +139,11 @@ const SponsorForm = () => {
                 <p>검토 후 승인까지 1~3일 정도 소요될 수 있습니다.</p>
             </div>
 
-            <div className="fixed bottom-16 w-full max-w-[320px]">
-                <button className="bg-[#5959E7] w-full text-white rounded-md p-2 text-sm">승인 요청하기</button>
+          <div className="fixed bottom-16 w-full max-w-[320px] m-auto"
+            style={{ left: "50%", transform: "translate(-50%,0)"}}
+          >
+            <button className={`${isEnable ? `bg-[#5959E7]` : `bg-Stickey_Gray`} w-full text-white rounded-md p-2 text-sm`}
+            onClick={handleSupportRegist} disabled={!isEnable}>승인 요청하기</button>
             </div>
 
 

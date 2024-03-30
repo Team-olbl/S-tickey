@@ -57,7 +57,7 @@ const ProfilePage = () => {
               </div>
             </div>
 
-            <GroupMenu />
+              <GroupMenu status={userProfileInfo.data.status === 'ACCEPTED'} />
        
           </>
         )}

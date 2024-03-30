@@ -18,3 +18,12 @@ export const getSponsorDetailReq = async (id: number): Promise<APIResponse<ISpon
   const { data } = await axiosAuthInstance.get(`/supports/${id}`);
   return data;
 };
+
+export const postSupportReq = async (formData: FormData): Promise<APIResponse<string>> => {
+  const { data } = await axiosAuthInstance.post('/supports', formData, {
+    headers: {
+      'Content-Type' : 'multipart/form-data'
+    }
+  })
+  return data;
+}
