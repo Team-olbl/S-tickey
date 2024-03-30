@@ -8,6 +8,7 @@ import { useTicketInfoStore } from "../../../stores/useTicketInfoStore";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useTicketStore from "../../../stores/useTicketStore";
+import { toast } from "react-toastify";
 
 const BookSectionPage = () => {
 
@@ -17,7 +18,7 @@ const BookSectionPage = () => {
   
   useEffect(() => {
     if(!gameInfo?.id) {
-        alert('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
+        toast.warn('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
         navigate('/', {replace: true})
         clearSeatInfo()
     }

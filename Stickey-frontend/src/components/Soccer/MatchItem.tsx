@@ -17,7 +17,7 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   const navigate = useNavigate();
 
   const setModalData = useTicketInfoStore((state) => state.setModalData);
-  const [bookingStatus, setBookingStatus] = useState(getBookingStatus(data));
+  const bookingStatus = getBookingStatus(data);
 
   const handleBookTicket = () => {
     if (!isLogin) {
@@ -27,8 +27,6 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
     }
     setIsModalOpen(true);
   };
-
-  console.log(setBookingStatus)
 
   function getBookingStatus(data: IGameSimpleRes) {
     const currentTime = new Date();

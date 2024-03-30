@@ -9,6 +9,7 @@ import { useGame } from "../../../hooks/Home/useGame";
 import { ITeamListRes } from "../../../types/Home";
 import { useProfile } from "../../../hooks/Profile/useProfile";
 import { ITeamPreferReq } from "../../../types/Profile";
+import { connect } from "../../../service/web3/api";
 
 const UserMenu = () => {
   const navigate = useNavigate();
@@ -71,6 +72,19 @@ const UserMenu = () => {
 
     }
 
+  const movePaymentHistory = () => {
+    connect().then((ret) => {
+      if (ret)
+        navigate('/profile/paymenthistory');
+    })
+  }
+  
+  const moveDreamHistory = () => {
+    connect().then((ret) => {
+      if (ret)
+        navigate('/profile/dreamhistory');
+    })
+  }
 
   const handleRemoveTeam = (index: number) => {
     setPreferredTeams(prev => prev.filter((_, i) => i !== index));
@@ -88,11 +102,11 @@ const UserMenu = () => {
 
   return (
     <div className="max-w-[500px] w-full h-[208px] mt-4 border-t-[0.5px]">
-      <div className="flex flex-row items-center justify-between h-[40px] text-white px-4 cursor-pointer" onClick={() => navigate('/profile/paymenthistory')}>
+      <div className="flex flex-row items-center justify-between h-[40px] text-white px-4 cursor-pointer" onClick={movePaymentHistory}>
         <p>결제 내역</p>
         <img src={Next} className="h-[20px]"/>
       </div>
-      <div className="flex flex-row items-center justify-between h-[40px] text-white px-4 cursor-pointer" onClick={() => navigate('/profile/dreamhistory')}>
+      <div className="flex flex-row items-center justify-between h-[40px] text-white px-4 cursor-pointer" onClick={moveDreamHistory}>
         <p>꿈 내역</p>
         <img src={Next} className="h-[20px]"/>
       </div>

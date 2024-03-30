@@ -5,6 +5,7 @@ import { refundTicket, toEther } from "../../service/web3/api";
 import dayjs from "dayjs";
 import { ITicket } from './TicketList';
 import { registSeats } from "../../service/Book/api";
+import { toast } from "react-toastify";
 
 interface TicketOpenModalProps {
     ticket: ITicket; 
@@ -33,12 +34,12 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
                 const res = await registSeats({ gameId: Number(ticket.gameId), zoneId: Number(ticket.zoneId), seatNumbers: [Number(ticket.seatNumber)], isRefund: true });
                 
                 if (res.status == 200) {
-                    alert("환불 성공!");
+                    toast.success("환불되었습니다.");
                     onClose();
                     return;
                 }
             }
-            alert("환불 실패..");
+            toast.warn("오류가 발생했습니다.");
         }
 
         cancleTicket();
