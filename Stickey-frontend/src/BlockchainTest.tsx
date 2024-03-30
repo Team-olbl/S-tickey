@@ -53,7 +53,7 @@ const BlockchainTest = () => {
     }
     alert("후원종료시간은 2분 뒤 입니다.");
     const endTime = Math.floor(new Date().getTime() / 1000) + 120;
-    setSupport(Number(id), name!, address!, endTime);
+    setSupport(Number(id), name!, endTime);
   }
 
   const _donate = async () => {

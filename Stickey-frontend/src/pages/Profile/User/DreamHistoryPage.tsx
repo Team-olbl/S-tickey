@@ -40,9 +40,15 @@ const DreamHistoryPage = () => {
       <Header info={info}/>
       <div className="pt-12 pb-16">
         <DreamHeader />
-        {dreamHistroy.map((item, idx) => (
+        {dreamHistroy.length > 0 ?
+          dreamHistroy.map((item, idx) => (
           <DreamItem key={idx} data={item} />
-        ))}
+          )) : 
+            
+          <div className="flex flex-col items-center mt-40">
+            <p className=" text-white text-sm mt-4">아직 기록이 없어요!</p>
+          </div>
+        }
       </div>
       <NavigationBar />
     </>

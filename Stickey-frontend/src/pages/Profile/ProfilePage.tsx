@@ -7,12 +7,18 @@ import GroupProfile from "../../components/Profile/Group/GroupProfile";
 import UserMenu from "../../components/Profile/User/UserMenu";
 import YellowBell from '../../assets/image/YellowBell.png'
 import GroupMenu from "../../components/Profile/Group/GroupMenu";
+import { Navigate } from "react-router-dom";
 
 const ProfilePage = () => {
-
   const { useGetProfile } = useProfile();
 
-  const { data: userProfileInfo } = useGetProfile();
+  const { data: userProfileInfo, isSuccess } = useGetProfile();
+
+  if (isSuccess) {
+    if (userProfileInfo.data.role === "ADMIN") {
+      return <Navigate to={'/admin'} replace={true} />
+    }
+  }
 
   console.log(userProfileInfo?.data.role, '프로필 조회')
 

@@ -18,8 +18,22 @@ const GroupProfile = ({ groupInfo }: { groupInfo: IUserProfile | null }) => {
           </div>
         </>
       );
-    } else {
-      return "추가 인증 필요";
+    } else if (groupInfo?.status === "REJECTED"){
+      return (
+        <>
+        <div className="flex items-center">
+          <p className="text-sm px-2">인증이 거절되었습니다.</p>
+          </div>
+        </>
+      );
+    } else if (groupInfo?.status === "WAITING"){
+      return (
+        <>
+          <div className="flex items-center">
+            <p className="text-sm px-2">인증이 대기 중입니다.</p>
+          </div>
+        </>
+      )
     }
   };
 

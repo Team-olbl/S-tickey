@@ -1,12 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getPlayerListReq, getProfileReq, getUserData, patchEditUserData, patchTeamPreference, postPlayerCreate } from "../../service/Profile/api"
 import { ITeamPreferReq } from "../../types/Profile"
+import userStore from "../../stores/userStore"
 
 export const useProfile = () => {
+    const { id } = userStore();
 
     const useGetProfile = () => {
         return useQuery({
-            queryKey: ['profile'],
+            queryKey: ['profile', id],
             queryFn: () => getProfileReq(),
         })
     }
