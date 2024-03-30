@@ -8,14 +8,6 @@ import { useSponsor } from '../../hooks/Sponsor/useSponsor';
 import { ISupportSimpleRes } from '../../types/Sponsor';
 import { useState } from 'react';
 
-export type SponsorItemData = {
-  id: number;
-  title: string;
-  content: string;
-  start_date: string;
-  end_date: string;
-};
-
 const info: IHeaderInfo = {
   left_1: null,
   left_2: null,
