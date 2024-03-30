@@ -71,9 +71,7 @@ export const getWalletInfo = async () => {
 export const createTicket = async (number : number, gameId : number, stadiumId : number, zoneId : number, seatNumber : number[], price : number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
-  console.log(number, gameId, stadiumId, zoneId, seatNumber, price);
-
-  const value = price * 500000 * number;
+  const value = price * 10e10 * number;
   try {
     const ret = await contract.methods.createTicket(number, gameId, stadiumId, zoneId, seatNumber).send({ from: account, value: value, gasPrice : 3000000});
     return ret;
