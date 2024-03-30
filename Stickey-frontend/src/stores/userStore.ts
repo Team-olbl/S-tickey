@@ -66,7 +66,9 @@ const userStore = create(
           preferences: preferences,
           isLogin: true,
         }),
-      logoutUser: () =>
+      logoutUser: () => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         set({
           isLogin: false,
           id: 0,
@@ -82,7 +84,8 @@ const userStore = create(
           registrationNumber: undefined,
           registrationFile: undefined,
           preferences: [],
-        }),
+        });
+      },
     }),
     {
       name: 'user-store',
