@@ -34,3 +34,29 @@ export interface ISupportListReq {
 export interface ISupportListRes {
   supportListRes: ISupportSimpleRes[];
 }
+
+// 후원 글 상세 조회 Response
+export interface ISponsorDetailRes {
+  organizationId: number;
+  title: string;
+  content: string;
+  supportImage: string | undefined;
+  startTime: string;
+  endTime: string;
+  profileImage: string | undefined;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  manager: string;
+  players: IPlayersRes[];
+}
+
+export interface IPlayersRes {
+  id: number;
+  name: string;
+  profile: string | undefined;
+  category: string;
+  description: string;
+  birth: string;
+}

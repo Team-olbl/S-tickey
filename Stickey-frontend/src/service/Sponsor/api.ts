@@ -1,5 +1,5 @@
 import { axiosAuthInstance } from '../../apis/axiosInstance';
-import { IMySponsorListRes, ISupportListRes, ISupportListReq } from '../../types/Sponsor';
+import { IMySponsorListRes, ISupportListRes, ISupportListReq, ISponsorDetailRes } from '../../types/Sponsor';
 import { APIResponse } from '../../types/model';
 
 export const getMySponsorLitReq = async (): Promise<APIResponse<IMySponsorListRes>> => {
@@ -11,5 +11,10 @@ export const getSupportListReq = async (flag: ISupportListReq): Promise<APIRespo
   const { data } = await axiosAuthInstance.get(`/supports`, {
     params: flag,
   });
+  return data;
+};
+
+export const getSponsorDetailReq = async (id: number): Promise<APIResponse<ISponsorDetailRes>> => {
+  const { data } = await axiosAuthInstance.get(`/supports/${id}`);
   return data;
 };
