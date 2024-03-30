@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { useEffect } from "react";
 import { connect, createTicket } from "../../../service/web3/api";
 import { registSeats } from "../../../service/Book/api";
+import { toast } from "react-toastify";
 
 export interface DummyUserInfo {
   name: string;
@@ -68,7 +69,7 @@ const gameInfo = useTicketInfoStore((state) => state.modalData);
   useEffect(() => {
     connect();
   if(!gameInfo?.id) {
-      alert('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
+      toast.warn('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
       navigate('/', {replace: true})
   }
 }, [])
@@ -89,7 +90,7 @@ const gameDate = dayjs(gameInfo?.gameStartTime).format('YYYY년 MM월 DD일 HH�
           return;
         } 
       } 
-      alert("오류가 발생했습니다. 홈으로 되돌아갑니다.");
+      toast.warn("오류가 발생했습니다. 홈으로 되돌아갑니다.");
       navigate('/', { replace: true });
     }
 
