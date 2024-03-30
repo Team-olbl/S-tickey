@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMySponsorLitReq, getSupportListReq } from '../../service/Sponsor/api';
+import { getMySponsorLitReq, getSupportListReq, getSponsorDetailReq } from '../../service/Sponsor/api';
 import { ISupportListReq } from '../../types/Sponsor';
 
 export const useSponsor = () => {
@@ -17,5 +17,12 @@ export const useSponsor = () => {
     });
   };
 
-  return { useGetMySponsorList, useSupportList };
+  const useSponsorDetail = (props: number) => {
+    return useQuery({
+      queryKey: ['supportsDetail', props],
+      queryFn: () => getSponsorDetailReq(props),
+    });
+  };
+
+  return { useGetMySponsorList, useSupportList, useSponsorDetail };
 };
