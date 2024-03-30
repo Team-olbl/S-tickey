@@ -24,21 +24,20 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                     `/sub/id/${userId}`,
                     message => {
                         const parsedMessage = JSON.parse(message.body);
-                        parsedMessageRef.current = parsedMessage.rank;
                         console.log(parsedMessage.myTurn);
                         console.log(parsedMessage.rank);
                         console.log(parsedMessage.key);
 
-                        // rank 값이 0이면 모달 닫고 취소 메시지 전송 및 페이지 이동
-                        if (parsedMessageRef.current === 0) {
-                            onClose(); // 모달 닫기
+                        if (parsedMessage.myTurn && parsedMessage.rank === 0) {
+                            onClose(); 
                             if (client) {
                                 client.publish({
                                     destination: '/games/wait/cancel',
                                     body: undefined,
                                 });
-                            }
-                            navigate(`/${ticketInfo?.id}/section`); // 페이지 이동
+                                console.log('취소 메시지 전송')  
+                                client.deactivate();                          }
+                            navigate(`/${ticketInfo?.id}/section`); 
                         }
                     },
                 );
@@ -75,16 +74,19 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                     destination: '/games/wait/cancel',
                     body: undefined,
                 });
+                console.log('취소 메시지 전송');
+                client.deactivate();
             }
         };
-
+    
         window.addEventListener('beforeunload', handleUnload);
-
+    
         return () => {
             window.removeEventListener('beforeunload', handleUnload);
             handleUnload();
         };
-    }, [client, ticketInfo, userId]);
+    }, [client]);
+    
 
     return (
         <Modal width="300px" height="auto" title="" onClose={onClose}>
