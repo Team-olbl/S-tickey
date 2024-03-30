@@ -26,7 +26,7 @@ contract ApplicationHandler is Api {
     _setZoneName(11, unicode"E구역 3"); 
     _setZoneName(12, unicode"E구역 4"); 
 
-    uint value = 500000;
+    uint value = 10e10;
 
     _setSeatPrice(1, 1, 20000*value);
     _setSeatPrice(1, 2, 20000*value);

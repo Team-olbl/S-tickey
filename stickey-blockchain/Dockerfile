@@ -7,4 +7,4 @@ WORKDIR /app
 EXPOSE 8545
 RUN npm install -g ganache-cli
 # Set the default command for the image
-CMD ["ganache-cli", "-h", "0.0.0.0"]
+CMD ["ganache-cli", "-h", "0.0.0.0", "-a", "30"]
