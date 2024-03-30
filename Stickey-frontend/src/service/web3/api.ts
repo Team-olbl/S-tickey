@@ -105,11 +105,11 @@ export const getTickets = async () => {
 }
 
 // 후원글 등록
-export const setSupport = async (id : number, name : string, address : string, endTime : number) => {
+export const setSupport = async (id : number, name : string, endTime : number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.setSupport(id, name, address, endTime).send({ from: account, gasPrice : 3000000 });
+    const ret = await contract.methods.setSupport(id, name, account, endTime).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);

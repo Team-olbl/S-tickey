@@ -43,6 +43,7 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   }
 
   const gameDate = dayjs(data.gameStartTime).format('YYYY년 MM월 DD일 HH시 mm분')
+  const bookStart = dayjs(data.bookStartTime).format("MM월 DD일");
 
   return (
     <>
@@ -78,8 +79,14 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
               bookingStatus === 'ticketing' ? 'bg-Stickey_Main cursor-pointer' : ''
             }`}
             onClick={bookingStatus === 'ticketing' ? handleBookTicket : undefined}
-          >
-            <p className="text-sm text-center">티켓 예매하기</p>
+            >
+              {bookingStatus === 'notopen' &&
+            <p className="text-sm text-center">{bookStart} 예매 가능</p>}
+            {bookingStatus === 'ticketing' && 
+            <p className="text-sm text-center">티켓 예매하기</p>}
+              {bookingStatus === 'close' &&
+            <p className="text-sm text-center">마감 되었습니다</p>}
+
           </button>
         </div>
       </div>
