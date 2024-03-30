@@ -7,8 +7,11 @@ import House from '../../assets/image/NavigationBar/House.png'
 import Tree from '../../assets/image/NavigationBar/Tree.png'
 import Ticket from '../../assets/image/NavigationBar/Ticket.png'
 import User from '../../assets/image/NavigationBar/User.png'
+import userStore from "../../stores/userStore";
+import { connect } from "../../service/web3/api";
 
 const NavigationBar = () => {
+  const isLogin = userStore((state) => state.isLogin);
   const navigate = useNavigate();
   const {pathname} = useLocation();
   
@@ -22,7 +25,14 @@ const NavigationBar = () => {
         navigate('/sponsor');
         break;
       case "mytickets":
-        navigate('/mytickets');
+        if (isLogin) {
+          connect().then((ret) => {
+            if (ret)
+              navigate('/mytickets');
+          })
+        } else {
+          navigate('/login');
+        }
         break;
       case "profile":
         navigate('/profile');
