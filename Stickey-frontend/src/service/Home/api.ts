@@ -3,7 +3,7 @@ import { IGameListReq, IGameListRes, ITeamListReq, ITeamListRes } from '../../ty
 import { APIResponse } from '../../types/model'
 
 export const getGameListReq = async({catg, club, date} : IGameListReq): Promise<APIResponse<IGameListRes>> => {
-    const { data } = await axiosAuthInstance.get(`/games` ,
+    const { data } = await axiosAuthInstance.get(`/games`,
     {
         params: {
             catg: catg,

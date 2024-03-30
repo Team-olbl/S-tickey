@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Web3 from 'web3';
 import { contractABI } from './Abi';
+import { toast } from "react-toastify";
 const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
 
 let web3 : any = null;
 let contract: any = null;
 let account: any = [];
+let accountPending: boolean = false;
 
 declare global {
   interface Window {
@@ -21,37 +23,47 @@ export const toEther = (value : bigint | number) => {
 // 지갑 연결
 export const connect = async () => {
   if (!window.ethereum) {
-    alert("메타마스크를 설치하세요.");
+    toast.warn("메타마스크를 설치하세요.");
     return;
   } 
   
   web3 = new Web3(window.ethereum);
-  try {
-    await requestAccount();
+  if (accountPending) {
+    toast.info("계정 요청이 이미 진행 중입니다. 잠금을 풀어주세요.");
+  }  else {
+    account = await requestAccount();
     contract = new web3.eth.Contract(contractABI, contractAddress);
-  } catch (err) {
-    console.log(err);
+    return !!account
   }
 } 
 
 // 메타마스크 연결
 const requestAccount = async () => {
-  account = await window.ethereum?.request({ method: 'eth_requestAccounts' });
-  web3.eth.handleRevert = true
+  try {
+    accountPending = true;
+    const accounts = await window.ethereum?.request({ method: 'eth_requestAccounts' });
+    if (accounts.length > 0)
+      return accounts[0];
+    return [];
+  } catch (err) {
+    console.log("메타마스크 연결에 실패했습니다.")
+  } finally {
+    accountPending = false;
+  }
 }
 
 // 지갑 조회
 export const getWalletInfo = async () => {
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const balance = await web3?.eth.getBalance(account[0]);
+    const balance = await web3?.eth.getBalance(account);
     const dream = await getReword();
     const etherValue = web3?.utils.fromWei(balance, 'ether');
 
-    const data = { address: account[0], balance: etherValue, dream: dream.toString() }
+    const data = { address: account, balance: etherValue, dream: dream.toString() }
     return data;
   } catch (err) {
-    alert("지갑 조회 실패");
+    console.log(err);
   }
 }
 
@@ -59,15 +71,12 @@ export const getWalletInfo = async () => {
 export const createTicket = async (number : number, gameId : number, stadiumId : number, zoneId : number, seatNumber : number[], price : number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
-  console.log(number, gameId, stadiumId, zoneId, seatNumber, price);
-
-  const value = price * 500000 * number;
+  const value = price * 10e10 * number;
   try {
-    const ret = await contract.methods.createTicket(number, gameId, stadiumId, zoneId, seatNumber).send({ from: account[0], value: value, gasPrice : 3000000});
+    const ret = await contract.methods.createTicket(number, gameId, stadiumId, zoneId, seatNumber).send({ from: account, value: value, gasPrice : 3000000});
     return ret;
   } catch (err) {
     console.log(err);
-    alert("티켓 예매 실패");
   }
 }
 
@@ -76,11 +85,10 @@ export const refundTicket = async (tokenId: number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.refundTicket(tokenId).send({ from: account[0], gasPrice : 3000000 });
+    const ret = await contract.methods.refundTicket(tokenId).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
-    alert("환불 실패");
   }
 }
 
@@ -89,11 +97,10 @@ export const getTickets = async () => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.getTickets(account[0]).call();
+    const ret = await contract.methods.getTickets(account).call();
     return [...ret].reverse();
   } catch (err) {
     console.log(err);
-    alert("티켓 조회 실패");
   }
 }
 
@@ -102,11 +109,10 @@ export const setSupport = async (id : number, name : string, address : string, e
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.setSupport(id, name, address, endTime).send({ from: account[0], gasPrice : 3000000 });
+    const ret = await contract.methods.setSupport(id, name, address, endTime).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
-    alert("후원글 등록 실패");
   }
 }
 
@@ -115,11 +121,10 @@ export const donate = async (id : number, text : string, value : number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.donate(id, text).send({from : account[0], value : value, gasPrice : 3000000})
+    const ret = await contract.methods.donate(id, text).send({from : account, value : value, gasPrice : 3000000})
     return ret;
   } catch (err) {
     console.log(err);
-    alert("후원 실패");
   }
 }
 
@@ -128,11 +133,10 @@ export const withdraw = async(id : number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.withdraw(id).send({ from: account[0], gasPrice : 3000000 });
+    const ret = await contract.methods.withdraw(id).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
-    alert("수령 실패");
   }
 }
 
@@ -145,7 +149,6 @@ export const getSupprtedHistory = async (id : number) => {
     return [...ret].reverse();
   } catch (err) {
     console.log(err);
-    alert("후원받은 내역 조회 실패");
   }
 }
 
@@ -154,11 +157,10 @@ export const getSupprtingHistory = async () => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.getSupprtingHistory(account[0]).call();
+    const ret = await contract.methods.getSupprtingHistory(account).call();
     return [...ret].reverse();
   } catch (err) {
     console.log(err);
-    alert("후원한 내역 조회 실패");
   }
 }
 
@@ -167,11 +169,10 @@ export const getPaymentHistory = async () => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.getPaymentHistory(account[0]).call();
+    const ret = await contract.methods.getPaymentHistory(account).call();
     return [...ret].reverse();
   } catch (err) {
     console.log(err);
-    alert("결제 이력 조회 실패");
   }
 }
 
@@ -180,11 +181,10 @@ export const getRewordHistory = async () => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.getRewordHistory(account[0]).call();
+    const ret = await contract.methods.getRewordHistory(account).call();
     return [...ret].reverse();
   } catch (err) {
     console.log(err);
-    alert("꿈 내역 조회 실패");
   }
 }
 
@@ -193,11 +193,10 @@ export const getReword = async () => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.getReword(account[0]).call();
+    const ret = await contract.methods.getReword(account).call();
     return ret;
   } catch (err) {
     console.log(err);
-    alert("꿈 잔액 조회 실패");
   }
 }
 
@@ -210,7 +209,6 @@ export const getItemList = async () => {
     return ret;
   } catch (err) {
     console.log(err);
-    alert("아이템 조회 실패");
   }
 }
 
@@ -219,11 +217,10 @@ export const setFilterOnTicket = async (tokenId : number, itemId : number, suppo
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.setFilterOnTicket(tokenId, itemId, supportId).send({ from: account[0], gasPrice : 3000000 });
+    const ret = await contract.methods.setFilterOnTicket(tokenId, itemId, supportId).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -233,11 +230,10 @@ export const addFilter = async (name : string, price : number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.addFilter(name, price).send({ from: account[0], gasPrice : 3000000 });
+    const ret = await contract.methods.addFilter(name, price).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
-    alert("필터 등록 실패");
   }
 }
 
@@ -246,11 +242,10 @@ export const deleteFilter = async (id : number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.deleteFilter(id).send({ from: account[0], gasPrice : 3000000 });
+    const ret = await contract.methods.deleteFilter(id).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -259,11 +254,10 @@ export const setBackgroundOnTicket = async (tokenId : number, itemId : number, s
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.setBackgroundOnTicket(tokenId, itemId, supportId).send({ from: account[0], gasPrice : 3000000 });
+    const ret = await contract.methods.setBackgroundOnTicket(tokenId, itemId, supportId).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -272,11 +266,10 @@ export const addBackground = async (name : string, price : number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.addBackground(name, price).send({ from: account[0], gasPrice : 3000000 });
+    const ret = await contract.methods.addBackground(name, price).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -285,11 +278,10 @@ export const deleteBackground = async (id : number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.deleteBackground(id).send({ from: account[0], gasPrice : 3000000 });
+    const ret = await contract.methods.deleteBackground(id).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -299,12 +291,10 @@ export const setGame = async (id : number, bookStartTime : number, gameStartTime
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const cate = category === "SOCCER" ? 0 : category === "BASEBALL" ? 1 : 2;
-    console.log(id, bookStartTime, gameStartTime, stadium, homeTeam, awayTeam, cate, gameImage);
-    const ret = await contract.methods.setGame(id, bookStartTime, gameStartTime, stadium, homeTeam,awayTeam, cate, gameImage).send({ from: account[0] , gasPrice : 3000000});
+    const ret = await contract.methods.setGame(id, bookStartTime, gameStartTime, stadium, homeTeam,awayTeam, cate, gameImage).send({ from: account , gasPrice : 3000000});
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -313,11 +303,10 @@ export const setSeatPrice = async (stadiumId : number, zoneId : number, price : 
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.setSeatPrice(stadiumId, zoneId, price).send({ from: account[0], gasPrice : 3000000 });
+    const ret = await contract.methods.setSeatPrice(stadiumId, zoneId, price).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -326,11 +315,10 @@ export const setZoneName = async (zoneId : number, zoneName : string) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.setZoneName(zoneId, zoneName).send({ from: account[0], gasPrice : 3000000 });
+    const ret = await contract.methods.setZoneName(zoneId, zoneName).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
 
@@ -343,6 +331,5 @@ export const getSeatState = async (gameId : number, zoneId : number, seatNumber 
     return ret;
   } catch (err) {
     console.log(err);
-    alert("실패");
   }
 }
