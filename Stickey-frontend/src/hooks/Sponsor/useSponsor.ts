@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { getMySponsorLitReq, getSupportListReq, getSponsorDetailReq } from '../../service/Sponsor/api';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { getMySponsorLitReq, getSupportListReq, getSponsorDetailReq, postSupportReq } from '../../service/Sponsor/api';
 import { ISupportListReq } from '../../types/Sponsor';
 
 export const useSponsor = () => {
@@ -24,5 +24,11 @@ export const useSponsor = () => {
     });
   };
 
-  return { useGetMySponsorList, useSupportList, useSponsorDetail };
+  const usePostSupport = () => {
+    return useMutation({
+      mutationFn: postSupportReq
+    })
+  }
+
+  return { useGetMySponsorList, useSupportList, useSponsorDetail, usePostSupport };
 };
