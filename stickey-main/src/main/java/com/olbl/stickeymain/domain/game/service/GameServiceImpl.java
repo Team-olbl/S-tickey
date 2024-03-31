@@ -31,6 +31,7 @@ import com.olbl.stickeymain.domain.game.repository.GameSeatRepository;
 import com.olbl.stickeymain.domain.game.repository.SportsClubRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumZoneRepository;
+import com.olbl.stickeymain.domain.notify.service.NotifyService;
 import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
@@ -58,6 +59,9 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class GameServiceImpl implements GameService {
+
+    //Service
+    private final NotifyService notifyService;
 
     //Repository
     private final GameRepository gameRepository;
@@ -99,6 +103,7 @@ public class GameServiceImpl implements GameService {
 
         gameRepository.save(game);
     }
+
 
     @Override
     public GameListRes getGames(ViewParam viewParam) {
@@ -317,4 +322,6 @@ public class GameServiceImpl implements GameService {
 
         return sportsClubRes;
     }
+
+
 }

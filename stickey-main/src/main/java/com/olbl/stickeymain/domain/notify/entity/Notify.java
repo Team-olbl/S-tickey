@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @Getter
@@ -40,6 +41,7 @@ public class Notify {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User receiver;
 
+    @CreatedDate
     private LocalDateTime createdAt;
 
 }
