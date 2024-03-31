@@ -2,6 +2,8 @@ import axios from 'axios';
 import setAuthorization from './interceptors';
 import userStore from '../stores/userStore';
 import { toast } from 'react-toastify';
+// import { useNavigate } from 'react-router-dom';
+
 
 axios.defaults.paramsSerializer = function (paramObj) {
   const params = new URLSearchParams()
@@ -27,36 +29,56 @@ export const axiosAuthInstance = axios.create(axiosRequestConfig);
 
 axiosAuthInstance.interceptors.request.use(setAuthorization);
 
+
+// axiosAuthInstance.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//       const status = error.response.status;
+//       const navigate = useNavigate();
+
+//       if (status === 401) {
+//         try {
+//           const refreshToken = localStorage.getItem("refreshToken");
+//           console.log(refreshToken)
+//           // refreshToken을 사용하여 토큰 재발급 시도
+//             const refreshResponse = await axiosAuthInstance.post(`/users/reissue`, {}, {
+//               headers: {
+//                 "Content-Type": "application/json",
+//                 "Authorization": `Bearer ${refreshToken}`,
+//               }
+//             });
+//             console.log(refreshResponse)
+//             localStorage.setItem("accessToken", refreshResponse.data.accessToken);
+//             userStore.getState().setTokens(refreshResponse.data.accessToken);
+
+//             // 요청에 갱신된 액세스 토큰 설정 후 재시도
+//             error.config.headers["Authorization"] = `Bearer ${refreshResponse.data.accessToken}`;
+//             return axiosAuthInstance(error.config);
+//           } catch (refreshError) {
+//             // 토큰 재발급 실패 처리
+//             userStore.getState().logoutUser();
+//             localStorage.clear();
+//             toast.info('토큰 재발급에 실패했습니다.')
+//             navigate('/login')
+//             console.error("Token reissue failed:", refreshError);
+//             return Promise.reject(refreshError)
+//           }
+//         }
+//     return Promise.reject(error);
+//   }
+// );
+
 axiosAuthInstance.interceptors.response.use(
   response => response,
-  async error => {
+  error => {
     if (error.response) {
       const status = error.response.status;
       
       if (status === 401) {
-        try {
-          const refreshToken = userStore.getState().refreshToken || localStorage.getItem("refreshToken");
-          const res = await axiosAuthInstance.post(`/users/reissue`, {}, {
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${refreshToken}`,
-            },
-          });
-          
-          // 갱신된 토큰 Zustand 스토어랑 localStorage에 저장
-          localStorage.setItem("accessToken", res.data.accessToken);
-          localStorage.setItem("refreshToken", res.data.refreshToken);
-          userStore.getState().setTokens(res.data.accessToken, res.data.refreshToken);
-
-          // 요청에 갱신된 액세스 토큰을 설정하고 재시도
-          error.config.headers["Authorization"] = `Bearer ${res.data.accessToken}`;
-          return axiosAuthInstance(error.config);
-        } catch (error) {
-          console.error("Token reissue failed:", error);
-          userStore.getState().logoutUser();
-          localStorage.clear();
-          window.location.href = "/login";
-        }
+        // 로그아웃 처리 및 로그인 페이지로 리다이렉트
+        userStore.getState().logoutUser();
+        localStorage.clear();
+        window.location.href = "/login";
       } else if ([400, 404, 409].includes(status)) {
         toast.info(error.response.data.message);
       }

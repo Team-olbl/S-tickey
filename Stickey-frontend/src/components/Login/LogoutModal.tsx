@@ -1,15 +1,18 @@
 import Modal from '../@common/Modal'
 import Crying from '../../assets/image/Crying2.png'
-import useLogout from '../../hooks/Logout/useLogout';
+import userStore from "../../stores/userStore";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const LogoutModal = ({ onClose }: { onClose: () => void; }) => {
+	const navigate = useNavigate();
+	const { logoutUser } = userStore();
 
-    // 로그아웃 로직 추가하기
-		const logoutMutation = useLogout();
-
-    const handleLogout = () => {
-        logoutMutation.mutate(); // 로그아웃 함수 실행
-    };
+	const handleLogout = () => {
+    logoutUser();
+    toast.success("로그아웃 되었습니다.");
+    navigate('/',)
+  }
     
     return (
         <Modal width="300px" height="auto" title="" onClose={onClose}>

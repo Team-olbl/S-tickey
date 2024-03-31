@@ -1,6 +1,7 @@
 import { connect, getTickets } from "../../service/web3/api";
 import TicketItem from "./TicketItem";
 import { useCallback, useEffect, useState } from "react";
+import Ticket from '@/assets/image/Tickets.png'
 
 export interface ITicket {
     tokenId: number;
@@ -52,7 +53,10 @@ const TicketList = () => {
                 <div className="pt-4 pb-16 flex flex-wrap justify-center">
                     {filteredTickets.length == 0 ? 
 
-                        <div>티켓 정보가 없어요</div>
+                    <div className="flex flex-col items-center mt-40">
+                    <img src={Ticket} className="h-20" />
+                    <p className=" text-white text-sm mt-4">티켓이 없어요!</p>
+                    </div>
                     
                 : filteredTickets.map((ticket) => (
                     <TicketItem key={ticket.tokenId} ticket={ticket} getData={getData} />

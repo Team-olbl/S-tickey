@@ -25,7 +25,6 @@ const BookSeat = () => {
 
     useEffect(() => {
         if (!isSuccess) return;
-        console.log("aaaa",seatConfirmCheck);
         if (seatConfirmCheck?.data !== undefined) {
             navigate(`/${gameInfo?.id}/payment`, { replace: true });
         } else {
@@ -99,14 +98,12 @@ const BookSeat = () => {
                 <div
                     key={index}
                     className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                        seat.status === 'SOLD' || seat.status === 'HOLDING' ? 'bg-black/50' :
-                        seat.status === 'AVAILABLE' ? (seatInfo.seat.includes(seat.seatNumber) ? 'bg-purple-500 cursor-pointer' : 'bg-gray-300 cursor-pointer') :
-                        'bg-gray-300' 
-                    }`}
+                        seat.status[0] === 'S' || seat.status[0] === 'H' ? 'bg-black/50' : 'bg-Stickey_Main'}
+                        ${seatInfo.seat.includes(seat.seatNumber) && 'border-8 border-[#262626]'  }
+                        
+                    `}
                     onClick={() => {
-                        if (seat.status === 'SOLD' || seat.status === 'HOLDING') {
-                            setIsModalOpen(true);
-                        } else if (seat.status === 'AVAILABLE') {
+                        if (seat.status === 'AVAILABLE') {
                             handleSeatClick(seat.seatNumber);
                         }
                     }}
