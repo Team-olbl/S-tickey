@@ -13,12 +13,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.olbl.stickeymain.domain.game.dto.GameListRes;
 import com.olbl.stickeymain.domain.game.dto.GameReq;
 import com.olbl.stickeymain.domain.game.dto.LeftSeatListRes;
+import com.olbl.stickeymain.domain.game.dto.LeftSeatRes;
 import com.olbl.stickeymain.domain.game.dto.Param;
 import com.olbl.stickeymain.domain.game.dto.PaymentReq;
 import com.olbl.stickeymain.domain.game.dto.SeatInfoReq;
 import com.olbl.stickeymain.domain.game.dto.SeatInfoRes;
 import com.olbl.stickeymain.domain.game.dto.SportsClubRes;
 import com.olbl.stickeymain.domain.game.dto.ViewParam;
+import com.olbl.stickeymain.domain.game.dto.ZoneDto;
 import com.olbl.stickeymain.domain.game.entity.Category;
 import com.olbl.stickeymain.domain.game.entity.Game;
 import com.olbl.stickeymain.domain.game.entity.GameSeat;
@@ -40,10 +42,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.Cursor;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.scheduling.TaskScheduler;
@@ -116,7 +122,48 @@ public class GameServiceImpl implements GameService {
     public LeftSeatListRes getLeftSeats(int id) {
         Game game = gameRepository.findById(id)
             .orElseThrow(() -> new BusinessException(GAME_DO_NOT_EXISTS)); //game id 있는지 확인
-        return gameSeatRepository.getLeftSeatListResByGameId(id);
+
+        List<LeftSeatRes> leftSeatResList = new ArrayList<>();
+
+        //구역 id(key값)-[구역명, 가격 ] map으로 저장하기
+        Map<Integer, ZoneDto> map = stadiumZoneRepository.findZoneByStadiumIdAndMap(
+            game.getStadium().getId());
+
+        //redis에서 패턴에 맞는 키 찾기 - scan 사용
+        String pattern = "game:" + id + ":" + "zone" + ":*";
+        Cursor<String> cursor = redisTemplate.scan(
+            ScanOptions.scanOptions().match(pattern).build());
+
+        //해당 키에 대한 값 조회
+        cursor.forEachRemaining(key -> {
+            String[] splited = key.split(":");
+            int zoneId = Integer.parseInt(splited[3]);
+
+            LeftSeatRes leftSeatRes = new LeftSeatRes();
+
+            AtomicInteger availableSeatCount = new AtomicInteger(0);
+            AtomicInteger totalSeatCount = new AtomicInteger(0);
+            List<String> values = redisTemplate.opsForList().range(key, 0, -1); //각 키에 대해 리스트의 값 조회
+
+            //AVAILABLE 상태인 항목의 수를 세어 합산, 전체 좌석 수도 count 해서 합산
+            values.forEach(value -> {
+                if ("AVAILABLE".equals(value)) {
+                    availableSeatCount.getAndIncrement();
+                }
+                totalSeatCount.getAndIncrement();
+            });
+
+            //Response 세팅
+            leftSeatRes.setLeftSeatCnt(availableSeatCount.get());
+            leftSeatRes.setTotalSeatCnt(totalSeatCount.get());
+            leftSeatRes.setZoneId(zoneId);
+            leftSeatRes.setZoneName(map.get(zoneId).getName());
+            leftSeatRes.setPrice(map.get(zoneId).getPrice());
+
+            leftSeatResList.add(leftSeatRes);
+        });
+
+        return new LeftSeatListRes(leftSeatResList);
     }
 
     @Override
