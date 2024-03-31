@@ -77,7 +77,7 @@ public class SupportRepositoryQuerydslImpl implements SupportRepositoryQuerydsl 
     }
 
     @Override
-    public int getSupportByItemByTime() {
+    public SupportByItemRes getSupportByItemByTime() {
 
         LocalDateTime now = LocalDateTime.now(); //현재 시간 기준
         SupportByItemRes supportByItemRes = new SupportByItemRes();
@@ -85,8 +85,9 @@ public class SupportRepositoryQuerydslImpl implements SupportRepositoryQuerydsl 
         Integer id = jpaQueryFactory
             .select(support.id)
             .from(support)
-            .where(support.endTime.after(now))
-            .where(support.status.eq(SupportStatus.ACCEPTED))
+            .where(support.startTime.before(now)
+                .and(support.endTime.after(now))
+                .and(support.status.eq(SupportStatus.ACCEPTED)))
             .orderBy(support.endTime.asc())
             .fetchFirst();
 
@@ -94,7 +95,8 @@ public class SupportRepositoryQuerydslImpl implements SupportRepositoryQuerydsl 
             id = 0;
         }
 
-        return id;
+        supportByItemRes.setId(id);
+        return supportByItemRes;
     }
 
     private BooleanBuilder generateQueryCondition(Integer flag) {
