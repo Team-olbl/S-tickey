@@ -1,6 +1,5 @@
 package com.olbl.stickeymain.domain.game.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LeftSeatListRes {
+public class SeatInfoRes {
 
-    List<LeftSeatRes> leftSeatResList;
-
+    private int seatNumber;
+    private String status;
+    
 }

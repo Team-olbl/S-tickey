@@ -3,7 +3,11 @@ package com.olbl.stickeymain.global.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.olbl.stickeymain.domain.user.dto.ClubInfoDto;
 import com.olbl.stickeymain.domain.user.dto.LoginRes;
+import com.olbl.stickeymain.domain.user.organization.dto.LoginOrganizationRes;
+import com.olbl.stickeymain.domain.user.organization.entity.Organization;
+import com.olbl.stickeymain.domain.user.organization.repository.OrganizationRepository;
 import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
+import com.olbl.stickeymain.domain.user.repository.UserRepository;
 import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,18 +33,23 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
-    private final ObjectMapper objectMapper;
     private final PreferenceRepository preferenceRepository;
-    private final String USERNAME_KEY = "email";
-    private final String PASSWORD_KEY = "password";
+    private final OrganizationRepository organizationRepository;
+    private final UserRepository userRepository;
+    private final ObjectMapper objectMapper;
+    private String USERNAME_KEY = "email";
+    private String PASSWORD_KEY = "password";
 
     // Security 기본 로그인 URL 수정을 위해 생성자 직접 작성
     public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil,
-        ObjectMapper objectMapper, PreferenceRepository preferenceRepository) {
+        PreferenceRepository preferenceRepository, ObjectMapper objectMapper,
+        OrganizationRepository organizationRepository, UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
-        this.objectMapper = objectMapper;
         this.preferenceRepository = preferenceRepository;
+        this.objectMapper = objectMapper;
+        this.organizationRepository = organizationRepository;
+        this.userRepository = userRepository;
         this.setFilterProcessesUrl("/users/login");
     }
 
@@ -64,11 +73,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             authToken = new UsernamePasswordAuthenticationToken(email, password);
 
         } catch (Exception e) {
-            // TODO: Filter Exception 만들어서 던지기
             throw new AuthenticationServiceException(
                 "Request Content-Type is not application/json");
         }
-
         // AuthenticationManager에서 Token을 전달하여 인증 처리
         Authentication authentication = authenticationManager.authenticate(authToken);
 
@@ -104,16 +111,32 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setHeader("access", access);
         response.setHeader("refresh", refresh);
         response.setStatus(HttpStatus.OK.value());
-
-        List<ClubInfoDto> preferences = preferenceRepository.findAllByUserId(Integer.parseInt(id));
-        LoginRes loginRes = LoginRes.builder()
-            .id(Integer.parseInt(id))
-            .preferences(preferences)
-            .build();
-
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        response.getWriter().write(objectMapper.writeValueAsString(loginRes));
+
+        if (role.equals("ROLE_ORGANIZATION")) { // 단체 유저
+            Organization organization = organizationRepository.findById(Integer.parseInt(id)).get();
+            LoginOrganizationRes res = LoginOrganizationRes.builder()
+                .id(organization.getId())
+                .name(organization.getName())
+                .status(String.valueOf(organization.getStatus()))
+                .build();
+
+            response.getWriter().write(objectMapper.writeValueAsString(res));
+        } else { // 개인 유저
+            List<ClubInfoDto> preferences = preferenceRepository.findAllByUserId(
+                Integer.parseInt(id));
+            LoginRes res = LoginRes.builder()
+                .id(customUserDetails.getId())
+                .name(customUserDetails.getName())
+                .email(customUserDetails.getEmail())
+                .phone(customUserDetails.getPhone())
+                .preferences(preferences)
+                .build();
+
+            response.getWriter().write(objectMapper.writeValueAsString(res));
+        }
+
         response.getWriter().flush();
     }
 
