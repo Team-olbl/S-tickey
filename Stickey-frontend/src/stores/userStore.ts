@@ -22,6 +22,7 @@ interface IUserState {
   registrationNumber?: string;
   registrationFile?: string;
   preferences: IPreferences[];
+  setTokens: (accessToken: string) => void;
   loginUser: ({ id, name, email, phone, profile, accessToken, refreshToken, role, preferences } : {
     id: number;
     name?: string;
@@ -53,6 +54,7 @@ const userStore = create(
       registrationNumber: undefined,
       registrationFile: undefined,
       preferences: [],
+      setTokens: (accessToken) => set(() => ({ accessToken })),
       loginUser: ({ id, name, email, phone, profile, accessToken, refreshToken, role, preferences }) => 
         set({
           id: id,
