@@ -15,7 +15,10 @@ const PostApproveDetail = ({ id, onClose, refetch }: { id: number;  onClose: () 
 
     const time = Math.floor(new Date(data!.endTime).getTime() / 1000);
 
-    setSupport(id, data!.organization.name, time).then(() => {
+    (async () => {
+      const tx = await setSupport(id, data!.organization.name, time);
+
+      if (tx) {
         mutate({ id, status: "1", message: "" }, {
           onSuccess: () => {
             toast.success("승인되었습니다.");
@@ -26,10 +29,10 @@ const PostApproveDetail = ({ id, onClose, refetch }: { id: number;  onClose: () 
             toast.error("에러가 발생했습니다.");
           }
         });
-    }).catch((err: Error) => {
-      toast.error(`후원 글 등록 실패, ${err}`);
-    })
-
+      } else {
+        toast.error("에러가 발생했습니다.");
+      }
+    })();
 
   }
 
