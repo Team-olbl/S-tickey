@@ -91,7 +91,7 @@ public class SupportRepositoryQuerydslImpl implements SupportRepositoryQuerydsl 
             .fetchFirst();
 
         if (null == id) {
-            id = -1;
+            id = 0;
         }
 
         return id;
