@@ -35,6 +35,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new GameSessionInterceptor(redisTemplate))
             .addPathPatterns("/games/**")
-            .excludePathPatterns(List.of("/games", "/games/clubs", "/games/wait/**"));
+            .excludePathPatterns(List.of("/games", "/games/clubs"));
     }
 }
