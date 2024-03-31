@@ -13,9 +13,7 @@ import com.olbl.stickeymain.domain.user.entity.User;
 import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
 import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -126,19 +124,18 @@ public class NotifyService {
             .build();
     }
 
-    // 선호 구단 경기 정보 업데이트 알림 보내기 매일 오후 5시
     @Transactional
-    @Scheduled(cron = "0 00 17 * * ?")
+    @Scheduled(fixedRate = 3600000)
     public void notifyGameUpdate() {
-        // 내일 시작하는 경기 조회
-        LocalDate tomorrow = LocalDate.now().plusDays(1);
-        LocalDateTime startOfTomorrow = LocalDateTime.of(tomorrow, LocalTime.MIDNIGHT);
-        LocalDateTime endOfTomorrow = LocalDateTime.of(tomorrow.plusDays(1), LocalTime.MIDNIGHT);
-        List<Game> gameIdList = gameRepository.findByGameStartTimeBetween(startOfTomorrow,
-            endOfTomorrow);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneHourLater = now.plusHours(1);
+        LocalDateTime twoHoursLater = now.plusHours(1).plusMinutes(59).plusSeconds(59);
+
+        List<Game> gameIdList = gameRepository.findByBookStartTimeBetween(oneHourLater,
+            twoHoursLater);
 
         if (gameIdList.isEmpty()) {
-            log.info("내일 시작하는 경기가 없습니다.");
+            log.info("예매 예정 경기가 없습니다.");
         } else {
             log.info("Game List : {}", gameIdList.size());
             for (Game game : gameIdList) {
@@ -156,7 +153,7 @@ public class NotifyService {
                     preferences.forEach(preference -> {
                         User user = preference.getUser();
                         String content = String.format(
-                            "%s vs %s : 선호 구단의 경기 일정이 업데이트 되었습니다. 지금 확인해보세요!",
+                            "%s vs %s : 선호 구단의 예매가 예정되어있습니다. 지금 확인해보세요!",
                             team1.getName(), team2.getName());
                         log.info(content);
                         send(user, NotificationType.GAME, content);
