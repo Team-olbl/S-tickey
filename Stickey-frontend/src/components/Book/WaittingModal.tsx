@@ -1,6 +1,6 @@
 import Modal from '../@common/Modal';
 import Waitting from '../../assets/image/Waitting.png';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
 import { Client } from '@stomp/stompjs';
 import userStore from '../../stores/userStore';
@@ -11,7 +11,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
     const ticketInfo = useTicketInfoStore((state) => state.modalData);
     const { id: userId } = userStore();
     const [client, setClient] = useState<Client | null>(null);
-    const parsedMessageRef = useRef<number>(0);
+    const [parsedMessageRef, setParsedMessageRef] = useState<number>(0);
     const navigate = useNavigate()
 
 
@@ -24,21 +24,21 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                     `/sub/id/${userId}`,
                     message => {
                         const parsedMessage = JSON.parse(message.body);
-                        parsedMessageRef.current = parsedMessage.rank;
                         console.log(parsedMessage.myTurn);
                         console.log(parsedMessage.rank);
                         console.log(parsedMessage.key);
+                        setParsedMessageRef(parsedMessage.rank)
 
-                        // rank 값이 0이면 모달 닫고 취소 메시지 전송 및 페이지 이동
-                        if (parsedMessageRef.current === 0) {
-                            onClose(); // 모달 닫기
+                        if (parsedMessage.myTurn) {
+                            onClose(); 
                             if (client) {
                                 client.publish({
                                     destination: '/games/wait/cancel',
                                     body: undefined,
                                 });
-                            }
-                            navigate(`/${ticketInfo?.id}/section`); // 페이지 이동
+                                console.log('취소 메시지 전송')  
+                                client.deactivate();                          }
+                            navigate(`/${ticketInfo?.id}/section`); 
                         }
                     },
                 );
@@ -75,16 +75,19 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                     destination: '/games/wait/cancel',
                     body: undefined,
                 });
+                console.log('취소 메시지 전송');
+                client.deactivate();
             }
         };
-
+    
         window.addEventListener('beforeunload', handleUnload);
-
+    
         return () => {
             window.removeEventListener('beforeunload', handleUnload);
             handleUnload();
         };
-    }, [client, ticketInfo, userId]);
+    }, [client]);
+    
 
     return (
         <Modal width="300px" height="auto" title="" onClose={onClose}>
@@ -92,7 +95,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                 <div className='flex flex-col items-center'>
                     <img className='h-12' src={Waitting} alt="Waitting" />
                     <p className='text-sm pt-2'>나의 대기</p>
-                    <h1 className='text-4xl font-bold'>{parsedMessageRef?.current}</h1>
+                    <h1 className='text-4xl font-bold'>{parsedMessageRef}</h1>
                 </div>
 
                 <div >

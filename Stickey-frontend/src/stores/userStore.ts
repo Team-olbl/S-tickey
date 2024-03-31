@@ -22,7 +22,7 @@ interface IUserState {
   registrationNumber?: string;
   registrationFile?: string;
   preferences: IPreferences[];
-  setTokens: (accessToken: string, refreshToken: string) => void;
+  setTokens: (accessToken: string) => void;
   loginUser: ({ id, name, email, phone, profile, accessToken, refreshToken, role, preferences } : {
     id: number;
     name?: string;
@@ -54,7 +54,7 @@ const userStore = create(
       registrationNumber: undefined,
       registrationFile: undefined,
       preferences: [],
-      setTokens: (accessToken, refreshToken) => set(() => ({ accessToken, refreshToken })),
+      setTokens: (accessToken) => set(() => ({ accessToken })),
       loginUser: ({ id, name, email, phone, profile, accessToken, refreshToken, role, preferences }) => 
         set({
           id: id,
@@ -68,7 +68,9 @@ const userStore = create(
           preferences: preferences,
           isLogin: true,
         }),
-      logoutUser: () =>
+      logoutUser: () => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         set({
           isLogin: false,
           id: 0,
@@ -84,7 +86,8 @@ const userStore = create(
           registrationNumber: undefined,
           registrationFile: undefined,
           preferences: [],
-        }),
+        });
+      },
     }),
     {
       name: 'user-store',

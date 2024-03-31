@@ -8,22 +8,15 @@ import dayjs from "dayjs";
 import { useEffect } from "react";
 import { connect, createTicket } from "../../../service/web3/api";
 import { registSeats } from "../../../service/Book/api";
-
-export interface DummyUserInfo {
-  name: string;
-  phoneNumber: string;
-  email: string;
-}
-const dummyUser: DummyUserInfo = {
-  name: "최더미",
-  phoneNumber: "010-1234-5678",
-  email: "dummy@example.com",
-};
+import { toast } from "react-toastify";
+import userStore from "../../../stores/userStore";
 
 const BookPaymentPage = () => {
-
+  const { name, email, phone } = userStore();
   const { seatInfo, clearSeatInfo } = useTicketStore();
   const navigate = useNavigate();
+
+  console.log(email)
 
   const info : IHeaderInfo = {
     left_1:  null,
@@ -68,7 +61,7 @@ const gameInfo = useTicketInfoStore((state) => state.modalData);
   useEffect(() => {
     connect();
   if(!gameInfo?.id) {
-      alert('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
+      toast.warn('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
       navigate('/', {replace: true})
   }
 }, [])
@@ -89,7 +82,7 @@ const gameDate = dayjs(gameInfo?.gameStartTime).format('YYYY년 MM월 DD일 HH�
           return;
         } 
       } 
-      alert("오류가 발생했습니다. 홈으로 되돌아갑니다.");
+      toast.warn("오류가 발생했습니다. 홈으로 되돌아갑니다.");
       navigate('/', { replace: true });
     }
 
@@ -133,9 +126,9 @@ const totalPrice = () => {
 
               {/* 회원정보 */}
               <div className="bg-[#2E2E3D] w-full h-auto p-6 text-white text-sm rounded-lg">
-                <div>이름 : {dummyUser.name}</div>
-                <div className="py-2">전화번호 : {dummyUser.phoneNumber}</div>
-                <div>이메일 : {dummyUser.email}</div>
+                <div>이름 : {name}</div>
+                <div className="py-2">전화번호 : {phone}</div>
+                <div>이메일 : {email}</div>
               </div>
 
               <div className="py-3 text-white text-sm">
