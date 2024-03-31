@@ -47,6 +47,7 @@ public enum ResultCode {
     PAYMENT_SUCCESS(200, "좌석 결제/환불에 성공하였습니다."),
 
     //Support
+    GET_SUPPORTID_BY_ITEM_SUCCESS(200, "후원될 글 조회에 성공하였습니다."),
     SUPPORT_REGISTER_SUCCESS(201, "후원 글 등록에 성공하였습니다."),
     GET_SUPPORTLIST_SUCCESS(200, "후원 글 목록 조회에 성공하였습니다."),
     GET_SUPPORTONE_SUCCESS(200, "후원 글 상세 조회에 성공하였습니다.");

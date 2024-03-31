@@ -8,4 +8,6 @@ public interface SupportRepositoryQuerydsl {
     SupportListRes getSupportListByFlag(Integer flag);
 
     SupportOneRes getSupportOneById(int id);
+
+    int getSupportByItemByTime();
 }

@@ -4,6 +4,7 @@ import static com.olbl.stickeymain.domain.support.entity.QSupport.support;
 import static com.olbl.stickeymain.domain.user.organization.entity.QOrganization.organization;
 import static com.olbl.stickeymain.global.result.error.ErrorCode.SUPPORT_DO_NOT_EXISTS;
 
+import com.olbl.stickeymain.domain.support.dto.SupportByItemRes;
 import com.olbl.stickeymain.domain.support.dto.SupportListRes;
 import com.olbl.stickeymain.domain.support.dto.SupportOneRes;
 import com.olbl.stickeymain.domain.support.dto.SupportRes;
@@ -73,6 +74,27 @@ public class SupportRepositoryQuerydslImpl implements SupportRepositoryQuerydsl 
         }
 
         return supportOneRes;
+    }
+
+    @Override
+    public int getSupportByItemByTime() {
+
+        LocalDateTime now = LocalDateTime.now(); //현재 시간 기준
+        SupportByItemRes supportByItemRes = new SupportByItemRes();
+
+        Integer id = jpaQueryFactory
+            .select(support.id)
+            .from(support)
+            .where(support.endTime.after(now))
+            .where(support.status.eq(SupportStatus.ACCEPTED))
+            .orderBy(support.endTime.asc())
+            .fetchFirst();
+
+        if (null == id) {
+            id = 0;
+        }
+
+        return id;
     }
 
     private BooleanBuilder generateQueryCondition(Integer flag) {
