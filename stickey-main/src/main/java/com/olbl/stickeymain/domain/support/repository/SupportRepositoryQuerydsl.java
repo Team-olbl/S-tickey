@@ -1,5 +1,6 @@
 package com.olbl.stickeymain.domain.support.repository;
 
+import com.olbl.stickeymain.domain.support.dto.SupportByItemRes;
 import com.olbl.stickeymain.domain.support.dto.SupportListRes;
 import com.olbl.stickeymain.domain.support.dto.SupportOneRes;
 
@@ -9,5 +10,5 @@ public interface SupportRepositoryQuerydsl {
 
     SupportOneRes getSupportOneById(int id);
 
-    int getSupportByItemByTime();
+    SupportByItemRes getSupportByItemByTime();
 }

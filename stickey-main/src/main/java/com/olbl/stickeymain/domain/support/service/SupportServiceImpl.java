@@ -84,6 +84,6 @@ public class SupportServiceImpl implements SupportService {
 
     @Override
     public SupportByItemRes getSupportByItem() {
-        return new SupportByItemRes(supportRepository.getSupportByItemByTime());
+        return supportRepository.getSupportByItemByTime();
     }
 }
