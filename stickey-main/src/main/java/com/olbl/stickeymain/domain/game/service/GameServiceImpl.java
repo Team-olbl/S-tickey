@@ -163,6 +163,13 @@ public class GameServiceImpl implements GameService {
             leftSeatResList.add(leftSeatRes);
         });
 
+        leftSeatResList.sort(new Comparator<LeftSeatRes>() {
+            @Override
+            public int compare(LeftSeatRes o1, LeftSeatRes o2) {
+                return o1.getZoneId() - o2.getZoneId();
+            }
+        });
+
         return new LeftSeatListRes(leftSeatResList);
     }
 
