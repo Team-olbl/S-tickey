@@ -1,10 +1,12 @@
 package com.olbl.stickeymain.domain.game.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class LeftSeatRes {
 
     private int zoneId; //구역 id
