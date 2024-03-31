@@ -4,17 +4,19 @@ import com.olbl.stickeymain.domain.notify.entity.NotificationType;
 import com.olbl.stickeymain.domain.notify.entity.Notify;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotifyRes {
 
-    private int id;
+    private int eventId;
 
     private int userId;
 
@@ -24,11 +26,11 @@ public class NotifyRes {
 
     private LocalDateTime createdAt;
 
-    public static Notify createResponse(Notify notify) {
-        return Notify.builder()
+    public static NotifyRes createResponse(Notify notify) {
+        return NotifyRes.builder()
+            .notificationType(notify.getNotificationType())
             .content(notify.getContent())
-            .id(notify.getId())
-            .id(notify.getReceiver().getId())
+            .userId(notify.getReceiver().getId())
             .createdAt(notify.getCreatedAt())
             .build();
     }

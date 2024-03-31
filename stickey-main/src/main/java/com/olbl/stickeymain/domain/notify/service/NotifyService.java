@@ -8,8 +8,11 @@ import com.olbl.stickeymain.domain.notify.entity.NotificationType;
 import com.olbl.stickeymain.domain.notify.entity.Notify;
 import com.olbl.stickeymain.domain.notify.repository.EmitterRepository;
 import com.olbl.stickeymain.domain.notify.repository.NotifyRepository;
+import com.olbl.stickeymain.domain.support.entity.SupportStatus;
 import com.olbl.stickeymain.domain.user.entity.Preference;
 import com.olbl.stickeymain.domain.user.entity.User;
+import com.olbl.stickeymain.domain.user.organization.entity.Organization;
+import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
 import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
 import com.olbl.stickeymain.global.auth.CustomUserDetails;
 import java.io.IOException;
@@ -161,5 +164,25 @@ public class NotifyService {
                 }
             }
         }
+    }
+
+    public void notifyOrganizationSignup(Organization organization, OrganizationStatus status) {
+        String result = "승인";
+        String comment = "";
+        if (status.equals(OrganizationStatus.REJECTED)) {
+            result = "거절";
+            comment = "가입 정보를 보완해주세요.";
+        }
+        String content = String.format("가입이 %s 되었습니다. %s", result, comment);
+        send(organization, NotificationType.APPROVE, content);
+    }
+
+    public void notifyOrganizationSupport(Organization organization, SupportStatus status) {
+        String result = "승인";
+        if (status.equals(SupportStatus.REJECTED)) {
+            result = "거절";
+        }
+        String content = String.format("후원글 등록이 %s 되었습니다.", result);
+        send(organization, NotificationType.APPROVE, content);
     }
 }

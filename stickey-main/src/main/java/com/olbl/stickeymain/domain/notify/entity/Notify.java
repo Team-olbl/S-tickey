@@ -2,6 +2,7 @@ package com.olbl.stickeymain.domain.notify.entity;
 
 import com.olbl.stickeymain.domain.user.entity.User;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
@@ -25,6 +27,7 @@ import org.springframework.data.annotation.CreatedDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Notify {
 
     @Id
@@ -42,6 +45,6 @@ public class Notify {
     private User receiver;
 
     @CreatedDate
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt; //알림 생성 시간
 
 }
