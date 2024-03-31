@@ -1,9 +1,15 @@
 import Modal from '../@common/Modal'
 import Crying from '../../assets/image/Crying2.png'
+import useLogout from '../../hooks/Logout/useLogout';
 
 const LogoutModal = ({ onClose }: { onClose: () => void; }) => {
 
     // 로그아웃 로직 추가하기
+		const logoutMutation = useLogout();
+
+    const handleLogout = () => {
+        logoutMutation.mutate(); // 로그아웃 함수 실행
+    };
     
     return (
         <Modal width="300px" height="auto" title="" onClose={onClose}>
@@ -15,7 +21,7 @@ const LogoutModal = ({ onClose }: { onClose: () => void; }) => {
 							<p className="text-xs">로그아웃 하시겠습니까 ?</p>
 						</div>
 						<div className="flex justify-center space-x-2 pt-4">
-								<button className="bg-[#5959E7] w-20 text-white px-4 py-1 rounded-lg text-xs" >로그아웃</button>
+								<button className="bg-[#5959E7] w-20 text-white px-4 py-1 rounded-lg text-xs" onClick={handleLogout} >로그아웃</button>
 								<button className="bg-gray-500 w-20 text-white px-4 py-1 rounded-lg text-xs" onClick={onClose}>취소</button>
 						</div>
 					</div>

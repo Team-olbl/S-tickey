@@ -49,7 +49,7 @@ const IndividualEditForm = () => {
     formData.append('userInfoReq', JSON.stringify({ phone: phone }));
 
     if (image) {
-        formData.append('profileImage', image);
+        formData.append('profile', image);
     }
 
     for (const [key, value] of formData.entries()) {
