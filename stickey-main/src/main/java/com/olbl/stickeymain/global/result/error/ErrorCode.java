@@ -34,6 +34,7 @@ public enum ErrorCode {
     GAME_DO_NOT_EXISTS(400, "존재하지 않는 경기입니다."),
     STADIUM_DO_NOT_EXISTS(400, "존재하지 않는 경기장입니다."),
     STADIUM_ZONE_DO_NOT_EXISTS(400, "존재하지 않는 구역 입니다."),
+    NOT_IN_RUNNING_QUEUE(400, "참가열에 존재하지 않습니다"),
 
     //Mail
     EMAIL_VERIFICATION_NOT_EXISTS(400, "유효한 인증 번호가 존재하지 않습니다."),
