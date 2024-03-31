@@ -27,6 +27,7 @@ import PlayerRegistration from './pages/Profile/Group/PlayerRegistrationPage';
 import BlockchainTest from "./BlockchainTest";
 import userStore from './stores/userStore';
 import AdminPage from './pages/Admin/AdminPage';
+// import TokenRefresher from './apis/TokenRefresher';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -219,6 +220,7 @@ const router = createBrowserRouter(
 function App() {
   return (
     <>
+      {/* <TokenRefresher /> */}
       <RouterProvider router={router} />
     </>
   )

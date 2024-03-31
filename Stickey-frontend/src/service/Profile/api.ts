@@ -31,6 +31,7 @@ export const patchTeamPreference = async(info: ITeamPreferReq ): Promise<APIResp
 // 개인 유저 정보 조회
 export const getUserData = async () => {
     const res = await axiosAuthInstance.get(`/users/profile/info`);
+    console.log(res)
     return res.data.data;
 }
 
