@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 interface ISupportReq  {
   "title": string;
   "content": string;
-  "startTime" :  string;
-  "endTime" :  string;
+  startTime :  string;
+  endTime :  string;
 }
 
 
@@ -119,17 +119,17 @@ const SponsorForm = () => {
                   min={dayjs().format('YYYY-MM-DD')}
                   name="start_date"
                   className="text-xs w-1/2 outline-none border p-2 rounded-md"
-                value={supportReq?.startTime}
+                value={dayjs(supportReq?.startTime).format("YYYY-MM-DD")}
                 
-                  onChange={(e) => setSupportReq(state=>({...state!, startTime : e.target.value}))}
+                  onChange={(e) => setSupportReq(state=>({...state!, startTime : dayjs(e.target.value).format("YYYY-MM-DDTHH:mm:ss")}))}
                 />
                 <input
                   type="date"
                   min={dayjs().format('YYYY-MM-DD')}
                   name="end_date"
                   className="text-xs w-1/2 outline-none border p-2 rounded-md"
-                  value={supportReq?.endTime}
-                  onChange={(e) => setSupportReq(state=>({...state!, endTime : e.target.value}))}
+                  value={dayjs(supportReq?.endTime).format("YYYY-MM-DD")}
+                  onChange={(e) => setSupportReq(state=>({...state!, endTime : dayjs(e.target.value).format("YYYY-MM-DDT23:59:59")}))}
                 />
               </div>
             </div>
