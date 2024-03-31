@@ -1,5 +1,6 @@
 package com.olbl.stickeywaiting.controller;
 
+import com.olbl.stickeywaiting.dto.CancelRes;
 import com.olbl.stickeywaiting.dto.WaitReq;
 import com.olbl.stickeywaiting.dto.WaitRes;
 import com.olbl.stickeywaiting.service.WaitingService;
