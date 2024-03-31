@@ -29,7 +29,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                         console.log(parsedMessage.key);
                         setParsedMessageRef(parsedMessage.rank)
 
-                        if (parsedMessage.myTurn && parsedMessage.rank === 0) {
+                        if (parsedMessage.myTurn) {
                             onClose(); 
                             if (client) {
                                 client.publish({
