@@ -239,7 +239,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             String profileUrlBefore = user.getProfileImage();
             String profileUrl = s3Util.uploadFile(profile, 1);
 
-            //TODO: 이전에 있던 사진 삭제 로직 추가
+            s3Util.deleteFile(profileUrlBefore, 1);
             user.updateProfileImage(profileUrl);
         }
 
@@ -247,7 +247,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             String fileUrlBefore = organization.getRegistrationFile();
             String fileUrl = s3Util.uploadFile(registrationFile, 3);
 
-            //TODO: 이전에 있던 파일 삭제 로직 추가
+            s3Util.deleteFile(fileUrlBefore, 3);
             organization.setRegistrationFile(fileUrl);
         }
 
