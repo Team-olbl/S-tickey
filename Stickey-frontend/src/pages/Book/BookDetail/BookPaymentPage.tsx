@@ -16,6 +16,8 @@ const BookPaymentPage = () => {
   const { seatInfo, clearSeatInfo } = useTicketStore();
   const navigate = useNavigate();
 
+  console.log(email)
+
   const info : IHeaderInfo = {
     left_1:  null,
     left_2: null,
