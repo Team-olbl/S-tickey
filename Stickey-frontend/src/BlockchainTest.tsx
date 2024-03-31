@@ -1,14 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef } from "react";
+import {  useRef } from "react";
 import { connect, createTicket, getTickets, getWalletInfo, refundTicket, setSupport, donate, withdraw, getSupprtedHistory, getSupprtingHistory, getPaymentHistory, getRewordHistory, getItemList, addFilter, addBackground, deleteBackground, deleteFilter, setFilterOnTicket, setBackgroundOnTicket, setGame, setSeatPrice, setZoneName, getSeatState } from './service/web3/api'
+import { useProfile } from "./hooks/Profile/useProfile";
+import { Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const BlockchainTest = () => {
-
+  const { useGetProfile } = useProfile();
+  const { data : profileRes, isSuccess } = useGetProfile();
   const refundRet = useRef<HTMLInputElement>(null);
+    
+  
+  if (isSuccess) {
+      if (profileRes.data.role !== 'ADMIN') {
+          toast.warn("잘못된 접근입니다.");
+          return <Navigate to='/'></Navigate>
+      }
+  }
 
-  useEffect(() => {
-    connect();
-  }, []);
+
 
   const _connect = () => {
     connect();
@@ -225,8 +235,8 @@ const BlockchainTest = () => {
 
   
     return <>
+        {isSuccess && 
       <div className="text-black flex flex-col items-center w-full">
-
         <div className="text-center bg-amber-600 w-full">
           <div className="text-[20px] underline underline-offset-2">지갑 관련 API</div>
           <div className="flex gap-5">
@@ -347,7 +357,8 @@ const BlockchainTest = () => {
             </button>
           </div>
         </div>
-      </div>
+        
+      </div>}
     </>
 }
 
