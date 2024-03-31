@@ -1,5 +1,6 @@
 package com.olbl.stickeymain.domain.support.controller;
 
+import static com.olbl.stickeymain.global.result.ResultCode.GET_SUPPORTID_BY_ITEM_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SUPPORTLIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.GET_SUPPORTONE_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.SUPPORT_REGISTER_SUCCESS;
@@ -55,5 +56,12 @@ public class SupportController {
     public ResponseEntity<ResultResponse> getSupportDetail(@PathVariable("id") int supportId) {
         SupportOneRes supportOneRes = supportService.getSupportOneById(supportId);
         return ResponseEntity.ok(ResultResponse.of(GET_SUPPORTONE_SUCCESS, supportOneRes));
+    }
+
+    @Operation(summary = "아이템 구매 시 리워드 후원될 글 정보 조회")
+    @GetMapping("/item")
+    public ResponseEntity<ResultResponse> getSupportByItem() {
+        return ResponseEntity.ok(
+            ResultResponse.of(GET_SUPPORTID_BY_ITEM_SUCCESS, supportService.getSupportByItem()));
     }
 }
