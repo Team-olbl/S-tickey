@@ -1,6 +1,6 @@
 import Modal from '../@common/Modal';
 import Waitting from '../../assets/image/Waitting.png';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
 import { Client } from '@stomp/stompjs';
 import userStore from '../../stores/userStore';
@@ -11,7 +11,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
     const ticketInfo = useTicketInfoStore((state) => state.modalData);
     const { id: userId } = userStore();
     const [client, setClient] = useState<Client | null>(null);
-    const parsedMessageRef = useRef<number>(0);
+    const [parsedMessageRef, setParsedMessageRef] = useState<number>(0);
     const navigate = useNavigate()
 
 
@@ -27,8 +27,9 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                         console.log(parsedMessage.myTurn);
                         console.log(parsedMessage.rank);
                         console.log(parsedMessage.key);
+                        setParsedMessageRef(parsedMessage.rank)
 
-                        if (parsedMessage.myTurn && parsedMessage.rank === 0) {
+                        if (parsedMessage.myTurn) {
                             onClose(); 
                             if (client) {
                                 client.publish({
@@ -94,7 +95,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                 <div className='flex flex-col items-center'>
                     <img className='h-12' src={Waitting} alt="Waitting" />
                     <p className='text-sm pt-2'>나의 대기</p>
-                    <h1 className='text-4xl font-bold'>{parsedMessageRef?.current}</h1>
+                    <h1 className='text-4xl font-bold'>{parsedMessageRef}</h1>
                 </div>
 
                 <div >
