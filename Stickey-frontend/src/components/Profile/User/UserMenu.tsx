@@ -126,8 +126,8 @@ const UserMenu = () => {
       <div className="text-white">
         {isBottomSheetOpen && 
           <BottomModal height="auto" title="선호 구단" onClose={() => setIsBottomSheetOpen(false)}>
-            <div className="flex flex-col justify-center">
-              <div className="text-[10px] text-center pb-3">
+            <div className="flex flex-col items-center">
+              <div className="text-sm pb-3">
                 <p>선호 구단은 최대 3개까지 등록할 수 있습니다.</p>
               </div>
               <div className="flex flex-row w-full gap-2 justify-center">
@@ -147,10 +147,10 @@ const UserMenu = () => {
                   </div>
                 ))}
               </div>
-              <div className="py-4 px-6">
+              <div className="py-4 px-4">
                 <div className="border-b-[0.5px] border-b-Stickey_Gray"></div>
               </div>
-              <div className="flex flex-row w-full justify-between px-[96px] text-Stickey_Gray text-[12px] pb-4" >
+              <div className="flex flex-row w-full justify-between px-24 text-Stickey_Gray text-xs pb-4" >
                 <div onClick={() => handleTabClick('SOCCER')} className={`${selectedTab === 'SOCCER' ? 'text-white font-bold underline underline-offset-4' : ''}`}>
                   <p>축구</p>
                 </div>
@@ -161,10 +161,11 @@ const UserMenu = () => {
                   <p>농구</p>
                 </div>
               </div>
-              <div className="h-[164px] overflow-y-auto pb-6" >
+              </div>
+              <div className="h-40 flex flex-col justify-center overflow-y-auto pb-6" >
               {filteredTeams && filteredTeams.map((item) => (
-                <div key={item.id} className="w-full flex flex-row items-center justify-start pl-24 gap-12 pb-4" onClick={() => handleClick(item.name)}>
-                  <div className="w-4 h-4 border-2 rounded-full flex items-center justify-center cursor-pointer" >
+                <div key={item.id} className="w-full flex justify-start items-center pl-24 gap-4 pb-4" onClick={() => handleClick(item.name)}>
+                  <div className="w-4 h-4 border-2 rounded-full flex cursor-pointer" >
                     {selectedTeam === item.name && <div className="w-2 h-2 bg-white rounded-full"></div>}
                   </div>
                   <div className="flex items-center w-12 h-12 border border-none bg-white rounded">
@@ -180,7 +181,6 @@ const UserMenu = () => {
                 <button className="p-2 w-40 mx-1 bg-Stickey_Main rounded-md" onClick={handleAddTeam}>추가하기</button>
                 <button className="p-2 w-40 mx-1 bg-Stickey_Main rounded-md" onClick={() => handlePatchData()}>저장하기</button>
               </div>
-            </div>
           </BottomModal>}
       </div>
     </div>

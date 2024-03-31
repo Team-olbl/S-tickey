@@ -9,22 +9,14 @@ import { useEffect } from "react";
 import { connect, createTicket } from "../../../service/web3/api";
 import { registSeats } from "../../../service/Book/api";
 import { toast } from "react-toastify";
-
-export interface DummyUserInfo {
-  name: string;
-  phoneNumber: string;
-  email: string;
-}
-const dummyUser: DummyUserInfo = {
-  name: "최더미",
-  phoneNumber: "010-1234-5678",
-  email: "dummy@example.com",
-};
+import userStore from "../../../stores/userStore";
 
 const BookPaymentPage = () => {
-
+  const { name, email, phone } = userStore();
   const { seatInfo, clearSeatInfo } = useTicketStore();
   const navigate = useNavigate();
+
+  console.log(email)
 
   const info : IHeaderInfo = {
     left_1:  null,
@@ -134,9 +126,9 @@ const totalPrice = () => {
 
               {/* 회원정보 */}
               <div className="bg-[#2E2E3D] w-full h-auto p-6 text-white text-sm rounded-lg">
-                <div>이름 : {dummyUser.name}</div>
-                <div className="py-2">전화번호 : {dummyUser.phoneNumber}</div>
-                <div>이메일 : {dummyUser.email}</div>
+                <div>이름 : {name}</div>
+                <div className="py-2">전화번호 : {phone}</div>
+                <div>이메일 : {email}</div>
               </div>
 
               <div className="py-3 text-white text-sm">
