@@ -25,7 +25,7 @@ const BookSeat = () => {
 
     useEffect(() => {
         if (!isSuccess) return;
-        if (seatConfirmCheck?.data !== undefined) {
+        if (seatConfirmCheck?.message !== "이미 선택된 좌석입니다.") {
             navigate(`/${gameInfo?.id}/payment`, { replace: true });
         } else {
             setIsModalOpen(true)
