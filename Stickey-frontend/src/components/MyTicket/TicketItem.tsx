@@ -8,7 +8,7 @@ export interface TicketItemProps {
     getData: () => void
 }
 
-const TicketItem: React.FC<TicketItemProps> = ({ ticket,getData }) => {
+const TicketItem: React.FC<TicketItemProps> = ({ ticket, getData }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {

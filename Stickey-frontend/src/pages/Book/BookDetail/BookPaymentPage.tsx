@@ -80,18 +80,30 @@ const gameDate = dayjs(gameInfo?.gameStartTime).format('YYYY년 MM월 DD일 HH�
   const goConformTicket = () => {
 
     const buyTicket = async () => {
-      const tx = await createTicket(seatInfo.seat.length, gameInfo!.id, 1, seatInfo.sectionId, seatInfo.seat, seatInfo.sectionPrice);
-      if (tx) {
-        const res = await registSeats({ gameId: gameInfo!.id, zoneId: seatInfo.sectionId, seatNumbers: seatInfo.seat, isRefund: false });
 
-        if (res.status == 200) {
-          navigate(`/${gameInfo?.id}/confirm`,  {replace:true})
+
+      try {
+        await registSeats({ gameId: gameInfo!.id, zoneId: seatInfo.sectionId, seatNumbers: seatInfo.seat, isRefund: false });
+        const tx = await createTicket(seatInfo.seat.length, gameInfo!.id, 1, seatInfo.sectionId, seatInfo.seat, seatInfo.sectionPrice);
+
+        if (tx) {
+          navigate(`/${gameInfo?.id}/confirm`, { replace: true })
           clearSeatInfo()
           return;
-        } 
-      } 
-      toast.warn("오류가 발생했습니다. 홈으로 되돌아갑니다.");
-      navigate('/', { replace: true });
+        }
+        else {
+          await registSeats({ gameId: gameInfo!.id, zoneId: seatInfo.sectionId, seatNumbers: seatInfo.seat, isRefund: true });
+          toast.warn("결제에 실패했습니다.")
+          navigate(`/${gameInfo?.id}/section`, { replace: true })
+          clearSeatInfo()
+          return;
+        }
+      } catch (err) {
+          toast.warn("좌석 선점 시간이 지나 결제가 취소되었습니다.");
+          navigate(`/${gameInfo?.id}/section`, { replace: true })
+          clearSeatInfo()
+          return;
+      }
     }
 
     buyTicket();

@@ -2,7 +2,7 @@ import { axiosAuthInstance } from '../../apis/axiosInstance';
 import { IMySponsorListRes, ISupportListRes, ISupportListReq, ISponsorDetailRes } from '../../types/Sponsor';
 import { APIResponse } from '../../types/model';
 
-export const getMySponsorLitReq = async (): Promise<APIResponse<IMySponsorListRes>> => {
+export const getMySponsorListReq = async (): Promise<APIResponse<IMySponsorListRes>> => {
   const { data } = await axiosAuthInstance.get(`/organizations/profile/supports`);
   return data;
 };

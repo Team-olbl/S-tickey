@@ -22,11 +22,9 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
 
     const handleRefund = () => {
         if (refundEnd <= dayjs()) {
-            alert("환불 가능 시간대가 아닙니다.");
+            toast.warn("환불 가능 시간대가 아닙니다.");
             return;
         }
-
-        if (!confirm("정말 환불하시겠습니까?")) return;
 
         const cancleTicket = async () => {
             const tx = await refundTicket(ticket.tokenId);

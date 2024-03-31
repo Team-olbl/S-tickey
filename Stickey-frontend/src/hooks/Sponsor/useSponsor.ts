@@ -1,12 +1,16 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getMySponsorLitReq, getSupportListReq, getSponsorDetailReq, postSupportReq } from '../../service/Sponsor/api';
+import { getMySponsorListReq, getSupportListReq, getSponsorDetailReq, postSupportReq } from '../../service/Sponsor/api';
 import { ISupportListReq } from '../../types/Sponsor';
+import userStore from "../../stores/userStore";
 
 export const useSponsor = () => {
+  const { id } = userStore();
+
   const useGetMySponsorList = () => {
     return useQuery({
-      queryKey: ['mySponsor'],
-      queryFn: () => getMySponsorLitReq(),
+      queryKey: ['mySponsor', id],
+      queryFn: () => getMySponsorListReq(),
+      select: res => res.data
     });
   };
 
