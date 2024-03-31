@@ -35,6 +35,9 @@ public enum ErrorCode {
     STADIUM_DO_NOT_EXISTS(400, "존재하지 않는 경기장입니다."),
     STADIUM_ZONE_DO_NOT_EXISTS(400, "존재하지 않는 구역 입니다."),
     NOT_IN_RUNNING_QUEUE(400, "참가열에 존재하지 않습니다"),
+    GAME_NOT_IN_RESERVATOIN_PROGRESS(400, "예매 진행중인 경기가 아닙니다."),
+    HOLDING_TIME_OVER(400, "선점중인 좌석이 아니거나, 좌석 선점 시간이 지나 결제가 취소되었습니다."),
+    SEAT_NOT_SOLD(400, "판매된 좌석이 아닙니다."),
 
     //Mail
     EMAIL_VERIFICATION_NOT_EXISTS(400, "유효한 인증 번호가 존재하지 않습니다."),

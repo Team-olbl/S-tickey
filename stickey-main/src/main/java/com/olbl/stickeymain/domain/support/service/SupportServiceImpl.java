@@ -1,5 +1,6 @@
 package com.olbl.stickeymain.domain.support.service;
 
+import com.olbl.stickeymain.domain.support.dto.SupportByItemRes;
 import com.olbl.stickeymain.domain.support.dto.SupportListRes;
 import com.olbl.stickeymain.domain.support.dto.SupportOneRes;
 import com.olbl.stickeymain.domain.support.dto.SupportReq;
@@ -17,7 +18,6 @@ import com.olbl.stickeymain.global.util.S3Util;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,5 +80,10 @@ public class SupportServiceImpl implements SupportService {
         List<PlayerRes> playerResList = playerRepository.findAllByOrganizationId(organizationId);
         supportOneRes.setPlayers(playerResList);
         return supportOneRes;
+    }
+
+    @Override
+    public SupportByItemRes getSupportByItem() {
+        return supportRepository.getSupportByItemByTime();
     }
 }

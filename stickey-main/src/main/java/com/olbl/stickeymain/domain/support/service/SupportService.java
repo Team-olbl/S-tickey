@@ -1,5 +1,6 @@
 package com.olbl.stickeymain.domain.support.service;
 
+import com.olbl.stickeymain.domain.support.dto.SupportByItemRes;
 import com.olbl.stickeymain.domain.support.dto.SupportListRes;
 import com.olbl.stickeymain.domain.support.dto.SupportOneRes;
 import com.olbl.stickeymain.domain.support.dto.SupportReq;
@@ -12,4 +13,6 @@ public interface SupportService {
     SupportListRes getSupportList(Integer flag);
 
     SupportOneRes getSupportOneById(int supportId);
+
+    SupportByItemRes getSupportByItem();
 }

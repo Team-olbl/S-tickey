@@ -1,6 +1,5 @@
-package com.olbl.stickeymain.domain.game.dto;
+package com.olbl.stickeymain.domain.support.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LeftSeatListRes {
+public class SupportByItemRes {
 
-    List<LeftSeatRes> leftSeatResList;
+    private int id;
 
 }
