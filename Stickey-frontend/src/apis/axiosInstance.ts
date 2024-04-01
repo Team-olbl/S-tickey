@@ -12,7 +12,7 @@ axios.defaults.paramsSerializer = function (paramObj) {
         for (const value of paramObj[key]) {
           params.append(key, value)
         }
-      } else {
+      } else if (paramObj[key] !== undefined) {
         params.append(key, paramObj[key]);
       }
     }
@@ -79,6 +79,7 @@ axiosAuthInstance.interceptors.response.use(
         userStore.getState().logoutUser();
         localStorage.clear();
         window.location.href = "/login";
+        toast.error("토큰이 만료되었습니다. 다시 로그인해주세요.");
       } else if ([400, 404, 409].includes(status)) {
         toast.info(error.response.data.message);
       }

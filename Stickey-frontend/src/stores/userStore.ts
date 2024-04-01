@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface IPreferences {
+export interface IPreferences {
   sportsClubId: number;
   sportsClubLogo: string;
   sportsClubName: string;
@@ -35,6 +35,7 @@ interface IUserState {
     preferences: IPreferences[];
   }) => void;
   logoutUser: () => void;
+  setPreference: (preference: IPreferences[]) => void;
 }
 
 const userStore = create(
@@ -55,7 +56,7 @@ const userStore = create(
       registrationFile: undefined,
       preferences: [],
       setTokens: (accessToken) => set(() => ({ accessToken })),
-      loginUser: ({ id, name, email, phone, profile, accessToken, refreshToken, role, preferences }) => 
+      loginUser: ({ id, name, email, phone, profile, accessToken, refreshToken, role, preferences }) =>
         set({
           id: id,
           name: name,
@@ -88,6 +89,9 @@ const userStore = create(
           preferences: [],
         });
       },
+      setPreference: (preferences : IPreferences[]) => 
+        set(() => ({preferences}))
+      
     }),
     {
       name: 'user-store',

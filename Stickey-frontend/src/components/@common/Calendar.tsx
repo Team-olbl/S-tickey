@@ -37,7 +37,7 @@ const Calendar: React.FC<CalendarProps> = ({ onDateClick }) => {
     if (!dateRef.current) return;
     const left = dateRef.current!.offsetLeft - (window.innerWidth / 2) + dateRef.current.offsetWidth;
     containerRef.current?.scrollTo({left : left, behavior: 'smooth'});
-  }, [flag])
+  }, [flag, selectedMonth])
 
   useEffect(() => {
     setCalendarData(generateDate(year, selectedMonth));
@@ -47,6 +47,8 @@ const Calendar: React.FC<CalendarProps> = ({ onDateClick }) => {
   
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMonth(parseInt(e.target.value) - 1);
+    setSelectedDate(1);
+    onDateClick(1, parseInt(e.target.value), year);
   };
 
   const handleClick = (day: number) => {

@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import TicketOpenModal from './TicketOpenModal';
 import dayjs from 'dayjs';
 import { ITicket } from './TicketList';
 
 export interface TicketItemProps {
     ticket: ITicket; 
-    getData: () => void
 }
 
-const TicketItem: React.FC<TicketItemProps> = ({ ticket, getData }) => {
+const TicketItem: React.FC<TicketItemProps> = ({ ticket }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    useEffect(() => {
-        getData();
-    }, [isModalOpen])
 
     return (
         <>
