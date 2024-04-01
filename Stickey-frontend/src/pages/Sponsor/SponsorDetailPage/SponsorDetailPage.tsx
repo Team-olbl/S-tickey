@@ -3,7 +3,7 @@ import NavigationBar from '../../../components/@common/NavigationBar';
 import Back from '../../../assets/image/Back.png';
 import Bell from '../../../assets/image/Bell.png';
 import map from '../../../assets/image/map.png';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SponsorModal from '../../../components/Sponsor/SponsorModal';
 import userStore from '../../../stores/userStore';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,8 @@ import { toast } from 'react-toastify';
 import { useSponsor } from '../../../hooks/Sponsor/useSponsor';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { connect, getSupprtedHistory, withdraw } from "../../../service/web3/api";
+import Metamask from '../../../assets/image/Metamask.png'
 
 const info: IHeaderInfo = {
   left_1: null,
@@ -19,14 +21,17 @@ const info: IHeaderInfo = {
   right: <img src={Bell} />,
 };
 
+
 const SponsorDetailPage = () => {
   const navigate = useNavigate();
-  const { isLogin } = userStore();
+  const { isLogin, id } = userStore();
 
   const params = useParams<{ id: string }>();
   const sponsorId = Number(params.id);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [supportedHistory, setSupportedHistory] = useState<{ amount: bigint; text: string; time: bigint }[]>();
 
   const handleSponsorClick = () => {
     if (isLogin) {
@@ -37,16 +42,52 @@ const SponsorDetailPage = () => {
     }
   };
 
+  const handleHistoryOpen = () => {
+    connect().then(
+      (ret) => {
+        if (ret)
+          setIsHistoryOpen(!isHistoryOpen);
+      }
+    );
+    
+  }
+
   const { useSponsorDetail } = useSponsor();
   const { data: ISponsorDetailRes } = useSponsorDetail(sponsorId);
-  console.log(ISponsorDetailRes);
 
   const startTime = dayjs(ISponsorDetailRes?.data.startTime).format('YYYY년 MM월 DD일');
   const endTime = dayjs(ISponsorDetailRes?.data.endTime).format('YYYY년 MM월 DD일');
 
+  const start = dayjs(ISponsorDetailRes?.data.startTime);
   const end = dayjs(ISponsorDetailRes?.data.endTime);
   const now = dayjs();
   const diffDays = end.diff(now, 'day');
+
+  const total = end.diff(start);
+  const current = now.diff(start);
+  const progressPercentage = (current / total) * 100 >= 100 ? 100 : (current / total) * 100;
+  
+
+  useEffect(() => {
+    if (!isHistoryOpen) return;
+    (async () => {
+      const ret = await getSupprtedHistory(sponsorId);
+      if (ret)
+        setSupportedHistory(ret);
+    })();
+  }, [isHistoryOpen])
+  
+  const handleWithdraw = () => {
+
+    (async () => {
+      const tx = await withdraw(sponsorId);
+      if (tx) {
+        toast.success("후원금을 수령했습니다.");
+      } else {
+        toast.error("이미 수령한 후원이거나 후원금이 없습니다.");
+      }
+    })()
+  }
 
   return (
     <>
@@ -54,15 +95,21 @@ const SponsorDetailPage = () => {
         <Header info={info} />
         <div className="pt-12 pb-32">
           {/* 후원글 정보 */}
-          <div className="bg-gray-300 h-60">
-            <img src={ISponsorDetailRes?.data.supportImage} className="bg-gray-300 h-60" />
+          <div className={`w-full h-60 flex justify-center`} style={{backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${ISponsorDetailRes?.data.supportImage})`,backgroundSize: 'cover',
+			backgroundRepeat: 'no-repeat'}}>
+            <img src={ISponsorDetailRes?.data.supportImage} className="h-full" />
           </div>
           <div className="p-4">
-            <p className="font-bold w-24 text-[10px] px-2 py-1 bg-white border rounded-3xl text-center">
+            <p className="font-bold w-24 text-[10px] px-2 py-1 bg-white border rounded-3xl text-center opacity-0">
               후원마감 D-{diffDays}
             </p>
             <p className="text-white py-2">{ISponsorDetailRes?.data.title}</p>
-            <div className="w-full h-2 bg-white rounded-xl "></div>
+            <div className="w-full h-2 bg-white rounded-xl ">
+              <div
+                style={{ width: `${progressPercentage}%` }}
+                className="h-full bg-Stickey_Main rounded-xl transition-width duration-500"
+              ></div>
+            </div>
             <p className="text-white text-[10px] text-left py-2">
               {startTime} ~ {endTime}
             </p>
@@ -72,14 +119,50 @@ const SponsorDetailPage = () => {
           {/* 단체 정보 */}
           <div className="px-4">
             <div className="flex items-center">
-              <p className="bg-gray-500 w-6 h-6 rounded-full">
-                <img src={ISponsorDetailRes?.data.profileImage} className="bg-gray-500 w-6 h-6 rounded-full" />
+              <p className="bg-gray-500 w-8 h-8 rounded-full">
+                <img src={ISponsorDetailRes?.data.profileImage} className="bg-gray-500 w-8 h-8 rounded-full" />
               </p>
               <p className="text-white text-sm pl-2">{ISponsorDetailRes?.data.name}</p>
             </div>
             <div>
-              <p className="text-xs text-white py-2">후원금 사용내역 보기</p>
-              <button className="bg-white w-full rounded-md py-2 text-xs">사용내역 보기</button>
+              <p className="flex text-xs text-white py-2"></p>
+              <button className="bg-white flex justify-center w-full rounded-md py-2 text-xs" onClick={handleHistoryOpen}>
+                <p><img className='w-4 mr-2' src={Metamask} /></p>
+                <p>이 단체에 후원한 사람들</p></button>
+            
+            {/* 애니메이션 넣어주세요 */}
+              {isHistoryOpen &&
+                <div className="h-auto bg-white rounded-md px-2 py-4 overflow-scroll">
+                  {supportedHistory && supportedHistory.length > 0 ?
+                    
+                    
+                      <>
+                        <div className='text-sm px-2'>내역</div>
+                        <hr className="border-gray-400 py-1"/>
+                    {supportedHistory!.map((item) => {
+                    return (
+                      <div key={item.time} className="flex px-2 items-baseline">
+                        <div>
+                          <p className="text-sm font-semibold">{item.text}</p>
+                        </div>
+                        <div className="grow flex flex-col items-end">
+                          <div className='font-bold'>{Number(item.amount) / 10e10}</div>
+                          <div className="text-xs text-gray-500">{dayjs(Number(item.time)*1000).format("YYYY/MM/DD HH:mm:ss")}</div>
+                          
+                        </div>
+                      </div>
+                    )
+                    })}
+                  </>:
+                    
+                    <div className='text-xs text-center py-2'>
+                      첫 후원입니다. 아직 내역이 없어요.
+                    </div>
+                  
+                  }
+
+                </div>
+              }
             </div>
             <div>
               <p className="text-xs text-white py-2">후원 유망주</p>
@@ -93,7 +176,9 @@ const SponsorDetailPage = () => {
                       </p>
                       <div className="px-2">
                         <p className="text-white text-xs">{player.name}</p>
+                        <p className="text-[8px] text-gray-400">{player.category}</p>
                         <p className="text-[8px] text-gray-400">{player.birth}</p>
+                        <p className="text-[8px] text-white">{player.description}</p>
                       </div>
                     </div>
                   </div>
@@ -106,24 +191,31 @@ const SponsorDetailPage = () => {
           <div className="px-4">
             <p className="text-xs text-white py-2">기본 정보</p>
             <div className="bg-[#2E2E3D] flex px-4 rounded-md justify-between">
-              <div className="text-[10px] py-4 text-white">
-                <p>{ISponsorDetailRes?.data.name}</p>
-                <p>{ISponsorDetailRes?.data.phone}</p>
-                <p>{ISponsorDetailRes?.data.manager} 담당자</p>
-                <p>{ISponsorDetailRes?.data.address}</p>
-                <p>{ISponsorDetailRes?.data.email}</p>
+              <div className="text-xs py-4 text-white">
+                <p>단체명 : {ISponsorDetailRes?.data.name}</p>
+                <p>연락처 : {ISponsorDetailRes?.data.phone}</p>
+                <p>담당자 : {ISponsorDetailRes?.data.manager} 담당자</p>
+                <p>주소 : {ISponsorDetailRes?.data.address}</p>
+                <p>이메일 : {ISponsorDetailRes?.data.email}</p>
               </div>
               <div className="flex items-center">
-                <img src={map} className="h-20" />
+                <img src={map} className="h-24 w-44" />
               </div>
             </div>
           </div>
         </div>
         {/* 후원 버튼 */}
         <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
-          <button className="bg-[#5959E7] w-full text-white rounded-xl p-2 text-md" onClick={handleSponsorClick}>
-            후원하기
-          </button>
+          {id == ISponsorDetailRes?.data.organizationId ?
+            <button className={`${progressPercentage >= 100 ? `bg-[#5959E7]` : `bg-Stickey_Gray`} w-full text-white rounded-md p-2 text-md`} onClick={handleWithdraw}
+            disabled={progressPercentage < 100}>
+            수령하기
+          </button> :
+            <button className={`${progressPercentage < 100 ? `bg-[#5959E7]` : `bg-Stickey_Gray`} w-full text-white rounded-md p-2 text-md`} onClick={handleSponsorClick}
+            disabled={progressPercentage >= 100}>
+          후원하기
+        </button>
+          }
         </div>
 
         {isModalOpen && <SponsorModal onClose={() => setIsModalOpen(false)} />}

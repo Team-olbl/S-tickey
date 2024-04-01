@@ -67,6 +67,12 @@ export const getWalletInfo = async () => {
   }
 }
 
+export const getBalance = async () => {
+  await connect();
+  if (contract === null || web3 === null) throw new Error("Invalid Call");
+  return await web3?.eth.getBalance(account);
+}
+
 // 티켓 예매
 export const createTicket = async (number : number, gameId : number, stadiumId : number, zoneId : number, seatNumber : number[], price : number) => {
   await connect();

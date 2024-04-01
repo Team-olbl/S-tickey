@@ -15,11 +15,11 @@ const BookSection = () => {
 
     const { id } = useParams<{ id: string }>();
     console.log("ID:", id);
-    // const intId = Number(id)
+    const intId = Number(id)
 
     // api 연결
     const { useSectionSeatCnt } = useBook()
-    const { data: seatCntInfo } = useSectionSeatCnt(1)
+    const { data: seatCntInfo } = useSectionSeatCnt(intId)
 
     console.log( seatCntInfo?.data.leftSeatResList )
     console.log(gameInfo?.category)

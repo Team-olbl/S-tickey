@@ -5,17 +5,16 @@ import { ITicket } from './TicketList';
 
 export interface TicketItemProps {
     ticket: ITicket; 
-    getData: () => void
 }
 
-const TicketItem: React.FC<TicketItemProps> = ({ ticket,getData }) => {
+const TicketItem: React.FC<TicketItemProps> = ({ ticket }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const itemRef = useRef<HTMLDivElement>(null);
     
     useEffect(() => {
         const itemEl = itemRef.current;
     
-        const handleTouchMove = (e) => {
+        const handleTouchMove = (e:TouchEvent) => {
             if (!itemRef.current) return;
             const touch = e.touches[0];
             const { clientWidth, clientHeight } = itemRef.current;
@@ -40,9 +39,9 @@ const TicketItem: React.FC<TicketItemProps> = ({ ticket,getData }) => {
         };
     }, []);
     
-    useEffect(() => {
-        getData();
-    }, [isModalOpen])
+    // useEffect(() => {
+    //     getData();
+    // }, [isModalOpen])
 
     
 

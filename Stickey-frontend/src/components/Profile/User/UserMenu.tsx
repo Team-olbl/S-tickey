@@ -6,18 +6,19 @@ import BottomModal from "../../@common/BottomModal";
 import { AiOutlineClose } from 'react-icons/ai';
 import { toast } from "react-toastify";
 import { useGame } from "../../../hooks/Home/useGame";
-import { ITeamListRes } from "../../../types/Home";
 import { useProfile } from "../../../hooks/Profile/useProfile";
 import { ITeamPreferReq } from "../../../types/Profile";
 import { connect } from "../../../service/web3/api";
+import userStore, { IPreferences } from "../../../stores/userStore";
 
-const UserMenu = () => {
+const UserMenu = ({ refetch } : {refetch:() => void}) => {
   const navigate = useNavigate();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
   const [selectedTeam, setSelectedTeam] = useState<string>('');
   const [selectedTab, setSelectedTab] = useState<string>('');
-  const [preferredTeams, setPreferredTeams] = useState<ITeamListRes[]>([]);
+  const [preferredTeams, setPreferredTeams] = useState<IPreferences[]>([]);
+  const { setPreference } = userStore();
 
   const handlePreferredTeam = () => {
     setIsBottomSheetOpen(true)
@@ -42,11 +43,11 @@ const UserMenu = () => {
   const handleAddTeam = async () => {
     const selected = teamListInfo?.data.find(team => team.name === selectedTeam);
     // 선택된 팀이 이미 selectedTeams 배열에 있는지 확인
-    const isAlreadySelected = preferredTeams.some(team => team.id === selected?.id);
+    const isAlreadySelected = preferredTeams.some(team => team.sportsClubId === selected?.id);
     console.log(selectedTeam)
     // 선택된 팀이 없고, selectedTeams의 길이가 3보다 작을 때 + 이미 선택된 팀이 아닐 때 추가
     if (selected && preferredTeams.length < 3 && !isAlreadySelected) {
-      setPreferredTeams(prev => [...prev, selected]);
+      setPreferredTeams(prev => [...prev, { sportsClubId : selected.id, sportsClubLogo : selected.logo, sportsClubName : selected.name}]);
     } else if (preferredTeams.length >= 3) {
       toast.error('선호 구단은 최대 3개까지 등록할 수 있습니다.');
     } else if (isAlreadySelected) {
@@ -57,17 +58,23 @@ const UserMenu = () => {
   const { usePatchTeamPrefer } = useProfile()
 
   // 선호구단의 아이디값을 배열에 저장
-    const selectedTeamIds = preferredTeams.map(team => team.id);
-    console.log(selectedTeamIds)
+    const selectedTeamIds = preferredTeams.map(team => team.sportsClubId);
+  console.log(selectedTeamIds)
+  console.log(preferredTeams);
 
     const patchReq: ITeamPreferReq = {
       preferences: selectedTeamIds
     }
 
-    const { mutate } = usePatchTeamPrefer(patchReq);
+    const { mutate } = usePatchTeamPrefer();
 
     const handlePatchData = () => {
-      mutate()
+      mutate(patchReq, {
+        onSuccess: () => {
+          setPreference(preferredTeams);
+          refetch();
+        }
+      });
       setIsBottomSheetOpen(false)
 
     }
@@ -99,9 +106,9 @@ const UserMenu = () => {
   console.log(teamListInfo?.data)
 
   const filteredTeams = teamListInfo?.data.filter(team => team.category === selectedTab);
-
+  console.log("filter", filteredTeams);
   return (
-    <div className="max-w-[500px] w-full h-[208px] mt-4 border-t-[0.5px]">
+    <div className="max-w-[500px] w-full h-[208px] mt-4 border-t-[0.5px] px-4">
       <div className="flex flex-row items-center justify-between h-[40px] text-white px-4 cursor-pointer" onClick={movePaymentHistory}>
         <p>결제 내역</p>
         <img src={Next} className="h-[20px]"/>
@@ -138,10 +145,10 @@ const UserMenu = () => {
                     </div>
                     <div className="flex flex-col gap-1">
                       <div className="flex justify-center px-6">
-                        <img src={team.logo} />
+                        <img src={team.sportsClubLogo} />
                       </div>
                       <div className="text-[10px] flex justify-center">
-                        {team.name}
+                        {team.sportsClubName}
                       </div>
                     </div>
                   </div>
@@ -162,10 +169,12 @@ const UserMenu = () => {
                 </div>
               </div>
               </div>
-              <div className="h-40 flex flex-col justify-center overflow-y-auto pb-6" >
+            <div className="h-[40vh] flex flex-col justify-center pb-8" >
+              <div className="h-full  overflow-y-scroll">
+              
               {filteredTeams && filteredTeams.map((item) => (
                 <div key={item.id} className="w-full flex justify-start items-center pl-24 gap-4 pb-4" onClick={() => handleClick(item.name)}>
-                  <div className="w-4 h-4 border-2 rounded-full flex cursor-pointer" >
+                  <div className="w-4 h-4 border-2 rounded-full flex cursor-pointer justify-center items-center" >
                     {selectedTeam === item.name && <div className="w-2 h-2 bg-white rounded-full"></div>}
                   </div>
                   <div className="flex items-center w-12 h-12 border border-none bg-white rounded">
@@ -176,6 +185,7 @@ const UserMenu = () => {
                   </div>
                 </div>
               ))}
+              </div>
               </div>
               <div className="fixed flex justify-center max-w-[500px] w-full px-8 bottom-16">
                 <button className="p-2 w-40 mx-1 bg-Stickey_Main rounded-md" onClick={handleAddTeam}>추가하기</button>

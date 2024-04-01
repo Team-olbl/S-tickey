@@ -4,20 +4,21 @@ import Bell from '../../assets/image/Bell.png'
 import GameSchedule from "../../components/Home/GameSchedule";
 import Header, { IHeaderInfo } from "../../components/@common/Header";
 import NavigationBar from "../../components/@common/NavigationBar";
-import 대구 from '../../assets/Logos/대구FC.png'
-import 서울 from '../../assets/Logos/서울FC.png'
 import GameScheduleHeader from "../../components/Home/GameScheduleHeader";
+import { useGame } from "../../hooks/Home/useGame";
+import userStore from "../../stores/userStore";
+import { useNavigate } from "react-router-dom";
 
-export type GameItem = {
-  id: number;
-  date: string;
-  dayOfWeek: string;
-  time: string;
-  homeTeam: string;
-  homeTeamLogo: JSX.Element;
-  awayTeam: string;
-  awayTeamLogo: JSX.Element;
-}
+// export type GameItem = {
+//   id: number;
+//   date: string;
+//   dayOfWeek: string;
+//   time: string;
+//   homeTeam: string;
+//   homeTeamLogo: JSX.Element;
+//   awayTeam: string;
+//   awayTeamLogo: JSX.Element;
+// }
 
 export type preferredClub = {
   id: number;
@@ -26,6 +27,18 @@ export type preferredClub = {
 }
 
 const HomePage = () => {
+  const navigate = useNavigate();
+  const { useGetGameList } = useGame();
+  const { preferences } = userStore();
+
+  const {
+    data: gameListInfo,
+    isSuccess
+  } = useGetGameList({ catg : undefined, club: [ ...preferences.map((item) => item.sportsClubName )], date : undefined});
+
+  if (isSuccess)
+    console.log(gameListInfo);
+
   const info : IHeaderInfo = {
     left_1: null,
     left_2: null,
@@ -33,52 +46,25 @@ const HomePage = () => {
     right: <img src={Bell} alt="" />
   }
 
-  const dummies:GameItem[] = [
-    {
-      id: 1,
-      date: '03.17',
-      dayOfWeek: '일',
-      time: '20:30',
-      homeTeam: '대구FC',
-      homeTeamLogo: <img src={대구}  />,
-      awayTeam: 'FC서울',
-      awayTeamLogo: <img src={서울} />,
-    },
-    {
-      id: 2,
-      date: '03.17',
-      dayOfWeek: '일',
-      time: '20:30',
-      homeTeam: '대구FC',
-      homeTeamLogo: <img src={대구}  />,
-      awayTeam: 'FC서울',
-      awayTeamLogo: <img src={서울} />,
-    },
-    {
-      id: 3,
-      date: '03.17',
-      dayOfWeek: '일',
-      time: '20:30',
-      homeTeam: '대구FC',
-      homeTeamLogo: <img src={대구}  />,
-      awayTeam: 'FC서울',
-      awayTeamLogo: <img src={서울} />,
-    },
-  ]
-
 
   return(
     <>
-      <Header info={info}/>
+      <Header info={info} />
       <div className="pt-16 pb-16">
         <Carousel />
         <Category />
         <GameScheduleHeader/>
-        {dummies.map((item, id) => (
+        {preferences && preferences.length > 0 ? gameListInfo?.data.gameResList.map((item, id) => (
           <GameSchedule data={item} key={id}/>
         ))
-        }
-      </div>
+          :
+          <div className="w-[50vw] max-w-[500px] m-auto px-4 flex justify-center items-center">
+            <button className={`bg-[#5959E7] w-full text-white rounded-xl p-2 text-md`} onClick={() => navigate('/profile')}>
+              선호구단 등록하러가기
+            </button>
+          </div>
+          }
+        </div>
       <NavigationBar />
     </>
   )
