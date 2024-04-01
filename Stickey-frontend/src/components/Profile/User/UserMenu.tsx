@@ -169,10 +169,12 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
                 </div>
               </div>
               </div>
-              <div className="h-40 flex flex-col justify-center overflow-y-auto pb-6" >
+            <div className="h-[40vh] flex flex-col justify-center pb-8" >
+              <div className="h-full  overflow-y-scroll">
+              
               {filteredTeams && filteredTeams.map((item) => (
                 <div key={item.id} className="w-full flex justify-start items-center pl-24 gap-4 pb-4" onClick={() => handleClick(item.name)}>
-                  <div className="w-4 h-4 border-2 rounded-full flex cursor-pointer" >
+                  <div className="w-4 h-4 border-2 rounded-full flex cursor-pointer justify-center items-center" >
                     {selectedTeam === item.name && <div className="w-2 h-2 bg-white rounded-full"></div>}
                   </div>
                   <div className="flex items-center w-12 h-12 border border-none bg-white rounded">
@@ -183,6 +185,7 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
                   </div>
                 </div>
               ))}
+              </div>
               </div>
               <div className="fixed flex justify-center max-w-[500px] w-full px-8 bottom-16">
                 <button className="p-2 w-40 mx-1 bg-Stickey_Main rounded-md" onClick={handleAddTeam}>추가하기</button>
