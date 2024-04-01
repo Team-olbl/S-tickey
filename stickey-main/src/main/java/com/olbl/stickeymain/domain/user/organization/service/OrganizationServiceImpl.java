@@ -152,6 +152,10 @@ public class OrganizationServiceImpl implements OrganizationService {
             throw new BusinessException(PLAYER_NOT_IN_ORGANIZATION);
         }
 
+        // 회원 정보 삭제
+        if (player.getProfile() != null) {
+            s3Util.deleteFile(player.getProfile(), 2);
+        }
         playerRepository.delete(player);
     }
 
