@@ -15,6 +15,8 @@ export interface ITicket {
     zoneId: number;
     zoneName: string;
     seatNumber: number;
+    filterId : number;
+    backgroundId : number;
     price: bigint;
 }
 

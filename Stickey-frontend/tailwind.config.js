@@ -13,6 +13,9 @@ export default {
       fontFamily: {
         Pretendard: ['Pretendard-Regular'],
       },
+      mixBlendMode:{
+        colorDodge: 'color-dodge'
+      }
     },
   },
   plugins: [],
