@@ -17,6 +17,7 @@
     "@types/stompjs": "^2.3.9",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
+    "event-source-polyfill": "^1.0.31",
     "flowbite-react": "^0.7.3",
     "framer-motion": "^11.0.12",
     "million": "^3.0.6",
@@ -36,6 +37,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/event-source-polyfill": "^1.0.5",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
     "@types/react-slick": "^0.23.13",
