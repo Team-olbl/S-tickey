@@ -7,7 +7,6 @@ contract Item {
   struct ItemInfo {
     uint id;          // 아이템 ID
     uint price;           // 아이템 가격
-    string name;      // 아이템 이름
   }
 
   // autoIncrement key
@@ -23,27 +22,25 @@ contract Item {
   mapping(uint => ItemInfo) private _backgroundInfo;
 
   // 필터 아이템 추가
-  function _addFilter(string memory _name, uint _price) internal {
-    ++_filterCount;
+  function _addFilter(uint _id, uint _price) internal {
+    uint price = _price * 10e12;
     ItemInfo memory item = ItemInfo({
-      id: _filterCount, 
-      name: _name, 
-      price: _price
+      id: _id, 
+      price: price
     });
     _filterList.push(item);
-    _filterInfo[_filterCount] = item;
+    _filterInfo[_id] = item;
   }
 
   // 배경색 아이템 추가
-  function _addBackground(string memory _name, uint _price) internal {
-    ++_backgroundCount;
+  function _addBackground(uint _id, uint _price) internal {
+    uint price = _price * 10e12;
     ItemInfo memory item = ItemInfo({
-      id: _backgroundCount, 
-      name: _name, 
-      price: _price
+      id: _id, 
+      price: price
     });
     _backgroundList.push(item);
-    _backgroundInfo[_backgroundCount] = item;
+    _backgroundInfo[_id] = item;
   }
 
   // 필터 아이템 삭제

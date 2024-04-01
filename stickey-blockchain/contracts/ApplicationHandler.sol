@@ -77,8 +77,8 @@ contract ApplicationHandler is Api {
   }
 
   // 필터 아이템 추가
-  function addFilter(string memory _name, uint _price) public isOwner {
-    _addFilter(_name, _price);
+  function addFilter(uint _id, uint _price) public isOwner {
+    _addFilter(_id, _price);
   }
   
   // 필터 아이템 삭제
@@ -87,8 +87,8 @@ contract ApplicationHandler is Api {
   }
 
   // 배경색 아이템 추가
-  function addBackground(string memory _name, uint _price) public isOwner {
-    _addBackground(_name, _price);
+  function addBackground(uint _id, uint _price) public isOwner {
+    _addBackground(_id, _price);
   }
   
   // 배경색 아이템 삭제
