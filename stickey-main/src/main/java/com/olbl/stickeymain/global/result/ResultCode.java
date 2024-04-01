@@ -45,6 +45,7 @@ public enum ResultCode {
     HOLD_SEATS_SUCCESS(200, "좌석 선점에 성공하였습니다."),
     HOLD_SEATS_FAIL(200, "이미 선택된 좌석입니다."),
     PAYMENT_SUCCESS(200, "좌석 결제/환불에 성공하였습니다."),
+    REMOVE_RUNNING_QUEUE_SUCCESS(200, "참가열에서 삭제되었습니다."),
 
     //Support
     GET_SUPPORTID_BY_ITEM_SUCCESS(200, "후원될 글 조회에 성공하였습니다."),

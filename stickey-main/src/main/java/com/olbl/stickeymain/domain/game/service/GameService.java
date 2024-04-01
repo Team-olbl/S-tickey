@@ -29,4 +29,6 @@ public interface GameService {
     void registSeats(PaymentReq paymentReq);
 
     List<SportsClubRes> getClubs(Param param, Authentication authentication);
+
+    void cancelReserve(int id, Authentication authentication);
 }
