@@ -27,6 +27,11 @@ import PlayerRegistration from './pages/Profile/Group/PlayerRegistrationPage';
 import BlockchainTest from "./BlockchainTest";
 import userStore from './stores/userStore';
 import AdminPage from './pages/Admin/AdminPage';
+import { useEffect } from 'react';
+import { EventSourcePolyfill, NativeEventSource  } from "event-source-polyfill";
+import { toast } from 'react-toastify';
+import useNotifyStore from './stores/useNotifyStore';
+import useNotifyReadStore from './stores/useNotifyReadStore';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -217,6 +222,57 @@ const router = createBrowserRouter(
 )
 
 function App() {
+  const { accessToken, role } = userStore();
+  const { addNotification } = useNotifyStore();
+  const { setUnRead  } = useNotifyReadStore()
+  
+  useEffect(() => {
+    const EventSource = EventSourcePolyfill || NativeEventSource;
+    const fetchData = async () => {
+      try {
+        const sseUrl = import.meta.env.VITE_SSE_URL;
+        const eventSource = new EventSource(sseUrl, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          heartbeatTimeout: 120000,
+        });
+
+        eventSource.onopen = () => {
+          console.log('SSE 연결됨');
+        };
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        eventSource.addEventListener('sse', function (event: any) {
+          try {
+            const notify = JSON.parse(event.data);
+            console.log(notify.content);
+
+            if (role === 'INDIVIDUAL' && notify.notificationType === 'GAME') {
+              addNotification(notify);
+              setUnRead();
+              toast.info('알람이 도착했습니다.');
+            } else if (role !== 'INDIVIDUAL' && notify.notificationType === 'APPROVE') {
+              addNotification(notify);
+              setUnRead();
+              toast.info('알람이 도착했습니다.');
+            }
+          } catch (err) {
+            return;
+          }
+        });
+
+        eventSource.onerror = (error) => {
+          console.error('SSE 오류:', error);
+        };
+      } catch (error) {
+        console.error('SSE 연결 에러:', error);
+      }
+    };
+
+    fetchData();
+  }, [accessToken, role]);
+
   return (
     <>
       <RouterProvider router={router} />
