@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getPlayerListReq, getProfileReq, getUserData, patchEditUserData, patchTeamPreference, postPlayerCreate } from "../../service/Profile/api"
-import { ITeamPreferReq } from "../../types/Profile"
 import userStore from "../../stores/userStore"
 
 export const useProfile = () => {
@@ -36,9 +35,9 @@ export const useProfile = () => {
     }
 
     // 선호구단 등록
-    const usePatchTeamPrefer = (info: ITeamPreferReq) => {
+    const usePatchTeamPrefer = () => {
         return useMutation({
-            mutationFn: () => patchTeamPreference(info)
+            mutationFn: patchTeamPreference
         })
     }
 

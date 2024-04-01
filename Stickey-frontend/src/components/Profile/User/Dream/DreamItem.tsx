@@ -50,8 +50,8 @@ const DreamItem = ({ data }: DreamItemProps) => {
           <div className="text-white text-[12px]">{content()}</div>
         </div>
         <div className="text-[12px] text-right text-white">
-          <div>{Number(data.amount) / 10000}</div>
-          <div className="text-[8px]">잔액 {Number(data.balance) / 10000}</div>
+          <div>{Number(data.amount) / 10e12}</div>
+          <div className="text-[8px]">남은 꿈 {Number(data.balance) / 10e12}</div>
         </div>
       </div>
     </>

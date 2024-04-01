@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import { useSponsor } from '../../../hooks/Sponsor/useSponsor';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { getSupprtedHistory, withdraw } from "../../../service/web3/api";
+import { connect, getSupprtedHistory, withdraw } from "../../../service/web3/api";
 
 const info: IHeaderInfo = {
   left_1: null,
@@ -41,6 +41,16 @@ const SponsorDetailPage = () => {
     }
   };
 
+  const handleHistoryOpen = () => {
+    connect().then(
+      (ret) => {
+        if (ret)
+          setIsHistoryOpen(!isHistoryOpen);
+      }
+    );
+    
+  }
+
   const { useSponsorDetail } = useSponsor();
   const { data: ISponsorDetailRes } = useSponsorDetail(sponsorId);
 
@@ -54,8 +64,7 @@ const SponsorDetailPage = () => {
 
   const total = end.diff(start);
   const current = now.diff(start);
-  const progressPercentage = (current / total) * 100;
-
+  const progressPercentage = (current / total) * 100 >= 100 ? 100 : (current / total) * 100;
   
 
   useEffect(() => {
@@ -77,7 +86,6 @@ const SponsorDetailPage = () => {
         toast.error("이미 수령한 후원이거나 후원금이 없습니다.");
       }
     })()
-
   }
 
   return (
@@ -117,10 +125,10 @@ const SponsorDetailPage = () => {
             </div>
             <div>
               <p className="text-xs text-white py-2"></p>
-              <button className="bg-white w-full rounded-md py-2 text-xs" onClick={() => setIsHistoryOpen((state) => !state)}>후원 내역 보기</button>
+              <button className="bg-white w-full rounded-md py-2 text-xs" onClick={handleHistoryOpen}>후원 내역 보기</button>
             
               {isHistoryOpen &&
-                <div className="h-40 bg-[#b4b2b2] rounded-md p-2">
+                <div className="h-40 bg-[#b4b2b2] rounded-md p-2 overflow-scroll">
                   {supportedHistory && supportedHistory.length > 0 ?
                     
                     
