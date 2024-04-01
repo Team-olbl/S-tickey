@@ -24,32 +24,27 @@
   transition: all 0.1s;
 }
 
-// 흰색
 .background0 {
   background-color: white;
   color: black;
 }
 
-// 검정색
 .background1 {
   background-color: black;
   color: white
 }
 
-// 빨간색
 .background2 {
   background-color: #dc143c;
   color: black;
 }
 
-// 노란색
 .background3 {
-  background-color:  #ffffcc ;
+  background-color:  #ffffcc;
   color: black;
 }
 
-// 파란색
 .background4 {
-  background-color: #6495ed ;
+  background-color: #6495ed;
   color: black;
 }
