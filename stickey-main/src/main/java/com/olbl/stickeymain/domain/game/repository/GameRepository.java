@@ -11,4 +11,6 @@ public interface GameRepository extends JpaRepository<Game, Integer>, GameReposi
 
     List<Game> findByBookStartTimeBetween(LocalDateTime now, LocalDateTime twentyMinutesFromNow);
 
+    List<Game> findByGameStartTimeBetween(LocalDateTime startOfTomorrow,
+        LocalDateTime endOfTomorrow);
 }
