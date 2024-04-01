@@ -7,15 +7,21 @@ import { toEther } from "../../../service/web3/api";
 import dayjs from "dayjs";
 import { useState } from "react";
 import './styles.css'
+import BuyingModal from "../../../components/MyTicket/BuyingModal";
 
 const TicketEditPage = () => {
   const location = useLocation();
   const ticket = location.state?.ticket;
   const [selectedTab, setSelectedTab] = useState('filter');
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleTabChange = (tabName: string) => {
     setSelectedTab(tabName);
   };
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true)
+  }
 
   const backgrounds = [
     { color: "bg-white", image: ticket.gameImage},
@@ -76,38 +82,43 @@ const TicketEditPage = () => {
             </div>
           </div>
           {selectedTab === 'filter' && (
-            <div className="flex overflow-x-auto gap-2">
+            <div className="flex gap-2 p-4" onClick={handleModalOpen}>
               {filters.map((filter, index) => (
-              <button key={index} className="bg-Stickey_Gray h-28 w-24 m-4 rounded-lg flex items-center justify-center relative overflow-hidden">
-                <div className="h-auto flex flex-col justify-start items-center">
-                  <div className="w-12 bg-white rounded-b-lg p-1 font-semibold"></div>
-                  <div className=" bg-white rounded-xl relative">
-                    <img className="w-12 rounded-2xl p-2" src={ticket.gameImage} />
-                    <div className={`absolute inset-0 ${filter.gradientClass} rounded-xl`}></div>
+              <div key={index} >
+                <button className="bg-Stickey_Gray h-28 w-24 rounded-lg flex items-center justify-center relative">
+                  <div className="h-auto flex flex-col justify-start items-center">
+                    <div className="w-12 bg-white rounded-b-lg p-1 font-semibold"></div>
+                    <div className=" bg-white rounded-xl relative">
+                      <img className="w-12 rounded-2xl p-2" src={ticket.gameImage} />
+                      <div className={`absolute inset-0 ${filter.gradientClass} rounded-xl`}></div>
+                    </div>
+                    <div className="w-12 bg-white rounded-t-lg p-1 font-semibold"></div>
                   </div>
-                  <div className="w-12 bg-white rounded-t-lg p-1 font-semibold"></div>
-                </div>
-              </button>
+                </button>
+              </div>
               ))}
             </div>
           )}
           {selectedTab === 'background' && (
-            <div className="w-full flex overflow-x-auto m-4 gap-2">
+            <div className="flex w-full gap-2 p-4 overflow-auto" onClick={handleModalOpen}>
               {backgrounds.map((background, index) => (
-              <button key={index} className="bg-Stickey_Gray h-28 w-24 rounded-lg flex items-center justify-center flex-shrink-0">
-                <div className="h-auto flex flex-col justify-start items-center">
-                  <div className={`w-12 ${background.color} rounded-b-lg p-1 font-semibold`}></div>
-                  <div className={`${background.color} rounded-xl`}>
-                    <img className="w-12 rounded-2xl p-2" src={ticket.gameImage} />
+              <div key={index}>
+                <button className="bg-Stickey_Gray h-28 w-24 rounded-lg flex items-center justify-center relative">
+                  <div className="h-auto flex flex-col justify-start items-center">
+                    <div className={`w-12 ${background.color} rounded-b-lg p-1 font-semibold`}></div>
+                    <div className={`${background.color} rounded-xl`}>
+                      <img className="w-12 rounded-2xl p-2" src={ticket.gameImage} />
+                    </div>
+                    <div className={`w-12 ${background.color} rounded-t-lg p-1 font-semibold`}></div>
                   </div>
-                  <div className={`w-12 ${background.color} rounded-t-lg p-1 font-semibold`}></div>
-                </div>
-              </button>
+                </button>
+              </div>
               ))}
             </div>
           )}
         </div>
       </div>
+      {isModalOpen && <BuyingModal onClose={() => setIsModalOpen(false)} />}
       <NavigationBar />
     </>
   )
