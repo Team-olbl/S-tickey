@@ -393,6 +393,13 @@ public class GameServiceImpl implements GameService {
         return sportsClubRes;
     }
 
+    @Override
+    public void cancelReserve(int id, Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal(); //로그인 한 유저정보 확인
+        existsInRunningQueue(id, userDetails.getId());
+        removeFromRunQueue(id, userDetails.getId());
+    }
+
     private void existsInRunningQueue(int gameId, int userId) {
         if (redisTemplate.opsForZSet().rank("run::" + gameId, String.valueOf(userId)) == null) {
             log.info("[existsInRunningQueue] 참가열에 존재하지 않는 유저 요청 : {}", userId);
