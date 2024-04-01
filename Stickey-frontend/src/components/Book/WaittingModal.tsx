@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
 import { Client } from '@stomp/stompjs';
 import userStore from '../../stores/userStore';
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
 import Loading from '../../assets/image/Loading.gif'
 
 const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
@@ -12,7 +12,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
     const { id: userId } = userStore();
     const [client, setClient] = useState<Client | null>(null);
     const [parsedMessageRef, setParsedMessageRef] = useState<number>(0);
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -29,7 +29,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                         console.log(parsedMessage.key);
                         setParsedMessageRef(parsedMessage.rank)
 
-                        if (!parsedMessage.myTurn) {
+                        if (parsedMessage.myTurn) {
                             onClose(); 
                             if (client) {
                                 client.publish({
@@ -38,7 +38,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                                 });
                                 console.log('취소 메시지 전송')  
                                 client.deactivate();                          }
-                            navigate(`/${ticketInfo?.id}/section`); 
+                            // navigate(`/${ticketInfo?.id}/section`); 
                         }
                     },
                 );

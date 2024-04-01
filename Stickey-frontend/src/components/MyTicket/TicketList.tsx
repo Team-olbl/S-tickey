@@ -22,6 +22,7 @@ export interface ITicket {
 
 
 const TicketList = () => {
+    const [isLoaded, setIsLoaded] = useState(false);
     const [showUpcoming, setShowUpcoming] = useState<boolean>(false);
     const [myTickets, setMyTickets] = useState<ITicket[]>([]);
     
@@ -31,6 +32,7 @@ const TicketList = () => {
         if (data) {
             setMyTickets(data);
         }
+        setIsLoaded(true);
     }, []);
     
     useEffect(() => {
@@ -52,7 +54,7 @@ const TicketList = () => {
                 >
                     {showUpcoming ? '전체' : '사용전'}
                 </button></div>
-                <div className="pt-4 pb-16 flex flex-wrap justify-center">
+                {isLoaded && <div className="pt-4 pb-16 flex flex-wrap justify-center">
                     {filteredTickets.length == 0 ? 
 
                     <div className="flex flex-col items-center mt-40">
@@ -61,13 +63,11 @@ const TicketList = () => {
                     </div>
                     
                 : filteredTickets.map((ticket) => (
-                    <TicketItem key={ticket.tokenId} ticket={ticket} getData={getData} />
+                    <TicketItem key={ticket.tokenId} ticket={ticket} />
                 ))
             
                 }
-                
-                {}
-                </div>
+                </div>}
             </div>
         </>
     )

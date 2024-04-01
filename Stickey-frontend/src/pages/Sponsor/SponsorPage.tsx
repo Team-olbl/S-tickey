@@ -47,7 +47,7 @@ const SponsorPage = () => {
           <p>후원 마감</p>
         </button>
       </div>
-      <div className="">
+      <div className="pb-16">
         {sponsorListInfo?.data.supportListRes.length === 0 ? (
           <div className="flex flex-col items-center mt-40">
             <img src={Dove} className="h-20" />
