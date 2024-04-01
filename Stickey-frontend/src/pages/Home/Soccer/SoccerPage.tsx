@@ -66,7 +66,7 @@ const SoccerPage = () => {
 
   return(
     <>
-      <Header info={info}/>
+      <Header info={info} />
       <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet} />
       <div className="py-16">
         <TeamList catg="SOCCER" selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} />
