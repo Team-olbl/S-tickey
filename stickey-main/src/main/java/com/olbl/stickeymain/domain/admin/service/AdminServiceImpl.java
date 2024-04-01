@@ -15,6 +15,7 @@ import com.olbl.stickeymain.domain.admin.dto.SignUpRes;
 import com.olbl.stickeymain.domain.admin.dto.WaitingSupportListRes;
 import com.olbl.stickeymain.domain.admin.dto.WaitingSupportOneRes;
 import com.olbl.stickeymain.domain.admin.dto.WaitingSupportRes;
+import com.olbl.stickeymain.domain.notify.service.NotifyService;
 import com.olbl.stickeymain.domain.support.entity.Support;
 import com.olbl.stickeymain.domain.support.entity.SupportStatus;
 import com.olbl.stickeymain.domain.support.repository.SupportRepository;
@@ -38,6 +39,8 @@ public class AdminServiceImpl implements AdminService {
     private final OrganizationRepository organizationRepository;
     private final SupportRepository supportRepository;
     private final UserRepository userRepository;
+
+    private final NotifyService notifyService;
 
     @Override
     public SignUpListRes getSignUpList() {
@@ -85,6 +88,7 @@ public class AdminServiceImpl implements AdminService {
             organization.setMessage(confirmReq.getMessage());
         }
 
+        notifyService.notifyOrganizationSignup(organization, organization.getStatus());
         organizationRepository.save(organization);
     }
 
@@ -120,6 +124,7 @@ public class AdminServiceImpl implements AdminService {
             support.setMessage(confirmReq.getMessage());
         }
 
+        notifyService.notifyOrganizationSupport(support.getOrganization(), support.getStatus());
         supportRepository.save(support);
     }
 }
