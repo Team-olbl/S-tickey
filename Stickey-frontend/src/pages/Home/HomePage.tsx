@@ -54,11 +54,11 @@ const HomePage = () => {
         <Carousel />
         <Category />
         <GameScheduleHeader/>
-        {preferences.length > 0 ? gameListInfo?.data.gameResList.map((item, id) => (
+        {preferences && preferences.length > 0 ? gameListInfo?.data.gameResList.map((item, id) => (
           <GameSchedule data={item} key={id}/>
         ))
           :
-          <div className="w-[50vw] max-w-[500px] m-auto px-4 flex justify-center items-center grow">
+          <div className="w-[50vw] max-w-[500px] m-auto px-4 flex justify-center items-center">
             <button className={`bg-[#5959E7] w-full text-white rounded-xl p-2 text-md`} onClick={() => navigate('/profile')}>
               선호구단 등록하러가기
             </button>
