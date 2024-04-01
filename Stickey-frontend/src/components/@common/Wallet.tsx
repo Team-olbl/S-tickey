@@ -3,20 +3,18 @@ const Wallet = () => {
   
 
   return (
-    <div className="flex justify-center">
-        {/* 지갑 */}
-        <div className="w-60 p-4 rounded-md bg-white">
+    <div>   
+        <div className="flex justify-evenly items-center p-4 rounded-md border-Stickey_Gray border">
+            {/* 지갑 */}
             <div className="flex flex-col items-center">
                 <p className="font-bold text-Stickey_Main">나의 지갑</p>
-                <p className="text-2xl font-bold">89000</p>
+                <p className="text-xl font-bold text-white py-1">89000</p>
             </div>
-        </div>
-
-        {/* 꿈 */}
-        <div className="flex flex-col items-center w-40 p-4 rounded-md bg-white">
+            <div className="text-Stickey_Gray">|</div>
+             {/* 꿈 */}
             <div className="flex flex-col items-center">
                 <p className="font-bold text-Stickey_Main">나의 꿈</p>
-                <p className="text-2xl font-bold">12</p>
+                <p className="text-xl font-bold text-white py-1">12</p>
             </div>
         </div>
     </div>
