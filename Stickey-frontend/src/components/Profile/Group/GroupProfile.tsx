@@ -59,7 +59,7 @@ const GroupProfile = ({ groupInfo }: { groupInfo: IUserProfile | null }) => {
       </div>
 
       {/* 지갑 */}
-      <div className="flex justify-center pt-4 px-4">
+      <div className="flex justify-center pt-4">
         <div className="w-full p-4">
           <Wallet />
         </div>
