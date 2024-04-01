@@ -27,6 +27,8 @@ import PlayerRegistration from './pages/Profile/Group/PlayerRegistrationPage';
 import BlockchainTest from "./BlockchainTest";
 import userStore from './stores/userStore';
 import AdminPage from './pages/Admin/AdminPage';
+import { useEffect } from 'react';
+import { EventSourcePolyfill  } from "event-source-polyfill";
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -217,6 +219,32 @@ const router = createBrowserRouter(
 )
 
 function App() {
+  const { accessToken } = userStore();
+
+  useEffect(() => {
+    const sseUrl = import.meta.env.VITE_SSE_URL;
+    const eventSource = new EventSourcePolyfill(sseUrl, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}` 
+      },
+    });
+
+    eventSource.onopen = () => {
+      console.log('SSE 연결됨');
+    };
+
+    eventSource.onmessage = (event) => {
+      console.log('SSE 메시지 받음:', event.data);
+    };
+
+    eventSource.onerror = (error) => {
+      console.error('SSE 오류:', error);
+    };
+    return () => {
+      eventSource.close();
+    };
+  }, []);
+
   return (
     <>
       <RouterProvider router={router} />
