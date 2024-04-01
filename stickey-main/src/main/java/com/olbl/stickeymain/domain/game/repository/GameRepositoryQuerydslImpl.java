@@ -59,7 +59,7 @@ public class GameRepositoryQuerydslImpl implements GameRepositoryQuerydsl {
         if (!(viewParam.getDate() == null)) {
             LocalDateTime startOfMonth = viewParam.getDateAsLocalDateTime();
             LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusSeconds(1);
-            booleanBuilder.and(game.bookStartTime.between(startOfMonth, endOfMonth));
+            booleanBuilder.and(game.gameStartTime.between(startOfMonth, endOfMonth));
         }
         if (!(viewParam.getCatg() == null)) {
             booleanBuilder.and(game.category.eq(viewParam.getCatg()));
