@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Bell from '../../assets/image/Bell.png'
+import useNotifyReadStore from "../../stores/useNotifyReadStore";
 
 export interface IHeaderInfo {
   left_1: React.ReactNode | null;
@@ -10,6 +11,7 @@ export interface IHeaderInfo {
 
 const Header = (props: {info: IHeaderInfo}) => {
   const navigate = useNavigate();
+  const { isRead } = useNotifyReadStore();
 
   const { left_1, left_2, center, right } = props.info;
   
@@ -32,9 +34,10 @@ const Header = (props: {info: IHeaderInfo}) => {
           <p className="text-white">{center}</p>
         )}
       </div>
-      <div className="flex flex-1 justify-end items-center">
+      <div className="flex flex-1 justify-end items-center relative"> {/* 추가 */}
         <button onClick={() => navigate('/alarm')}>
           {right && <img src={Bell} alt="Alarm" className="w-[32px] h-[32px]"/>}
+          {!isRead && <div className="absolute -right-1 top-0 w-2 h-2 rounded-full bg-[#E14246]"></div>} {/* 수정 */}
         </button>
       </div>
     </div>
