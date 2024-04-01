@@ -128,8 +128,7 @@ public class NotifyService {
     }
 
     @Transactional
-//    @Scheduled(fixedRate = 3600000)
-    @Scheduled(fixedRate = 30000) //test
+    @Scheduled(fixedRate = 3600000)
     public void notifyGameUpdate() {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime oneHourLater = now.plusHours(1);
