@@ -1,7 +1,7 @@
 package com.olbl.stickeymain.domain.notify.service;
 
-import com.olbl.stickeymain.domain.game.entity.Game;
-import com.olbl.stickeymain.domain.game.entity.SportsClub;
+import static com.olbl.stickeymain.global.result.error.ErrorCode.USER_NOT_EXISTS;
+
 import com.olbl.stickeymain.domain.game.repository.GameRepository;
 import com.olbl.stickeymain.domain.notify.dto.NotifyRes;
 import com.olbl.stickeymain.domain.notify.entity.NotificationType;
@@ -9,16 +9,14 @@ import com.olbl.stickeymain.domain.notify.entity.Notify;
 import com.olbl.stickeymain.domain.notify.repository.EmitterRepository;
 import com.olbl.stickeymain.domain.notify.repository.NotifyRepository;
 import com.olbl.stickeymain.domain.support.entity.SupportStatus;
-import com.olbl.stickeymain.domain.user.entity.Preference;
 import com.olbl.stickeymain.domain.user.entity.User;
 import com.olbl.stickeymain.domain.user.organization.entity.Organization;
 import com.olbl.stickeymain.domain.user.organization.entity.OrganizationStatus;
 import com.olbl.stickeymain.domain.user.repository.PreferenceRepository;
+import com.olbl.stickeymain.domain.user.repository.UserRepository;
 import com.olbl.stickeymain.global.auth.CustomUserDetails;
+import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +38,7 @@ public class NotifyService {
     private final NotifyRepository notifyRepository;
     private final GameRepository gameRepository;
     private final PreferenceRepository preferenceRepository;
+    private final UserRepository userRepository;
 
     // subscribe
     public SseEmitter subscribe(String lastEventId) {
@@ -131,40 +130,45 @@ public class NotifyService {
 //    @Scheduled(fixedRate = 3600000)
     @Scheduled(fixedRate = 30000) //test
     public void notifyGameUpdate() {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime oneHourLater = now.plusHours(1);
-        LocalDateTime twoHoursLater = now.plusHours(1).plusMinutes(59).plusSeconds(59);
-
-        List<Game> gameIdList = gameRepository.findByBookStartTimeBetween(oneHourLater,
-            twoHoursLater);
-
-        if (gameIdList.isEmpty()) {
-            log.info("예매 예정 경기가 없습니다.");
-        } else {
-            log.info("Game List : {}", gameIdList.size());
-            for (Game game : gameIdList) {
-                log.info("Game Id: {}", game.getId());
-                // team1, team2를 선호하는 회원 id 찾기
-                SportsClub team1 = game.getHomeTeam();
-                SportsClub team2 = game.getAwayTeam();
-                List<SportsClub> teams = Arrays.asList(team1, team2);
-                List<Preference> preferences = preferenceRepository.findBySportsClubIn(teams);
-
-                // 회원들한테 team1 vs team2 알림 보내기
-                if (preferences.isEmpty()) {
-                    log.info("notifyGameUpdate :: 해당 팀들을 선호하는 회원이 없습니다.");
-                } else {
-                    preferences.forEach(preference -> {
-                        User user = preference.getUser();
-                        String content = String.format(
-                            "%s vs %s : 선호 구단의 예매가 예정되어있습니다. 지금 확인해보세요!",
-                            team1.getName(), team2.getName());
-                        log.info(content);
-                        send(user, NotificationType.GAME, content);
-                    });
-                }
-            }
-        }
+//        LocalDateTime now = LocalDateTime.now();
+//        LocalDateTime oneHourLater = now.plusHours(1);
+//        LocalDateTime twoHoursLater = now.plusHours(1).plusMinutes(59).plusSeconds(59);
+//
+//        List<Game> gameIdList = gameRepository.findByBookStartTimeBetween(oneHourLater,
+//            twoHoursLater);
+        int id = 3;
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(
+                USER_NOT_EXISTS));
+        String content = "대구 FC vs FC 서울 : 선호 구단의 예매가 예정되어있습니다. 지금 확인해보세요!";
+        send(user, NotificationType.GAME, content);
+//        if (gameIdList.isEmpty()) {
+//            log.info("예매 예정 경기가 없습니다.");
+//        } else {
+//            log.info("Game List : {}", gameIdList.size());
+//            for (Game game : gameIdList) {
+//                log.info("Game Id: {}", game.getId());
+//                // team1, team2를 선호하는 회원 id 찾기
+//                SportsClub team1 = game.getHomeTeam();
+//                SportsClub team2 = game.getAwayTeam();
+//                List<SportsClub> teams = Arrays.asList(team1, team2);
+//                List<Preference> preferences = preferenceRepository.findBySportsClubIn(teams);
+//
+//                // 회원들한테 team1 vs team2 알림 보내기
+//                if (preferences.isEmpty()) {
+//                    log.info("notifyGameUpdate :: 해당 팀들을 선호하는 회원이 없습니다.");
+//                } else {
+//                    preferences.forEach(preference -> {
+//                        User user = preference.getUser();
+//                        String content = String.format(
+//                            "%s vs %s : 선호 구단의 예매가 예정되어있습니다. 지금 확인해보세요!",
+//                            team1.getName(), team2.getName());
+//                        log.info(content);
+//                        send(user, NotificationType.GAME, content);
+//                    });
+//                }
+//            }
+//        }
     }
 
     public void notifyOrganizationSignup(Organization organization, OrganizationStatus status) {
