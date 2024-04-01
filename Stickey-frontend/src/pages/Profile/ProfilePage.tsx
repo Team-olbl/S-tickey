@@ -12,7 +12,7 @@ import { Navigate } from "react-router-dom";
 const ProfilePage = () => {
   const { useGetProfile } = useProfile();
 
-  const { data: userProfileInfo, isSuccess } = useGetProfile();
+  const { data: userProfileInfo, isSuccess, refetch } = useGetProfile();
 
   if (isSuccess) {
     if (userProfileInfo.data.role === "ADMIN") {
@@ -48,7 +48,7 @@ const ProfilePage = () => {
               </div>
             </div>
 
-            <UserMenu />
+            <UserMenu refetch={refetch} />
           </>
         ) : (
           <>

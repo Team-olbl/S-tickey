@@ -50,11 +50,12 @@ const PaymentHistoryPage = () => {
   }
 
 
-  const displayDate = (value : number) => {
-    if (!dateSet.has(Math.floor(value / 86400))) {
-      dateSet.add(Math.floor(value / 86400));
+  const displayDate = (value: number) => {
+    const str = dayjs(value * 1000).format("YYYY-MM-DD");
+    if (!dateSet.has(str)) {
+      dateSet.add(str);
       return (
-        <div className="text-white ps-3">{dayjs(value * 1000).format("YYYY-MM-DD")}</div>
+        <div className="text-white ps-3">{str}</div>
       )
     }
   }
