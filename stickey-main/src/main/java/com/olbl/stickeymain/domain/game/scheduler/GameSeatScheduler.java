@@ -23,7 +23,7 @@ public class GameSeatScheduler {
     private final GameRepository gameRepository;
     private final StringRedisTemplate redisTemplate;
 
-    @Scheduled(cron = "0 0 20 * * *") //매일 오후 20시 실행
+    @Scheduled(cron = "0 10 20 * * *") //매일 오후 20시 실행
     public void checkAndExecuteTask() {
 
         LocalDateTime now = LocalDateTime.now();
@@ -31,6 +31,8 @@ public class GameSeatScheduler {
 
         List<Game> upcomingGames = gameRepository.findByBookStartTimeBetween(now,
             OneHourAfterFromNow); // 하루 뒤에 시작되는 경기 정보 가져오기
+
+        log.info("게임 있나:" + upcomingGames.getFirst().getId());
 
         for (Game game : upcomingGames) {
             List<GameSeat> gameSeatList = gameSeatRepository.findByGameId(game.getId());
