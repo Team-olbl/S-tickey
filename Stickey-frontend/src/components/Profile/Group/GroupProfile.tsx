@@ -1,5 +1,6 @@
 import { IUserProfile } from "../../../types/Profile";
 import Accept  from '../../../assets/image/Accept.png'
+import Wallet from "../../@common/Wallet";
 
 const GroupProfile = ({ groupInfo }: { groupInfo: IUserProfile | null }) => {
 
@@ -41,12 +42,12 @@ const GroupProfile = ({ groupInfo }: { groupInfo: IUserProfile | null }) => {
     <>    
     {/* 단체 유저 프로필  */}
     <div className="flex justify-center">
-        <div className="flex flex-row gap-3 max-w-[500px] w-full h-auto border-none px-6">
-          <div className="w-16 h-16 rounded-full bg-Stickey_Gray">
-            <img className="w-[56px] h-[56px] rounded-full" src={groupInfo?.profileImage} /> 
+        <div className="flex flex-row items-center gap-3 max-w-[500px] w-full h-auto border-none px-6">
+          <div className="w-20 h-20 rounded-full bg-Stickey_Gray">
+            <img className="w-20 h-20 rounded-full" src={groupInfo?.profileImage} /> 
           </div>
           <div className="flex flex-col gap-2">
-            <p className="text-[20px] text-white font-semibold">{groupInfo?.name}</p>
+            <p className="text-2xl text-white font-semibold">{groupInfo?.name}</p>
             <div className="flex flex-row">
 
               {/* 로직 추가 */}
@@ -58,9 +59,9 @@ const GroupProfile = ({ groupInfo }: { groupInfo: IUserProfile | null }) => {
       </div>
 
       {/* 지갑 */}
-      <div className="flex justify-center px-5">
-        <div className="w-full h-[128px] border-none bg-Stickey_Gray mt-4 rounded-[10px]">
-          
+      <div className="flex justify-center pt-4 px-4">
+        <div className="w-full p-4">
+          <Wallet />
         </div>
       </div>
     </>
