@@ -12,6 +12,7 @@ import { useSponsor } from '../../../hooks/Sponsor/useSponsor';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { connect, getSupprtedHistory, withdraw } from "../../../service/web3/api";
+import Metamask from '../../../assets/image/Metamask.png'
 
 const info: IHeaderInfo = {
   left_1: null,
@@ -118,35 +119,35 @@ const SponsorDetailPage = () => {
           {/* 단체 정보 */}
           <div className="px-4">
             <div className="flex items-center">
-              <p className="bg-gray-500 w-6 h-6 rounded-full">
-                <img src={ISponsorDetailRes?.data.profileImage} className="bg-gray-500 w-6 h-6 rounded-full" />
+              <p className="bg-gray-500 w-8 h-8 rounded-full">
+                <img src={ISponsorDetailRes?.data.profileImage} className="bg-gray-500 w-8 h-8 rounded-full" />
               </p>
               <p className="text-white text-sm pl-2">{ISponsorDetailRes?.data.name}</p>
             </div>
             <div>
-              <p className="text-xs text-white py-2"></p>
-              <button className="bg-white w-full rounded-md py-2 text-xs" onClick={handleHistoryOpen}>후원 내역 보기</button>
+              <p className="flex text-xs text-white py-2"></p>
+              <button className="bg-white flex justify-center w-full rounded-md py-2 text-xs" onClick={handleHistoryOpen}>
+                <p><img className='w-4 mr-2' src={Metamask} /></p>
+                <p>이 단체에 후원한 사람들</p></button>
             
+            {/* 애니메이션 넣어주세요 */}
               {isHistoryOpen &&
-                <div className="h-40 bg-[#b4b2b2] rounded-md p-2 overflow-scroll">
+                <div className="h-auto bg-white rounded-md px-2 py-4 overflow-scroll">
                   {supportedHistory && supportedHistory.length > 0 ?
                     
                     
                       <>
-                      <div className="flex">
-                        <div className="w-[70%] italic">남긴 말</div>
-                        <div className="grow"></div>
-                      </div>
-                      <hr className="border-black"/>
+                        <div className='text-sm px-2'>내역</div>
+                        <hr className="border-gray-400 py-1"/>
                     {supportedHistory!.map((item) => {
                     return (
-                      <div key={item.time} className="flex">
-                        <div className="w-[70%]">
-                          <p className="break-all">{item.text}</p>
+                      <div key={item.time} className="flex px-2 items-baseline">
+                        <div>
+                          <p className="text-sm font-semibold">{item.text}</p>
                         </div>
                         <div className="grow flex flex-col items-end">
-                          <div>{Number(item.amount) / 10e10}</div>
-                          <div className="text-[10px]">{dayjs(Number(item.time)*1000).format("YYYY/MM/DD HH:mm:ss")}</div>
+                          <div className='font-bold'>{Number(item.amount) / 10e10}</div>
+                          <div className="text-xs text-gray-500">{dayjs(Number(item.time)*1000).format("YYYY/MM/DD HH:mm:ss")}</div>
                           
                         </div>
                       </div>
@@ -154,8 +155,8 @@ const SponsorDetailPage = () => {
                     })}
                   </>:
                     
-                    <div>
-                      아직 받은 후원이 없어요..
+                    <div className='text-xs text-center py-2'>
+                      첫 후원입니다. 아직 내역이 없어요.
                     </div>
                   
                   }
@@ -175,7 +176,9 @@ const SponsorDetailPage = () => {
                       </p>
                       <div className="px-2">
                         <p className="text-white text-xs">{player.name}</p>
+                        <p className="text-[8px] text-gray-400">{player.category}</p>
                         <p className="text-[8px] text-gray-400">{player.birth}</p>
+                        <p className="text-[8px] text-white">{player.description}</p>
                       </div>
                     </div>
                   </div>
@@ -188,15 +191,15 @@ const SponsorDetailPage = () => {
           <div className="px-4">
             <p className="text-xs text-white py-2">기본 정보</p>
             <div className="bg-[#2E2E3D] flex px-4 rounded-md justify-between">
-              <div className="text-[10px] py-4 text-white">
-                <p>{ISponsorDetailRes?.data.name}</p>
-                <p>{ISponsorDetailRes?.data.phone}</p>
-                <p>{ISponsorDetailRes?.data.manager} 담당자</p>
-                <p>{ISponsorDetailRes?.data.address}</p>
-                <p>{ISponsorDetailRes?.data.email}</p>
+              <div className="text-xs py-4 text-white">
+                <p>단체명 : {ISponsorDetailRes?.data.name}</p>
+                <p>연락처 : {ISponsorDetailRes?.data.phone}</p>
+                <p>담당자 : {ISponsorDetailRes?.data.manager} 담당자</p>
+                <p>주소 : {ISponsorDetailRes?.data.address}</p>
+                <p>이메일 : {ISponsorDetailRes?.data.email}</p>
               </div>
               <div className="flex items-center">
-                <img src={map} className="h-20" />
+                <img src={map} className="h-24 w-44" />
               </div>
             </div>
           </div>
@@ -204,11 +207,11 @@ const SponsorDetailPage = () => {
         {/* 후원 버튼 */}
         <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
           {id == ISponsorDetailRes?.data.organizationId ?
-            <button className={`${progressPercentage >= 100 ? `bg-[#5959E7]` : `bg-Stickey_Gray`} w-full text-white rounded-xl p-2 text-md`} onClick={handleWithdraw}
+            <button className={`${progressPercentage >= 100 ? `bg-[#5959E7]` : `bg-Stickey_Gray`} w-full text-white rounded-md p-2 text-md`} onClick={handleWithdraw}
             disabled={progressPercentage < 100}>
             수령하기
           </button> :
-            <button className={`${progressPercentage < 100 ? `bg-[#5959E7]` : `bg-Stickey_Gray`} w-full text-white rounded-xl p-2 text-md`} onClick={handleSponsorClick}
+            <button className={`${progressPercentage < 100 ? `bg-[#5959E7]` : `bg-Stickey_Gray`} w-full text-white rounded-md p-2 text-md`} onClick={handleSponsorClick}
             disabled={progressPercentage >= 100}>
           후원하기
         </button>
