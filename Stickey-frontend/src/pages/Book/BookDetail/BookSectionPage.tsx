@@ -5,13 +5,14 @@ import Bell from '../../../assets/image/Bell.png'
 import BookInfo from "../../../components/Book/BookInfo";
 import BookSection from "../../../components/Book/BookSection";
 import { useTicketInfoStore } from "../../../stores/useTicketInfoStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useTicketStore from "../../../stores/useTicketStore";
 import { toast } from "react-toastify";
+import WaittingModal from "../../../components/Book/WaittingModal";
 
 const BookSectionPage = () => {
-
+  const [isWaitModalOpen, setIsWaitModalOpen] = useState(true);
   const gameInfo = useTicketInfoStore((state) => state.modalData);
   const { clearSeatInfo } = useTicketStore();
   const navigate = useNavigate();
@@ -45,7 +46,8 @@ const BookSectionPage = () => {
           <BookSection />
         </div>
       <NavigationBar />
-    </div>
+      </div>
+      {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)}/>}
     </>
   )
 }
