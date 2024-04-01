@@ -27,7 +27,7 @@ const SponsorItem = ({ data }: { data: ISupportSimpleRes }) => {
   const endTime = dayjs(data.endTime).format('YYYY년 MM월 DD일');
 
   return (
-    <div className="mb-2 shadow-md shadow-black rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-2xl">
+    <div className="mb-2 shadow-sm shadow-black rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-2xl">
       <div>
         <img className="bg-gray-300 h-32 rounded-tl-2xl rounded-tr-2xl w-full object-cover" src={data.supportImage} />
       </div>
