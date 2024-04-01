@@ -1,12 +1,14 @@
-import X from '../../assets/image/XCircle.png'
-import Edit from '../../assets/image/Edit.png'
-import { useNavigate } from "react-router-dom";
-import { refundTicket, toEther } from "../../service/web3/api";
-import dayjs from "dayjs";
+import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 import { ITicket } from './TicketList';
-import { registSeats } from "../../service/Book/api";
-import { toast } from "react-toastify";
-import { useCallback, useState } from 'react';
+import { refundTicket, toEther } from '../../service/web3/api';
+import { registSeats } from '../../service/Book/api';
+import { toast } from 'react-toastify';
+import X from '../../assets/image/XCircle.png';
+import Edit from '../../assets/image/Edit.png';
+import '../../pages/MyTicket/TicketEdit/styles.css';
+import { useCallback, useState, useEffect } from 'react';
 import userStore from '../../stores/userStore';
 import GetTime from './GetTime';
 import Warning from '../../assets/image/Warning.png'
@@ -14,7 +16,7 @@ import { useAnimate } from "framer-motion";
 
 
 interface TicketOpenModalProps {
-    ticket: ITicket; 
+    ticket: ITicket;
     onClose: () => void;
 }
 
@@ -22,8 +24,42 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
     const [isQR, setIsQR] = useState(false);
     const [qr, setQr] = useState("");
     const [onLoad, setOnLoad] = useState(false);
-    const navigate = useNavigate();
     const { phone } = userStore();
+    const navigate = useNavigate();
+    const containerRef = useRef<HTMLDivElement>(null);
+    const overlayRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const currentContainer = containerRef.current;
+        const currentOverlay = overlayRef.current;
+    
+        const handleTouchMove = (e: TouchEvent) => {
+            if (!currentContainer || !currentOverlay) return;
+            const touch = e.touches[0];
+            const { clientWidth, clientHeight } = currentContainer;
+            const offsetX = touch.clientX - currentContainer.getBoundingClientRect().left;
+            const offsetY = touch.clientY - currentContainer.getBoundingClientRect().top;
+            const newRotateY = ((offsetX / clientWidth) * 50 - 25);
+            const newRotateX = -((offsetY / clientHeight) * 50 - 25);
+            currentContainer.style.transform = `perspective(1000px) rotateX(${newRotateX}deg) rotateY(${newRotateY}deg)`;
+            currentOverlay.style.backgroundPosition = `${offsetX/3}px ${offsetY/3}px`;
+        };
+    
+        const handleTouchEnd = () => {
+            if (!currentContainer || !currentOverlay) return;
+            currentContainer.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            // currentOverlay.style.filter = `opacity(0)`;
+        };
+    
+        currentContainer?.addEventListener('touchmove', handleTouchMove);
+        currentContainer?.addEventListener('touchend', handleTouchEnd);
+        currentOverlay?.addEventListener('touchend', handleTouchEnd);
+    
+        return () => {
+            currentContainer?.removeEventListener('touchmove', handleTouchMove);
+            currentContainer?.removeEventListener('touchend', handleTouchEnd);
+        };
+    }, []);
     const [scope, animate] = useAnimate();
 
     const handleEditClick = () => {
@@ -52,7 +88,8 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
 
         cancleTicket();
     }
-    
+
+
     const refundEnd = dayjs((Number(ticket.gameStartTime)) * 1000).subtract(1);
 
     const createQR = useCallback(async () => {
@@ -71,6 +108,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
     },[])
 
 
+
     const handleQR = () => {
         animate("div", { rotateY: [180, 0]}, { duration: 0.6 })
 
@@ -83,7 +121,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
 
 
     return (
-        <div className="fixed top-0 w-[500px] bottom-0 bg-black/80 overflow-hidden">
+        <div className="z-[1] w-full fixed inset-0 bg-black/80 flex justify-center items-center">
             {/* modal wrapper */}
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg"  ref={scope}>
             {onLoad &&
@@ -95,44 +133,45 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
                     </div>
                 </div>}
                 {/* modal */}
-                <div className="h-auto flex flex-col text-center items-center">
-                    <div className="w-[300px] bg-white rounded-b-lg p-2 font-semibold">
-                        <p>{ticket.homeTeam} vs {ticket.awayTeam}</p>
-                    </div>
-                    <div className="bg-white rounded-2xl" >
-                    <div className='flex ml-2'>
-                        
-
+                <div ref={containerRef} className="relative transition-all-0.1s flex flex-col text-center items-center">
+                    <div ref={overlayRef} className={`filter${ticket.filterId}`}></div>
+                    <div>
+                        <div className={`w-[300px] background${ticket.backgroundId} rounded-b-lg p-2 font-semibold`}>
+                            <p>{ticket.homeTeam} vs {ticket.awayTeam}</p>
+                        </div>
+                        <div className={` background${ticket.backgroundId} rounded-2xl`} >
+                            <div className='flex ml-2'>
                         </div>
                         {!isQR ? <>
-                            <img className="w-[300px] rounded-3xl p-4" src={ticket.gameImage} />
-                            <div className="absolute bottom-64 right-6">
-                                <img onClick={handleEditClick} className="bg-white/50 rounded-full p-2" src={Edit} />
-                            </div> 
-                            </>
+                            <img className={"w-[300px] rounded-3xl p-4"} src={ticket.gameImage} alt="Game" />
+                                    <div className="absolute bottom-[200px] right-6">
+                                        <img onClick={handleEditClick} className="bg-white/50 rounded-full p-2" src={Edit} alt="Edit" />
+                                    </div> 
+                                    </>
                             :
                             <>
                                 <img className="w-[300px] rounded-3xl p-4" src={qr} onLoad={() => setOnLoad(true)} />
                             {onLoad && <GetTime createQR={createQR}></GetTime>}
                             </>
                         }
-                    </div>
-                    <div className="bg-white rounded-t-lg w-[300px] text-center py-2">
-                        <p>2024년 04월 02일 {ticket.stadium}</p>
-                        <p className="font-bold text-2xl">{ticket.zoneName} {ticket.seatNumber}번 좌석</p>
-                        <p>결제금액 : {toEther(ticket.price)} ETH</p>
-                        <div className="px-4 py-3 flex justify-center">
-                            <button className="bg-gray-400 w-1/2 mx-1 p-2 rounded-md text-white font-bold"  onClick={handleQR}>QR전환</button>
-                            <button onClick={handleRefund} className="bg-gray-400 w-1/2 mx-1 p-2 rounded-md text-white font-bold">환불하기</button>
+                        </div>
+                        <div className={`background${ticket.backgroundId} rounded-t-lg w-[300px] text-center py-2`}>
+                            <p>{dayjs(Number(ticket.gameStartTime) * 1000).format('YYYY/MM/DD HH:mm')} {ticket.stadium}</p>
+                            <p className="font-bold text-2xl">{ticket.zoneName} {ticket.seatNumber}번 좌석</p>
+                            <p>결제금액 : {toEther(ticket.price)} ETH</p>
+                            <div className="px-4 py-3 flex justify-center">
+                                <button className="bg-gray-400 w-1/2 mx-1 p-2 rounded-md text-white font-bold"  onClick={handleQR}>QR전환</button>
+                                <button onClick={handleRefund} className="bg-gray-400 w-1/2 mx-1 p-2 rounded-md text-white font-bold">환불하기</button>
+                            </div>
                         </div>
                     </div>
-
-                    <div id="x" onClick={onClose} className="mt-6 flex justify-center items-center h-12 w-12 bg-white rounded-full">
-                        <img className="w-12 h-12" src={X} />
+                </div>
+                <div className="w-full flex justify-center mt-6">
+                    <div onClick={onClose} className="flex justify-center items-center h-12 w-12 bg-white rounded-full cursor-pointer">
+                        <img className="w-12 h-12" src={X} alt="Close" />
                     </div>
                 </div>
             </div>
-            
         </div>
     );
 };
