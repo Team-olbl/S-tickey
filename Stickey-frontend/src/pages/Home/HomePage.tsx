@@ -8,6 +8,7 @@ import GameScheduleHeader from "../../components/Home/GameScheduleHeader";
 import { useGame } from "../../hooks/Home/useGame";
 import userStore from "../../stores/userStore";
 import { useNavigate } from "react-router-dom";
+import Logo from '../../assets/image/Stickey_logo.png'
 
 export type preferredClub = {
   id: number;
@@ -29,7 +30,7 @@ const HomePage = () => {
     console.log(gameListInfo);
 
   const info : IHeaderInfo = {
-    left_1: null,
+    left_1: <img className="w-20" src={Logo} />,
     left_2: null,
     center: null,
     right: <img src={Bell} alt="" />

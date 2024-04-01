@@ -19,7 +19,7 @@ const UserProfile = ({ userInfo }: { userInfo: IUserProfile | null }) => {
             <div className="flex flex-row">
             {userInfo?.preference.map((team: IPreTeamSimpleRes, id: number) => (
               <div key={id} className="p-1 px-2 border border-none bg-[#E4E4E4] text-[#5959E7] text-xs flex items-center justify-center rounded-xl mr-2">
-                <p className="">{team.sportsClubName}</p>
+                <p>{team.sportsClubName}</p>
               </div>
             ))}
             </div>
@@ -28,7 +28,7 @@ const UserProfile = ({ userInfo }: { userInfo: IUserProfile | null }) => {
       </div>
 
       {/* 지갑 */}
-      <div className="flex justify-center pt-4 px-4">
+      <div className="flex justify-center pt-4">
         <div className="w-full p-4">
           <Wallet />
         </div>

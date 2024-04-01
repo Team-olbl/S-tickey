@@ -227,7 +227,7 @@ function App() {
   const { setUnRead  } = useNotifyReadStore()
   
   useEffect(() => {
-    if (id) return;
+    if (!id) return;
     const EventSource = EventSourcePolyfill || NativeEventSource;
     const fetchData = async () => {
       try {
