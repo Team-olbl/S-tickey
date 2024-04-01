@@ -204,7 +204,7 @@ public class UserServiceImpl implements UserService {
             String profileUrlBefore = user.getProfileImage();
             String profileUrl = s3Util.uploadFile(profile, 1);
 
-            //TODO: 이전에 있던 사진 삭제 로직 추가
+            s3Util.deleteFile(profileUrlBefore, 0);
             user.updateProfileImage(profileUrl);
         }
 
