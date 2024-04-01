@@ -1,4 +1,5 @@
 import { IPreTeamSimpleRes, IUserProfile } from "../../../types/Profile";
+import Wallet from "../../@common/Wallet";
 
 const UserProfile = ({ userInfo }: { userInfo: IUserProfile | null }) => {
   if (!userInfo) {
@@ -27,9 +28,9 @@ const UserProfile = ({ userInfo }: { userInfo: IUserProfile | null }) => {
       </div>
 
       {/* 지갑 */}
-      <div className="flex justify-center px-5">
-        <div className="w-full h-[128px] border-none bg-Stickey_Gray mt-4 rounded-[10px]">
-          
+      <div className="flex justify-center pt-6 px-6">
+        <div className="w-full pb-4">
+          <Wallet />
         </div>
       </div>
     </>
