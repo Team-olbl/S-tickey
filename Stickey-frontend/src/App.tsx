@@ -29,6 +29,7 @@ import userStore from './stores/userStore';
 import AdminPage from './pages/Admin/AdminPage';
 import { useEffect } from 'react';
 import { EventSourcePolyfill, NativeEventSource  } from "event-source-polyfill";
+import { toast } from 'react-toastify';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -219,10 +220,10 @@ const router = createBrowserRouter(
 )
 
 function App() {
-  const { accessToken } = userStore();
+  const { accessToken, role } = userStore();
   
   useEffect(() => {
-    const EventSource = EventSourcePolyfill || NativeEventSource
+    const EventSource = EventSourcePolyfill || NativeEventSource;
     const fetchData = async () => {
       try {
         const sseUrl = import.meta.env.VITE_SSE_URL;
@@ -239,32 +240,33 @@ function App() {
         };
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        eventSource.addEventListener('sse', function(event : any) {
-            console.log(event);
-           
-            try {
-            const notify = JSON.parse(event.data)
-            console.log(notify)
-            console.log(notify.content)
-            } catch(err) {
-              return;
+        eventSource.addEventListener('sse', function (event: any) {
+          try {
+            const notify = JSON.parse(event.data);
+            console.log(notify);
+            console.log(notify.content);
+
+            // 사용자의 역할과 알림 타입에 따라 다른 처리를 합니다.
+            if (role === 'INDIVIDUAL' && notify.notificationType === 'GAME') {
+              toast.info('알람이 도착했습니다.');
+            } else if (role !== 'INDIVIDUAL' && notify.notificationType === 'APPROVE') {
+              toast.info('알람이 도착했습니다.');
             }
-        })
+          } catch (err) {
+            console.error('알림 데이터 파싱 에러:', err);
+          }
+        });
 
         eventSource.onerror = (error) => {
           console.error('SSE 오류:', error);
         };
-
-
-
       } catch (error) {
         console.error('SSE 연결 에러:', error);
       }
     };
 
     fetchData();
-  
-  }, []);
+  }, [accessToken, role]);
 
   return (
     <>
