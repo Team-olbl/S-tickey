@@ -47,25 +47,25 @@ const SponsorModal = ({ onClose }: { onClose: () => void; }) => {
     }
     
     return (
-        <Modal width="300px" height="auto" title="후원하기" onClose={onClose}>
+        <Modal width="340px" height="auto" title="후원하기" onClose={onClose}>
             <div className="text-center px-4 pb-6">
-                <div className='flex justify-center py-2'>
-                    <img className='h-8 pr-2' src={Dove} />
-                    <input className='w-40 p-1 border rounded-md text-[8px] outline-none' placeholder='후원 메시지를 입력해주세요. (30자 제한)' ref={messageRef} maxLength={30}/>
+                <div className='flex flex-col justify-center items-center py-2'>
+                    <img className='w-12 pb-2' src={Dove} />
+                    <input type="number" className='w-[80%] p-2 border rounded-md text-sm outline-none' placeholder='후원 금액을 입력해주세요' ref={amountRef} />
+                    <p className="text-xs pt-1 text-gray-500">나의 잔액 : {balance}</p>
                 </div>
                 <div className='flex flex-col justify-center items-center py-2'>
-                    <input type="number" className='w-40 p-1 border rounded-md text-[8px] outline-none' placeholder='후원 금액을 입력해주세요' ref={amountRef} />
-                    <p className="text-[8px]">잔액 : {balance}</p>
+                <input className='w-[90%] p-2 border-b text-xs outline-none' placeholder='후원 메시지를 남겨주세요. (최대30자)' ref={messageRef} maxLength={30}/>
                 </div>
                 <div className='py-2'>
-                <p className="text-[8px]">
-                소중한 후원금은 S:tickey를 통해 후원 단체로 전달됩니다.
+                <p className="text-sm text-Stickey_Main">
+                소중한 후원금은 S:tickey를 통해 단체로 전달됩니다.
                 </p>
                 {/* <p className="text-[8px]">자세한 후원금 사용 내역은 후원 단체 정보에서 확인하실 수 있습니다.</p> */}
                 </div>
                 <div className="flex justify-center space-x-2 pt-4">
-                    <button className="bg-[#5959E7] text-white px-4 py-1 rounded-lg text-xs" onClick={handleDonate}>후원</button>
-                    <button className="bg-gray-500 text-white px-4 py-1 rounded-lg text-xs" onClick={onClose}>취소</button>
+                    <button className="bg-[#5959E7] text-white px-5 py-2 rounded-lg text-xs" onClick={handleDonate}>후원</button>
+                    <button className="bg-gray-500 text-white px-5 py-2 rounded-lg text-xs" onClick={onClose}>취소</button>
                 </div>
             </div>
         </Modal>
