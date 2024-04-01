@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TicketOpenModal from './TicketOpenModal';
 import dayjs from 'dayjs';
 import { ITicket } from './TicketList';
-
+import { motion } from "framer-motion";
 export interface TicketItemProps {
     ticket: ITicket; 
 }
@@ -26,7 +26,12 @@ const TicketItem: React.FC<TicketItemProps> = ({ ticket }) => {
 
             </div>
         </div>
-        {isModalOpen && <TicketOpenModal ticket={ticket} onClose={() => setIsModalOpen(false)} />}
+            {isModalOpen &&
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity:0}} className="w-full h-full">
+                    <TicketOpenModal ticket={ticket} onClose={() => setIsModalOpen(false)} />
+                </motion.div>
+            }
+                    
     </>
     );
 };

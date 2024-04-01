@@ -10,6 +10,7 @@ import { useCallback, useState } from 'react';
 import userStore from '../../stores/userStore';
 import GetTime from './GetTime';
 import Warning from '../../assets/image/Warning.png'
+import { useAnimate } from "framer-motion";
 
 
 interface TicketOpenModalProps {
@@ -23,6 +24,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
     const [onLoad, setOnLoad] = useState(false);
     const navigate = useNavigate();
     const { phone } = userStore();
+    const [scope, animate] = useAnimate();
 
     const handleEditClick = () => {
         navigate(`/mytickets/${ticket.tokenId}/edit`, { state: { ticket } });
@@ -70,9 +72,12 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
 
 
     const handleQR = () => {
+        animate("div", { rotateY: [180, 0]}, { duration: 0.6 })
+
         setIsQR(!isQR);
-        if (isQR)
+        if (isQR) {
             setOnLoad(false);
+        } 
         createQR();
     }
 
@@ -80,9 +85,10 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
     return (
         <div className="fixed top-0 w-[500px] bottom-0 bg-black/80 overflow-hidden">
             {/* modal wrapper */}
-            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg">
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg"  ref={scope}>
             {onLoad &&
-                <div className='flex justify-center mb-2 items-center'>
+                    <div className='flex justify-center mb-2 items-center fixed left-0 right-0'
+                        style={{ transform : "translateY(-110%)" }}>
                     <img src={Warning} alt="" className="w-8"/>
                     <div>
                         <p className='ml-2 text-sm text-white h-full '>캡처한 이미지로는 입장이 불가능합니다.</p>
@@ -93,7 +99,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
                     <div className="w-[300px] bg-white rounded-b-lg p-2 font-semibold">
                         <p>{ticket.homeTeam} vs {ticket.awayTeam}</p>
                     </div>
-                    <div className="bg-white rounded-2xl">
+                    <div className="bg-white rounded-2xl" >
                     <div className='flex ml-2'>
                         
 
@@ -121,7 +127,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
                         </div>
                     </div>
 
-                    <div onClick={onClose} className="mt-6 flex justify-center items-center h-12 w-12 bg-white rounded-full">
+                    <div id="x" onClick={onClose} className="mt-6 flex justify-center items-center h-12 w-12 bg-white rounded-full">
                         <img className="w-12 h-12" src={X} />
                     </div>
                 </div>

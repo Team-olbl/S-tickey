@@ -3,6 +3,7 @@ import { PaymentItemData } from "../../../../pages/Profile/User/PaymentHistory";
 import Down from '../../../../assets/image/FilledDown.png'
 import dayjs from 'dayjs';
 import { toEther } from "../../../../service/web3/api";
+import { AnimatePresence, motion } from "framer-motion";
 
 const PaymentItem = ({ data }: { data: PaymentItemData }) => {
   const [isOpenAccordion, setIsOpenAccordion] = useState<boolean>(false);
@@ -65,9 +66,8 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
       )
     }
   }
-
+  
   const bodyContent = () => {
-
     if (data.paymentType == 3) {
       return (<>
         <div className="flex flex-row gap-1 text-[12px] font-semibold">
@@ -111,9 +111,12 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
         </>
       )
     }
-
   }
 
+  const variants = {
+    init: { height: 0, opacity: 0 },
+    visible : {height:150, opacity : 1},
+  } 
   
 
   return (
@@ -135,29 +138,31 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
               }`}
             />
           </div>
-        </div>
-        {isOpenAccordion && (
-          <div className="w-[340px] bg-white rounded-b-[5px] p-2">
-            {bodyContent()}
-
-            <div className="pb-2">
-              <div className="border-b-[0.5px] border-[#F1F2F4]"></div>
-            </div>
-            <div className="text-[10px] px-2">
-              <div className="flex flex-row gap-5">
-                <div className="w-[50px] text-[#969799]">결제금액</div>
-                  <div className={`${data.paymentType == 0 || data.paymentType == 3 ? 'bg-red-300' : 'bg-green-300'} rounded-md`}>
-                    {data.paymentType == 0 || data.paymentType == 3 ? '-' : '+'}
-                    {toEther(data.amount)} ETH
-                  </div>
-              </div>
-              <div className="flex flex-row gap-5">
-                <div className="w-[50px] text-[#969799]">결제시간</div>
-                <div>{time.toString()}</div>
-              </div>
-            </div>
           </div>
-        )}
+          <AnimatePresence>
+        {isOpenAccordion && (
+              <motion.div className="w-[340px] bg-white rounded-b-[5px] p-2"
+              variants={variants} initial="init" animate="visible" exit="init" transition={{duration : 0.5}}>
+                {bodyContent()}
+
+              <div className="pb-2">
+                <div className="border-b-[0.5px] border-[#F1F2F4]"></div>
+              </div>
+              <div className="text-[10px] px-2">
+                <div className="flex flex-row gap-5">
+                  <div className="w-[50px] text-[#969799]">결제금액</div>
+                    <div className={`${data.paymentType == 0 || data.paymentType == 3 ? 'bg-red-300' : 'bg-green-300'} rounded-md`}>
+                      {data.paymentType == 0 || data.paymentType == 3 ? '-' : '+'}
+                      {toEther(data.amount)} ETH
+                    </div>
+                </div>
+                <div className="flex flex-row gap-5">
+                  <div className="w-[50px] text-[#969799]">결제시간</div>
+                  <div>{time.toString()}</div>
+                </div>
+                  </div>
+          </motion.div>
+        )}</AnimatePresence>
       </div>
       </div>
       </>

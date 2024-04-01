@@ -6,6 +6,7 @@ import DreamItem from "../../../components/Profile/User/Dream/DreamItem";
 import DreamHeader from "../../../components/Profile/User/Dream/DreamHeader";
 import { useEffect, useState } from "react";
 import { connect, getRewordHistory } from "../../../service/web3/api";
+import { motion } from "framer-motion";
 
 const info : IHeaderInfo = {
   left_1:  null,
@@ -35,6 +36,13 @@ const DreamHistoryPage = () => {
     getData();
   }, []);
 
+  const variants = {
+    visible: (custom : number) => ({
+      opacity: 1,
+      transition: { delay: custom * 0.1 }
+    })
+  }
+
   return (
     <>
       <Header info={info}/>
@@ -42,7 +50,9 @@ const DreamHistoryPage = () => {
         <DreamHeader />
         {dreamHistroy.length > 0 ?
           dreamHistroy.map((item, idx) => (
-          <DreamItem key={idx} data={item} />
+            <motion.div variants={variants} initial={{opacity : 0}} animate="visible" custom={idx} key={idx}>
+          <DreamItem  data={item} />
+          </motion.div>
           )) : 
             
           <div className="flex flex-col items-center mt-40">
