@@ -9,17 +9,6 @@ import { useGame } from "../../hooks/Home/useGame";
 import userStore from "../../stores/userStore";
 import { useNavigate } from "react-router-dom";
 
-// export type GameItem = {
-//   id: number;
-//   date: string;
-//   dayOfWeek: string;
-//   time: string;
-//   homeTeam: string;
-//   homeTeamLogo: JSX.Element;
-//   awayTeam: string;
-//   awayTeamLogo: JSX.Element;
-// }
-
 export type preferredClub = {
   id: number;
   team_1: JSX.Element;
@@ -50,7 +39,7 @@ const HomePage = () => {
   return(
     <>
       <Header info={info} />
-      <div className="pt-16 pb-16">
+      <div className="py-16">
         <Carousel />
         <Category />
         <GameScheduleHeader/>
@@ -58,9 +47,9 @@ const HomePage = () => {
           <GameSchedule data={item} key={id}/>
         ))
           :
-          <div className="w-[50vw] max-w-[500px] m-auto px-4 flex justify-center items-center">
-            <button className={`bg-[#5959E7] w-full text-white rounded-xl p-2 text-md`} onClick={() => navigate('/profile')}>
-              선호구단 등록하러가기
+          <div className="px-4 flex justify-center items-center">
+            <button className={`bg-Stickey_Main rounded-full text-white p-2 text-sm`} onClick={() => navigate('/profile')}>
+              선호구단 등록하기
             </button>
           </div>
           }
