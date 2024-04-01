@@ -222,11 +222,12 @@ const router = createBrowserRouter(
 )
 
 function App() {
-  const { accessToken, role } = userStore();
+  const { accessToken, role, id } = userStore();
   const { addNotification } = useNotifyStore();
   const { setUnRead  } = useNotifyReadStore()
   
   useEffect(() => {
+    if (id) return;
     const EventSource = EventSourcePolyfill || NativeEventSource;
     const fetchData = async () => {
       try {
