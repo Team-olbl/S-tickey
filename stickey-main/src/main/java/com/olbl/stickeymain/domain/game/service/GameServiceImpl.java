@@ -34,6 +34,7 @@ import com.olbl.stickeymain.domain.game.repository.SportsClubRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumZoneRepository;
 import com.olbl.stickeymain.global.auth.CustomUserDetails;
+import com.olbl.stickeymain.global.result.error.ErrorCode;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
 import java.util.ArrayList;
@@ -120,6 +121,11 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public LeftSeatListRes getLeftSeats(int id) {
+        // 참가열 존재 여부 확인
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+        existsInRunningQueue(id, userDetails.getId());
+
         Game game = gameRepository.findById(id)
             .orElseThrow(() -> new BusinessException(GAME_DO_NOT_EXISTS)); //game id 있는지 확인
 
@@ -175,6 +181,11 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public List<SeatInfoRes> getSeatStatus(int id, int zoneId) throws JsonProcessingException {
+        // 참가열 존재 여부 확인
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+        existsInRunningQueue(id, userDetails.getId());
+
         Game game = gameRepository.findById(id)
             .orElseThrow(() -> new BusinessException(GAME_DO_NOT_EXISTS)); //game id 있는지 확인
         StadiumZone stadiumZone = stadiumZoneRepository.findById(zoneId)
@@ -201,12 +212,13 @@ public class GameServiceImpl implements GameService {
     @Override
     @Transactional
     public Boolean tryReserveSeats(int id, int zoneId, SeatInfoReq seatInfoReq) {
+        // 참가열 존재 여부 확인
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+        existsInRunningQueue(id, userDetails.getId());
 
         StadiumZone stadiumZone = stadiumZoneRepository.findById(zoneId)
             .orElseThrow(() -> new BusinessException(STADIUM_ZONE_DO_NOT_EXISTS));
-
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
-            .getAuthentication().getPrincipal();
 
         String key = String.format("game:%s:zone:%s", id, stadiumZone.getId()); // Redis 키 생성
 
@@ -284,6 +296,10 @@ public class GameServiceImpl implements GameService {
             paymentReq.getZoneId()); // Redis 키 생성
 
         if (!paymentReq.getIsRefund()) { //결제 요청시
+            // 참가열에서 해당 유저 확인 후  삭제
+            existsInRunningQueue(paymentReq.getGameId(), userDetails.getId());
+            removeFromRunQueue(paymentReq.getGameId(), userDetails.getId());
+
             // 좌석 번호 목록을 스트림으로 변환하여 Redis에 저장된 선점 상태 확인
             List<String> seatNumbersStr = paymentReq.getSeatNumbers().stream().map(Object::toString)
                 .collect(Collectors.toList());
@@ -370,5 +386,16 @@ public class GameServiceImpl implements GameService {
         sportsClubRes.sort(Comparator.comparing(SportsClubRes::getIsPrefer).reversed());
 
         return sportsClubRes;
+    }
+
+    private void existsInRunningQueue(int gameId, int userId) {
+        if (redisTemplate.opsForZSet().rank("run::" + gameId, String.valueOf(userId)) == null) {
+            log.info("[existsInRunningQueue] 참가열에 존재하지 않는 유저 요청 : {}", userId);
+            throw new BusinessException(ErrorCode.NOT_IN_RUNNING_QUEUE);
+        }
+    }
+
+    private void removeFromRunQueue(int gameId, int userId) {
+        redisTemplate.opsForZSet().remove("run::" + gameId, String.valueOf(userId));
     }
 }
