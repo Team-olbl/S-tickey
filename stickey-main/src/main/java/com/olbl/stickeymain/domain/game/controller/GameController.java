@@ -8,6 +8,7 @@ import static com.olbl.stickeymain.global.result.ResultCode.GET_SEAT_STATUS_SUCC
 import static com.olbl.stickeymain.global.result.ResultCode.HOLD_SEATS_FAIL;
 import static com.olbl.stickeymain.global.result.ResultCode.HOLD_SEATS_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.PAYMENT_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.REMOVE_RUNNING_QUEUE_SUCCESS;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.olbl.stickeymain.domain.game.dto.GameListRes;
@@ -109,4 +110,11 @@ public class GameController {
         return ResponseEntity.ok(ResultResponse.of(GET_CLUBS_SUCCESS, sportsClubList));
     }
 
+    @Operation(summary = "참가열 취소")
+    @GetMapping("/{id}/cancel")
+    public ResponseEntity<ResultResponse> cancelReserve(@PathVariable(value = "id") int id,
+        Authentication authentication) {
+        gameService.cancelReserve(id, authentication);
+        return ResponseEntity.ok(ResultResponse.of(REMOVE_RUNNING_QUEUE_SUCCESS));
+    }
 }
