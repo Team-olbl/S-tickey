@@ -108,7 +108,7 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
   const filteredTeams = teamListInfo?.data.filter(team => team.category === selectedTab);
   console.log("filter", filteredTeams);
   return (
-    <div className="max-w-[500px] w-full h-[208px] mt-4 border-t-[0.5px]">
+    <div className="max-w-[500px] w-full h-[208px] mt-4 border-t-[0.5px] px-4">
       <div className="flex flex-row items-center justify-between h-[40px] text-white px-4 cursor-pointer" onClick={movePaymentHistory}>
         <p>결제 내역</p>
         <img src={Next} className="h-[20px]"/>
