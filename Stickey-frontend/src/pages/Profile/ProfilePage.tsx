@@ -40,11 +40,11 @@ const ProfilePage = () => {
             <UserProfile userInfo={userProfileInfo.data} />
 
             {/* 안내 문구 섹션 */}
-            <div className="flex justify-center pb-2 px-5">
+            <div className="flex justify-center pb-2 px-4">
               <div className="w-full h-auto py-2 border-none bg-Stickey_Gray rounded-md flex flex-row items-center gap-1">
                 <img src={YellowBell} className="w-5 h-5 ml-2"/>
-                <p className="text-red-600 font-bold text-sm">[ TIP ]</p>
-                <p className="text-sm">IOS 서비스 미지원 기종이 있습니다.</p>
+                <p className="text-red-600 font-bold text-sm">[ Notice ]</p>
+                <p className="text-sm">2024년 04월 13일 서울 FC 경기 취소 안내</p>
               </div>
             </div>
 
@@ -59,7 +59,7 @@ const ProfilePage = () => {
               <div className="w-full h-auto py-2 border-none bg-Stickey_Gray rounded-md flex flex-row items-center gap-1">
                 <img src={YellowBell} className="w-5 h-5 ml-2"/>
                 <p className="text-red-600 font-bold text-sm">[ TIP ]</p>
-                <p className="text-sm">IOS 서비스 미지원 기종이 있습니다.</p>
+                <p className="text-sm">단체 후원 등록 유의사항 안내</p>
               </div>
             </div>
 
