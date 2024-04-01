@@ -1,23 +1,25 @@
 import { useState } from "react";
 import BottomModal from "../@common/BottomModal";
 import Prohibit from '../../assets/image/Prohibited.png'
-import WaittingModal from "../Book/WaittingModal";
+// import WaittingModal from "../Book/WaittingModal";
 import { IGameSimpleRes } from "../../types/Home";
 import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
 import dayjs from "dayjs";
 import userStore from "../../stores/userStore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import 'dayjs/locale/ko';
 
 
 const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
+  // const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
   const { isLogin } = userStore();
   const navigate = useNavigate();
 
   const setModalData = useTicketInfoStore((state) => state.setModalData);
   const bookingStatus = getBookingStatus(data);
+  dayjs.locale("ko");
 
   const handleBookTicket = () => {
     if (!isLogin) {
@@ -43,7 +45,7 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   }
 
   const gameDate = dayjs(data.gameStartTime).format('YYYY년 MM월 DD일 HH시 mm분')
-  const bookStart = dayjs(data.bookStartTime).format("MM월 DD일");
+  const bookStart = dayjs(data.bookStartTime).format("YYYY.MM.DD (ddd) HH:mm");
 
   return (
     <>
@@ -81,7 +83,7 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
             onClick={bookingStatus === 'ticketing' ? handleBookTicket : undefined}
             >
               {bookingStatus === 'notopen' &&
-            <p className="text-sm text-center">{bookStart} 예매 가능</p>}
+            <p className="text-sm text-center">{bookStart} 오픈예정</p>}
             {bookingStatus === 'ticketing' && 
             <p className="text-sm text-center">티켓 예매하기</p>}
               {bookingStatus === 'close' &&
@@ -127,13 +129,14 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
             <div className="pt-4">
               <button onClick={() => {
                 setModalData(data); 
-                setIsWaitModalOpen(true);
+                navigate(`/${data.id}/section`)
+                // setIsWaitModalOpen(true);
               }} className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm">예매하기</button>
             </div>
           </div>
         </BottomModal>
       )}
-      {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)}/>}
+      {/* {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)}/>} */}
     </>
   );
 };
