@@ -41,7 +41,7 @@ public class GameRepositoryQuerydslImpl implements GameRepositoryQuerydsl {
             ))
             .from(game)
             .where(booleanBuilder)
-            .orderBy(game.bookStartTime.asc())
+            .orderBy(game.gameStartTime.asc())
             .fetch();
 
         return new GameListRes(gameResList);
