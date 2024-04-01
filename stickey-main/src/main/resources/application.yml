@@ -26,6 +26,7 @@ spring:
           time_zone: Asia/Seoul
     show-sql: true
     defer-datasource-initialization: true
+    open-in-view: false
 
   servlet:
     multipart:
