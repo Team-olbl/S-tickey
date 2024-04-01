@@ -32,6 +32,7 @@ import com.olbl.stickeymain.domain.game.repository.GameRepository;
 import com.olbl.stickeymain.domain.game.repository.GameSeatRepository;
 import com.olbl.stickeymain.domain.game.repository.SportsClubRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumRepository;
+import com.olbl.stickeymain.domain.game.repository.StadiumSeatRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumZoneRepository;
 import com.olbl.stickeymain.domain.notify.service.NotifyService;
 import com.olbl.stickeymain.global.auth.CustomUserDetails;
@@ -76,6 +77,7 @@ public class GameServiceImpl implements GameService {
     private final StadiumRepository stadiumRepository;
     private final GameSeatRepository gameSeatRepository;
     private final StadiumZoneRepository stadiumZoneRepository;
+    private final StadiumSeatRepository stadiumSeatRepository;
 
     //Util
     private final S3Util s3Util;
@@ -109,8 +111,33 @@ public class GameServiceImpl implements GameService {
             .build();
 
         gameRepository.save(game);
-    }
 
+        int stadiumId = game.getStadium().getId(); // 경기장 Id
+        //해당 경기장에 속한 구역 id, price, zoneName 리스트 가져오기
+        Map<Integer, ZoneDto> zoneIds = stadiumZoneRepository.findZoneByStadiumIdAndMap(stadiumId);
+        //StadiumSeat -> Zone 별로 좌석 개수 가져오기
+        Map<Integer, Long> countDto = stadiumSeatRepository.findSeatCountsGroupByZoneId(
+            zoneIds.keySet().stream().toList());
+
+        List<GameSeat> gameSeatList = new ArrayList<>();
+
+        //for문으로 저장 game, zoneId, zoneName, seatNumber, status, price
+        for (int i = 1; i <= zoneIds.size(); i++) {
+            for (int j = 1; j <= countDto.get(i); j++) {
+                GameSeat gameSeat = GameSeat.builder()
+                    .game(game)
+                    .zoneId(i)
+                    .zoneName(zoneIds.get(i).getName())
+                    .seatNumber(j)
+                    .status(SeatStatus.AVAILABLE)
+                    .price(zoneIds.get(i).getPrice())
+                    .build();
+
+                gameSeatList.add(gameSeat);
+            }
+        }
+        gameSeatRepository.saveAll(gameSeatList);
+    }
 
     @Override
     public GameListRes getGames(ViewParam viewParam) {
