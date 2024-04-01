@@ -11,6 +11,7 @@ import MatchItem from "../../../components/Soccer/MatchItem";
 import { useGame } from "../../../hooks/Home/useGame";
 import { IGameSimpleRes } from "../../../types/Home";
 import dayjs from 'dayjs';
+import { motion } from "framer-motion";
 
 const SoccerPage = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -64,6 +65,7 @@ const SoccerPage = () => {
     );
   }) : [];
 
+
   return(
     <>
       <Header info={info}/>
@@ -72,15 +74,15 @@ const SoccerPage = () => {
         <TeamList catg="SOCCER" selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} />
         <Calendar onDateClick={handleDateClick}/>
         { filteredMatches?.length === 0 ? (
-          <div className="flex flex-col items-center mt-40">
+          <motion.div className="flex flex-col items-center mt-40" initial={{opacity : 0}} animate={{opacity : 1}} >
             <img src={Hushed} className="h-20" />
             <p className=" text-white text-sm mt-4">해당 날짜에는 경기가 없어요!</p>
-          </div>
+          </motion.div>
         ) : (
           filteredMatches?.map((item) =>(
-            <div key={item.id}>
+            <motion.div key={item.id} initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} >
               <MatchItem data={item} />
-            </div>
+            </motion.div>
           ))
         )}
       </div>
