@@ -80,9 +80,7 @@ axiosAuthInstance.interceptors.response.use(
         localStorage.clear();
         window.location.href = "/login";
         toast.error("토큰이 만료되었습니다. 다시 로그인해주세요.");
-      } else if ([400, 404, 409].includes(status)) {
-        toast.info(error.response.data.message);
-      }
+      } 
     }
     return Promise.reject(error);
   }
