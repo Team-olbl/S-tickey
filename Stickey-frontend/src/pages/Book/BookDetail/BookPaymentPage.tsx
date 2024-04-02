@@ -107,7 +107,7 @@ const totalPrice = () => {
         
         <div className="flex flex-col items-center">
         {/* 스텝바 */}
-        <div className="pt-16 pb-4 w-[150px]">
+        <div className="pt-14 pb-4 w-[150px]">
             <div className="relative after:absolute after:inset-x-0 after:top-1/2 after:block after:h-0.5 after:-translate-y-1/2 after:rounded-lg after:bg-gray-100">
                 <ol className="relative z-10 flex justify-between">
                 <li className="flex items-center">
@@ -126,12 +126,17 @@ const totalPrice = () => {
             </div>
             </div>
 
+            <div className="flex flex-col text-pink-600 text-xs text-center pb-4">
+              <p>선택하신 좌석이 고객님께 선점되었습니다.</p>
+              <p className="py-1">3분 이내 결제하지 않으실 경우 선점된 좌석이 해제됩니다.</p>
+            </div>
+
             <div className="pb-2 text-white text-sm">
                 <p>회원정보 확인</p>
             </div>
 
           {/* 회원정보 */}
-          <div className="bg-[#2E2E3D] w-full h-auto p-6 text-white text-sm rounded-lg">
+          <div className="bg-[#2E2E3D] w-full h-auto px-6 py-4 text-white text-sm rounded-lg">
             <div>이름 : {name}</div>
             <div className="py-2">전화번호 : {phone}</div>
             <div>이메일 : {email}</div>
@@ -142,7 +147,7 @@ const totalPrice = () => {
           </div>
 
           {/* 예매정보 */}
-          <div className="bg-[#2E2E3D] w-full h-auto p-6 text-white text-sm rounded-lg">
+          <div className="bg-[#2E2E3D] w-full h-auto px-6 py-4 text-white text-sm rounded-lg">
             <div className="py-2">예매경기 : {gameInfo?.homeTeam} vs {gameInfo?.awayTeam}</div>
             <div className="py-2">경기장소 : {gameInfo?.stadium}</div>
             <div className="py-2">경기일정 : {gameDate}</div>
@@ -162,9 +167,9 @@ const totalPrice = () => {
 
             <div className="py-2">결제가격 : {totalPrice()} 원</div>
 
-            <div className="text-center text-[10px] pt-6">
+            <div className="text-center text-xs pt-2">
               <p>티켓 취소는  경기 시작 1시간 전까지 가능합니다.</p>
-              <p>취소수수료 : 경기 시작 3일 전부터 티켓금액의 30%</p>
+              <p className="pt-2">취소수수료 : 경기 시작 3일 전부터 티켓금액의 30%</p>
             </div>
 
           </div>
