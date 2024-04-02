@@ -18,9 +18,10 @@ import { useAnimate } from "framer-motion";
 interface TicketOpenModalProps {
     ticket: ITicket;
     onClose: () => void;
+    getData: () => void;
 }
 
-const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) => {
+const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getData }) => {
     const [isQR, setIsQR] = useState(false);
     const [qr, setQr] = useState("");
     const [onLoad, setOnLoad] = useState(false);
@@ -78,6 +79,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
                 const res = await registSeats({ gameId: Number(ticket.gameId), zoneId: Number(ticket.zoneId), seatNumbers: [Number(ticket.seatNumber)], isRefund: true });
                 
                 if (res.status == 200) {
+                    getData();
                     toast.success("환불되었습니다.");
                     onClose();
                     return;
@@ -93,7 +95,6 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
     const refundEnd = dayjs((Number(ticket.gameStartTime)) * 1000).subtract(1);
 
     const createQR = useCallback(async () => {
-        if (!isQR) {
             const QRData = {
                     tokenId: ticket.tokenId,
                     Match: ticket.homeTeam + " VS " + ticket.awayTeam,
@@ -104,20 +105,25 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
                     phone
                 }
                 setQr(`https://api.qrserver.com/v1/create-qr-code/?size=300x250&data=${JSON.stringify(QRData)}`);
-        }
     },[])
 
-
-
     const handleQR = () => {
-        animate("div", { rotateY: [180, 0]}, { duration: 0.6 })
-
         setIsQR(!isQR);
         if (isQR) {
+            animate("div", { rotateY: [180, 0] }, { duration: 0.6 })
             setOnLoad(false);
-        } 
-        createQR();
+        } else {
+            createQR();
+        }
     }
+
+    const handleLoad = () => {
+        setOnLoad(true);
+        if(!onLoad)
+            animate("div", { rotateY: [180, 0]}, { duration: 0.6 })
+    }
+
+
 
 
     return (
@@ -151,7 +157,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
                         </>
                         :
                         <>
-                            <img className="w-[300px] rounded-3xl p-4" src={qr} onLoad={() => setOnLoad(true)} />
+                            <img className="w-[300px] rounded-3xl p-4" src={qr} onLoad={handleLoad} />
                             {onLoad && <GetTime createQR={createQR}></GetTime>}
                         </>
                         }
