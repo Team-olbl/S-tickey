@@ -25,11 +25,9 @@ const Modal = ({ width, height, title, onClose, children }: IModalProps) => {
       handleClose();
     }
   };
-               
+
   return (
-    <div
-      className={`fixed top-0 w-[500px] bottom-0 ${isRendering ? 'bg-black/50' : 'bg-black/0'}`}
-    >
+    <div className={`fixed top-0 w-[500px] bottom-0 ${isRendering ? 'bg-black/50' : 'bg-black/0'}`}>
       {/* modal wrapper */}
       <div
         ref={modalRef}
@@ -37,9 +35,7 @@ const Modal = ({ width, height, title, onClose, children }: IModalProps) => {
         onClick={handleModalClick}
       >
         {/* modal */}
-        <div
-          style={{ width: width, height: height }}
-        >
+        <div style={{ width: width, height: height }}>
           <div className="w-full h-8 grid grid-cols-6 place-items-center pt-4">
             <div className="col-span-1">&nbsp;</div>
             <div className="col-span-4">{title}</div>

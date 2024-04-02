@@ -22,7 +22,7 @@ const DreamHeader = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default DreamHeader;

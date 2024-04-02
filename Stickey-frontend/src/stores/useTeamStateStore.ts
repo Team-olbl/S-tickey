@@ -5,12 +5,12 @@ interface ITeamType {
   toggleSelectTeam: (teamName: string) => void;
 }
 
-export const TeamStoreState = create<ITeamType>((set) => ({
+export const TeamStoreState = create<ITeamType>(set => ({
   selectedTeams: [],
-  toggleSelectTeam: (teamName) =>
-    set((state) => ({
+  toggleSelectTeam: teamName =>
+    set(state => ({
       selectedTeams: state.selectedTeams.includes(teamName)
-        ? state.selectedTeams.filter((name) => name !== teamName)
+        ? state.selectedTeams.filter(name => name !== teamName)
         : [...state.selectedTeams, teamName],
     })),
 }));

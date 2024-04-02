@@ -12,17 +12,17 @@ const LoginForm: React.FC = () => {
     const {mutate} = useLogin();
     const navigate = useNavigate()
 
-    const gotoSignup = () => {
-        navigate('/signup')
+  const gotoSignup = () => {
+    navigate('/signup');
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTryLogin(true);
+
+    if (!email || !password) {
+      return;
     }
-
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault();
-        setTryLogin(true);
-
-        if (!email || !password) {
-            return;
-        }
 
         mutate({ email, password }, {
             onSuccess: (data) => {

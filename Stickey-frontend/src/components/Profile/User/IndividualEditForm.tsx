@@ -26,7 +26,7 @@ const IndividualEditForm = () => {
     }
   }, [userData]);
 
-	const saveImgFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const saveImgFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
     setImage(file);
     if (file) {
@@ -40,87 +40,84 @@ const IndividualEditForm = () => {
     setIsModalOpen(true);
   };
 
-	const handleConfirmEdit = () => {
+  const handleConfirmEdit = () => {
     const formData = new FormData();
     formData.append('userInfoReq', JSON.stringify({ phone: phone }));
 
     if (image) {
-        formData.append('profile', image);
+      formData.append('profile', image);
     }
 
     for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
+      console.log(`${key}: ${value}`);
     }
 
     mutate(formData, {
-        onSuccess: () => {
-            navigate('/profile');
-        },
-        onError: (error) => {
-            console.error('프로필 정보 수정 실패', error);
-        }
+      onSuccess: () => {
+        navigate('/profile');
+      },
+      onError: error => {
+        console.error('프로필 정보 수정 실패', error);
+      },
     });
 
     setIsModalOpen(false);
-	};
+  };
 
-	
   return (
-		<>
-    <div className="pt-16 text-sm">
-		<div className='px-4 pb-28'>
-		{/* 프로필 사진 */}
-		<div className='flex flex-col items-center pt-2'>
-			<p className='text-xs py-2'>프로필 사진</p>
-			<label className="flex border items-center justify-center w-24 h-24 rounded-lg" htmlFor="photo">
-				{photo ? (
-					<img src={photo} alt="profilePhoto" className="w-full h-full object-cover rounded-lg" />
-						) : (
-							<CiCamera className="flex justify-center" size="2rem" color="#878787" />
-				)}<input
-					multiple
-					type="file"
-					onChange={saveImgFile}
-					ref={imgRef}
-					id="photo"
-					className="hidden w-full h-full cursor-pointer"
-				></input>
-			</label>
-		</div>
+    <>
+      <div className="pt-16 text-sm">
+        <div className="px-4 pb-28">
+          {/* 프로필 사진 */}
+          <div className="flex flex-col items-center pt-2">
+            <p className="text-xs py-2">프로필 사진</p>
+            <label className="flex border items-center justify-center w-24 h-24 rounded-lg" htmlFor="photo">
+              {photo ? (
+                <img src={photo} alt="profilePhoto" className="w-full h-full object-cover rounded-lg" />
+              ) : (
+                <CiCamera className="flex justify-center" size="2rem" color="#878787" />
+              )}
+              <input
+                multiple
+                type="file"
+                onChange={saveImgFile}
+                ref={imgRef}
+                id="photo"
+                className="hidden w-full h-full cursor-pointer"
+              ></input>
+            </label>
+          </div>
 
-		{/* 개인 정보 */}
-		<div>
-			<label className="pt-2 pb-2 text-sm">이름</label>
-			<input
-					type="text"
-					value={name}
-					readOnly
-					className="w-full outline-none border-b p-2 text-xs"
-			/>
-			<p className="pt-4 pb-2 text-sm">이메일</p>
-			<input
-					type="email"
-					value={email}
-					readOnly
-					placeholder=""
-					className="w-full outline-none border-b p-2 text-xs"
-			/>
-			<p className="pt-4 pb-2 text-sm">연락처</p>
-			<input
-					type="text"
-					value={phone}
-					onChange={(e) => setPhone(e.target.value)}
-					placeholder="전화번호를 입력해주세요"
-					className="w-full outline-none border-b p-2 text-xs"
-			/>
-		</div>
-			</div>
-			<div className="fixed bottom-20 w-full max-w-[500px] m-auto px-4">
-				<button className="bg-Stickey_Main w-full text-white rounded-md p-2 text-md" onClick={handleEditSubmit}>수정하기</button>
-			</div>
-		</div>
-		{isModalOpen && <ProfileEditModal onClose={() => setIsModalOpen(false)} handleConfirmEdit={handleConfirmEdit} />}
-		</>
+          {/* 개인 정보 */}
+          <div>
+            <label className="pt-2 pb-2 text-sm">이름</label>
+            <input type="text" value={name} readOnly className="w-full outline-none border-b p-2 text-xs" />
+            <p className="pt-4 pb-2 text-sm">이메일</p>
+            <input
+              type="email"
+              value={email}
+              readOnly
+              placeholder=""
+              className="w-full outline-none border-b p-2 text-xs"
+            />
+            <p className="pt-4 pb-2 text-sm">연락처</p>
+            <input
+              type="text"
+              value={phone}
+              onChange={e => setPhone(e.target.value)}
+              placeholder="전화번호를 입력해주세요"
+              className="w-full outline-none border-b p-2 text-xs"
+            />
+          </div>
+        </div>
+        <div className="fixed bottom-20 w-full max-w-[500px] m-auto px-4">
+          <button className="bg-Stickey_Main w-full text-white rounded-md p-2 text-md" onClick={handleEditSubmit}>
+            수정하기
+          </button>
+        </div>
+      </div>
+      {isModalOpen && <ProfileEditModal onClose={() => setIsModalOpen(false)} handleConfirmEdit={handleConfirmEdit} />}
+    </>
   );
 };
 
