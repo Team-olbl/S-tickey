@@ -78,7 +78,9 @@ public class WaitingServiceImpl implements WaitingService {
                     redisUtil.removeFromQueue(waitKey, s);
                     log.info("[WaitingServiceImpl] 대기열 삭제");
 
-                    redisUtil.addToQueue(runKey, s, System.currentTimeMillis());
+                    log.info("[WaitingServiceImpl]" + redisUtil.addToQueue(runKey, s,
+                        System.currentTimeMillis()));
+
                     log.info("[WaitingServiceImpl] 참가열 추가");
 
                     // 본인 차례임을 표시하고 응답

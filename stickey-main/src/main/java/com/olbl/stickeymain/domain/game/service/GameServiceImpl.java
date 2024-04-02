@@ -451,7 +451,12 @@ public class GameServiceImpl implements GameService {
     }
 
     private void existsInRunningQueue(int gameId, int userId) {
-        if (redisTemplate.opsForZSet().rank("run::" + gameId, String.valueOf(userId)) == null) {
+        String runKey = "run::" + gameId;
+        log.info("[existsInRunningQueue] Run Size : {}" + redisTemplate.opsForZSet().size(runKey));
+        Long rank = redisTemplate.opsForZSet().rank(runKey, String.valueOf(userId));
+        log.info("[existsInRunningQueue] Rank : {}" + rank);
+//        if (redisTemplate.opsForZSet().rank(runKey, String.valueOf(userId)) == null) {
+        if (rank == null) {
             log.info("[existsInRunningQueue] 참가열에 존재하지 않는 유저 요청 : {}", userId);
             throw new BusinessException(ErrorCode.NOT_IN_RUNNING_QUEUE);
         }
