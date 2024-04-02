@@ -14,6 +14,13 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
     const [parsedMessageRef, setParsedMessageRef] = useState<number>(0);
     const navigate = useNavigate()
 
+    const socketMessage = {
+        gameId: ticketInfo?.id,
+        id: userId,
+      };
+
+    const jsonMessage = JSON.stringify(socketMessage);
+
     useEffect(() => {
         const newClient = new Client();
         newClient.configure({
@@ -30,7 +37,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                             if (client) {
                                 client.publish({
                                     destination: '/games/wait/cancel',
-                                    body: undefined,
+                                    body: jsonMessage,
                                 });
                                 console.log('취소 메시지 전송')  
                                 client.deactivate();
@@ -67,7 +74,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
             if (client) {
                 client.publish({
                     destination: '/games/wait/cancel',
-                    body: undefined,
+                    body: jsonMessage,
                 });
                 console.log('취소 메시지 전송');
                 client.deactivate();
