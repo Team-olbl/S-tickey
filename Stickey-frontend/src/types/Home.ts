@@ -3,6 +3,7 @@ export interface IGameSimpleRes {
     id: number;
     gameImage: string;
     category: string;
+    stadiumId: number;
     stadium: string;
     homeTeam: string;
     homeTeamLogo:string;

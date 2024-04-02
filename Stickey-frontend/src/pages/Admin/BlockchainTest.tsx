@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {  useRef } from "react";
-import { connect, createTicket, getTickets, getWalletInfo, refundTicket, setSupport, donate, withdraw, getSupprtedHistory, getSupprtingHistory, getPaymentHistory, getRewordHistory, getItemList, addFilter, addBackground, deleteBackground, deleteFilter, setFilterOnTicket, setBackgroundOnTicket, setGame, setSeatPrice, setZoneName, getSeatState } from './service/web3/api'
-import { useProfile } from "./hooks/Profile/useProfile";
+import { connect, createTicket, getTickets, getWalletInfo, refundTicket, setSupport, donate, withdraw, getSupprtedHistory, getSupprtingHistory, getPaymentHistory, getRewordHistory, getItemList, addFilter, addBackground, deleteBackground, deleteFilter, setFilterOnTicket, setBackgroundOnTicket, setGame, setSeatPrice, setZoneName, getSeatState } from '../../service/web3/api'
+import { useProfile } from "../../hooks/Profile/useProfile";
 import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -58,12 +58,12 @@ const BlockchainTest = () => {
     const name = prompt("단체이름")
     const address = prompt("지갑주소");
     const end_Time = prompt("종료 시간");
-    if (!id || !name || !address) {
+    if (!id || !name || !address || end_Time) {
       alert("등록 취소")
       return;
     }
     const endTime = Math.floor(new Date(end_Time!.toString()).getTime() / 1000);
-    setSupport(Number(id), name!, endTime);
+    setSupport(Number(id), name!, address, endTime);
   }
 
   const _donate = async () => {
