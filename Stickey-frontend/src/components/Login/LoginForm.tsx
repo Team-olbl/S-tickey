@@ -26,7 +26,7 @@ const LoginForm: React.FC = () => {
             onSuccess: (data) => {
                 toast.success('로그인에 성공했습니다.');
                 console.log(data)
-                navigate('/');
+                navigate('/home');
             },
             onError: (error) => {
                 toast.error(`이메일과 비밀번호를 다시 확인해주세요.`);

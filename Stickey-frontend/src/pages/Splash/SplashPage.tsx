@@ -6,7 +6,7 @@ const SplashPage = () => {
     
     const navigate = useNavigate()
     const goMain = () => {
-        navigate('/');
+        navigate('/home');
     }
 
     useEffect(() => {
