@@ -208,7 +208,7 @@ const SponsorDetailPage = () => {
           </div>
         </div>
         {/* 후원 버튼 */}
-        <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
+        <div className="fixed bottom-20 w-full max-w-[500px] m-auto px-4">
           {id == ISponsorDetailRes?.data.organizationId ? (
             <button
               className={`${progressPercentage >= 100 ? `bg-[#5959E7]` : `bg-Stickey_Gray`} w-full text-white rounded-md p-2 text-md`}

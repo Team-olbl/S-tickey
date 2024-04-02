@@ -9,7 +9,6 @@ const GroupProfile = ({ groupInfo }: { groupInfo: IUserProfile | null }) => {
     if (!groupInfo) {
       return null;
     }
-    console.log(groupInfo)
     if (groupInfo?.status === "ACCEPTED") {
       return (
         <>
