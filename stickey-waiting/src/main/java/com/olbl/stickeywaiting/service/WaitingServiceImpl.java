@@ -88,11 +88,11 @@ public class WaitingServiceImpl implements WaitingService {
                         .rank(0)
                         .build();
 
-                    log.info("[WaitingServiceImpl] 참가열에 들어갔는지 확인1 : ",
-                        redisUtil.getRankFromQueue(runKey, Integer.parseInt(s)));
+                    log.info(
+                        "[WaitingServiceImpl] 참가열에 들어갔는지 확인1 : " + redisUtil.sizeOfQueue(runKey));
                     template.convertAndSend("/sub/id/" + s, res);
                     log.info("[WaitingServiceImpl] 참가열에 들어갔는지 확인2 : ",
-                        redisUtil.getRankFromQueue(runKey, Integer.parseInt(s)));
+                        +redisUtil.sizeOfQueue(runKey));
                 }
             }
 
