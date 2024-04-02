@@ -208,6 +208,10 @@ public class UserServiceImpl implements UserService {
             user.updateProfileImage(profileUrl);
         }
 
+        if (!userInfoReq.getPassword().isEmpty()) {
+            user.updatePassword(bCryptPasswordEncoder.encode(userInfoReq.getPassword()));
+        }
+
         user.updatePhone(userInfoReq.getPhone());
     }
 }
