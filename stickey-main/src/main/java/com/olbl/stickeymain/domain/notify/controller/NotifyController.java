@@ -23,7 +23,6 @@ public class NotifyController {
     @GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(
         @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
-        log.info("subscribe Controller");
         return notifyService.subscribe(lastEventId);
     }
 
