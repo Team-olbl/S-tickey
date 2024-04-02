@@ -86,7 +86,8 @@ public class SecurityConfig {
 
                     // 허용할 출처
                     configuration.setAllowedOrigins(
-                        Arrays.asList("https://j10d211.p.ssafy.io", "http://localhost:3000"));
+                        Arrays.asList("https://j10d211.p.ssafy.io", "http://localhost:3000",
+                            "http://192.168.100.143:3000"));
 
                     // 허용할 HTTP 메소드
                     configuration.setAllowedMethods(Collections.singletonList("*"));
