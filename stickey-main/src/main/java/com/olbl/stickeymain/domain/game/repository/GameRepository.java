@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer>, GameRepositoryQuerydsl {
 
-    List<Game> findByBookStartTimeBetween(LocalDateTime now, LocalDateTime twentyMinutesFromNow);
+    List<Game> findByBookStartTimeBetween(LocalDateTime now, LocalDateTime time);
 
     List<Game> findByGameStartTimeBetween(LocalDateTime startOfTomorrow,
         LocalDateTime endOfTomorrow);

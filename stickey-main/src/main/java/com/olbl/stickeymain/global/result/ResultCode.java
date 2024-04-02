@@ -38,6 +38,7 @@ public enum ResultCode {
 
     //Game
     GAME_REGISTER_SUCCESS(201, "경기 등록에 성공하였습니다."),
+    STADIUM_SEAT_REGIST_SUCCESS(201, "구역별 좌석 등록에 성공하였습니다."),
     GET_REMAINING_SEATS_SUCCESS(200, "구역 별 잔여좌석 조회에 성공하였습니다."),
     GET_SEAT_STATUS_SUCCESS(200, "전체 좌석 상태 정보 조회에 성공하였습니다."),
     GET_GAMES_SUCCESS(200, "게임 목록 조회에 성공하였습니다."),
@@ -45,6 +46,7 @@ public enum ResultCode {
     HOLD_SEATS_SUCCESS(200, "좌석 선점에 성공하였습니다."),
     HOLD_SEATS_FAIL(200, "이미 선택된 좌석입니다."),
     PAYMENT_SUCCESS(200, "좌석 결제/환불에 성공하였습니다."),
+    REMOVE_RUNNING_QUEUE_SUCCESS(200, "참가열에서 삭제되었습니다."),
 
     //Support
     GET_SUPPORTID_BY_ITEM_SUCCESS(200, "후원될 글 조회에 성공하였습니다."),
