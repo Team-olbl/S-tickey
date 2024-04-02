@@ -9,6 +9,7 @@ import static com.olbl.stickeymain.global.result.ResultCode.HOLD_SEATS_FAIL;
 import static com.olbl.stickeymain.global.result.ResultCode.HOLD_SEATS_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.PAYMENT_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.REMOVE_RUNNING_QUEUE_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.STADIUM_SEAT_REGIST_SUCCESS;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.olbl.stickeymain.domain.game.dto.GameListRes;
@@ -59,6 +60,13 @@ public class GameController {
         @RequestPart(value = "gameImage") MultipartFile gameImage) {
         gameService.registGame(gameReq, gameImage);
         return ResponseEntity.ok(ResultResponse.of(GAME_REGISTER_SUCCESS));
+    }
+
+    @Operation(summary = "경기장 구역 별 좌석 세팅")
+    @PostMapping("/stadiums/{id}")
+    public ResponseEntity<ResultResponse> registStadiumSeats(@PathVariable(value = "id") int id) {
+        gameService.registStadiumSeats(id); //stadium id 값 받기
+        return ResponseEntity.ok(ResultResponse.of(STADIUM_SEAT_REGIST_SUCCESS));
     }
 
     @Operation(summary = "경기 목록 조회")
