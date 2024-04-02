@@ -10,7 +10,7 @@ import { useEffect } from "react";
 
 const BookSection = () => {
 
-    const { seatInfo, setSelectInfo } = useTicketStore();
+    const { seatInfo, setSelectInfo, clearSeatInfo } = useTicketStore();
     const navigate = useNavigate();
     const gameInfo = useTicketInfoStore((state) => state.modalData);
     const { id } = useParams<{ id: string }>();
@@ -20,6 +20,7 @@ const BookSection = () => {
     
     useEffect(() => {
         if (isError && fetchStatus === 'idle') {
+            clearSeatInfo();
             toast.error("예매 가능 시간이 초과되었습니다.");
             navigate("/home")
         }
