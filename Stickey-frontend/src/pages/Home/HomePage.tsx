@@ -23,11 +23,8 @@ const HomePage = () => {
 
   const {
     data: gameListInfo,
-    isSuccess
   } = useGetGameList({ catg : undefined, club: [ ...preferences.map((item) => item.sportsClubName )], date : undefined});
 
-  if (isSuccess)
-    console.log(gameListInfo);
 
   const info : IHeaderInfo = {
     left_1: <img className="w-20" src={Logo} />,

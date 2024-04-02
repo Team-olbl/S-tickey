@@ -7,6 +7,7 @@ export const useBook = () => {
         return useQuery({
             queryKey: ['section', props],
             queryFn: () => getSectionSeatCntReq(props),
+            retry: false
         })
     }
 
@@ -15,6 +16,7 @@ export const useBook = () => {
             queryKey: ['seat', id, zoneId],
             queryFn: () => getSeatInfoReq({ id, zoneId }),
             enabled: id != 0,
+            retry: false
         })
     }
 
