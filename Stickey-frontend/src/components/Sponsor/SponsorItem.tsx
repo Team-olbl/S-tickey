@@ -31,7 +31,7 @@ const SponsorItem = ({ data }: { data: ISupportSimpleRes }) => {
       <div className="bg-Stickey_Middle px-4 rounded-bl-2xl rounded-br-2xl">
         <div className="flex items-center pt-2">
           <img src={data.profileImage} className="bg-gray-500 w-6 h-6 rounded-full" />
-          <p className="text-white text-md pl-2 font-semibold">{data.title}</p>
+          <p className="text-white text-md pl-2 font-semibold truncate">{data.title}</p>
         </div>
         <div>
           <p className="text-white text-[10px] p-1 text-left">
