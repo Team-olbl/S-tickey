@@ -11,7 +11,7 @@ export default {
         Stickey_Middle: '#2E2E3D',
       },
       fontFamily: {
-        Pretendard: ['Pretendard-Regular'],
+        Pretendard: ['IBMPlexSansKR-Regular'],
       },
       mixBlendMode:{
         colorDodge: 'color-dodge'
