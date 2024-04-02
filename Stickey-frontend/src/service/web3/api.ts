@@ -85,6 +85,7 @@ export const createTicket = async (number : number, gameId : number, stadiumId :
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   const value = price * 10e10 * number;
+  stadiumId = 1;
   try {
     const ret = await contract.methods.createTicket(number, gameId, stadiumId, zoneId, seatNumber).send({ from: account, value: value, gasPrice : 3000000});
     return ret;
