@@ -4,20 +4,19 @@ import userStore from '../stores/userStore';
 import { toast } from 'react-toastify';
 // import { useNavigate } from 'react-router-dom';
 
-
 axios.defaults.paramsSerializer = function (paramObj) {
-  const params = new URLSearchParams()
+  const params = new URLSearchParams();
   for (const key in paramObj) {
-      if (Array.isArray(paramObj[key])) {
-        for (const value of paramObj[key]) {
-          params.append(key, value)
-        }
-      } else if (paramObj[key] !== undefined) {
-        params.append(key, paramObj[key]);
+    if (Array.isArray(paramObj[key])) {
+      for (const value of paramObj[key]) {
+        params.append(key, value);
       }
+    } else if (paramObj[key] !== undefined) {
+      params.append(key, paramObj[key]);
     }
-  return params.toString()
-}
+  }
+  return params.toString();
+};
 
 // accessToken을 먼저 보내봐라
 
@@ -30,7 +29,6 @@ export const axiosCommonInstance = axios.create(axiosRequestConfig);
 export const axiosAuthInstance = axios.create(axiosRequestConfig);
 
 axiosAuthInstance.interceptors.request.use(setAuthorization);
-
 
 // axiosAuthInstance.interceptors.response.use(
 //   (response) => response,
@@ -80,10 +78,10 @@ axiosAuthInstance.interceptors.response.use(
         // 로그아웃 처리 및 로그인 페이지로 리다이렉트
         userStore.getState().logoutUser();
         localStorage.clear();
-        window.location.href = "/login";
-        toast.error("토큰이 만료되었습니다. 다시 로그인해주세요.");
-      } 
+        window.location.href = '/login';
+        toast.error('토큰이 만료되었습니다. 다시 로그인해주세요.');
+      }
     }
     return Promise.reject(error);
-  }
+  },
 );

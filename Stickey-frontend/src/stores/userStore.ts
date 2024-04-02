@@ -23,7 +23,17 @@ interface IUserState {
   registrationFile?: string;
   preferences: IPreferences[];
   setTokens: (accessToken: string) => void;
-  loginUser: ({ id, name, email, phone, profile, accessToken, refreshToken, role, preferences } : {
+  loginUser: ({
+    id,
+    name,
+    email,
+    phone,
+    profile,
+    accessToken,
+    refreshToken,
+    role,
+    preferences,
+  }: {
     id: number;
     name?: string;
     email?: string;
@@ -40,7 +50,7 @@ interface IUserState {
 
 const userStore = create(
   persist<IUserState>(
-    (set) => ({
+    set => ({
       isLogin: false,
       id: 0,
       name: '',
@@ -55,7 +65,7 @@ const userStore = create(
       registrationNumber: undefined,
       registrationFile: undefined,
       preferences: [],
-      setTokens: (accessToken) => set(() => ({ accessToken })),
+      setTokens: accessToken => set(() => ({ accessToken })),
       loginUser: ({ id, name, email, phone, profile, accessToken, refreshToken, role, preferences }) =>
         set({
           id: id,
@@ -70,8 +80,8 @@ const userStore = create(
           isLogin: true,
         }),
       logoutUser: () => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
         set({
           isLogin: false,
           id: 0,
@@ -89,14 +99,12 @@ const userStore = create(
           preferences: [],
         });
       },
-      setPreference: (preferences : IPreferences[]) => 
-        set(() => ({preferences}))
-      
+      setPreference: (preferences: IPreferences[]) => set(() => ({ preferences })),
     }),
     {
       name: 'user-store',
-    }
-  )
+    },
+  ),
 );
 
 export default userStore;
