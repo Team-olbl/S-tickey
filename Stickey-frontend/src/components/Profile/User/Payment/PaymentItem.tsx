@@ -3,7 +3,6 @@ import { PaymentItemData } from "../../../../pages/Profile/User/PaymentHistory";
 import Down from '../../../../assets/image/FilledDown.png'
 import dayjs from 'dayjs';
 import { toEther } from "../../../../service/web3/api";
-import { AnimatePresence, motion } from "framer-motion";
 
 const PaymentItem = ({ data }: { data: PaymentItemData }) => {
   const [isOpenAccordion, setIsOpenAccordion] = useState<boolean>(false);
@@ -80,48 +79,43 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
     } else {
       return (<>
         <div className="flex flex-row gap-1 text-[12px] font-semibold">
-              <p>{data.ticketPayment.homeTeam}</p>
-              <p>VS</p>
-              <p>{data.ticketPayment.awayTeam}</p>
-            </div>
-            <div className="text-[10px] p-2">
-              <div className="flex flex-row gap-5">
-                <div className="w-[50px] text-[#969799]">장소</div>
-                <div>{data.ticketPayment.stadium}</div>
-              </div>
-              <div className="flex flex-row gap-5">
-                <div className="w-[50px] text-[#969799]">경기시간</div>
-                <div>{dayjs(Number(data.ticketPayment.gameStartTime)*1000).format(
-                  "YYYY-MM-DD HH:mm"
-                )}</div>
-              </div>
-              <div className="flex flex-row gap-5">
-                <div className="w-[50px] text-[#969799]">좌석정보</div>
-                <div className="flex flex-col">
-                  {data.ticketPayment.seatNumber.map((item) => (
-                    <div key={item}>
-                      {data.ticketPayment.zoneName} {Number(item)}
-                    </div>
-                  ))}
+          <p>{data.ticketPayment.homeTeam}</p>
+          <p>VS</p>
+          <p>{data.ticketPayment.awayTeam}</p>
+        </div>
+        <div className="text-[10px] p-2">
+          <div className="flex flex-row gap-5">
+            <div className="w-[50px] text-[#969799]">장소</div>
+            <div>{data.ticketPayment.stadium}</div>
+          </div>
+          <div className="flex flex-row gap-5">
+            <div className="w-[50px] text-[#969799]">경기시간</div>
+            <div>{dayjs(Number(data.ticketPayment.gameStartTime)*1000).format(
+              "YYYY-MM-DD HH:mm"
+            )}</div>
+          </div>
+          <div className="flex flex-row gap-5">
+            <div className="w-[50px] text-[#969799]">좌석정보</div>
+            <div className="flex flex-col">
+              {data.ticketPayment.seatNumber.map((item) => (
+                <div key={item}>
+                  {data.ticketPayment.zoneName} {Number(item)}
                 </div>
-              </div>
+              ))}
             </div>
+          </div>
+        </div>
             
         </>
       )
     }
   }
 
-  const variants = {
-    init: { height: 0, opacity: 0 },
-    visible : {height:150, opacity : 1},
-  } 
-
   return (
   <>
     <div className="flex justify-center pb-2 pt-2">
-      <div className="flex flex-col">
-        <div className="flex flex-row items-center justify-between w-[340px] h-[32px] border border-none rounded-[5px] bg-[#2E2E3D] px-2 gap-2" onClick={toggleAccordion}>
+      <div className="flex flex-col items-center w-full">
+        <div className="flex flex-row items-center justify-between w-[90%] h-[32px] border border-none rounded-[5px] bg-[#2E2E3D] px-2 gap-2" onClick={toggleAccordion}>
           <div className="flex flex-row items-center">
             {bookStatus()}
             <p className="text-white text-[12px]">
@@ -137,10 +131,9 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
             />
           </div>
           </div>
-          <AnimatePresence>
+
         {isOpenAccordion && (
-              <motion.div className="w-[340px] bg-white rounded-b-[5px] p-2"
-              variants={variants} initial="init" animate="visible" exit="init" transition={{duration : 0.5}}>
+              <div className="w-[90%] bg-white rounded-b-[5px] p-4">
                 {bodyContent()}
 
               <div className="pb-2">
@@ -159,8 +152,8 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
                   <div>{time.toString()}</div>
                 </div>
                   </div>
-          </motion.div>
-        )}</AnimatePresence>
+          </div>
+        )}
       </div>
       </div>
       </>
