@@ -21,5 +21,7 @@ public interface WaitingSupportOneRes {
         String getProfileImage();
 
         String getName();
+
+        String getWallet();
     }
 }
