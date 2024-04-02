@@ -84,26 +84,22 @@ const BookPaymentPage = () => {
           seatInfo.sectionPrice,
         );
 
-        if (tx) {
-          navigate(`/${gameInfo?.id}/confirm`, { replace: true });
-          clearSeatInfo();
-          return;
-        } else {
-          await registSeats({
-            gameId: gameInfo!.id,
-            zoneId: seatInfo.sectionId,
-            seatNumbers: seatInfo.seat,
-            isRefund: true,
-          });
-          toast.warn('결제에 실패했습니다.');
-          navigate(`/${gameInfo?.id}/section`, { replace: true });
-          clearSeatInfo();
-          return;
-        }
-      } catch (err) {
-        toast.warn('좌석 선점 시간이 지나 결제가 취소되었습니다.');
-        navigate(`/${gameInfo?.id}/section`, { replace: true });
-        clearSeatInfo();
+    if (tx) {
+      navigate(`/${gameInfo?.id}/confirm`, { replace: true })
+      clearSeatInfo()
+      return;
+    }
+      else {
+        await registSeats({ gameId: gameInfo!.id, zoneId: seatInfo.sectionId, seatNumbers: seatInfo.seat, isRefund: true });
+        toast.warn("결제에 실패했습니다.")
+        navigate(`/${gameInfo?.id}/section`, { replace: true })
+        clearSeatInfo()
+        return;
+      }
+    } catch (err) {
+        toast.warn("좌석 선점 시간이 지나 결제가 취소되었습니다.");
+        navigate(`/${gameInfo?.id}/section`, { replace: true })
+        clearSeatInfo()
         return;
       }
     };
