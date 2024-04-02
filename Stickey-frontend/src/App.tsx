@@ -24,7 +24,7 @@ import TicketEditPage from './pages/MyTicket/TicketEdit/TicketEditPage';
 import SponsorCreatePage from './pages/Sponsor/SponsorCreatePage/SponsorCreatePage';
 import GroupProfileEditPage from './pages/Profile/Group/GroupProfileEditPage';
 import PlayerRegistration from './pages/Profile/Group/PlayerRegistrationPage';
-import BlockchainTest from "./BlockchainTest";
+import BlockchainTest from "./pages/Admin/BlockchainTest";
 import userStore from './stores/userStore';
 import AdminPage from './pages/Admin/AdminPage';
 import { useEffect } from 'react';

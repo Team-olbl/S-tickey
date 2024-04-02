@@ -16,7 +16,7 @@ const PostApproveDetail = ({ id, onClose, refetch }: { id: number;  onClose: () 
     const time = Math.floor(new Date(data!.endTime).getTime() / 1000);
 
     (async () => {
-      const tx = await setSupport(id, data!.organization.name, time);
+      const tx = await setSupport(id, data!.organization.name, data!.organization.wallet, time);
 
       if (tx) {
         mutate({ id, status: "1", message: "" }, {
@@ -33,7 +33,6 @@ const PostApproveDetail = ({ id, onClose, refetch }: { id: number;  onClose: () 
         toast.error("에러가 발생했습니다.");
       }
     })();
-
   }
 
   const handleReject = () => {
@@ -55,7 +54,7 @@ const PostApproveDetail = ({ id, onClose, refetch }: { id: number;  onClose: () 
   
   return (
     <Modal width="80vw" height="" title="" onClose={onClose}>
-      <div className='flex flex-col items-center pb-4 overflow-y-scroll gap-5'>
+      <div className='flex flex-col items-center pb-4 overflow-y-scroll gap-5 h-[50vh]'>
           <p>{data?.organization.name}</p>
         <div className="bg-Stickey_Gray rounded-2xl w-24 h-24 p-2 text-center">
           <img src={data?.organization.profileImage} alt="" className="w-full h-full" />
