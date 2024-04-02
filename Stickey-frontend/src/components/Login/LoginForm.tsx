@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLogin } from '../../hooks/Individual/useLogin';
 import { toast } from 'react-toastify';
+import FindPWModal from '../FindPW/FindPWModal';
 
 const LoginForm: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [tryLogin, setTryLogin] = useState<boolean>(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const {mutate} = useLogin();
     const navigate = useNavigate()
 
@@ -34,6 +36,10 @@ const LoginForm: React.FC = () => {
             }
         });
     };
+
+    const handleFindPW = () => {
+        setIsModalOpen(true)
+    }
 
     return (
         <>
@@ -63,10 +69,11 @@ const LoginForm: React.FC = () => {
             </div>
             </form>
             <div className="flex justify-center text-xs px-4 gap-8">
-                <button>비밀번호찾기</button>
+                <button onClick={handleFindPW}>비밀번호찾기</button>
                 <p>|</p>
                 <button onClick={gotoSignup}>회원가입</button>
             </div>
+            {isModalOpen && <FindPWModal onClose = {() => setIsModalOpen(false)}/>}
         </>
     )
 
