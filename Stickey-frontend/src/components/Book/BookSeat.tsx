@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 const BookSeat = () => {
     const navigate = useNavigate();
     const { seatInfo, setSelectInfo } = useTicketStore();
-    const { clearSeatInfo } = useTicketStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const gameInfo = useTicketInfoStore((state) => state.modalData);
     const { useSeatInfoCnt, useSeatconfirm } = useBook();
@@ -19,7 +18,6 @@ const BookSeat = () => {
     useEffect(() => {
         if (isError && fetchStatus === 'idle') {
             toast.error("예매 가능 시간이 초과되었습니다.");
-            clearSeatInfo();
             navigate("/home")
         }
     }, [fetchStatus])

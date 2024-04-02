@@ -79,6 +79,7 @@ export const getBalance = async () => {
   return await web3?.eth.getBalance(account);
 };
 
+
 // 티켓 예매
 export const createTicket = async (
   number: number,
@@ -235,13 +236,15 @@ export const getItemList = async () => {
 };
 
 export const buyFilter = async (tokenId: number, itemId: number) => {
-  const res = await getSelectSupportId();
-  return await setFilterOnTicket(tokenId, itemId, res.data);
+  const {data} = await getSelectSupportId();
+  console.log(tokenId, itemId, data.id);
+  return await setFilterOnTicket(tokenId, itemId, data.id);
 };
 
 export const buyBackground = async (tokenId: number, itemId: number) => {
-  const res = await getSelectSupportId();
-  return await setBackgroundOnTicket(tokenId, itemId, res.data);
+  const {data} = await getSelectSupportId();
+  console.log(tokenId, itemId, data.id);
+  return await setBackgroundOnTicket(tokenId, itemId, data.id);
 };
 
 // 티켓에 필터 적용
