@@ -27,6 +27,8 @@ import com.olbl.stickeymain.domain.game.entity.GameSeat;
 import com.olbl.stickeymain.domain.game.entity.SeatStatus;
 import com.olbl.stickeymain.domain.game.entity.SportsClub;
 import com.olbl.stickeymain.domain.game.entity.Stadium;
+import com.olbl.stickeymain.domain.game.entity.StadiumSeat;
+import com.olbl.stickeymain.domain.game.entity.StadiumSeatId;
 import com.olbl.stickeymain.domain.game.entity.StadiumZone;
 import com.olbl.stickeymain.domain.game.repository.GameRepository;
 import com.olbl.stickeymain.domain.game.repository.GameSeatRepository;
@@ -137,6 +139,27 @@ public class GameServiceImpl implements GameService {
             }
         }
         gameSeatRepository.saveAll(gameSeatList);
+    }
+
+    @Override
+    @Transactional
+    public void registStadiumSeats(int id) {
+        List<StadiumZone> stadiumZones = stadiumZoneRepository.findAllByStadiumId(id);
+
+        stadiumZones.forEach(zone -> {
+            for (int j = 1; j <= 30; j++) {
+                //TODO: select, insert 쿼리 둘다 나가는것 리팩토링
+                StadiumSeat stadiumSeat = StadiumSeat.builder()
+                    .stadiumZone(zone)
+                    .id(StadiumSeatId.builder()
+                        .seatId(j)
+                        .zoneId(zone.getId())
+                        .build())
+                    .build();
+
+                stadiumSeatRepository.save(stadiumSeat);
+            }
+        });
     }
 
     @Override

@@ -18,6 +18,8 @@ public interface GameService {
 
     void registGame(GameReq gameReq, MultipartFile gameImage);
 
+    void registStadiumSeats(int id);
+
     GameListRes getGames(ViewParam viewParam);
 
     LeftSeatListRes getLeftSeats(int id);
