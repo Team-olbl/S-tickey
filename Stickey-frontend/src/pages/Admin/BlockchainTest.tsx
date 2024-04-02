@@ -14,7 +14,7 @@ const BlockchainTest = () => {
   if (isSuccess) {
       if (profileRes.data.role !== 'ADMIN') {
           toast.warn("잘못된 접근입니다.");
-          return <Navigate to='/'></Navigate>
+          return <Navigate to='/home'></Navigate>
       }
   }
 

@@ -60,7 +60,7 @@ const gameInfo = useTicketInfoStore((state) => state.modalData);
     connect();
   if(!gameInfo?.id) {
       toast.warn('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
-      navigate('/', {replace: true})
+      navigate('/home', {replace: true})
   }
 }, [])
 
