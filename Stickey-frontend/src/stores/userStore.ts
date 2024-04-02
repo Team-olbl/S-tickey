@@ -66,7 +66,7 @@ const userStore = create(
           accessToken: accessToken,
           refreshToken: refreshToken,
           role: role,
-          preferences: preferences,
+          preferences: preferences || [],
           isLogin: true,
         }),
       logoutUser: () => {

@@ -42,7 +42,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
             const newRotateY = ((offsetX / clientWidth) * 50 - 25);
             const newRotateX = -((offsetY / clientHeight) * 50 - 25);
             currentContainer.style.transform = `perspective(1000px) rotateX(${newRotateX}deg) rotateY(${newRotateY}deg)`;
-            currentOverlay.style.backgroundPosition = `${offsetX/3}px ${offsetY/3}px`;
+            currentOverlay.style.backgroundPosition = `${offsetX/5}px ${offsetY/5}px`;
         };
     
         const handleTouchEnd = () => {
@@ -124,16 +124,16 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
         <div className="z-[1] w-full fixed inset-0 bg-black/80 flex justify-center items-center">
             {/* modal wrapper */}
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg"  ref={scope}>
-            {onLoad &&
-                    <div className='flex justify-center mb-2 items-center fixed left-0 right-0'
+                {onLoad &&
+                    <div className='flex justify-center mb-2 items-center fixed left-0 right-0 rounded-1'
                         style={{ transform : "translateY(-110%)" }}>
-                    <img src={Warning} alt="" className="w-8"/>
-                    <div>
-                        <p className='ml-2 text-sm text-white h-full '>캡처한 이미지로는 입장이 불가능합니다.</p>
-                    </div>
-                </div>}
+                        <img src={Warning} alt="" className="w-8"/>
+                        <div>
+                            <p className='ml-2 text-sm text-white h-full '>캡처한 이미지로는 입장이 불가능합니다.</p>
+                        </div>
+                    </div>}
                 {/* modal */}
-                <div ref={containerRef} className="relative transition-all-0.1s flex flex-col text-center items-center">
+                <div ref={containerRef} className="relative flex flex-col text-center items-center">
                     <div ref={overlayRef} className={`filter${ticket.filterId}`}></div>
                     <div>
                         <div className={`w-[300px] background${ticket.backgroundId} rounded-b-lg p-2 font-semibold`}>
