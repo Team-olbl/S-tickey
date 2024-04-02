@@ -232,11 +232,11 @@ export const setFilterOnTicket = async (tokenId : number, itemId : number, suppo
 
 
 // 필터 아이템 추가
-export const addFilter = async (name : string, price : number) => {
+export const addFilter = async (id : number, price : number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.addFilter(name, price).send({ from: account, gasPrice : 3000000 });
+    const ret = await contract.methods.addFilter(id, price).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
@@ -268,11 +268,11 @@ export const setBackgroundOnTicket = async (tokenId : number, itemId : number, s
 }
 
 // 배경색 아이템 추가
-export const addBackground = async (name : string, price : number) => {
+export const addBackground = async (id : number, price : number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.addBackground(name, price).send({ from: account, gasPrice : 3000000 });
+    const ret = await contract.methods.addBackground(id, price).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
