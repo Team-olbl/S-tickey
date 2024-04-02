@@ -115,7 +115,7 @@ const IndividualEditForm = () => {
 			/>
 		</div>
 			</div>
-			<div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
+			<div className="fixed bottom-20 w-full max-w-[500px] m-auto px-4">
 				<button className="bg-Stickey_Main w-full text-white rounded-md p-2 text-md" onClick={handleEditSubmit}>수정하기</button>
 			</div>
 		</div>
