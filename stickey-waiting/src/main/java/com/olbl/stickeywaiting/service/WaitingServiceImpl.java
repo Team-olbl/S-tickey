@@ -54,7 +54,8 @@ public class WaitingServiceImpl implements WaitingService {
 
             // 10분이 지나 세션이 만료된 유저 제거
             Long now = System.currentTimeMillis();
-            redisUtil.removeFromQueueByRange(runKey, 0L, now - 120000);
+            // TODO
+            redisUtil.removeFromQueueByRange(runKey, 0L, now - 30000);
         }
 
         // REDIS에 존재하는 모든 대기열에 대해 작업열 이동 스케줄링
@@ -75,7 +76,10 @@ public class WaitingServiceImpl implements WaitingService {
                 for (String s : waitQue) {
                     // 대기열에서 해당 유저 정보 삭제 후, 참가열로 이동
                     redisUtil.removeFromQueue(waitKey, s);
+                    log.info("[WaitingServiceImpl] 대기열 삭제");
+
                     redisUtil.addToQueue(runKey, s, System.currentTimeMillis());
+                    log.info("[WaitingServiceImpl] 참가열 추가");
 
                     // 본인 차례임을 표시하고 응답
                     WaitStateRes res = WaitStateRes.builder()
@@ -84,7 +88,11 @@ public class WaitingServiceImpl implements WaitingService {
                         .rank(0)
                         .build();
 
+                    log.info("[WaitingServiceImpl] 참가열에 들어갔는지 확인1 : ",
+                        redisUtil.getRankFromQueue(runKey, Integer.parseInt(s)));
                     template.convertAndSend("/sub/id/" + s, res);
+                    log.info("[WaitingServiceImpl] 참가열에 들어갔는지 확인2 : ",
+                        redisUtil.getRankFromQueue(runKey, Integer.parseInt(s)));
                 }
             }
 
