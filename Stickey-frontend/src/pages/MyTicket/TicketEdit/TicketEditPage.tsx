@@ -30,7 +30,7 @@ const TicketEditPage = () => {
     { color: "bg-[#dc143c]", image: ticket.gameImage, backgroundImage: '' },
     { color: "bg-[#ffffcc]", image: ticket.gameImage, backgroundImage: '' },
     { color: "bg-[#6495ed]", image: ticket.gameImage, backgroundImage: '' },
-    { color: '', image: ticket.gameImage, backgroundImage: `url(${glitterImage})`}
+    { color: '', image: ticket.gameImage, backgroundImage: `url(${glitterImage})`},
   ];
 
   const filters = [
