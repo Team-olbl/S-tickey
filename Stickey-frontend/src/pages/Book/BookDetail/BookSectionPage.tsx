@@ -14,36 +14,36 @@ const BookSectionPage = () => {
   const gameInfo = useTicketInfoStore((state) => state.modalData);
   const { clearSeatInfo } = useTicketStore();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-    if(!gameInfo?.id) {
-        toast.warn('예매 정보가 초기화 되었습니다. 다시 시도해주세요.')
-        navigate('/home', {replace: true})
-        clearSeatInfo()
+    if (!gameInfo?.id) {
+      toast.warn('예매 정보가 초기화 되었습니다. 다시 시도해주세요.');
+      navigate('/home', { replace: true });
+      clearSeatInfo();
     }
-}, [])
+  }, []);
 
-  const info : IHeaderInfo = {
-    left_1:  null,
+  const info: IHeaderInfo = {
+    left_1: null,
     left_2: <img src={Back} />,
-    center:'예매하기',
-    right: <img src={Bell} />
-  }
+    center: '예매하기',
+    right: <img src={Bell} />,
+  };
 
-  return(
+  return (
     <>
-    <div>
-      <Header info={info} />
+      <div>
+        <Header info={info} />
         <div className="pt-14">
           {/* 경기정보 */}
           <BookInfo />
           {/* 구역 정보 */}
           <BookSection />
         </div>
-      <NavigationBar />
+        <NavigationBar />
       </div>
     </>
-  )
-}
+  );
+};
 
 export default BookSectionPage;

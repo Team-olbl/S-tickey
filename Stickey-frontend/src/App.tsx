@@ -1,4 +1,4 @@
-import './index.css'
+import './index.css';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/Home/HomePage';
 import SoccerPage from './pages/Home/Soccer/SoccerPage';
@@ -24,11 +24,11 @@ import TicketEditPage from './pages/MyTicket/TicketEdit/TicketEditPage';
 import SponsorCreatePage from './pages/Sponsor/SponsorCreatePage/SponsorCreatePage';
 import GroupProfileEditPage from './pages/Profile/Group/GroupProfileEditPage';
 import PlayerRegistration from './pages/Profile/Group/PlayerRegistrationPage';
-import BlockchainTest from "./pages/Admin/BlockchainTest";
+import BlockchainTest from './pages/Admin/BlockchainTest';
 import userStore from './stores/userStore';
 import AdminPage from './pages/Admin/AdminPage';
 import { useEffect } from 'react';
-import { EventSourcePolyfill, NativeEventSource  } from "event-source-polyfill";
+import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill';
 import { toast } from 'react-toastify';
 import useNotifyStore from './stores/useNotifyStore';
 import useNotifyReadStore from './stores/useNotifyReadStore';
@@ -40,7 +40,7 @@ interface AuthWrapperProps {
 }
 
 const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
-  const isLogin = userStore((state) => state.isLogin);
+  const isLogin = userStore(state => state.isLogin);
 
   if (!isLogin) {
     return <Navigate to="/login" replace />;
@@ -300,7 +300,7 @@ const router = createBrowserRouter(
 function App() {
   const { accessToken, role, id } = userStore();
   const { addNotification } = useNotifyStore();
-  const { setUnRead } = useNotifyReadStore()
+  const { setUnRead } = useNotifyReadStore();
 
   useEffect(() => {
     if (!id) return;
@@ -340,7 +340,7 @@ function App() {
           }
         });
 
-        eventSource.onerror = (error) => {
+        eventSource.onerror = error => {
           console.error('SSE 오류:', error);
         };
       } catch (error) {
@@ -355,7 +355,7 @@ function App() {
     <>
       <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
 export default App;

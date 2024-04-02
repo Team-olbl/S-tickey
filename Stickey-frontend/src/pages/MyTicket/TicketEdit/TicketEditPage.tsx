@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import './styles.css'
 import BuyingModal from "../../../components/MyTicket/BuyingModal";
+import glitterImage from '../../../assets/image/glitter.gif';
 
 const TicketEditPage = () => {
   const location = useLocation();
@@ -24,11 +25,12 @@ const TicketEditPage = () => {
   }
 
   const backgrounds = [
-    { color: "bg-white", image: ticket.gameImage},
-    { color: "bg-black", image: ticket.gameImage },
-    { color: "bg-[#dc143c]", image: ticket.gameImage },
-    { color: "bg-[#ffffcc]", image: ticket.gameImage },
-    { color: "bg-[#6495ed]", image: ticket.gameImage },
+    { color: "bg-white", image: ticket.gameImage, backgroundImage: ''},
+    { color: "bg-black", image: ticket.gameImage, backgroundImage: '' },
+    { color: "bg-[#dc143c]", image: ticket.gameImage, backgroundImage: '' },
+    { color: "bg-[#ffffcc]", image: ticket.gameImage, backgroundImage: '' },
+    { color: "bg-[#6495ed]", image: ticket.gameImage, backgroundImage: '' },
+    { color: '', image: ticket.gameImage, backgroundImage: `url(${glitterImage})`},
   ];
 
   const filters = [
@@ -49,7 +51,7 @@ const TicketEditPage = () => {
       <Header info={info} />
 
       {/* 티켓 */}
-      <div className={`pt-16 background1 `}  >
+      <div className={`pt-16`}  >
         <div className={`relative h-auto flex flex-col text-center items-center`}>
           <div className={`filter${ticket.filterId}`}></div>
           <div>
@@ -104,12 +106,12 @@ const TicketEditPage = () => {
               {backgrounds.map((background, index) => (
               <div key={index}>
                 <button className="bg-Stickey_Gray h-28 w-24 rounded-lg flex items-center justify-center relative">
-                  <div className="h-auto flex flex-col justify-start items-center">
-                    <div className={`w-12 ${background.color} rounded-b-lg p-1 font-semibold`}></div>
-                    <div className={`${background.color} rounded-xl`}>
+                  <div className="h-auto flex flex-col justify-start items-center" >
+                    <div className={`w-12 ${background.color} rounded-b-lg p-1 font-semibold`} style={{backgroundImage: background.backgroundImage}}></div>
+                    <div className={`${background.color} rounded-xl`} style={{backgroundImage: background.backgroundImage}}>
                       <img className="w-12 rounded-2xl p-2" src={ticket.gameImage} />
                     </div>
-                    <div className={`w-12 ${background.color} rounded-t-lg p-1 font-semibold`}></div>
+                    <div className={`w-12 ${background.color} rounded-t-lg p-1 font-semibold`} style={{backgroundImage: background.backgroundImage}}></div>
                   </div>
                 </button>
               </div>

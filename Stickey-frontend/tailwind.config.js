@@ -13,9 +13,9 @@ export default {
       fontFamily: {
         Pretendard: ['IBMPlexSansKR-Regular'],
       },
-      mixBlendMode:{
-        colorDodge: 'color-dodge'
-      }
+      mixBlendMode: {
+        colorDodge: 'color-dodge',
+      },
     },
   },
   plugins: [],

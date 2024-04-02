@@ -29,15 +29,12 @@ const BottomModal = ({ height, title, onClose, children }: IBottomSheetProps) =>
   return (
     <>
       {isRendering && (
-        <div
-          className={`fixed top-0 w-full h-screen max-w-[500px] bottom-0 bg-black/50`}
-          onClick={handleOverlayClick}
-        >
+        <div className={`fixed top-0 w-full h-screen max-w-[500px] bottom-0 bg-black/50`} onClick={handleOverlayClick}>
           <div
             className={`max-w-[500px] w-full m-auto fixed pb-16 bottom-0 left-0 right-0 rounded-xl ${getBackgroundColor(
-              title
+              title,
             )} `}
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
             <div style={{ height: height }}>
               <div className="w-full h-14 grid grid-cols-6 place-items-center">

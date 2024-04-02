@@ -9,26 +9,26 @@ export interface ISignupRes {
 }
 
 export interface ISignupDetailRes {
-  "name": string;
-  "phone": string;
-  "email": string;
-  "profileImage": string;
-  "manager": string;
-  "address": string;
-  "registrationNumber": string;
-  "registrationFile": string;
+  name: string;
+  phone: string;
+  email: string;
+  profileImage: string;
+  manager: string;
+  address: string;
+  registrationNumber: string;
+  registrationFile: string;
 }
 
 // 후원글승인 타입
 export interface IPostApproveRes {
   waitingSupportRes: {
-  id: number;
-  title: string;
-  organization: {
+    id: number;
+    title: string;
+    organization: {
       name: string;
       id: number;
       profileImage: string | null;
-  };
+    };
   }[];
   count: number;
 }
@@ -40,8 +40,8 @@ export interface IPostApproveDetailRes {
   title: string;
   endTime: string;
   organization: {
-    name: string,
-    profileImage: string,
-    wallet : string
+    name: string;
+    profileImage: string;
+    wallet: string;
   };
 }
