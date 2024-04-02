@@ -28,7 +28,7 @@ export const postSupportReq = async (formData: FormData): Promise<APIResponse<st
   return data;
 };
 
-export const getSelectSupportId = async (): Promise<APIResponse<number>> => {
+export const getSelectSupportId = async (): Promise<APIResponse<{id : number}>> => {
   const { data } = await axiosAuthInstance.get('/supports/item');
   return data;
 };

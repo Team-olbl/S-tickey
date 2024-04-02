@@ -63,7 +63,7 @@ const TicketList = () => {
                     </div>
                     
                         : filteredTickets.map((ticket) => (
-                        <TicketItem key={ticket.tokenId} ticket={ticket} />
+                        <TicketItem key={ticket.tokenId} ticket={ticket} getData={getData}/>
                 ))
             
                 }
