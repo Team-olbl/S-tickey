@@ -7,8 +7,6 @@ import { useBook } from '../../hooks/Book/useBook';
 import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { AxiosError } from "axios";
-import { APIResponse } from "../../types/model";
 
 const BookSection = () => {
 
@@ -18,14 +16,11 @@ const BookSection = () => {
     const { id } = useParams<{ id: string }>();
     const intId = Number(id)
     const { useSectionSeatCnt } = useBook()
-    const { data: seatCntInfo, error, fetchStatus } = useSectionSeatCnt(intId)
+    const { data: seatCntInfo, isError, fetchStatus } = useSectionSeatCnt(intId)
     
     useEffect(() => {
-        if (error && fetchStatus === 'idle') {
-            const axiosError = error as AxiosError;
-            const res = axiosError.response?.data as APIResponse<string>
-            toast.error(res.message);
-            navigate("/home")
+        if (isError && fetchStatus === 'idle') {
+            toast.error("예매 가능 시간이 초과되었습니다.");
             navigate("/home")
         }
     }, [fetchStatus])

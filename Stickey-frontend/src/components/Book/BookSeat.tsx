@@ -5,8 +5,6 @@ import {  useEffect, useState } from "react";
 import { useBook } from "../../hooks/Book/useBook";
 import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
 import { toast } from "react-toastify";
-import { AxiosError } from "axios";
-import { APIResponse } from "../../types/model";
 
 const BookSeat = () => {
 
@@ -15,15 +13,12 @@ const BookSeat = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const gameInfo = useTicketInfoStore((state) => state.modalData);
     const { useSeatInfoCnt, useSeatconfirm } = useBook();
-    const { data: seatInfoCnt, refetch: refetchSeatInfoCnt, error, fetchStatus } = useSeatInfoCnt({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId})
+    const { data: seatInfoCnt, refetch: refetchSeatInfoCnt, isError, fetchStatus } = useSeatInfoCnt({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId})
     const { data: seatConfirmCheck, isSuccess , mutate } = useSeatconfirm({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId, info: seatInfo.seat})
 
     useEffect(() => {
-        if (error && fetchStatus === 'idle') {
-            const axiosError = error as AxiosError;
-            const res = axiosError.response?.data as APIResponse<string>
-            toast.error(res.message);
-            navigate("/home")
+        if (isError && fetchStatus === 'idle') {
+            toast.error("참가열에 존재하지 않습니다.");
             navigate("/home")
         }
     }, [fetchStatus])
