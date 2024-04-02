@@ -25,12 +25,12 @@ const GameSchedule = ({ data }: { data: IGameSimpleRes }) => {
             <p className="text-[16px] text-white font-bold">{time}</p>
             <div className="flex flex-row items-center gap-2">
               <div className="flex flex-row items-center gap-2">
-                <img className="w-[40px] h-[40px]" src={data.homeTeamLogo} />
+                <img className="w-8 h-8" src={data.homeTeamLogo} />
                 <p className="text-[13px] text-white">{data.homeTeam}</p>
               </div>
               <p className="text-[20px] text-[#FF0000] font-bold">VS</p>
               <div className="flex flex-row items-center gap-2">
-                <img className="w-[40px] h-[40px]" src={data.awayTeamLogo} />
+                <img className="w-8 h-8" src={data.awayTeamLogo} />
                 <p className="text-[13px] text-white">{data.awayTeam}</p>
               </div>
             </div>
