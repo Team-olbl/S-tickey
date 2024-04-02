@@ -13,19 +13,19 @@ const Category = () => {
           <button className="w-[50px] h-[55px] scale-[1.7]">
             <img src={soccer} alt="soccer" />
           </button>
-          <p className="text-[10px]">축구</p>
+          <p className="text-sm">축구</p>
         </div>
         <div className="text-center" onClick={() => navigate(`/baseball`)}>
           <button className="w-[52px] h-[56px]">
             <img src={baseball} alt="baseball" />
           </button>
-          <p className="text-[10px]">야구</p>
+          <p className="text-sm">야구</p>
         </div>
         <div className="text-center" onClick={() => navigate(`/basketball`)}>
           <button className="w-[52px] h-[56px]">
             <img src={basketball} alt="basketball" />
           </button>
-          <p className="text-[10px]">농구</p>
+          <p className="text-sm">농구</p>
         </div>
       </div>
     </div>
