@@ -5,50 +5,48 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useTicketStore from '../../stores/useTicketStore';
 import { useBook } from '../../hooks/Book/useBook';
 import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
-import { toast } from "react-toastify";
-import { useEffect } from "react";
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 const BookSection = () => {
+  const { seatInfo, setSelectInfo, clearSeatInfo } = useTicketStore();
+  const navigate = useNavigate();
+  const gameInfo = useTicketInfoStore(state => state.modalData);
+  const { id } = useParams<{ id: string }>();
+  const intId = Number(id);
+  const { useSectionSeatCnt } = useBook();
+  const { data: seatCntInfo, isError, fetchStatus } = useSectionSeatCnt(intId);
 
-    const { seatInfo, setSelectInfo, clearSeatInfo } = useTicketStore();
-    const navigate = useNavigate();
-    const gameInfo = useTicketInfoStore((state) => state.modalData);
-    const { id } = useParams<{ id: string }>();
-    const intId = Number(id)
-    const { useSectionSeatCnt } = useBook()
-    const { data: seatCntInfo, isError, fetchStatus } = useSectionSeatCnt(intId)
-    
-    useEffect(() => {
-        if (isError && fetchStatus === 'idle') {
-            clearSeatInfo();
-            toast.error("예매 가능 시간이 초과되었습니다.");
-            navigate("/home")
-        }
-    }, [fetchStatus])
+  useEffect(() => {
+    if (isError && fetchStatus === 'idle') {
+      clearSeatInfo();
+      toast.error('예매 가능 시간이 초과되었습니다.');
+      navigate('/home');
+    }
+  }, [fetchStatus]);
 
-    
-    const getSeatColor = (seat: string): string => {
-        switch (seat) {
-            case 'S구역 1':
-            case 'S구역 2':
-                return '#FEACAC';
-            case 'R구역 1':
-            case 'R구역 2':
-            case 'R구역 3':
-            case 'R구역 4':
-                return '#D2C2FF';
-            case 'W구역 1':
-            case 'W구역 2':
-                return '#FAF8B7';
-            case 'E구역 1':
-            case 'E구역 2':
-            case 'E구역 3':
-            case 'E구역 4':
-                return '#C3E7FF';
-            default:
-                return '#FFFFFF';
-        }
-    };
+  const getSeatColor = (seat: string): string => {
+    switch (seat) {
+      case 'S구역 1':
+      case 'S구역 2':
+        return '#FEACAC';
+      case 'R구역 1':
+      case 'R구역 2':
+      case 'R구역 3':
+      case 'R구역 4':
+        return '#D2C2FF';
+      case 'W구역 1':
+      case 'W구역 2':
+        return '#FAF8B7';
+      case 'E구역 1':
+      case 'E구역 2':
+      case 'E구역 3':
+      case 'E구역 4':
+        return '#C3E7FF';
+      default:
+        return '#FFFFFF';
+    }
+  };
 
   const handleSeatClick = (seat: string, sectionId: number, sectionPrice: number) => {
     setSelectInfo(seat, sectionId, sectionPrice, []);
@@ -56,6 +54,7 @@ const BookSection = () => {
 
   const goBack = () => {
     navigate(-1);
+    clearSeatInfo();
   };
 
   const goNext = () => {
