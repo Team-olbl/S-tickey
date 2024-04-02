@@ -1,7 +1,6 @@
 import { useState } from "react";
 import BottomModal from "../@common/BottomModal";
 import Prohibit from '../../assets/image/Prohibited.png'
-// import WaittingModal from "../Book/WaittingModal";
 import { IGameSimpleRes } from "../../types/Home";
 import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
 import dayjs from "dayjs";
@@ -13,7 +12,6 @@ import 'dayjs/locale/ko';
 
 const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
   const { isLogin } = userStore();
   const navigate = useNavigate();
 
@@ -136,7 +134,6 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
           </div>
         </BottomModal>
       )}
-      {/* {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)}/>} */}
     </>
   );
 };

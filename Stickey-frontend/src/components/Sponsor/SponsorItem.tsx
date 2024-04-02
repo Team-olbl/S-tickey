@@ -9,18 +9,15 @@ const SponsorItem = ({ data }: { data: ISupportSimpleRes }) => {
     const start = new Date(data.startTime).getTime();
     const end = new Date(data.endTime).getTime();
     const now = new Date().getTime();
-
     const total = end - start;
     const currentProgress = now - start;
     const progressPercentage = (currentProgress / total) * 100;
 
-    // 현재 날짜가 시작일과 종료일 사이인 경우에만 진행도를 업데이트합니다.
     if (now >= start && now <= end) {
       setProgress(progressPercentage);
     } else if (now > end) {
-      setProgress(100); // 종료일 이후라면 진행도 100%
+      setProgress(100);
     }
-    // 시작일 전이라면 진행도를 0%로 설정할 수 있습니다.
   }, [data.startTime, data.endTime]);
 
   const startTime = dayjs(data.startTime).format('YYYY년 MM월 DD일');

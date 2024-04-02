@@ -18,7 +18,6 @@ export const patchSeatConfirm = async({id, zoneId, info}: {id: number, zoneId: n
     const { data } = await axiosAuthInstance.patch(`/games/${id}/zones/${zoneId}/seats`,{
         seatNumbers: info,
     });
-    console.log(data)
     return data;
 }
 
@@ -31,7 +30,6 @@ export const registSeats = async ({ gameId, zoneId, seatNumbers, isRefund }: { g
         seatNumbers,
         isRefund
     })
-    console.log("registSeats", data);
     return data;
 
 }

@@ -34,7 +34,7 @@ const Header = (props: {info: IHeaderInfo}) => {
           <p className="text-white">{center}</p>
         )}
       </div>
-      <div className="flex flex-1 justify-end items-center relative"> {/* 추가 */}
+      <div className="flex flex-1 justify-end items-center relative">
         <button onClick={() => navigate('/alarm')}>
           {right && <img src={Bell} alt="Alarm" className="w-[32px] h-[32px]"/>}
           {!isRead && <div className="absolute -right-1 top-0 w-2 h-2 rounded-full bg-[#E14246]"></div>} {/* 수정 */}

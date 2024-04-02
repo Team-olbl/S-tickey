@@ -30,7 +30,6 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
   }
 
   useEffect(() => {
-    console.log(selectedTeam);
   }, [selectedTeam]);
 
   const handleTabClick = (tabType: string) => {
@@ -38,15 +37,11 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
   }
 
   useEffect(() => {
-    console.log(selectedTab)
   }, [selectedTab])
 
   const handleAddTeam = async () => {
     const selected = teamListInfo?.data.find(team => team.name === selectedTeam);
-    // 선택된 팀이 이미 selectedTeams 배열에 있는지 확인
     const isAlreadySelected = preferredTeams.some(team => team.sportsClubId === selected?.id);
-    console.log(selectedTeam)
-    // 선택된 팀이 없고, selectedTeams의 길이가 3보다 작을 때 + 이미 선택된 팀이 아닐 때 추가
     if (selected && preferredTeams.length < 3 && !isAlreadySelected) {
       setPreferredTeams(prev => [...prev, { sportsClubId : selected.id, sportsClubLogo : selected.logo, sportsClubName : selected.name}]);
     } else if (preferredTeams.length >= 3) {
@@ -58,27 +53,22 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
   }
   const { usePatchTeamPrefer } = useProfile()
 
-  // 선호구단의 아이디값을 배열에 저장
-    const selectedTeamIds = preferredTeams.map(team => team.sportsClubId);
-  console.log(selectedTeamIds)
-  console.log(preferredTeams);
-
-    const patchReq: ITeamPreferReq = {
+  const selectedTeamIds = preferredTeams.map(team => team.sportsClubId);
+  const patchReq: ITeamPreferReq = {
       preferences: selectedTeamIds
     }
 
-    const { mutate } = usePatchTeamPrefer();
+  const { mutate } = usePatchTeamPrefer();
 
-    const handlePatchData = () => {
-      mutate(patchReq, {
-        onSuccess: () => {
-          setPreference(preferredTeams);
-          refetch();
-        }
-      });
-      setIsBottomSheetOpen(false)
-
-    }
+  const handlePatchData = () => {
+    mutate(patchReq, {
+      onSuccess: () => {
+        setPreference(preferredTeams);
+        refetch();
+      }
+    });
+    setIsBottomSheetOpen(false)
+  }
 
   const movePaymentHistory = () => {
     connect().then((ret) => {
@@ -105,7 +95,6 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
   } = useGetTeamList({catg: ""});
 
   const filteredTeams = teamListInfo?.data.filter(team => team.category === selectedTab);
-
   const variants = {
     visible: (custom : number) => ({
       opacity: 1,

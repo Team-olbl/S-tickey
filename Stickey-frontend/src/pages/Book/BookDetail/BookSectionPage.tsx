@@ -25,15 +25,12 @@ const BookSectionPage = () => {
     }
 }, [])
 
-
   const info : IHeaderInfo = {
     left_1:  null,
     left_2: <img src={Back} />,
     center:'예매하기',
     right: <img src={Bell} />
   }
-
-  console.log("log", gameInfo)
 
   return(
     <>

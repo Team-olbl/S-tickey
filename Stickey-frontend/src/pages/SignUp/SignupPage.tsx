@@ -17,7 +17,6 @@ const SignupPage = () => {
   }
 
   const [selectedType, setSelectedType] = useState("");
-
   const handleUserType = (type: string) => {
     if (selectedType === type) {
       setSelectedType("");
@@ -25,9 +24,7 @@ const SignupPage = () => {
       setSelectedType(type);
     }
   };
-
-  console.log(selectedType)
-
+  
   const renderForm = () => {
     switch(selectedType) {
       case 'individual':

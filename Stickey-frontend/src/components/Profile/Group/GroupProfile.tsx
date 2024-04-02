@@ -7,7 +7,7 @@ const GroupProfile = ({ groupInfo }: { groupInfo: IUserProfile | null }) => {
   const getAccept = () => {
 
     if (!groupInfo) {
-      return null; // 렌더링하지 않고 종료
+      return null;
     }
     console.log(groupInfo)
     if (groupInfo?.status === "ACCEPTED") {
@@ -52,7 +52,6 @@ const GroupProfile = ({ groupInfo }: { groupInfo: IUserProfile | null }) => {
 
               {/* 로직 추가 */}
               <p className="text-sm text-white">{getAccept()}</p>
-
             </div>
           </div>
         </div>
