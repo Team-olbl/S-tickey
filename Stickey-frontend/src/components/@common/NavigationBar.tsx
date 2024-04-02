@@ -18,7 +18,7 @@ const NavigationBar = () => {
   const handleTabClick = (tab:string) => {
     switch (tab) {
       case "home":
-        navigate('/');
+        navigate('/home');
         break;
       case "sponsor":
         navigate('/sponsor');
@@ -37,7 +37,7 @@ const NavigationBar = () => {
         navigate('/profile');
         break;
       default:
-        navigate('/');
+        navigate('/home');
     }
   }
 
