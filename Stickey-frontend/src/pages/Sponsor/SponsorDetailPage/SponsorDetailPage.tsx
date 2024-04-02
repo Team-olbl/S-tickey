@@ -168,20 +168,20 @@ const SponsorDetailPage = () => {
               </AnimatePresence>
             </div>
             <div>
-              <p className="text-xs text-white py-2">후원 유망주</p>
-              <div className="grid grid-cols-2">
+              <p className="text-xs text-white pt-4 pb-2">이 단체의 후원 유망주</p>
+              <div>
                 {/* 후원유망주 목록 */}
                 {ISponsorDetailRes?.data.players.map(player => (
-                  <div key={player.id} className="p-1">
+                  <div key={player.id} className="p-2">
                     <div className="bg-[#2E2E3D] flex items-center p-2 rounded-md">
-                      <p className="w-12 h-12 rounded-md bg-gray-300">
                         <img src={player.profile} className="w-12 h-12 rounded-md bg-gray-300" />
-                      </p>
-                      <div className="px-2">
-                        <p className="text-white text-xs">{player.name}</p>
-                        <p className="text-[8px] text-gray-400">{player.category}</p>
-                        <p className="text-[8px] text-gray-400">{player.birth}</p>
-                        <p className="text-[8px] text-white">{player.description}</p>
+                      <div className="flex flex-col px-2">
+                        <div className='flex items-baseline'>
+                        <p className="text-white text-sm px-2">{player.name}</p>
+                        <p className="text-xs text-gray-400 px-1">{player.category}</p>
+                        <p className="text-xs text-gray-400 px-1">{player.birth}</p>
+                        </div>
+                        <p className="text-xs text-white px-2">{player.description}</p>
                       </div>
                     </div>
                   </div>
