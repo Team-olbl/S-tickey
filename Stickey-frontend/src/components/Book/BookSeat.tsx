@@ -1,32 +1,37 @@
-import { useNavigate } from 'react-router-dom';
-import useTicketStore from '../../stores/useTicketStore';
-import NotSoldModal from './NotSoldModal';
-import { useEffect, useState } from 'react';
-import { useBook } from '../../hooks/Book/useBook';
-import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
+import { useNavigate } from "react-router-dom";
+import useTicketStore from "../../stores/useTicketStore";
+import NotSoldModal from "./NotSoldModal";
+import {  useEffect, useState } from "react";
+import { useBook } from "../../hooks/Book/useBook";
+import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
+import { toast } from "react-toastify";
 
 const BookSeat = () => {
-  const navigate = useNavigate();
-  const { seatInfo, setSelectInfo } = useTicketStore();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const gameInfo = useTicketInfoStore(state => state.modalData);
-  const { useSeatInfoCnt, useSeatconfirm } = useBook();
-  const { data: seatInfoCnt, refetch: refetchSeatInfoCnt } = useSeatInfoCnt({
-    id: gameInfo?.id || 0,
-    zoneId: seatInfo.sectionId,
-  });
-  const {
-    data: seatConfirmCheck,
-    isSuccess,
-    mutate,
-  } = useSeatconfirm({ id: gameInfo?.id || 0, zoneId: seatInfo.sectionId, info: seatInfo.seat });
+    const navigate = useNavigate();
+    const { seatInfo, setSelectInfo } = useTicketStore();
+    const { clearSeatInfo } = useTicketStore();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const gameInfo = useTicketInfoStore((state) => state.modalData);
+    const { useSeatInfoCnt, useSeatconfirm } = useBook();
+    const { data: seatInfoCnt, refetch: refetchSeatInfoCnt, isError, fetchStatus } = useSeatInfoCnt({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId})
+    const { data: seatConfirmCheck, isSuccess , mutate } = useSeatconfirm({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId, info: seatInfo.seat})
 
-  useEffect(() => {
-    if (isModalOpen) {
-      setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, []);
-      refetchSeatInfoCnt();
-    }
-  }, [isModalOpen, refetchSeatInfoCnt, setSelectInfo, seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice]);
+    useEffect(() => {
+        if (isError && fetchStatus === 'idle') {
+            toast.error("예매 가능 시간이 초과되었습니다.");
+            clearSeatInfo();
+            navigate("/home")
+        }
+    }, [fetchStatus])
+
+
+    
+    useEffect(() => {
+        if (isModalOpen) {
+            setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, []);
+            refetchSeatInfoCnt();
+        }
+    }, [isModalOpen, refetchSeatInfoCnt, setSelectInfo, seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice]);
 
   useEffect(() => {
     if (!isSuccess) return;

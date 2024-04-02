@@ -1,19 +1,17 @@
-import Header, { IHeaderInfo } from '../../../components/@common/Header';
-import NavigationBar from '../../../components/@common/NavigationBar';
-import Back from '../../../assets/image/Back.png';
-import Bell from '../../../assets/image/Bell.png';
-import BookInfo from '../../../components/Book/BookInfo';
-import BookSection from '../../../components/Book/BookSection';
-import { useTicketInfoStore } from '../../../stores/useTicketInfoStore';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useTicketStore from '../../../stores/useTicketStore';
-import { toast } from 'react-toastify';
-import WaittingModal from '../../../components/Book/WaittingModal';
+import Header, { IHeaderInfo } from "../../../components/@common/Header";
+import NavigationBar from "../../../components/@common/NavigationBar";
+import Back from '../../../assets/image/Back.png'
+import Bell from '../../../assets/image/Bell.png'
+import BookInfo from "../../../components/Book/BookInfo";
+import BookSection from "../../../components/Book/BookSection";
+import { useTicketInfoStore } from "../../../stores/useTicketInfoStore";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useTicketStore from "../../../stores/useTicketStore";
+import { toast } from "react-toastify";
 
 const BookSectionPage = () => {
-  const [isWaitModalOpen, setIsWaitModalOpen] = useState(true);
-  const gameInfo = useTicketInfoStore(state => state.modalData);
+  const gameInfo = useTicketInfoStore((state) => state.modalData);
   const { clearSeatInfo } = useTicketStore();
   const navigate = useNavigate();
 
@@ -44,7 +42,6 @@ const BookSectionPage = () => {
         </div>
         <NavigationBar />
       </div>
-      {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)} />}
     </>
   );
 };
