@@ -14,6 +14,7 @@ import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.domain.user.dto.PreferenceReq;
 import com.olbl.stickeymain.domain.user.dto.ProfileRes;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
+import com.olbl.stickeymain.domain.user.dto.UpdatePasswordReq;
 import com.olbl.stickeymain.domain.user.dto.UserInfoReq;
 import com.olbl.stickeymain.domain.user.dto.UserInfoRes;
 import com.olbl.stickeymain.domain.user.entity.Preference;
@@ -208,10 +209,20 @@ public class UserServiceImpl implements UserService {
             user.updateProfileImage(profileUrl);
         }
 
-        if (!userInfoReq.getPassword().isEmpty()) {
-            user.updatePassword(bCryptPasswordEncoder.encode(userInfoReq.getPassword()));
-        }
-
         user.updatePhone(userInfoReq.getPhone());
+    }
+
+    @Override
+    @Transactional
+    public void updateUserPassword(UpdatePasswordReq updatePasswordReq) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+
+        User user = userRepository.findById(userDetails.getId())
+            .orElseThrow(() -> new BusinessException(USER_NOT_EXISTS));
+
+        if (!updatePasswordReq.getPassword().isEmpty()) {
+            user.updatePassword(bCryptPasswordEncoder.encode(updatePasswordReq.getPassword()));
+        }
     }
 }
