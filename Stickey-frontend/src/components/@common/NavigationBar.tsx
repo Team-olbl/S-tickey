@@ -15,7 +15,6 @@ const NavigationBar = () => {
   const navigate = useNavigate();
   const {pathname} = useLocation();
   
-
   const handleTabClick = (tab:string) => {
     switch (tab) {
       case "home":
@@ -47,7 +46,6 @@ const NavigationBar = () => {
       <div className="flex flex-col items-center gap-0" onClick={() => handleTabClick("home")}>
         <img
           src={pathname === "/" ? FilledHouse : House}
-          alt="..."
           className="w-[32px] h-[32px]"
         />
         <p className="text-white text-center text-[8px]">홈</p>
@@ -55,7 +53,6 @@ const NavigationBar = () => {
       <div className="flex flex-col items-center" onClick={() => handleTabClick("sponsor")}>
         <img 
           src={pathname === "/sponsor" ? FilledTree : Tree} 
-          alt="..." 
           className="w-[32px] h-[32px]"
         />
         <p className="text-white text-center text-[8px]">후원</p>
@@ -63,7 +60,6 @@ const NavigationBar = () => {
       <div className="flex flex-col items-center" onClick={() => handleTabClick("mytickets")}>
         <img
           src={pathname === "/mytickets" ? FilledTicket : Ticket}
-          alt="..."
           className="w-[32px] h-[32px]"
         />
         <p className="text-white text-center text-[8px]">티켓</p>
@@ -71,7 +67,6 @@ const NavigationBar = () => {
       <div className="flex flex-col items-center" onClick={() => handleTabClick("profile")}>
         <img 
           src={pathname === "/profile" ? FilledUser : User}
-          alt="..." 
           className="w-[32px] h-[32px]"
         />
         <p className="text-white text-center text-[8px]">마이</p>

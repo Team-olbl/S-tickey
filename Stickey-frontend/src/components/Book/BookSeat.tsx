@@ -11,7 +11,6 @@ const BookSeat = () => {
     const { seatInfo, setSelectInfo } = useTicketStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const gameInfo = useTicketInfoStore((state) => state.modalData);
-
     const { useSeatInfoCnt, useSeatconfirm } = useBook();
     const { data: seatInfoCnt, refetch: refetchSeatInfoCnt } = useSeatInfoCnt({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId})
     const { data: seatConfirmCheck, isSuccess , mutate } = useSeatconfirm({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId, info: seatInfo.seat})
@@ -31,8 +30,6 @@ const BookSeat = () => {
             setIsModalOpen(true)
         }
     }, [isSuccess]);
-
-    //선점확인 api 호출
 
     const getSeatColor = (seat: string): string => {
         switch (seat) {
@@ -81,7 +78,6 @@ const BookSeat = () => {
     const goPayment = () => {
         if (seatInfo.seat.length > 0) {
             mutate();
-
         }
     };
 
@@ -89,39 +85,34 @@ const BookSeat = () => {
         <>
         <div className="pt-4">
 
-                {/* 좌석 */}
-<div className="bg-Stickey_Gray w-full h-[260px] flex flex-col flex-wrap justify-center items-center">
-    <p className="text-xs text-gray-800">경기장 방향</p>
-    <div className="py-2 grid grid-cols-6 gap-1">
-        {seatInfoCnt?.data && (
-            seatInfoCnt.data.map((seat, index) => (
-                <div
-                    key={index}
-                    className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                        seat.status[0] === 'S' || seat.status[0] === 'H' ? 'bg-black/50' : 'bg-Stickey_Main'}
-                        ${seatInfo.seat.includes(seat.seatNumber) && 'border-8 border-[#262626]'  }
-                        
-                    `}
-                    onClick={() => {
-                        if (seat.status === 'AVAILABLE') {
-                            handleSeatClick(seat.seatNumber);
-                        }
-                    }}
-                >
-                </div>
-            ))
-        )}
-    </div>
-</div>
-
-
+            {/* 좌석 */}
+            <div className="bg-Stickey_Gray w-full h-[260px] flex flex-col flex-wrap justify-center items-center">
+                <p className="text-xs text-gray-800">경기장 방향</p>
+                <div className="py-2 grid grid-cols-6 gap-1">
+                    {seatInfoCnt?.data && (
+                        seatInfoCnt.data.map((seat, index) => (
+                            <div
+                                key={index}
+                                className={`w-10 h-10 flex items-center justify-center rounded-md ${
+                                    seat.status[0] === 'S' || seat.status[0] === 'H' ? 'bg-black/50' : 'bg-Stickey_Main'}
+                                    ${seatInfo.seat.includes(seat.seatNumber) && 'border-8 border-[#262626]'  }
                                     
-
+                                `}
+                                onClick={() => {
+                                    if (seat.status === 'AVAILABLE') {
+                                        handleSeatClick(seat.seatNumber);
+                                    }
+                                }}
+                            >
+                            </div>
+                        ))
+                    )}
+                </div>
+            </div>
             <div className="fixed bottom-0 max-w-[500px] w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
 
                 {/* 스텝바 */}
                 <div className="pt-2 w-[150px]">
-
                     <div className="relative after:absolute after:inset-x-0 after:top-1/2 after:block after:h-0.5 after:-translate-y-1/2 after:rounded-lg after:bg-gray-100">
                         <ol className="relative z-10 flex justify-between">
                         <li className="flex items-center">
@@ -167,7 +158,6 @@ const BookSeat = () => {
                             </div>
                         </div>
                     </div>
-
 
                     {/* 버튼 */}
                     <div  className="w-full max-w-[500px] px-4 pt-4 pb-24 flex justify-center">

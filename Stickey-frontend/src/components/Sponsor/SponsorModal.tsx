@@ -19,8 +19,6 @@ const SponsorModal = ({ onClose }: { onClose: () => void; }) => {
         })();
     }, [])
 
-
-
     const handleDonate = () => {
         if (!amountRef.current || Number(amountRef.current?.value) <= 0) {
             toast.warn("후원 금액이 잘못되었어요");
@@ -40,10 +38,6 @@ const SponsorModal = ({ onClose }: { onClose: () => void; }) => {
                 toast.error("후원이 실패했어요..");
             }
         })();
-
-        
-
-
     }
     
     return (
@@ -72,6 +66,5 @@ const SponsorModal = ({ onClose }: { onClose: () => void; }) => {
     )
     
 }
-
 
 export default SponsorModal
