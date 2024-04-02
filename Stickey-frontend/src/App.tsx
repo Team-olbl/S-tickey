@@ -32,6 +32,7 @@ import { EventSourcePolyfill, NativeEventSource  } from "event-source-polyfill";
 import { toast } from 'react-toastify';
 import useNotifyStore from './stores/useNotifyStore';
 import useNotifyReadStore from './stores/useNotifyReadStore';
+import SplashPage from './pages/Splash/SplashPage';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -52,6 +53,10 @@ const router = createBrowserRouter(
     {
       path:'/',
       element: <HomePage />
+    },
+    {
+      path:'/welcome',
+      element: <SplashPage />
     },
     {
       path:'/admin',
