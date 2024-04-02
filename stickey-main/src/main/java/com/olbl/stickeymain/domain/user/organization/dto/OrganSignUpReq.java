@@ -31,4 +31,6 @@ public class OrganSignUpReq {
     private String address; // 주소
 
     private String manager; // 담당자명
+
+    private String wallet; // 기관 지갑 주소
 }

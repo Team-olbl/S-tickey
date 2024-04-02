@@ -89,6 +89,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             .registrationFile(fileUrl)
             .status(OrganizationStatus.WAITING)
             .role(Role.ORGANIZATION)
+            .wallet(organSignUpReq.getWallet())
             .build();
 
         // DB 저장
@@ -196,7 +197,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         Organization organization = organizationRepository.findById(userDetails.getId())
             .orElseThrow(() -> new BusinessException(ORGANIZATION_DO_NOT_EXISTS));
-        
+
         //수정하려는 기관이 해당 후원글을 등록한 기관인지 확인
         if (support.getOrganization().getId() != organization.getId()) {
             throw new BusinessException(SUPPORT_NOT_MATCH);

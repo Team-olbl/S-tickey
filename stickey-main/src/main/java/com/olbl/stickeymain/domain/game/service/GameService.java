@@ -18,6 +18,8 @@ public interface GameService {
 
     void registGame(GameReq gameReq, MultipartFile gameImage);
 
+    void registStadiumSeats(int id);
+
     GameListRes getGames(ViewParam viewParam);
 
     LeftSeatListRes getLeftSeats(int id);
@@ -29,4 +31,6 @@ public interface GameService {
     void registSeats(PaymentReq paymentReq);
 
     List<SportsClubRes> getClubs(Param param, Authentication authentication);
+
+    void cancelReserve(int id, Authentication authentication);
 }

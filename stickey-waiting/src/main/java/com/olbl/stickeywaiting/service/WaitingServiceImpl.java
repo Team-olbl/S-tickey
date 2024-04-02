@@ -18,7 +18,7 @@ public class WaitingServiceImpl implements WaitingService {
 
     private final RedisUtil redisUtil;
     private final SimpMessagingTemplate template;
-    private final int popAmount = 5; // 한 번에 작업열로 이동 시킬 사람의 수
+    private final int popAmount = 3; // 한 번에 작업열로 이동 시킬 사람의 수
     private final String baseWaitKey = "wait::";
     private final String baseRunKey = "run::";
 
