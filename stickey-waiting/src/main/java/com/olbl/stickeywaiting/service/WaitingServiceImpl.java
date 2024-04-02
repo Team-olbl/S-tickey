@@ -76,6 +76,7 @@ public class WaitingServiceImpl implements WaitingService {
                 for (String s : waitQue) {
                     // 대기열에서 해당 유저 정보 삭제 후, 참가열로 이동
                     redisUtil.removeFromQueue(waitKey, s);
+                    redisUtil.addToQueue(runKey, s, System.currentTimeMillis());
 
                     // 본인 차례임을 표시하고 응답
                     WaitStateRes res = WaitStateRes.builder()
