@@ -1,13 +1,13 @@
 export interface signupRes {
-  message:string;
+  message: string;
 }
 
 export interface signupReq {
   signUpReq: {
     name: string;
-    email:string;
+    email: string;
     password: string;
-    phone: string
-  },
+    phone: string;
+  };
   profile: string;
 }

@@ -1,19 +1,19 @@
-import {create} from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { INotifyInfo } from '../types/Notify';
 
 interface INotifyStore {
-    notifyList: INotifyInfo[];
-    addNotification: (notify: INotifyInfo) => void;
-    initList: () => void;
-  }
+  notifyList: INotifyInfo[];
+  addNotification: (notify: INotifyInfo) => void;
+  initList: () => void;
+}
 
-  const useNotifyStore = create(
-    persist<INotifyStore>(
-      set => {
-        const storedNotifyList = localStorage.getItem('notify-store');
-        const notifyList = storedNotifyList ? JSON.parse(storedNotifyList).state : [];
-  
+const useNotifyStore = create(
+  persist<INotifyStore>(
+    set => {
+      const storedNotifyList = localStorage.getItem('notify-store');
+      const notifyList = storedNotifyList ? JSON.parse(storedNotifyList).state : [];
+
       // 기존 데이터 배열에 새 데이터 추가
       return {
         notifyList: notifyList,
@@ -34,8 +34,8 @@ interface INotifyStore {
     },
     {
       name: 'notify-store',
-      },
-    ),
-  );
-  
-  export default useNotifyStore;
+    },
+  ),
+);
+
+export default useNotifyStore;

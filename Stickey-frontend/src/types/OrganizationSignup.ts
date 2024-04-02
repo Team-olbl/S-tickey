@@ -1,12 +1,12 @@
 export interface signupData {
-  name : string;
-  phone : string;
-  email : string;
-  verificationCode ?: string;
-  password : string;
-  confirmPassword ?: string;
-  registrationNumber : string;
-  address : string;
+  name: string;
+  phone: string;
+  email: string;
+  verificationCode?: string;
+  password: string;
+  confirmPassword?: string;
+  registrationNumber: string;
+  address: string;
   manager: string;
   wallet: string;
 }
@@ -24,16 +24,16 @@ export interface signupRes {
 
 export interface signupReq {
   organSignUpReq: {
-    name : string;
-    phone : string;
-    email : string;
-    verificationCode ?: string;
-    password : string;
-    confirmPassword ?: string;
-    registrationNumber : string;
-    address : string;
+    name: string;
+    phone: string;
+    email: string;
+    verificationCode?: string;
+    password: string;
+    confirmPassword?: string;
+    registrationNumber: string;
+    address: string;
     manager: string;
-  },
+  };
   profile: string;
   rigistrationFile: string;
 }
