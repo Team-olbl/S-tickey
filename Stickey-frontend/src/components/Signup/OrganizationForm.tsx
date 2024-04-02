@@ -289,7 +289,7 @@ const OrganizationForm = () => {
         </div>
 
         </div>
-        <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
+        <div className="fixed bottom-20 w-full max-w-[500px] m-auto px-4">
             <button disabled={!isFormValid()} className={`bg-Stickey_Main w-full text-white rounded-md p-2 text-md ${!isFormValid() ? 'opacity-50 cursor-not-allowed':''}`} onClick={() => handleFormState()} >다음</button>
         </div>
         </>
@@ -349,7 +349,7 @@ const OrganizationForm = () => {
 
         </div>
         <form onSubmit={handleSubmit}>
-            <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
+            <div className="fixed bottom-20 w-full max-w-[500px] m-auto px-4">
                 <button disabled={!isSignupValid()} className={`bg-Stickey_Main w-full text-white rounded-md p-2 text-md ${!isSignupValid() ? 'opacity-50 cursor-not-allowed':''}`} onClick={() => handleFormState()}>가입하기</button>
             </div>
         </form>

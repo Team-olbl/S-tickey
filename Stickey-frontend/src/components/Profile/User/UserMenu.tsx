@@ -138,8 +138,8 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
               </div>
               <div className="flex flex-row w-full gap-2 justify-center">
                 {preferredTeams.map((team, index) => (
-                  <div key={index} className="w-[80px] h-[82px] border border-none rounded-[10px] bg-[#1F1F31]">
-                    <div className="flex justify-end pt-2 pr-2 text-Stickey_Gray">
+                  <div key={index} className="w-24 h-24 border border-none rounded-[10px] bg-[#1F1F31]">
+                    <div className="flex justify-end pt-1 pr-2 text-Stickey_Gray">
                       <AiOutlineClose style={{ width: '12px', height: '12px' }} onClick={() => handleRemoveTeam(index)}/>
                     </div>
                     <div className="flex flex-col gap-1">
@@ -156,19 +156,19 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
               <div className="py-4 px-4">
                 <div className="border-b-[0.5px] border-b-Stickey_Gray"></div>
               </div>
-              <div className="flex flex-row w-full justify-between px-24 text-Stickey_Gray text-xs pb-4" >
-                <div onClick={() => handleTabClick('SOCCER')} className={`${selectedTab === 'SOCCER' ? 'text-white font-bold underline underline-offset-4' : ''}`}>
+              <div className="flex flex-row w-full justify-between px-24 text-Stickey_Gray text-sm pb-4" >
+                <div onClick={() => handleTabClick('SOCCER')} className={`${selectedTab === 'SOCCER' ? 'text-Stickey_Main' : ''}`}>
                   <p>축구</p>
                 </div>
-                <div onClick={() => handleTabClick('BASEBALL')} className={`${selectedTab === 'BASEBALL' ? 'text-white font-bold underline underline-offset-4' : ''}`}>
+                <div onClick={() => handleTabClick('BASEBALL')} className={`${selectedTab === 'BASEBALL' ? 'text-Stickey_Main' : ''}`}>
                   <p>야구</p>
                 </div>
-                <div onClick={() => handleTabClick('BASKETBALL')} className={`${selectedTab === 'BASKETBALL' ? 'text-white font-bold underline underline-offset-4' : ''}`}>
+                <div onClick={() => handleTabClick('BASKETBALL')} className={`${selectedTab === 'BASKETBALL' ? 'text-Stickey_Main' : ''}`}>
                   <p>농구</p>
                 </div>
               </div>
               </div>
-            <div className="h-[40vh] flex flex-col justify-center pb-8" >
+            <div className="h-[30vh] flex flex-col justify-center pb-12" >
               <div className="h-full  overflow-y-scroll" >
               
                 {filteredTeams && filteredTeams.map((item, idx) => (

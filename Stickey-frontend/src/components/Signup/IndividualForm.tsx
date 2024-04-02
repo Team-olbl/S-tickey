@@ -210,7 +210,7 @@ const IndividualForm = () => {
         </div>
         </div>
         <form onSubmit={handleSubmit} className="pt-16 text-sm">
-            <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
+            <div className="fixed bottom-20 w-full max-w-[500px] m-auto px-4">
                 <button
                     type='submit'
                     disabled={!isButtonEnabled}
