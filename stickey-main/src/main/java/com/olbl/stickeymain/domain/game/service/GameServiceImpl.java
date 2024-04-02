@@ -38,6 +38,7 @@ import com.olbl.stickeymain.domain.game.repository.StadiumSeatRepository;
 import com.olbl.stickeymain.domain.game.repository.StadiumZoneRepository;
 import com.olbl.stickeymain.domain.notify.service.NotifyService;
 import com.olbl.stickeymain.global.auth.CustomUserDetails;
+import com.olbl.stickeymain.global.result.error.ErrorCode;
 import com.olbl.stickeymain.global.result.error.exception.BusinessException;
 import com.olbl.stickeymain.global.util.S3Util;
 import java.util.ArrayList;
@@ -445,19 +446,21 @@ public class GameServiceImpl implements GameService {
     public void cancelReserve(int id, Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal(); //로그인 한 유저정보 확인
         log.info("[cancelReserve] 참가열 취소 요청 : {}", userDetails.getId());
-        existsInRunningQueue(id, userDetails.getId());
+//        existsInRunningQueue(id, userDetails.getId());
+
         removeFromRunQueue(id, userDetails.getId());
     }
 
     private void existsInRunningQueue(int gameId, int userId) {
         String runKey = "run::" + gameId;
+
         log.info("[existsInRunningQueue] Run Size :" + redisTemplate.opsForZSet().size(runKey));
         Long rank = redisTemplate.opsForZSet().rank(runKey, String.valueOf(userId));
-        log.info("[existsInRunningQueue] Rank : {}" + rank);
-//        if (redisTemplate.opsForZSet().rank(runKey, String.valueOf(userId)) == null) {
+        log.info("[existsInRunningQueue] Rank : " + rank);
+
         if (rank == null) {
-            log.info("[existsInRunningQueue] 참가열에 존재하지 않는 유저 요청 : {}", userId);
-//            throw new BusinessException(ErrorCode.NOT_IN_RUNNING_QUEUE);
+            log.info("[existsInRunningQueue] 참가열에 존재하지 않는 유저 요청 : ", userId);
+            throw new BusinessException(ErrorCode.NOT_IN_RUNNING_QUEUE);
         }
     }
 
