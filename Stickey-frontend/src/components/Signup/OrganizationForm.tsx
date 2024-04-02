@@ -39,34 +39,34 @@ const OrganizationForm = () => {
     };
 
     const handleSendEmailVerification = (e: FormEvent) => {
-        e.preventDefault();
-        if (!isEmailError) {
-            mutate(formData.email, {
-                onSuccess: () => {
-                    toast.info('인증코드가 발송되었습니다.');
-                },
-                onError: (error: Error) => {
-                    toast.error(`오류가 발생했습니다: ${error.message}`);
-                },
-            });
-        }
+    e.preventDefault();
+    if (!isEmailError) {
+        mutate(formData.email, {
+            onSuccess: () => {
+                toast.info('인증코드가 발송되었습니다.');
+            },
+            onError: (error: Error) => {
+                toast.error(`오류가 발생했습니다: ${error.message}`);
+            },
+        });
+    }
     };
 
     const handleVerifyEmailCode = () => {
-        const { email, verificationCode } = formData;
-    
-        if (email && verificationCode) {
-            verifyEmailCode({
-                email: email,
-                authCode: verificationCode
-            }, {
-                onSuccess: () => {
-                    toast.success('이메일 인증에 성공했습니다.');
-                },
-                onError: (error: Error) => {
-                    toast.error(`이메일 인증에 실패했습니다: ${error.message}`);
-                },
-            });
+    const { email, verificationCode } = formData;
+
+    if (email && verificationCode) {
+        verifyEmailCode({
+            email: email,
+            authCode: verificationCode
+        }, {
+            onSuccess: () => {
+                toast.success('이메일 인증에 성공했습니다.');
+            },
+            onError: (error: Error) => {
+                toast.error(`이메일 인증에 실패했습니다: ${error.message}`);
+            },
+        });
         }
     };
     
@@ -80,7 +80,6 @@ const OrganizationForm = () => {
             ...prevState,
             [name]: value,
         }));
-        console.log(value)
         if (name === 'email') {
             setIsEmailError(!isValidEmail(value))
         } else if (name === 'password') {
@@ -93,11 +92,8 @@ const OrganizationForm = () => {
         return passwordRegex.test(password);
     }
 
-    // console.log(image) // 나중에 post 연결 시 처리할 것
-
     // 이미지 저장
     const saveImgFile = () => {
-        // 이미지 업로드 input의 onChange
         if (imgRef.current && imgRef.current.files) {
         const file: File | undefined = imgRef.current.files[0];
         setImage(file);
@@ -140,7 +136,6 @@ const OrganizationForm = () => {
         setFormState(true)
     }
 
-    // 주소 불러오는 모달
     const handleAddress = (data :AddresssData) => {
         let fullAddress = data.address;
         let extraAddress = '';
@@ -170,7 +165,6 @@ const OrganizationForm = () => {
             return
         }
 
-        // 회원가입 정보를 FormData 객체에 추가
         const form = new FormData();
         console.log(form)
         if (image) form.append('profile', image);
@@ -196,7 +190,6 @@ const OrganizationForm = () => {
         })
     }
     
-
     return (
     <div className="pt-16 text-sm ">
         <div className='px-4 border-b border-Stickey_BGC'>
@@ -205,162 +198,162 @@ const OrganizationForm = () => {
         
         { !formState ?  <>
         <div className='px-4 pb-28'>
-            {/* 프로필 사진 */}
-            <div className='flex flex-col items-center pt-2'>
-                <p className='text-xs py-2'>단체 로고</p>
-                <label className="flex border items-center justify-center w-24 h-24 rounded-lg" htmlFor="photo">
-                {photo ? (
-                        <img src={photo} alt="profilePhoto" className="w-full h-full object-cover rounded-lg" />
-                    ) : (
-                        <CiCamera className="flex justify-center" size="2rem" color="#878787" />
-                    )}<input
-                        name="photo"
-                        multiple
-                        type="file"
-                        onChange={saveImgFile}
-                        ref={imgRef}
-                        id="photo"
-                        className="hidden w-full h-full cursor-pointer"
-                    ></input>
-                </label>
-            </div>
+        {/* 프로필 사진 */}
+        <div className='flex flex-col items-center pt-2'>
+            <p className='text-xs py-2'>단체 로고</p>
+            <label className="flex border items-center justify-center w-24 h-24 rounded-lg" htmlFor="photo">
+            {photo ? (
+                    <img src={photo} alt="profilePhoto" className="w-full h-full object-cover rounded-lg" />
+                ) : (
+                    <CiCamera className="flex justify-center" size="2rem" color="#878787" />
+                )}<input
+                    name="photo"
+                    multiple
+                    type="file"
+                    onChange={saveImgFile}
+                    ref={imgRef}
+                    id="photo"
+                    className="hidden w-full h-full cursor-pointer"
+                ></input>
+            </label>
+        </div>
 
-            {/* 개인 정보 */}
-            <div>
-                <p className="pt-2 pb-2 text-sm">단체명</p>
+        {/* 개인 정보 */}
+        <div>
+            <p className="pt-2 pb-2 text-sm">단체명</p>
+            <input
+                type="text"
+                placeholder="이름을 입력해주세요"
+                className="w-full outline-none border-b p-2 text-xs"
+                name='name'
+                value={formData.name}
+                onChange={handleChange}
+                autoComplete='off'
+            />
+            <p className="pt-4 pb-2 text-sm">연락처</p>
+            <input
+                type="text"
+                placeholder="010-0000-0000"
+                className="w-full outline-none border-b p-2  text-xs"
+                name='phone'
+                value={formData.phone}
+                onChange={handleChange}
+                autoComplete='off'
+            />
+            <p className="pt-4 pb-2 text-sm">이메일</p>
+            <div className='flex items-center'>    
                 <input
                     type="text"
-                    placeholder="이름을 입력해주세요"
-                    className="w-full outline-none border-b p-2 text-xs"
-                    name='name'
-                    value={formData.name}
+                    placeholder="example@ssafy.com"
+                    className="w-full outline-none border-b p-2  text-xs"
+                    name='email'
+                    value={formData.email}
                     onChange={handleChange}
                     autoComplete='off'
                 />
-                <p className="pt-4 pb-2 text-sm">연락처</p>
+                <button className="w-12 h-6 border border-Stickey_Main text-Stickey_Main rounded-xl text-[10px]" onClick={handleSendEmailVerification}>인증</button>
+            </div>
+            {isEmailError === true && <p className="p-2 text-xs text-red-500">이메일 형식이 유효하지 않습니다.</p>}
+            <div className='flex items-center'>
                 <input
                     type="text"
-                    placeholder="010-0000-0000"
-                    className="w-full outline-none border-b p-2  text-xs"
-                    name='phone'
-                    value={formData.phone}
+                    placeholder="인증번호를 입력해주세요"
+                    className="w-full outline-none border-b p-2 pt-6  text-xs"
+                    name='verificationCode'
+                    value={formData.verificationCode}
                     onChange={handleChange}
                     autoComplete='off'
                 />
-                <p className="pt-4 pb-2 text-sm">이메일</p>
-                <div className='flex items-center'>    
-                    <input
-                        type="text"
-                        placeholder="example@ssafy.com"
-                        className="w-full outline-none border-b p-2  text-xs"
-                        name='email'
-                        value={formData.email}
-                        onChange={handleChange}
-                        autoComplete='off'
-                    />
-                    <button className="w-12 h-6 border border-Stickey_Main text-Stickey_Main rounded-xl text-[10px]" onClick={handleSendEmailVerification}>인증</button>
-                </div>
-                {isEmailError === true && <p className="p-2 text-xs text-red-500">이메일 형식이 유효하지 않습니다.</p>}
-                <div className='flex items-center'>
-                    <input
-                        type="text"
-                        placeholder="인증번호를 입력해주세요"
-                        className="w-full outline-none border-b p-2 pt-6  text-xs"
-                        name='verificationCode'
-                        value={formData.verificationCode}
-                        onChange={handleChange}
-                        autoComplete='off'
-                    />
-                    <button className='w-[100px] h-6 border border-Stickey_Main text-Stickey_Main rounded-xl text-[10px]' onClick={handleVerifyEmailCode}>인증번호 확인</button>
-                </div>
-                <p className="pt-4 pb-2 text-sm">비밀번호</p>
+                <button className='w-[100px] h-6 border border-Stickey_Main text-Stickey_Main rounded-xl text-[10px]' onClick={handleVerifyEmailCode}>인증번호 확인</button>
+            </div>
+            <p className="pt-4 pb-2 text-sm">비밀번호</p>
+            <input
+                type="password"
+                placeholder="영문,숫자, 특수문자 조합으로 8자리 이상 작성해주세요"
+                className="w-full outline-none border-b p-2  text-xs"
+                name='password'
+                value={formData.password}
+                onChange={handleChange}
+            />
+            {isPasswordError && (<p className='p-2 text-xs text-red-500'>비밀번호 형식이 유효하지 않습니다.</p>)}
+            <p className="pt-4 pb-2 text-sm">비밀번호 확인</p>
+            <input
+                type="password"
+                placeholder="비밀번호를 한번 더 입력해주세요"
+                className="w-full outline-none border-b p-2  text-xs"
+                name='confirmPassword'
+                value={formData.confirmPassword}
+                onChange={handleChange}
+            />
+            {!isPasswordMatch && <p className='p-2 text-xs text-red-500'>비밀번호가 서로 일치하지 않습니다.</p>}
+        </div>
+
+        </div>
+        <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
+            <button disabled={!isFormValid()} className={`bg-Stickey_Main w-full text-white rounded-md p-2 text-md ${!isFormValid() ? 'opacity-50 cursor-not-allowed':''}`} onClick={() => handleFormState()} >다음</button>
+        </div>
+        </>
+        :
+        <>
+        <div className='px-4 pt-4'>
+            <p className="pt-2 pb-2 text-sm">담당자이름</p>
+            <input
+                type="text"
+                placeholder="담당자명을 입력해주세요"
+                className="w-full outline-none border-b-[0.5px] p-2 text-xs"
+                name='manager'
+                value={formData.manager}
+                onChange={handleChange}
+                autoComplete='off'
+            />
+            <p className="pt-2 pb-2 text-sm">주소</p>
+            <div className="flex flex-row items-center">
                 <input
-                    type="password"
-                    placeholder="영문,숫자, 특수문자 조합으로 8자리 이상 작성해주세요"
-                    className="w-full outline-none border-b p-2  text-xs"
-                    name='password'
-                    value={formData.password}
-                    onChange={handleChange}
+                    type="text"
+                    value={formData.address}
+                    className="w-full ml-2 outline-none border-b-[0.5px] p-2 text-xs"
+                    readOnly
                 />
-                {isPasswordError && (<p className='p-2 text-xs text-red-500'>비밀번호 형식이 유효하지 않습니다.</p>)}
-                <p className="pt-4 pb-2 text-sm">비밀번호 확인</p>
-                <input
-                    type="password"
-                    placeholder="비밀번호를 한번 더 입력해주세요"
-                    className="w-full outline-none border-b p-2  text-xs"
-                    name='confirmPassword'
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
+                <button 
+                    className="bg-blue-400 w-32 text-white py-2 px-2 rounded"
+                    onClick={() => setIsPostcodeOpen(true)}>
+                    주소 검색
+                </button>
+            </div>
+            {isPostcodeOpen && (
+                <div style={{ display: 'block', position: 'absolute', zIndex: '100' }}>
+                    <DaumPostcode onComplete={handleAddress} />
+                    <button onClick={() => setIsPostcodeOpen(false)}>닫기</button>
+                </div>
+            )}
+            <p className="pt-2 pb-2 text-sm">사업자번호</p>
+            <input
+                type="text"
+                placeholder="000-0000-0000"
+                className="w-full outline-none border-b p-2 text-xs"
+                name='registrationNumber'
+                value={formData.registrationNumber}
+                onChange={handleChange}
+                autoComplete='off'
+            />
+            <p className="pt-2 pb-2 text-sm">사업자등록증</p>
+            <div className='flex items-center w-full border border-gray-200 rounded-md text-gray-300 text-xs'>
+                <input 
+                    type='file'
+                    name='file'
+                    placeholder='사업자등록증을 업로드해주세요.'
+                    className='p-2'
+                    onChange={handleFileChange}
                 />
-                {!isPasswordMatch && <p className='p-2 text-xs text-red-500'>비밀번호가 서로 일치하지 않습니다.</p>}
             </div>
 
         </div>
-                <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
-                    <button disabled={!isFormValid()} className={`bg-Stickey_Main w-full text-white rounded-md p-2 text-md ${!isFormValid() ? 'opacity-50 cursor-not-allowed':''}`} onClick={() => handleFormState()} >다음</button>
-                </div>
-                </>
-                :
-                <>
-                <div className='px-4 pt-4'>
-                    <p className="pt-2 pb-2 text-sm">담당자이름</p>
-                    <input
-                        type="text"
-                        placeholder="담당자명을 입력해주세요"
-                        className="w-full outline-none border-b-[0.5px] p-2 text-xs"
-                        name='manager'
-                        value={formData.manager}
-                        onChange={handleChange}
-                        autoComplete='off'
-                    />
-                    <p className="pt-2 pb-2 text-sm">주소</p>
-                    <div className="flex flex-row items-center">
-                        <input
-                            type="text"
-                            value={formData.address}
-                            className="w-full ml-2 outline-none border-b-[0.5px] p-2 text-xs"
-                            readOnly
-                        />
-                        <button 
-                            className="bg-blue-400 w-32 text-white py-2 px-2 rounded"
-                            onClick={() => setIsPostcodeOpen(true)}>
-                            주소 검색
-                        </button>
-                    </div>
-                    {isPostcodeOpen && (
-                        <div style={{ display: 'block', position: 'absolute', zIndex: '100' }}>
-                            <DaumPostcode onComplete={handleAddress} />
-                            <button onClick={() => setIsPostcodeOpen(false)}>닫기</button>
-                        </div>
-                    )}
-                    <p className="pt-2 pb-2 text-sm">사업자번호</p>
-                    <input
-                        type="text"
-                        placeholder="000-0000-0000"
-                        className="w-full outline-none border-b p-2 text-xs"
-                        name='registrationNumber'
-                        value={formData.registrationNumber}
-                        onChange={handleChange}
-                        autoComplete='off'
-                    />
-                    <p className="pt-2 pb-2 text-sm">사업자등록증</p>
-                    <div className='flex items-center w-full border border-gray-200 rounded-md text-gray-300 text-xs'>
-                        <input 
-                            type='file'
-                            name='file'
-                            placeholder='사업자등록증을 업로드해주세요.'
-                            className='p-2'
-                            onChange={handleFileChange}
-                        />
-                    </div>
-
-                </div>
-                <form onSubmit={handleSubmit}>
-                    <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
-                        <button disabled={!isSignupValid()} className={`bg-Stickey_Main w-full text-white rounded-md p-2 text-md ${!isSignupValid() ? 'opacity-50 cursor-not-allowed':''}`} onClick={() => handleFormState()}>가입하기</button>
-                    </div>
-                </form>
-            </>
+        <form onSubmit={handleSubmit}>
+            <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
+                <button disabled={!isSignupValid()} className={`bg-Stickey_Main w-full text-white rounded-md p-2 text-md ${!isSignupValid() ? 'opacity-50 cursor-not-allowed':''}`} onClick={() => handleFormState()}>가입하기</button>
+            </div>
+        </form>
+    </>
             }
         </div>
     );

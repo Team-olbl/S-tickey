@@ -7,6 +7,5 @@ export const logout = async () => {
       "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
     }
   });
-  console.log(res);
   return res.data;
 };

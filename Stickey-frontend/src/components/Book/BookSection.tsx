@@ -10,19 +10,11 @@ const BookSection = () => {
 
     const { seatInfo, setSelectInfo } = useTicketStore();
     const navigate = useNavigate();
-
     const gameInfo = useTicketInfoStore((state) => state.modalData);
-
     const { id } = useParams<{ id: string }>();
-    console.log("ID:", id);
     const intId = Number(id)
-
-    // api 연결
     const { useSectionSeatCnt } = useBook()
     const { data: seatCntInfo } = useSectionSeatCnt(intId)
-
-    console.log( seatCntInfo?.data.leftSeatResList )
-    console.log(gameInfo?.category)
      
     const getSeatColor = (seat: string): string => {
         switch (seat) {
@@ -43,7 +35,7 @@ const BookSection = () => {
             case 'E구역 4':
                 return '#C3E7FF';
             default:
-                return '#FFFFFF'; // 기본 색상
+                return '#FFFFFF';
         }
     };
 
@@ -60,8 +52,6 @@ const BookSection = () => {
             navigate(`/${gameInfo?.id}/seat`, {replace:true});
         }
     }
-
-    // 고정값이므로 하드코딩하겠습니다 !
 
     return (
         <div className="pt-4">

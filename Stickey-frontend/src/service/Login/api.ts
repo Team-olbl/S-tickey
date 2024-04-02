@@ -11,12 +11,9 @@ export const login = async ({email, password}:loginDataReq):Promise<APIResponse<
   })
   if (res.status == 200) {
     const {id} = res.data;
-    console.log(id);
     localStorage.setItem("accessToken", res.headers.access);
     localStorage.setItem("refreshToken", res.headers.refresh);
     userStore.getState().loginUser({id, accessToken :res.headers.access, refreshToken : res.headers.refresh, preferences:res.data.preferences, name:res.data.name, phone:res.data.phone, email: res.data.email})
   }
-  console.log(res.data.preferences)
-  console.log(res)
   return res.data;
 }

@@ -7,7 +7,6 @@ export const sendEmailVerification = async (email:string):Promise<APIResponse<se
     "email" : email
   },
   );
-  console.log(email)
   return data;
 }
 

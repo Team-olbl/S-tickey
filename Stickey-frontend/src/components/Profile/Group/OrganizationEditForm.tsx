@@ -3,49 +3,45 @@ import { CiCamera } from 'react-icons/ci';
 import Folder from '../../../assets/image/FolderOpen.png'
 
 const IndividualForm = () => {
-	const imgRef = useRef<HTMLInputElement>(null);
+  const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-	const [image, setImage] = useState<File>();
-	const [photo, setPhoto] = useState<string>('');
+  const [image, setImage] = useState<File>();
+  const [photo, setPhoto] = useState<string>('');
   const [fileName, setFileName] = useState<string>('');
 
-	console.log(image) // 나중에 post 연결 시 처리할 것
+  console.log(typeof image)
 
-	// 이미지 저장
 	const saveImgFile = () => {
-			// 이미지 업로드 input의 onChange
-			if (imgRef.current && imgRef.current.files) {
-			const file: File | undefined = imgRef.current.files[0];
-			setImage(file);
-			if (file) {
-				const reader = new FileReader();
-				reader.readAsDataURL(file);
-				reader.onloadend = () => {
-				const result: string | null = reader.result as string;
-				setPhoto(result);
-				};
+		if (imgRef.current && imgRef.current.files) {
+		const file: File | undefined = imgRef.current.files[0];
+		setImage(file);
+		if (file) {
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onloadend = () => {
+			const result: string | null = reader.result as string;
+			setPhoto(result);
+			};
 			}
 		}
 	};
 
-  // 파일 업로드
   const handleFileUpload = () => {
     if (fileRef.current && fileRef.current.files) {
         const file: File | undefined = fileRef.current.files[0];
-        console.log("Uploaded file:", file);
+
         if (file) {
-            setFileName(file.name); // 파일명 설정
+            setFileName(file.name); 
         }
     }
   };
 
   const clearFile = () => {
-    setFileName(''); // 파일명 초기화
+    setFileName('');
     if (fileRef.current) {
-        fileRef.current.value = ''; // 파일 input 초기화
+        fileRef.current.value = '';
     }
   };
-
 
   return (
 		<>

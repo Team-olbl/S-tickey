@@ -1,7 +1,6 @@
 import Bell from '../../assets/image/YellowBell.png'
 import { INotifyInfo } from '../../types/Notify';
 
-
   const AlarmItem = ({data} : {data: INotifyInfo}) => {
 
       return (

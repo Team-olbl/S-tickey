@@ -23,7 +23,6 @@ const PlayerRegistrationForm = () => {
   }
 
   const { mutate } = usePostPlayerCreate()
-
   const handlePlayerCreate = () => {
 
 	const formData = new FormData();
@@ -46,21 +45,19 @@ const PlayerRegistrationForm = () => {
     }
   }, [nameInput, descriptionInput, categoryInput, birthDate]);
 
-	// 이미지 저장
 	const saveImgFile = () => {
-			// 이미지 업로드 input의 onChange
-			if (imgRef.current && imgRef.current.files) {
-			const file: File | undefined = imgRef.current.files[0];
-			setImage(file);
-			if (file) {
-				const reader = new FileReader();
-				reader.readAsDataURL(file);
-				reader.onloadend = () => {
-				const result: string | null = reader.result as string;
-				setPhoto(result);
-				};
-			}
+		if (imgRef.current && imgRef.current.files) {
+		const file: File | undefined = imgRef.current.files[0];
+		setImage(file);
+		if (file) {
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onloadend = () => {
+			const result: string | null = reader.result as string;
+			setPhoto(result);
+			};
 		}
+	}
 	};
 
   return (
@@ -88,38 +85,38 @@ const PlayerRegistrationForm = () => {
 
 				{/* 개인 정보 */}
 				<div>
-						<p className="pt-2 pb-2 text-sm">이름</p>
-						<input
-								type="text"
-								value={nameInput}
-								onChange={(e) => setNameInput(e.target.value)}
-								placeholder="이름을 입력해주세요."
-								className="w-full outline-none border-b p-2 text-xs"
-						/>
-							<p className="pt-4 pb-2 text-sm">생년월일</p>
-						<input
-							type="date"
-							value={birthDate}
-							onChange={(e) => setBirthDate(e.target.value)}
+					<p className="pt-2 pb-2 text-sm">이름</p>
+					<input
+							type="text"
+							value={nameInput}
+							onChange={(e) => setNameInput(e.target.value)}
+							placeholder="이름을 입력해주세요."
 							className="w-full outline-none border-b p-2 text-xs"
-						/>
-						<p className="pt-4 pb-2 text-sm">종목</p>
-						<input
-								type="text"
-								value={categoryInput}
-								onChange={(e) => setCategoryInput(e.target.value)}
-								placeholder="종목을 입력해주세요"
-								className="w-full outline-none border-b p-2 text-xs"
-						/>
-						<p className="pt-4 pb-2 text-sm">설명</p>
-						<textarea
-							className='w-full px-2 h-[100px] border rounded-[10px]'
-							name="content"
-							value={descriptionInput}
-							onChange={(e) => setDescriptionInput(e.target.value)}
-							id="content"
-							required
-						/>
+					/>
+						<p className="pt-4 pb-2 text-sm">생년월일</p>
+					<input
+						type="date"
+						value={birthDate}
+						onChange={(e) => setBirthDate(e.target.value)}
+						className="w-full outline-none border-b p-2 text-xs"
+					/>
+					<p className="pt-4 pb-2 text-sm">종목</p>
+					<input
+							type="text"
+							value={categoryInput}
+							onChange={(e) => setCategoryInput(e.target.value)}
+							placeholder="종목을 입력해주세요"
+							className="w-full outline-none border-b p-2 text-xs"
+					/>
+					<p className="pt-4 pb-2 text-sm">설명</p>
+					<textarea
+						className='w-full px-2 h-[100px] border rounded-[10px]'
+						name="content"
+						value={descriptionInput}
+						onChange={(e) => setDescriptionInput(e.target.value)}
+						id="content"
+						required
+					/>
 				</div>
 			</div>
 			<div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">

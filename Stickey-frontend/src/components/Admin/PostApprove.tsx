@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useAdmin } from "../../hooks/Admin/useAdmin";
 import PostApproveDetail from "./PostApproveDetail";
 
-
 const PostApprove = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectId, setSelectId] = useState<number>(0);

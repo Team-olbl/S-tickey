@@ -25,10 +25,8 @@ const info: IHeaderInfo = {
 const SponsorDetailPage = () => {
   const navigate = useNavigate();
   const { isLogin, id } = userStore();
-
   const params = useParams<{ id: string }>();
   const sponsorId = Number(params.id);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [supportedHistory, setSupportedHistory] = useState<{ amount: bigint; text: string; time: bigint }[]>();
@@ -50,15 +48,12 @@ const SponsorDetailPage = () => {
 
   const { useSponsorDetail } = useSponsor();
   const { data: ISponsorDetailRes } = useSponsorDetail(sponsorId);
-
   const startTime = dayjs(ISponsorDetailRes?.data.startTime).format('YYYY년 MM월 DD일');
   const endTime = dayjs(ISponsorDetailRes?.data.endTime).format('YYYY년 MM월 DD일');
-
   const start = dayjs(ISponsorDetailRes?.data.startTime);
   const end = dayjs(ISponsorDetailRes?.data.endTime);
   const now = dayjs();
   const diffDays = end.diff(now, 'day');
-
   const total = end.diff(start);
   const current = now.diff(start);
   const progressPercentage = (current / total) * 100 >= 100 ? 100 : (current / total) * 100;
