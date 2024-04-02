@@ -4,7 +4,6 @@ import { getSignupReq, getPostApproveReq, getSignupDetailReq, patchOrganizationS
 
 export const useAdmin = () => {
 
-
   const useSignup = () => {
     return useQuery({
       queryKey: ['signup'],
@@ -50,5 +49,4 @@ export const useAdmin = () => {
   }
   
   return { useSignup, useSignupDetail, usePostApprove, usePatchOrganizationState ,usePostApproveDetail, usePatchPostState }
-
 }

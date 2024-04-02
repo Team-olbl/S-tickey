@@ -13,7 +13,6 @@ const SponsorCreatePage = () => {
         right: <img src={Bell} alt="" />
       }
 
-
     return(
       <>
         <div className="top-0 bottom-0 h-screen bg-white">

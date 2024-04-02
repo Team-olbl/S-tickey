@@ -13,15 +13,11 @@ const ProfilePage = () => {
   const { useGetProfile } = useProfile();
 
   const { data: userProfileInfo, isSuccess, refetch } = useGetProfile();
-
   if (isSuccess) {
     if (userProfileInfo.data.role === "ADMIN") {
       return <Navigate to={'/admin'} replace={true} />
     }
   }
-
-  console.log(userProfileInfo?.data.role, '프로필 조회')
-
   const info : IHeaderInfo = {
     left_1: null,
     left_2: null,

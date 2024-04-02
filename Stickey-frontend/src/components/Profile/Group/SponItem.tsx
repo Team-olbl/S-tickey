@@ -5,12 +5,8 @@ import dayjs from "dayjs";
 
 const SponItem = () => {
   const navigate = useNavigate();
-
-
-  // TODO 유저 완성 후 실제 api 데이터로 수정해야함
   const { useGetMySponsorList } = useSponsor();
   const { data: mySponsorListInfo } = useGetMySponsorList();
-  
 
   return (
     <div>
@@ -19,15 +15,15 @@ const SponItem = () => {
           <div key={id}>
           <div className="w-full flex flex-row" onClick={() => navigate(`/sponsor/${data.id}`)}>
           <div className="w-full h-auto flex border-b-[0.5px] border-Stickey_Gray px-4 py-4 gap-3 items-start justify-between">
-                <div className="w-16 h-16 border-none rounded bg-Stickey_Gray">
-                  <img src={data.supportImage} alt="" />
+              <div className="w-16 h-16 border-none rounded bg-Stickey_Gray">
+              <img src={data.supportImage} alt="" />
             </div>
             <div className="text-white grow">
               <div>
                 <p className="text-[12px]">{data.title}</p>
               </div>
               <div>
-                    <p className="text-[10px]">{dayjs(data.startTime).format('YYYY년 MM월 DD일 HH:mm')}</p>
+                <p className="text-[10px]">{dayjs(data.startTime).format('YYYY년 MM월 DD일 HH:mm')}</p>
                 <p className="text-[10px]"> ~ </p>
                 <p className="text-[10px]">{dayjs(data.endTime).format('YYYY년 MM월 DD일 HH:mm')}</p>
               </div>
@@ -39,7 +35,6 @@ const SponItem = () => {
         </div>
         </div>
         ))
-
       ) : (
         <div className="flex flex-col items-center pt-40">
           <img className="w-32" src={Heart} />

@@ -23,7 +23,6 @@ export type DreamItemData = {
 }
 
 const DreamHistoryPage = () => {
-  
   const [dreamHistroy, setDreamHistory] = useState<DreamItemData[]>([]);
 
   useEffect(() => {

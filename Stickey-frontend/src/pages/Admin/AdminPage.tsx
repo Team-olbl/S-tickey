@@ -19,10 +19,10 @@ const AdminPage = () => {
     const { data : profileRes, isSuccess } = useGetProfile();
     
     if (isSuccess) {
-        if (profileRes.data.role !== 'ADMIN') {
-            toast.warn("잘못된 접근입니다.");
-            return <Navigate to='/'></Navigate>
-        }
+    if (profileRes.data.role !== 'ADMIN') {
+        toast.warn("잘못된 접근입니다.");
+        return <Navigate to='/'></Navigate>
+    }
     }
 
     const handleLeftTabClick = () => {

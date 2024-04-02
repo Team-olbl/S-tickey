@@ -3,7 +3,6 @@ import { sendEmailVerification } from "../../service/Email/api";
 import { confirmEmailReq, confirmEmailRes, sendEmailRes } from "../../types/Email";
 import { confirmEmailVerification } from "../../service/Email/api";
 
-
 export const useEmailVerificationMutation = () => {
   const mutation = useMutation<sendEmailRes, Error, string>({
     mutationFn: sendEmailVerification,

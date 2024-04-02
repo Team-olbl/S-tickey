@@ -3,7 +3,6 @@ import soccer from '../../assets/image/Category/soccerball.png'
 import baseball from '../../assets/image/Category/baseball.png'
 import basketball from '../../assets/image/Category/basketball.png'
 
-
 const Category = () => {
   const navigate = useNavigate();
 

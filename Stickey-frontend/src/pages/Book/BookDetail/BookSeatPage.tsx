@@ -31,7 +31,6 @@ const BookSeatPage = () => {
     right: <img src={Bell} />
   }
 
-
   return(
     <>
       <div>

@@ -3,7 +3,7 @@ import Prefer from '../../assets/image/Monocle.png'
 
 const GameScheduleHeader = () => {
   const { preferences } = userStore();
-  console.log(preferences);
+
   return (
     <>
       <div className="flex items-center px-4">

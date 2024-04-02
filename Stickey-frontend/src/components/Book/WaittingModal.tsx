@@ -14,7 +14,6 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
     const [parsedMessageRef, setParsedMessageRef] = useState<number>(0);
     const navigate = useNavigate()
 
-
     useEffect(() => {
         const newClient = new Client();
         newClient.configure({
@@ -24,9 +23,6 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                     `/sub/id/${userId}`,
                     message => {
                         const parsedMessage = JSON.parse(message.body);
-                        console.log(parsedMessage.myTurn);
-                        console.log(parsedMessage.rank);
-                        console.log(parsedMessage.key);
                         setParsedMessageRef(parsedMessage.rank)
 
                         if (parsedMessage.myTurn) {
@@ -37,13 +33,11 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                                     body: undefined,
                                 });
                                 console.log('취소 메시지 전송')  
-                                client.deactivate();                          }
-                            // navigate(`/${ticketInfo?.id}/section`); 
+                                client.deactivate();
+                            }
                         }
                     },
                 );
-
-                // '/games/wait/enter' 
                 const message = {
                     gameId: ticketInfo?.id,
                     id: userId
