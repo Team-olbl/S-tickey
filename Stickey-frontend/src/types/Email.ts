@@ -7,7 +7,7 @@ export interface sendEmailReq {
 }
 
 export interface confirmEmailRes {
-  message:string;
+  message: string;
 }
 
 export interface confirmEmailReq {

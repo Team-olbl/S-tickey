@@ -6,7 +6,7 @@ export interface ModalDataState {
   setModalData: (data: IGameSimpleRes | null) => void;
 }
 
-export const useTicketInfoStore = create<ModalDataState>((set) => ({
+export const useTicketInfoStore = create<ModalDataState>(set => ({
   modalData: null,
-  setModalData: (data) => set({ modalData: data }),
+  setModalData: data => set({ modalData: data }),
 }));

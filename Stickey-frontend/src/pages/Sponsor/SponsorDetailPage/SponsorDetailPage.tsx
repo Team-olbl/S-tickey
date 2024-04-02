@@ -174,12 +174,12 @@ const SponsorDetailPage = () => {
                 {ISponsorDetailRes?.data.players.map(player => (
                   <div key={player.id} className="p-2">
                     <div className="bg-[#2E2E3D] flex items-center p-2 rounded-md">
-                        <img src={player.profile} className="w-12 h-12 rounded-md bg-gray-300" />
+                      <img src={player.profile} className="w-12 h-12 rounded-md bg-gray-300" />
                       <div className="flex flex-col px-2">
-                        <div className='flex items-baseline'>
-                        <p className="text-white text-sm px-2">{player.name}</p>
-                        <p className="text-xs text-gray-400 px-1">{player.category}</p>
-                        <p className="text-xs text-gray-400 px-1">{player.birth}</p>
+                        <div className="flex items-baseline">
+                          <p className="text-white text-sm px-2">{player.name}</p>
+                          <p className="text-xs text-gray-400 px-1">{player.category}</p>
+                          <p className="text-xs text-gray-400 px-1">{player.birth}</p>
                         </div>
                         <p className="text-xs text-white px-2">{player.description}</p>
                       </div>

@@ -22,13 +22,13 @@ export const getSponsorDetailReq = async (id: number): Promise<APIResponse<ISpon
 export const postSupportReq = async (formData: FormData): Promise<APIResponse<string>> => {
   const { data } = await axiosAuthInstance.post('/supports', formData, {
     headers: {
-      'Content-Type' : 'multipart/form-data'
-    }
-  })
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return data;
-}
+};
 
 export const getSelectSupportId = async (): Promise<APIResponse<number>> => {
   const { data } = await axiosAuthInstance.get('/supports/item');
   return data;
-}
+};

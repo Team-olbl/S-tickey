@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getMySponsorListReq, getSupportListReq, getSponsorDetailReq, postSupportReq } from '../../service/Sponsor/api';
 import { ISupportListReq } from '../../types/Sponsor';
-import userStore from "../../stores/userStore";
+import userStore from '../../stores/userStore';
 
 export const useSponsor = () => {
   const { id } = userStore();
@@ -10,7 +10,7 @@ export const useSponsor = () => {
     return useQuery({
       queryKey: ['mySponsor', id],
       queryFn: () => getMySponsorListReq(),
-      select: res => res.data
+      select: res => res.data,
     });
   };
 
@@ -30,9 +30,9 @@ export const useSponsor = () => {
 
   const usePostSupport = () => {
     return useMutation({
-      mutationFn: postSupportReq
-    })
-  }
+      mutationFn: postSupportReq,
+    });
+  };
 
   return { useGetMySponsorList, useSupportList, useSponsorDetail, usePostSupport };
 };
