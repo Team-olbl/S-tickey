@@ -11,11 +11,13 @@ import { ITeamPreferReq } from '../../../types/Profile';
 import { connect } from '../../../service/web3/api';
 import userStore, { IPreferences } from '../../../stores/userStore';
 import { AnimatePresence, motion } from 'framer-motion';
+import PasswordModal from './PasswordModal';
 
 const UserMenu = ({ refetch }: { refetch: () => void }) => {
   const navigate = useNavigate();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState<boolean>(false);
   const [selectedTeam, setSelectedTeam] = useState<string>('');
   const [selectedTab, setSelectedTab] = useState<string>('');
   const [preferredTeams, setPreferredTeams] = useState<IPreferences[]>([]);
@@ -24,6 +26,10 @@ const UserMenu = ({ refetch }: { refetch: () => void }) => {
   const handlePreferredTeam = () => {
     setIsBottomSheetOpen(true);
   };
+
+  const handleOpenModal = () => {
+    setIsPasswordModalOpen(true)
+  }
 
   const handleClick = (name: string) => {
     setSelectedTeam(name);
@@ -98,6 +104,8 @@ const UserMenu = ({ refetch }: { refetch: () => void }) => {
     }),
   };
 
+
+
   return (
     <div className="max-w-[500px] w-full h-[208px] mt-4 border-t-[0.5px]">
       <div className="px-4">
@@ -131,6 +139,13 @@ const UserMenu = ({ refetch }: { refetch: () => void }) => {
         </div>
         <div
           className="flex flex-row items-center justify-between h-[40px] text-white px-4 cursor-pointer"
+          onClick={handleOpenModal}
+        >
+          <p>비밀번호 변경</p>
+          <img src={Next} className="h-[20px]" />
+        </div>
+        <div
+          className="flex flex-row items-center justify-between h-[40px] text-white px-4 cursor-pointer"
           onClick={() => setIsLogoutModalOpen(true)}
         >
           <p>로그아웃</p>
@@ -138,6 +153,7 @@ const UserMenu = ({ refetch }: { refetch: () => void }) => {
         </div>
       </div>
       {isLogoutModalOpen && <LogoutModal onClose={() => setIsLogoutModalOpen(false)} />}
+      {isPasswordModalOpen && <PasswordModal onClose={() => setIsPasswordModalOpen(false)}></PasswordModal>}
       <div className="text-white">
         <AnimatePresence>
           {isBottomSheetOpen && (
