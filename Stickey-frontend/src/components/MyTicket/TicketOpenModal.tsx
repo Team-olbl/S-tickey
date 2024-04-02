@@ -121,7 +121,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
 
 
     return (
-        <div className="z-[1] w-full fixed inset-0 bg-black/80 flex justify-center items-center">
+        <div className="z-[1] w-full fixed inset-0 bg-black/70 flex justify-center items-center">
             {/* modal wrapper */}
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg"  ref={scope}>
                 {onLoad &&
@@ -133,26 +133,27 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
                         </div>
                     </div>}
                 {/* modal */}
-                <div ref={containerRef} className="relative flex flex-col text-center items-center">
+                <div ref={containerRef} className="w-[300px] relative flex flex-col text-center items-center">
                     <div ref={overlayRef} className={`filter${ticket.filterId}`}></div>
                     <div>
                         <div className={`w-[300px] background${ticket.backgroundId} rounded-b-lg p-2 font-semibold`}>
                             <p>{ticket.homeTeam} vs {ticket.awayTeam}</p>
                         </div>
-                        <div className={` background${ticket.backgroundId} rounded-2xl`} >
+                        <div className={` background${ticket.backgroundId} rounded-2xl`}>
                             <div className='flex ml-2'>
                         </div>
-                        {!isQR ? <>
-                            <img className={"w-[300px] rounded-3xl p-4"} src={ticket.gameImage} alt="Game" />
-                                    <div className="absolute bottom-[200px] right-6">
-                                        <img onClick={handleEditClick} className="bg-white/50 rounded-full p-2" src={Edit} alt="Edit" />
-                                    </div> 
-                                    </>
-                            :
-                            <>
-                                <img className="w-[300px] rounded-3xl p-4" src={qr} onLoad={() => setOnLoad(true)} />
+                        {!isQR ?
+                        <>
+                            <img className={`w-[300px] rounded-3xl p-4 `} src={ticket.gameImage} alt="Game" />
+                            <div className="absolute bottom-[200px] right-6">
+                                <img onClick={handleEditClick} className="bg-white/50 rounded-full p-2" src={Edit} alt="Edit" />
+                            </div>
+                        </>
+                        :
+                        <>
+                            <img className="w-[300px] rounded-3xl p-4" src={qr} onLoad={() => setOnLoad(true)} />
                             {onLoad && <GetTime createQR={createQR}></GetTime>}
-                            </>
+                        </>
                         }
                         </div>
                         <div className={`background${ticket.backgroundId} rounded-t-lg w-[300px] text-center py-2`}>
@@ -160,8 +161,8 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
                             <p className="font-bold text-2xl">{ticket.zoneName} {ticket.seatNumber}번 좌석</p>
                             <p>결제금액 : {toEther(ticket.price)} ETH</p>
                             <div className="px-4 py-3 flex justify-center">
-                                <button className="bg-gray-400 w-1/2 mx-1 p-2 rounded-md text-white font-bold"  onClick={handleQR}>QR전환</button>
-                                <button onClick={handleRefund} className="bg-gray-400 w-1/2 mx-1 p-2 rounded-md text-white font-bold">환불하기</button>
+                                <button className="z-[1] bg-gray-400 w-1/2 mx-1 p-2 rounded-md text-white font-bold"  onClick={handleQR}>QR전환</button>
+                                <button onClick={handleRefund} className="z-[1] bg-gray-400 w-1/2 mx-1 p-2 rounded-md text-white font-bold">환불하기</button>
                             </div>
                         </div>
                     </div>
