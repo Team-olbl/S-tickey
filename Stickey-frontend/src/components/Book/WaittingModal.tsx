@@ -6,6 +6,7 @@ import { Client } from '@stomp/stompjs';
 import userStore from '../../stores/userStore';
 import { useNavigate } from 'react-router';
 import Loading from '../../assets/image/Loading.gif'
+import { changeFlag } from "../../service/Book/api";
 
 const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
     const ticketInfo = useTicketInfoStore((state) => state.modalData);
@@ -17,7 +18,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
     const socketMessage = {
         gameId: ticketInfo?.id,
         id: userId,
-      };
+    };
 
     const jsonMessage = JSON.stringify(socketMessage);
 
@@ -39,9 +40,9 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                                     destination: '/games/wait/cancel',
                                     body: jsonMessage,
                                 });
-                                console.log('취소 메시지 전송')  
                                 client.deactivate();
                             }
+                            navigate(`/${ticketInfo?.id}/section`);
                         }
                     },
                 );
@@ -53,16 +54,14 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                     destination: '/games/wait/enter',
                     body: JSON.stringify(message),
                 });
-
-                console.log('웹소켓 연결 확인');
             },
             onDisconnect: () => {
-                console.log('웹소켓 연결 종료');
             },
         });
 
         newClient.activate();
         setClient(newClient);
+        changeFlag(true, ticketInfo!.id);
 
         return () => {
             newClient.deactivate();
@@ -76,7 +75,6 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
                     destination: '/games/wait/cancel',
                     body: jsonMessage,
                 });
-                console.log('취소 메시지 전송');
                 client.deactivate();
             }
         };
@@ -91,7 +89,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
     
 
     return (
-        <Modal width="300px" height="auto" title="" onClose={() => navigate(-1)}>
+        <Modal width="300px" height="auto" title="" onClose={onClose}>
             <div className="flex flex-col items-center px-4 pb-6 z-[10]">
                 <div className='flex flex-col items-center'>
                     <img className='h-12' src={Waitting} alt="Waitting" />

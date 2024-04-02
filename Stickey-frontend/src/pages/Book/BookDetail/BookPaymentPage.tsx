@@ -72,11 +72,11 @@ const buyTicket = async () => {
       await registSeats({ gameId: gameInfo.id, zoneId: seatInfo.sectionId, seatNumbers: seatInfo.seat, isRefund: false });
       const tx = await createTicket(seatInfo.seat.length, gameInfo.id, gameInfo.stadiumId, seatInfo.sectionId, seatInfo.seat, seatInfo.sectionPrice);
 
-      if (tx) {
-        navigate(`/${gameInfo?.id}/confirm`, { replace: true })
-        clearSeatInfo()
-        return;
-      }
+    if (tx) {
+      navigate(`/${gameInfo?.id}/confirm`, { replace: true })
+      clearSeatInfo()
+      return;
+    }
       else {
         await registSeats({ gameId: gameInfo!.id, zoneId: seatInfo.sectionId, seatNumbers: seatInfo.seat, isRefund: true });
         toast.warn("결제에 실패했습니다.")

@@ -5,6 +5,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import useTicketStore from "../../stores/useTicketStore";
 import { useBook } from '../../hooks/Book/useBook';
 import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { AxiosError } from "axios";
+import { APIResponse } from "../../types/model";
 
 const BookSection = () => {
 
@@ -14,8 +18,19 @@ const BookSection = () => {
     const { id } = useParams<{ id: string }>();
     const intId = Number(id)
     const { useSectionSeatCnt } = useBook()
-    const { data: seatCntInfo } = useSectionSeatCnt(intId)
-     
+    const { data: seatCntInfo, error, fetchStatus } = useSectionSeatCnt(intId)
+    
+    useEffect(() => {
+        if (error && fetchStatus === 'idle') {
+            const axiosError = error as AxiosError;
+            const res = axiosError.response?.data as APIResponse<string>
+            toast.error(res.message);
+            navigate("/home")
+            navigate("/home")
+        }
+    }, [fetchStatus])
+
+    
     const getSeatColor = (seat: string): string => {
         switch (seat) {
             case 'S구역 1':
