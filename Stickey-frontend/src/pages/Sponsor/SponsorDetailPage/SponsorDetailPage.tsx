@@ -11,9 +11,9 @@ import { toast } from 'react-toastify';
 import { useSponsor } from '../../../hooks/Sponsor/useSponsor';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { connect, getSupprtedHistory, withdraw } from "../../../service/web3/api";
-import Metamask from '../../../assets/image/Metamask.png'
-import { AnimatePresence, motion } from "framer-motion";
+import { connect, getSupprtedHistory, withdraw } from '../../../service/web3/api';
+import Metamask from '../../../assets/image/Metamask.png';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const info: IHeaderInfo = {
   left_1: null,
@@ -21,7 +21,6 @@ const info: IHeaderInfo = {
   center: '후원',
   right: <img src={Bell} />,
 };
-
 
 const SponsorDetailPage = () => {
   const navigate = useNavigate();
@@ -44,14 +43,10 @@ const SponsorDetailPage = () => {
   };
 
   const handleHistoryOpen = () => {
-    connect().then(
-      (ret) => {
-        if (ret)
-          setIsHistoryOpen(!isHistoryOpen);
-      }
-    );
-    
-  }
+    connect().then(ret => {
+      if (ret) setIsHistoryOpen(!isHistoryOpen);
+    });
+  };
 
   const { useSponsorDetail } = useSponsor();
   const { data: ISponsorDetailRes } = useSponsorDetail(sponsorId);
@@ -67,28 +62,25 @@ const SponsorDetailPage = () => {
   const total = end.diff(start);
   const current = now.diff(start);
   const progressPercentage = (current / total) * 100 >= 100 ? 100 : (current / total) * 100;
-  
 
   useEffect(() => {
     if (!isHistoryOpen) return;
     (async () => {
       const ret = await getSupprtedHistory(sponsorId);
-      if (ret)
-        setSupportedHistory(ret);
+      if (ret) setSupportedHistory(ret);
     })();
-  }, [isHistoryOpen])
-  
-  const handleWithdraw = () => {
+  }, [isHistoryOpen]);
 
+  const handleWithdraw = () => {
     (async () => {
       const tx = await withdraw(sponsorId);
       if (tx) {
-        toast.success("후원금을 수령했습니다.");
+        toast.success('후원금을 수령했습니다.');
       } else {
-        toast.error("이미 수령한 후원이거나 후원금이 없습니다.");
+        toast.error('이미 수령한 후원이거나 후원금이 없습니다.');
       }
-    })()
-  }
+    })();
+  };
 
   return (
     <>
@@ -96,8 +88,14 @@ const SponsorDetailPage = () => {
         <Header info={info} />
         <div className="pt-12 pb-32">
           {/* 후원글 정보 */}
-          <div className={`w-full h-60 flex justify-center`} style={{backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${ISponsorDetailRes?.data.supportImage})`,backgroundSize: 'cover',
-			backgroundRepeat: 'no-repeat'}}>
+          <div
+            className={`w-full h-60 flex justify-center`}
+            style={{
+              backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${ISponsorDetailRes?.data.supportImage})`,
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+            }}
+          >
             <img src={ISponsorDetailRes?.data.supportImage} className="h-full" />
           </div>
           <div className="p-4">
@@ -127,41 +125,52 @@ const SponsorDetailPage = () => {
             </div>
             <div>
               <p className="flex text-xs text-white py-2"></p>
-              <button className="bg-white flex justify-center w-full rounded-md py-2 text-xs" onClick={handleHistoryOpen}>
-                <p><img className='w-4 mr-2' src={Metamask} /></p>
-                <p>이 단체에 후원한 사람들</p></button>
-            
-            {/* 애니메이션 넣어주세요 */}
-            <AnimatePresence>
-              {isHistoryOpen &&
-                  <motion.div className="h-auto bg-white rounded-md overflow-scroll"
-                  initial={{height : 0, opacity:0}} animate={{height: 150, opacity:1, paddingTop : 8}} exit={{height:0, opacity : 0}} transition={{duration : 1}}>
-                  {supportedHistory && supportedHistory.length > 0 ?
+              <button
+                className="bg-white flex justify-center w-full rounded-md py-2 text-xs"
+                onClick={handleHistoryOpen}
+              >
+                <p>
+                  <img className="w-4 mr-2" src={Metamask} />
+                </p>
+                <p>이 단체에 후원한 사람들</p>
+              </button>
+
+              {/* 애니메이션 넣어주세요 */}
+              <AnimatePresence>
+                {isHistoryOpen && (
+                  <motion.div
+                    className="h-auto bg-white rounded-md overflow-scroll"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 150, opacity: 1, paddingTop: 8 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {supportedHistory && supportedHistory.length > 0 ? (
                       <>
-                        <div className='text-sm px-2'>내역</div>
-                        <hr className="border-gray-400 py-1"/>
-                    {supportedHistory!.map((item) => {
-                    return (
-                      <div key={item.time} className="flex px-2 items-baseline">
-                        <div>
-                          <p className="text-sm font-semibold">{item.text}</p>
-                        </div>
-                        <div className="grow flex flex-col items-end">
-                          <div className='font-bold'>{Number(item.amount) / 10e10}</div>
-                          <div className="text-xs text-gray-500">{dayjs(Number(item.time)*1000).format("YYYY/MM/DD HH:mm:ss")}</div>
-                          
-                        </div>
-                      </div>
-                    )
-                    })}
-                  </>:
-                    <div className='text-xs text-center py-2'>
-                      첫 후원입니다. 아직 내역이 없어요.
-                    </div>
-                  }
-                </motion.div>
-                }
-                </AnimatePresence>
+                        <div className="text-sm px-2">내역</div>
+                        <hr className="border-gray-400 py-1" />
+                        {supportedHistory!.map(item => {
+                          return (
+                            <div key={item.time} className="flex px-2 items-baseline">
+                              <div>
+                                <p className="text-sm font-semibold">{item.text}</p>
+                              </div>
+                              <div className="grow flex flex-col items-end">
+                                <div className="font-bold">{Number(item.amount) / 10e10}</div>
+                                <div className="text-xs text-gray-500">
+                                  {dayjs(Number(item.time) * 1000).format('YYYY/MM/DD HH:mm:ss')}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </>
+                    ) : (
+                      <div className="text-xs text-center py-2">첫 후원입니다. 아직 내역이 없어요.</div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
             <div>
               <p className="text-xs text-white py-2">후원 유망주</p>
@@ -205,16 +214,23 @@ const SponsorDetailPage = () => {
         </div>
         {/* 후원 버튼 */}
         <div className="fixed bottom-16 w-full max-w-[500px] m-auto px-4">
-          {id == ISponsorDetailRes?.data.organizationId ?
-            <button className={`${progressPercentage >= 100 ? `bg-[#5959E7]` : `bg-Stickey_Gray`} w-full text-white rounded-md p-2 text-md`} onClick={handleWithdraw}
-            disabled={progressPercentage < 100}>
-            수령하기
-          </button> :
-            <button className={`${progressPercentage < 100 ? `bg-[#5959E7]` : `bg-Stickey_Gray`} w-full text-white rounded-md p-2 text-md`} onClick={handleSponsorClick}
-            disabled={progressPercentage >= 100}>
-          후원하기
-        </button>
-          }
+          {id == ISponsorDetailRes?.data.organizationId ? (
+            <button
+              className={`${progressPercentage >= 100 ? `bg-[#5959E7]` : `bg-Stickey_Gray`} w-full text-white rounded-md p-2 text-md`}
+              onClick={handleWithdraw}
+              disabled={progressPercentage < 100}
+            >
+              수령하기
+            </button>
+          ) : (
+            <button
+              className={`${progressPercentage < 100 ? `bg-[#5959E7]` : `bg-Stickey_Gray`} w-full text-white rounded-md p-2 text-md`}
+              onClick={handleSponsorClick}
+              disabled={progressPercentage >= 100}
+            >
+              후원하기
+            </button>
+          )}
         </div>
 
         {isModalOpen && <SponsorModal onClose={() => setIsModalOpen(false)} />}
