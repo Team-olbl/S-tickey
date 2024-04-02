@@ -351,10 +351,9 @@ public class GameServiceImpl implements GameService {
             paymentReq.getZoneId()); // Redis 키 생성
 
         if (!paymentReq.getIsRefund()) { //결제 요청시
-            // 참가열에서 해당 유저 확인 후  삭제
+            // 참가열 존재 여부 확인
             existsInRunningQueue(paymentReq.getGameId(), userDetails.getId());
-            removeFromRunQueue(paymentReq.getGameId(), userDetails.getId());
-
+            
             // 좌석 번호 목록을 스트림으로 변환하여 Redis에 저장된 선점 상태 확인
             List<String> seatNumbersStr = paymentReq.getSeatNumbers().stream().map(Object::toString)
                 .collect(Collectors.toList());
