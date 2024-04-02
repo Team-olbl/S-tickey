@@ -10,6 +10,7 @@ import { useProfile } from "../../../hooks/Profile/useProfile";
 import { ITeamPreferReq } from "../../../types/Profile";
 import { connect } from "../../../service/web3/api";
 import userStore, { IPreferences } from "../../../stores/userStore";
+import { AnimatePresence, motion } from "framer-motion";
 
 const UserMenu = ({ refetch } : {refetch:() => void}) => {
   const navigate = useNavigate();
@@ -103,10 +104,15 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
     data : teamListInfo,
   } = useGetTeamList({catg: ""});
 
-  console.log(teamListInfo?.data)
-
   const filteredTeams = teamListInfo?.data.filter(team => team.category === selectedTab);
-  console.log("filter", filteredTeams);
+
+  const variants = {
+    visible: (custom : number) => ({
+      opacity: 1,
+      transition: { delay: custom * 0.05 }
+    })
+  }
+
   return (
     <div className="max-w-[500px] w-full h-[208px] mt-4 border-t-[0.5px] px-4">
       <div className="flex flex-row items-center justify-between h-[40px] text-white px-4 cursor-pointer" onClick={movePaymentHistory}>
@@ -131,7 +137,9 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
       </div>
       {isLogoutModalOpen && <LogoutModal onClose={() => setIsLogoutModalOpen(false)}/>}
       <div className="text-white">
+        <AnimatePresence>
         {isBottomSheetOpen && 
+          <motion.div initial={{opacity : 0}} animate={{opacity:1}} exit={{opacity : 0}}>
           <BottomModal height="auto" title="선호 구단" onClose={() => setIsBottomSheetOpen(false)}>
             <div className="flex flex-col items-center">
               <div className="text-sm pb-3">
@@ -170,28 +178,31 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
               </div>
               </div>
             <div className="h-[40vh] flex flex-col justify-center pb-8" >
-              <div className="h-full  overflow-y-scroll">
+              <div className="h-full  overflow-y-scroll" >
               
-              {filteredTeams && filteredTeams.map((item) => (
-                <div key={item.id} className="w-full flex justify-start items-center pl-24 gap-4 pb-4" onClick={() => handleClick(item.name)}>
-                  <div className="w-4 h-4 border-2 rounded-full flex cursor-pointer justify-center items-center" >
-                    {selectedTeam === item.name && <div className="w-2 h-2 bg-white rounded-full"></div>}
-                  </div>
-                  <div className="flex items-center w-12 h-12 border border-none bg-white rounded">
-                    <img src={item.logo} />
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-sm">{item.name}</p>
-                  </div>
-                </div>
-              ))}
+                {filteredTeams && filteredTeams.map((item, idx) => (
+                  <motion.div variants={variants} custom={idx}  key={item.id} className="w-full flex justify-start items-center pl-24 gap-4 pb-4" onClick={() => handleClick(item.name)}
+                  initial={{opacity : 0}} animate="visible">
+                    <div className="w-4 h-4 border-2 rounded-full flex cursor-pointer justify-center items-center" >
+                      {selectedTeam === item.name && <div className="w-2 h-2 bg-white rounded-full"></div>}
+                    </div>
+                    <div className="flex items-center w-12 h-12 border border-none bg-white rounded">
+                      <img src={item.logo} />
+                    </div>
+                    <div className="flex flex-col">
+                      <p className="text-sm">{item.name}</p>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
               </div>
               <div className="fixed flex justify-center max-w-[500px] w-full px-8 bottom-16">
                 <button className="p-2 w-40 mx-1 bg-Stickey_Main rounded-md" onClick={handleAddTeam}>추가하기</button>
                 <button className="p-2 w-40 mx-1 bg-Stickey_Main rounded-md" onClick={() => handlePatchData()}>저장하기</button>
               </div>
-          </BottomModal>}
+            </BottomModal>
+            </motion.div>}
+        </AnimatePresence>
       </div>
     </div>
   )

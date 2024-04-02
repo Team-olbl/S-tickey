@@ -13,6 +13,7 @@ import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { connect, getSupprtedHistory, withdraw } from "../../../service/web3/api";
 import Metamask from '../../../assets/image/Metamask.png'
+import { AnimatePresence, motion } from "framer-motion";
 
 const info: IHeaderInfo = {
   left_1: null,
@@ -131,11 +132,11 @@ const SponsorDetailPage = () => {
                 <p>이 단체에 후원한 사람들</p></button>
             
             {/* 애니메이션 넣어주세요 */}
+            <AnimatePresence>
               {isHistoryOpen &&
-                <div className="h-auto bg-white rounded-md px-2 py-4 overflow-scroll">
+                  <motion.div className="h-auto bg-white rounded-md overflow-scroll"
+                  initial={{height : 0, opacity:0}} animate={{height: 150, opacity:1, paddingTop : 8}} exit={{height:0, opacity : 0}} transition={{duration : 1}}>
                   {supportedHistory && supportedHistory.length > 0 ?
-                    
-                    
                       <>
                         <div className='text-sm px-2'>내역</div>
                         <hr className="border-gray-400 py-1"/>
@@ -154,15 +155,13 @@ const SponsorDetailPage = () => {
                     )
                     })}
                   </>:
-                    
                     <div className='text-xs text-center py-2'>
                       첫 후원입니다. 아직 내역이 없어요.
                     </div>
-                  
                   }
-
-                </div>
-              }
+                </motion.div>
+                }
+                </AnimatePresence>
             </div>
             <div>
               <p className="text-xs text-white py-2">후원 유망주</p>
