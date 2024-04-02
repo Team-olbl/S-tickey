@@ -29,6 +29,7 @@ public class Organization extends User {
     @Enumerated(EnumType.STRING)
     private OrganizationStatus status;
     private String message;
+    private String wallet;
 
     @OneToMany(mappedBy = "organization")
     private List<Player> players = new ArrayList<>();
