@@ -16,7 +16,7 @@ const Header = (props: { info: IHeaderInfo }) => {
   const { left_1, left_2, center, right } = props.info;
 
   return (
-    <div className="max-w-[500px] w-full z-[2] h-12 px-4 top-0 flex fixed flex-row justify-between items-center border-b-[0.5px] border-white bg-Stickey_BGC">
+    <div className="max-w-[500px] w-full z-[12] h-12 px-4 top-0 flex fixed flex-row justify-between items-center border-b-[0.5px] border-white bg-Stickey_BGC">
       <div className="flex flex-1 justify-start items-center">
         {left_1 && (
           <button className="text-white font-bold w-13">
