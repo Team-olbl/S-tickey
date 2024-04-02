@@ -62,8 +62,8 @@ const TicketList = () => {
                     <p className=" text-white text-sm mt-4">티켓이 없어요!</p>
                     </div>
                     
-                : filteredTickets.map((ticket) => (
-                    <TicketItem key={ticket.tokenId} ticket={ticket} />
+                        : filteredTickets.map((ticket) => (
+                        <TicketItem key={ticket.tokenId} ticket={ticket} />
                 ))
             
                 }

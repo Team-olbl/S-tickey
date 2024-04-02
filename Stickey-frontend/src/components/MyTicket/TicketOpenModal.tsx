@@ -12,6 +12,7 @@ import { useCallback, useState, useEffect } from 'react';
 import userStore from '../../stores/userStore';
 import GetTime from './GetTime';
 import Warning from '../../assets/image/Warning.png'
+import { useAnimate } from "framer-motion";
 
 
 interface TicketOpenModalProps {
@@ -59,6 +60,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
             currentContainer?.removeEventListener('touchend', handleTouchEnd);
         };
     }, []);
+    const [scope, animate] = useAnimate();
 
     const handleEditClick = () => {
         navigate(`/mytickets/${ticket.tokenId}/edit`, { state: { ticket } });
@@ -108,9 +110,12 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
 
 
     const handleQR = () => {
+        animate("div", { rotateY: [180, 0]}, { duration: 0.6 })
+
         setIsQR(!isQR);
-        if (isQR)
+        if (isQR) {
             setOnLoad(false);
+        } 
         createQR();
     }
 
@@ -118,9 +123,10 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
     return (
         <div className="z-[1] w-full fixed inset-0 bg-black/80 flex justify-center items-center">
             {/* modal wrapper */}
-            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg">
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg"  ref={scope}>
             {onLoad &&
-                <div className='flex justify-center mb-2 items-center'>
+                    <div className='flex justify-center mb-2 items-center fixed left-0 right-0'
+                        style={{ transform : "translateY(-110%)" }}>
                     <img src={Warning} alt="" className="w-8"/>
                     <div>
                         <p className='ml-2 text-sm text-white h-full '>캡처한 이미지로는 입장이 불가능합니다.</p>
@@ -133,7 +139,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose }) =>
                         <div className={`w-[300px] background${ticket.backgroundId} rounded-b-lg p-2 font-semibold`}>
                             <p>{ticket.homeTeam} vs {ticket.awayTeam}</p>
                         </div>
-                        <div className={` background${ticket.backgroundId} rounded-2xl`}>
+                        <div className={` background${ticket.backgroundId} rounded-2xl`} >
                             <div className='flex ml-2'>
                         </div>
                         {!isQR ? <>

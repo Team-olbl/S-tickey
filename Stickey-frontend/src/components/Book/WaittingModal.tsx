@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
 import { Client } from '@stomp/stompjs';
 import userStore from '../../stores/userStore';
-// import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import Loading from '../../assets/image/Loading.gif'
 
 const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
@@ -12,7 +12,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
     const { id: userId } = userStore();
     const [client, setClient] = useState<Client | null>(null);
     const [parsedMessageRef, setParsedMessageRef] = useState<number>(0);
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -90,7 +90,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void; }) => {
     
 
     return (
-        <Modal width="300px" height="auto" title="" onClose={onClose}>
+        <Modal width="300px" height="auto" title="" onClose={() => navigate(-1)}>
             <div className="flex flex-col items-center px-4 pb-6 z-[10]">
                 <div className='flex flex-col items-center'>
                     <img className='h-12' src={Waitting} alt="Waitting" />
