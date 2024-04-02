@@ -57,12 +57,12 @@ const BlockchainTest = () => {
     const id = prompt("후원글 아이디");
     const name = prompt("단체이름")
     const address = prompt("지갑주소");
+    const end_Time = prompt("종료 시간");
     if (!id || !name || !address) {
       alert("등록 취소")
       return;
     }
-    alert("후원종료시간은 2분 뒤 입니다.");
-    const endTime = Math.floor(new Date().getTime() / 1000) + 120;
+    const endTime = Math.floor(new Date(end_Time!.toString()).getTime() / 1000);
     setSupport(Number(id), name!, endTime);
   }
 
@@ -109,24 +109,24 @@ const BlockchainTest = () => {
   }
 
   const _addFilter = async () => {
-    const name = prompt("필터 이름");
+    const id = prompt("필터 ID");
     const price = prompt("필터 가격");
-    if (!name || !price) {
+    if (!id || !price) {
       alert("등록 취소");
       return;
     }
-    const result = await addFilter(name, Number(price));
+    const result = await addFilter(Number(id), Number(price));
     console.log(result);
   }
 
   const _addBackground = async () => {
-    const name = prompt("배경색 이름");
+    const id = prompt("배경색 ID");
     const price = prompt("배경색 가격");
-    if (!name || !price) {
+    if (!id || !price) {
       alert("등록 취소");
       return;
     }
-    const result = await addBackground(name, Number(price));
+    const result = await addBackground(Number(id), Number(price));
     console.log(result);
   }
 
