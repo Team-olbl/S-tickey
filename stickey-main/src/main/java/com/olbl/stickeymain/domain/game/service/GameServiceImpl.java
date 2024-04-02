@@ -326,8 +326,8 @@ public class GameServiceImpl implements GameService {
                         .toArray(String[]::new));
             };
 
-            // 현재 시간으로부터 15분 후 - test용 3분 후
-            Date fifteenMinutesLater = new Date(System.currentTimeMillis() + 1 * 60 * 1000);
+            // 현재 시간으로부터 3분 후
+            Date fifteenMinutesLater = new Date(System.currentTimeMillis() + 3 * 60 * 1000);
 
             // TaskScheduler를 사용하여 작업을 스케줄링
             taskScheduler.schedule(releaseTask, fifteenMinutesLater);
