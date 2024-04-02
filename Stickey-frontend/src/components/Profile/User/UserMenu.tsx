@@ -103,7 +103,8 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
   }
 
   return (
-    <div className="max-w-[500px] w-full h-[208px] mt-4 border-t-[0.5px] px-4">
+    <div className="max-w-[500px] w-full h-[208px] mt-4 border-t-[0.5px]">
+      <div className="px-4">
       <div className="flex flex-row items-center justify-between h-[40px] text-white px-4 cursor-pointer" onClick={movePaymentHistory}>
         <p>결제 내역</p>
         <img src={Next} className="h-[20px]"/>
@@ -123,6 +124,7 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
       <div className="flex flex-row items-center justify-between h-[40px] text-white px-4 cursor-pointer" onClick={() => setIsLogoutModalOpen(true)}>
         <p>로그아웃</p>
         <img src={Next} className="h-[20px]"/>
+      </div>
       </div>
       {isLogoutModalOpen && <LogoutModal onClose={() => setIsLogoutModalOpen(false)}/>}
       <div className="text-white">
@@ -185,7 +187,7 @@ const UserMenu = ({ refetch } : {refetch:() => void}) => {
                 ))}
               </div>
               </div>
-              <div className="fixed flex justify-center max-w-[500px] w-full px-8 bottom-16">
+              <div className="fixed flex justify-center max-w-[500px] w-full px-8 bottom-20">
                 <button className="p-2 w-40 mx-1 bg-Stickey_Main rounded-md" onClick={handleAddTeam}>추가하기</button>
                 <button className="p-2 w-40 mx-1 bg-Stickey_Main rounded-md" onClick={() => handlePatchData()}>저장하기</button>
               </div>

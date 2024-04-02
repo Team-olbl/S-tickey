@@ -52,7 +52,9 @@ const PaymentHistoryPage = () => {
     if (!dateSet.has(str)) {
       dateSet.add(str);
       return (
-        <div className="text-white ps-3">{str}</div>
+        <div className="px-4 text-sm">
+        <div className=" text-white ps-3">{str}</div>
+        </div>
       )
     }
   }
@@ -60,12 +62,11 @@ const PaymentHistoryPage = () => {
   return(
     <>
       <Header info={info} />
-      <div className="pt-16 pb-16">
+      <div className="pt-16 pb-20">
         {paymentHistroy.length > 0 ?
           paymentHistroy && paymentHistroy.map((item, idx) => {
           return (
             <Fragment key={idx}>
-              
               {displayDate( Number(item.time))} 
             <PaymentItem data={item} />
           </Fragment>)
