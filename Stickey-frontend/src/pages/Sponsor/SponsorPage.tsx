@@ -16,16 +16,9 @@ const info: IHeaderInfo = {
 };
 const SponsorPage = () => {
   const navigate = useNavigate();
-
   const { useSupportList } = useSponsor();
-
   const [flag, setFlag] = useState(0);
-
-  // useSupportList 훅을 사용하여 API 요청을 수행합니다.
-  // 필요한 경우, props를 전달하여 API 요청을 커스터마이즈할 수 있습니다.
-  // 예제에서는 props를 전달하지 않고 기본 값을 사용하는 것으로 가정합니다.
   const { data: sponsorListInfo } = useSupportList({ flag });
-
   const gotoSponsorDetail = (id: number) => {
     navigate(`/sponsor/${id}`);
   };

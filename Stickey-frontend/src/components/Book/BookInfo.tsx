@@ -4,9 +4,6 @@ import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
 const BookInfo = () => {
 
     const gameInfo = useTicketInfoStore((state) => state.modalData);
-
-    console.log(gameInfo)
-
     const gameDate = dayjs(gameInfo?.gameStartTime).format('YYYY년 MM월 DD일 HH시 mm분')
 
     return (

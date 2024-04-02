@@ -13,7 +13,6 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
   };
   const time = dayjs(Number(data.time) * 1000).format('YYYY/MM/DD HH:mm:ss');
  
-
   const bookStatus = () => {
     if (data.paymentType == 0) {
       return (
@@ -117,7 +116,6 @@ const PaymentItem = ({ data }: { data: PaymentItemData }) => {
     init: { height: 0, opacity: 0 },
     visible : {height:150, opacity : 1},
   } 
-  
 
   return (
   <>

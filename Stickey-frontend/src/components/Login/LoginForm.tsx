@@ -8,14 +8,12 @@ const LoginForm: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [tryLogin, setTryLogin] = useState<boolean>(false);
     const {mutate} = useLogin();
-
     const navigate = useNavigate()
 
     const gotoSignup = () => {
         navigate('/signup')
     }
 
-    // 로그인 버튼 클릭 핸들러
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         setTryLogin(true);

@@ -25,7 +25,6 @@ export type PaymentItemData = {
   supportText: string;
 };
 
-
 const PaymentHistoryPage = () => {
 
   const [paymentHistroy, setPaymentHistory] = useState<PaymentItemData[]>([]);
@@ -41,14 +40,12 @@ const PaymentHistoryPage = () => {
     getData();
   }, []);
   
-  
   const info : IHeaderInfo = {
     left_1: null,
     left_2: <img src={Back} />,
     center: '결제내역',
     right: <img src={Bell} />
   }
-
 
   const displayDate = (value: number) => {
     const str = dayjs(value * 1000).format("YYYY-MM-DD");

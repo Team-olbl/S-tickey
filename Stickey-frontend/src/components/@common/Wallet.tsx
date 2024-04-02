@@ -1,7 +1,6 @@
 
 const Wallet = () => {
   
-
   return (
     <div>   
         <div className="flex justify-evenly items-center p-4 rounded-md border-Stickey_Gray border">

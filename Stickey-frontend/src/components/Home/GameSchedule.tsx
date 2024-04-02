@@ -1,9 +1,6 @@
-// import { GameItem } from '../../pages/Home/HomePage'
 import dayjs from "dayjs";
 import 'dayjs/locale/ko';
 import { IGameSimpleRes } from "../../types/Home";
-
-
 
 const GameSchedule = ({ data }: { data: IGameSimpleRes }) => {
   

@@ -14,7 +14,6 @@ const BookSuccessPage = () => {
   }
 
   const navigate = useNavigate()
-
   const goMyTicketPage = () => {
     navigate('/mytickets')
   }
