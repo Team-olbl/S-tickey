@@ -2,17 +2,23 @@
 import Web3 from 'web3';
 import { contractABI } from './Abi';
 import { toast } from "react-toastify";
+import { getSelectSupportId } from '../Sponsor/api';
 const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
 
 let web3 : any = null;
 let contract: any = null;
-let account: any = [];
+let account: any = null;
 let accountPending: boolean = false;
+export let isShow = false;
 
 declare global {
   interface Window {
     ethereum: any;
   }
+}
+
+export const showBalance = () => {
+  return isShow = true;
 }
 
 // to Ether
@@ -54,6 +60,7 @@ const requestAccount = async () => {
 
 // 지갑 조회
 export const getWalletInfo = async () => {
+  await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
     const balance = await web3?.eth.getBalance(account);
@@ -111,11 +118,11 @@ export const getTickets = async () => {
 }
 
 // 후원글 등록
-export const setSupport = async (id : number, name : string, endTime : number) => {
+export const setSupport = async (id : number, name : string, addr : string, endTime : number) => {
   await connect();
   if (contract === null || web3 === null) throw new Error("Invalid Call");
   try {
-    const ret = await contract.methods.setSupport(id, name, account, endTime).send({ from: account, gasPrice : 3000000 });
+    const ret = await contract.methods.setSupport(id, name, addr, endTime).send({ from: account, gasPrice : 3000000 });
     return ret;
   } catch (err) {
     console.log(err);
@@ -217,6 +224,18 @@ export const getItemList = async () => {
     console.log(err);
   }
 }
+
+export const buyFilter = async (tokenId: number, itemId : number) => {
+  const res = await getSelectSupportId();
+  return await setFilterOnTicket(tokenId, itemId, res.data);
+}
+
+export const buyBackground = async (tokenId: number, itemId : number) => {
+  const res = await getSelectSupportId();
+  return await setBackgroundOnTicket(tokenId, itemId, res.data);
+}
+
+
 
 // 티켓에 필터 적용
 export const setFilterOnTicket = async (tokenId : number, itemId : number, supportId : number) => {

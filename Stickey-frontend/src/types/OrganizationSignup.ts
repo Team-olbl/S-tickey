@@ -8,6 +8,7 @@ export interface signupData {
   registrationNumber : string;
   address : string;
   manager: string;
+  wallet: string;
 }
 
 export interface AddresssData {
