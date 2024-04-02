@@ -248,15 +248,16 @@ function App() {
           try {
             const notify = JSON.parse(event.data);
             console.log(notify.content);
-
-            if (role === 'INDIVIDUAL' && notify.notificationType === 'GAME') {
-              addNotification(notify);
-              setUnRead();
-              toast.info('알람이 도착했습니다.');
-            } else if (role !== 'INDIVIDUAL' && notify.notificationType === 'APPROVE') {
-              addNotification(notify);
-              setUnRead();
-              toast.info('알람이 도착했습니다.');
+            if (notify.userId == id) {
+              if (role === 'INDIVIDUAL' && notify.notificationType === 'GAME') {
+                addNotification(notify);
+                setUnRead();
+                toast.info('알람이 도착했습니다.');
+              } else if (role !== 'INDIVIDUAL' && notify.notificationType === 'APPROVE') {
+                addNotification(notify);
+                setUnRead();
+                toast.info('알람이 도착했습니다.');
+              }
             }
           } catch (err) {
             return;
