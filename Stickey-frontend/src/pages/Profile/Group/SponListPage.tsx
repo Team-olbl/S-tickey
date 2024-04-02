@@ -26,8 +26,8 @@ const SponListPage = () => {
           <SponItem />
 
         {/* 후원글 등록 버튼 */}
-        <div className="fixed bottom-16 w-full max-w-[500px] px-4 flex justify-end">
-            <button className="flex justify-center text-4xl text-white bg-Stickey_Main w-12 h-12 rounded-full" onClick={() => gotoCreatePage()}>
+        <div className="fixed bottom-20 w-full max-w-[500px] px-4 flex justify-end">
+            <button className="flex justify-center items-center text-4xl text-white bg-Stickey_Main w-12 h-12 rounded-full" onClick={() => gotoCreatePage()}>
             +</button>
         </div>
       </div>
