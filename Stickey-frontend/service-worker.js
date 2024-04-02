@@ -22,8 +22,6 @@ self.addEventListener('fetch', event => {
   if ('navigate' !== event.request.mode) return;
 
   event.respondWith(
-    fetch(event.request).catch(() =>
-      caches.open(CACHE_NAME).then(cache => cache.match('/offline.html'))
-      )
+    fetch(event.request).catch(() => caches.open(CACHE_NAME).then(cache => cache.match('/offline.html'))),
   );
 });
