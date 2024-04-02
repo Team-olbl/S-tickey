@@ -8,12 +8,14 @@ import static com.olbl.stickeymain.global.result.ResultCode.REGIST_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.SEND_EMAIL_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.TOKEN_REISSUE_SUCCESS;
 import static com.olbl.stickeymain.global.result.ResultCode.UPDATE_USER_INFO_SUCCESS;
+import static com.olbl.stickeymain.global.result.ResultCode.UPDATE_USER_PASSWORD_SUCCESS;
 
 import com.olbl.stickeymain.domain.user.dto.EmailCheckReq;
 import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.domain.user.dto.PreferenceReq;
 import com.olbl.stickeymain.domain.user.dto.ProfileRes;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
+import com.olbl.stickeymain.domain.user.dto.UpdatePasswordReq;
 import com.olbl.stickeymain.domain.user.dto.UserInfoReq;
 import com.olbl.stickeymain.domain.user.dto.UserInfoRes;
 import com.olbl.stickeymain.domain.user.organization.dto.OrganSignUpReq;
@@ -118,6 +120,14 @@ public class UserController {
         @RequestPart(required = false) MultipartFile profile) {
         userService.updateUserInfo(userInfoReq, profile);
         return ResponseEntity.ok(ResultResponse.of(UPDATE_USER_INFO_SUCCESS));
+    }
+
+    @Operation(summary = "개인 유저 비밀번호 수정")
+    @PatchMapping(value = "/profile/info/password")
+    public ResponseEntity<ResultResponse> updateUserPassword(
+        @RequestBody UpdatePasswordReq updatePasswordReq) {
+        userService.updateUserPassword(updatePasswordReq);
+        return ResponseEntity.ok(ResultResponse.of(UPDATE_USER_PASSWORD_SUCCESS));
     }
 
     @Operation(summary = "내 선호 구단 수정")
