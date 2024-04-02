@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        user.changePassword(newPassword.toString());
+        user.changePassword(bCryptPasswordEncoder.encode(newPassword.toString()));
         return newPassword.toString();
     }
 
