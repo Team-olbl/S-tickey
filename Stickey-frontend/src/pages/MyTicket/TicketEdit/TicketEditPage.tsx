@@ -9,34 +9,41 @@ import { useState } from "react";
 import './styles.css'
 import BuyingModal from "../../../components/MyTicket/BuyingModal";
 import glitterImage from '../../../assets/image/glitter.gif';
+import { ITicket } from "../../../components/MyTicket/TicketList";
 
 const TicketEditPage = () => {
   const location = useLocation();
-  const ticket = location.state?.ticket;
+  const [ticket, setTicket] = useState<ITicket>(location.state?.ticket);
   const [selectedTab, setSelectedTab] = useState('filter');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedItem, setSelectedItem] = useState<{ isFilter: boolean, id: number, price: number }>({
+    isFilter: false,
+    id: 0,
+    price : 0,
+  });
 
   const handleTabChange = (tabName: string) => {
     setSelectedTab(tabName);
   };
 
-  const handleModalOpen = () => {
+  const handleModalOpen = (isFilter : boolean, id : number, price : number) => {
     setIsModalOpen(true)
+    setSelectedItem({ isFilter, id, price });
   }
 
   const backgrounds = [
-    { color: "bg-white", image: ticket.gameImage, backgroundImage: ''},
-    { color: "bg-black", image: ticket.gameImage, backgroundImage: '' },
-    { color: "bg-[#dc143c]", image: ticket.gameImage, backgroundImage: '' },
-    { color: "bg-[#ffffcc]", image: ticket.gameImage, backgroundImage: '' },
-    { color: "bg-[#6495ed]", image: ticket.gameImage, backgroundImage: '' },
-    { color: '', image: ticket.gameImage, backgroundImage: `url(${glitterImage})`},
+    { id : 0, price : 0,color: "bg-white", image: ticket.gameImage, backgroundImage: ''},
+    { id : 1, price : 5,color: "bg-black", image: ticket.gameImage, backgroundImage: '' },
+    { id : 2, price : 5,color: "bg-[#dc143c]", image: ticket.gameImage, backgroundImage: '' },
+    { id : 3, price : 5,color: "bg-[#ffffcc]", image: ticket.gameImage, backgroundImage: '' },
+    { id : 4, price : 5,color: "bg-[#6495ed]", image: ticket.gameImage, backgroundImage: '' },
+    { id : 5, price : 10,color: '', image: ticket.gameImage, backgroundImage: `url(${glitterImage})`},
   ];
 
   const filters = [
-    { name: 'Holo Gradient', gradientClass: 'filter0' },
-    { name: 'Holo Gradient', gradientClass: 'filter1' },
-    { name: 'Holo Gradient 2', gradientClass: 'filter2'},
+    { id : 0, price : 0, name: 'Normal', gradientClass: 'filter0' },
+    { id : 1, price : 10, name: 'Holo Gradient', gradientClass: 'filter1' },
+    { id : 2, price : 10, name: 'Holo Gradient 2', gradientClass: 'filter2'},
   ];
 
   const info : IHeaderInfo = {
@@ -84,10 +91,10 @@ const TicketEditPage = () => {
             </div>
           </div>
           {selectedTab === 'filter' && (
-            <div className="flex gap-2 p-4" onClick={handleModalOpen}>
+            <div className="flex gap-2 p-4">
               {filters.map((filter, index) => (
               <div key={index} >
-                <button className="bg-Stickey_Gray h-28 w-24 rounded-lg flex items-center justify-center relative">
+                <button className="bg-Stickey_Gray h-28 w-24 rounded-lg flex items-center justify-center relative" onClick={() => handleModalOpen(true, filter.id, filter.price)}>
                   <div className="h-auto flex flex-col justify-start items-center">
                     <div className="w-12 bg-white rounded-b-lg p-1 font-semibold"></div>
                     <div className=" bg-white rounded-xl relative">
@@ -102,10 +109,10 @@ const TicketEditPage = () => {
             </div>
           )}
           {selectedTab === 'background' && (
-            <div className="flex w-full gap-2 p-4 overflow-auto" onClick={handleModalOpen}>
+            <div className="flex w-full gap-2 p-4 overflow-auto" >
               {backgrounds.map((background, index) => (
               <div key={index}>
-                <button className="bg-Stickey_Gray h-28 w-24 rounded-lg flex items-center justify-center relative">
+                <button className="bg-Stickey_Gray h-28 w-24 rounded-lg flex items-center justify-center relative" onClick={() => handleModalOpen(false, background.id, background.price)}>
                   <div className="h-auto flex flex-col justify-start items-center" >
                     <div className={`w-12 ${background.color} rounded-b-lg p-1 font-semibold`} style={{backgroundImage: background.backgroundImage}}></div>
                     <div className={`${background.color} rounded-xl`} style={{backgroundImage: background.backgroundImage}}>
@@ -120,7 +127,7 @@ const TicketEditPage = () => {
           )}
         </div>
       </div>
-      {isModalOpen && <BuyingModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && <BuyingModal onClose={() => setIsModalOpen(false)} item={selectedItem} ticket={ticket} setTicket={setTicket} />}
       <NavigationBar />
     </>
   )
