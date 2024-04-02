@@ -89,10 +89,13 @@ public class WaitingServiceImpl implements WaitingService {
                         .build();
 
                     log.info(
-                        "[WaitingServiceImpl] 참가열에 들어갔는지 확인1 : " + redisUtil.sizeOfQueue(runKey));
+                        "[WaitingServiceImpl] 참가열에 들어갔는지 확인1 : " + redisUtil.sizeOfQueue(
+                            runKey)); // 1
+
                     template.convertAndSend("/sub/id/" + s, res);
-                    log.info("[WaitingServiceImpl] 참가열에 들어갔는지 확인2 : ",
-                        +redisUtil.sizeOfQueue(runKey));
+
+                    log.info("[WaitingServiceImpl] 참가열에 들어갔는지 확인2 : "
+                        + redisUtil.sizeOfQueue(runKey)); // 없음
                 }
             }
 
