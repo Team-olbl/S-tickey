@@ -7,29 +7,28 @@ const SponItem = () => {
   const navigate = useNavigate();
   const { useGetMySponsorList } = useSponsor();
   const { data: mySponsorListInfo } = useGetMySponsorList();
+  
 
   return (
     <div>
       {mySponsorListInfo && mySponsorListInfo.mySupportResList.length > 0 ? (
         mySponsorListInfo?.mySupportResList.map((data, id) => (
           <div key={id}>
-          <div className="w-full flex flex-row" onClick={() => navigate(`/sponsor/${data.id}`)}>
-          <div className="w-full h-auto flex border-b-[0.5px] border-Stickey_Gray px-4 py-4 gap-3 items-start justify-between">
-              <div className="w-16 h-16 border-none rounded bg-Stickey_Gray">
-              <img src={data.supportImage} alt="" />
+          <div onClick={() => navigate(`/sponsor/${data.id}`)}>
+          <div className="h-auto flex border-b-[0.5px] border-Stickey_Gray p-4 gap-3">
+              <div className="w-16 h-16 rounded-md bg-Stickey_Gray">
+              <img className="w-16 h-16 rounded-md" src={data.supportImage}  />
             </div>
-            <div className="text-white grow">
+            <div className="text-white grow px-2">
               <div>
-                <p className="text-[12px]">{data.title}</p>
+                <div className={`w-10 h-4 flex justify-center items-center rounded-full ${data.status === "ACCEPTED" ?  `${dayjs(data.endTime) > dayjs() ? `bg-green-500` : `bg-blue-500`}` : data.status==="REJECTED" ? 'bg-red-500' : 'bg-Stickey_Gray'} `}>
+                  <p className="text-[9px]">{data.status === "ACCEPTED" ? `${dayjs(data.endTime) > dayjs() ? `진행 중` : `마감`}` : data.status==="REJECTED" ? '거절됨' : '대기 중'}</p>
+                </div>
+                <p className="text-md py-1">{data.title}</p>
               </div>
               <div>
-                <p className="text-[10px]">{dayjs(data.startTime).format('YYYY년 MM월 DD일 HH:mm')}</p>
-                <p className="text-[10px]"> ~ </p>
-                <p className="text-[10px]">{dayjs(data.endTime).format('YYYY년 MM월 DD일 HH:mm')}</p>
+                <p className="text-xs">{dayjs(data.startTime).format('YYYY.MM.DD HH:mm')} ~ {dayjs(data.endTime).format('YYYY.MM.DD HH:mm')}</p>
               </div>
-            </div>
-            <div className={`w-10 h-4 border border-none  flex items-center justify-center rounded-full ${data.status === "ACCEPTED" ?  `${dayjs(data.endTime) > dayjs() ? `bg-green-500` : `bg-blue-500`}` : data.status==="REJECTED" ? 'bg-red-500' : 'bg-Stickey_Gray'} `}>
-              <p className="text-[8px] text-white">{data.status === "ACCEPTED" ? `${dayjs(data.endTime) > dayjs() ? `진행 중` : `마감`}` : data.status==="REJECTED" ? '거절됨' : '대기 중'}</p>
             </div>
           </div>
         </div>
