@@ -31,7 +31,7 @@ const GroupProfile = ({ groupInfo }: { groupInfo: IUserProfile | null }) => {
       return (
         <>
           <div className="flex items-center">
-            <p className="text-sm px-2">인증이 대기 중입니다.</p>
+            <p className="text-sm px-2">인증 대기 중입니다.</p>
           </div>
         </>
       )

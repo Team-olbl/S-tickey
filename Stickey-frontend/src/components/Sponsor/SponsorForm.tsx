@@ -14,7 +14,12 @@ interface ISupportReq  {
 
 const SponsorForm = () => {
   const navigate = useNavigate();
-  const [supportReq, setSupportReq] = useState<ISupportReq>();
+  const [supportReq, setSupportReq] = useState<ISupportReq>({
+    title: '',
+    content: '',
+    startTime: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
+    endTime : dayjs().format("YYYY-MM-DDTHH:mm:ss"),
+  });
   const imgRef = useRef<HTMLInputElement>(null);
   const [image, setImage] = useState<File>();
   const [photo, setPhoto] = useState<string>('');
@@ -111,7 +116,7 @@ const SponsorForm = () => {
                 min={dayjs().format('YYYY-MM-DD')}
                 name="start_date"
                 className="text-xs w-1/2 outline-none border p-2 rounded-md"
-              value={dayjs(supportReq?.startTime).format("YYYY-MM-DD")}
+                value={dayjs(supportReq?.startTime).format("YYYY-MM-DD")}
               
                 onChange={(e) => setSupportReq(state=>({...state!, startTime : dayjs(e.target.value).format("YYYY-MM-DDTHH:mm:ss")}))}
               />
