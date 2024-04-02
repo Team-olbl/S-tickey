@@ -11,7 +11,7 @@ const LogoutModal = ({ onClose }: { onClose: () => void; }) => {
 	const handleLogout = () => {
     logoutUser();
     toast.success("로그아웃 되었습니다.");
-    navigate('/',)
+    navigate('/home',)
   }
     
     return (
