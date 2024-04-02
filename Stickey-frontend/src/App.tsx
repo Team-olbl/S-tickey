@@ -1,4 +1,4 @@
-import './index.css'
+import './index.css';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/Home/HomePage';
 import SoccerPage from './pages/Home/Soccer/SoccerPage';
@@ -24,11 +24,11 @@ import TicketEditPage from './pages/MyTicket/TicketEdit/TicketEditPage';
 import SponsorCreatePage from './pages/Sponsor/SponsorCreatePage/SponsorCreatePage';
 import GroupProfileEditPage from './pages/Profile/Group/GroupProfileEditPage';
 import PlayerRegistration from './pages/Profile/Group/PlayerRegistrationPage';
-import BlockchainTest from "./pages/Admin/BlockchainTest";
+import BlockchainTest from './pages/Admin/BlockchainTest';
 import userStore from './stores/userStore';
 import AdminPage from './pages/Admin/AdminPage';
 import { useEffect } from 'react';
-import { EventSourcePolyfill, NativeEventSource  } from "event-source-polyfill";
+import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill';
 import { toast } from 'react-toastify';
 import useNotifyStore from './stores/useNotifyStore';
 import useNotifyReadStore from './stores/useNotifyReadStore';
@@ -39,7 +39,7 @@ interface AuthWrapperProps {
 }
 
 const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
-  const isLogin = userStore((state) => state.isLogin);
+  const isLogin = userStore(state => state.isLogin);
 
   if (!isLogin) {
     return <Navigate to="/login" replace />;
@@ -48,193 +48,191 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
   return <>{children}</>;
 };
 
-const router = createBrowserRouter(
-  [
-    {
-      path:'/',
-      element: <Navigate to={'/welcome'} replace={true} />
-    },
-    {
-      path: '/home',
-      element: <HomePage />
-    },
-    {
-      path:'/welcome',
-      element: <SplashPage />
-    },
-    {
-      path:'/admin',
-      element: <AdminPage />
-    },
-    {
-      path:'/soccer',
-      element: <SoccerPage />
-    },
-    {
-      path:'/baseball',
-      element: <BaseBallPage />
-    },
-    {
-      path:'/basketball',
-      element: <BasketBallPage />
-    },
-    {
-      path:'/alarm',
-      element: (
-        <AuthWrapper>
-          <AlarmPage/>
-        </AuthWrapper>
-      ) 
-    },
-    {
-      path:'/:id/section',
-      element:  (
-        <AuthWrapper>
-          <BookSectionPage />
-        </AuthWrapper>
-      )
-    },
-    {
-      path:'/:id/seat',
-      element: (
-        <AuthWrapper>
-          <BookSeatPage />
-        </AuthWrapper>
-      )
-    },
-    {
-      path:'/:id/payment',
-      element: (
-        <AuthWrapper>
-          <BookPaymentPage /> 
-        </AuthWrapper>
-      )
-    },
-    {
-      path:'/:id/confirm',
-      element: (
-        <AuthWrapper>
-          <BookConfirmPage /> 
-        </AuthWrapper>
-      ) 
-    },
-    {
-      path:'/mytickets',
-      element: (
-        <AuthWrapper>
-          <MyTicketPage />
-        </AuthWrapper>
-      )
-    },
-    {
-      path:'/mytickets/:id/edit',
-      element: (
-        <AuthWrapper>
-          <TicketEditPage /> 
-        </AuthWrapper>
-      )
-    },
-    {
-      path:'/signup',
-      element: <SignupPage />
-    },
-    {
-      path:'/login',
-      element: <LoginPage />
-    },
-    {
-      path:'/sponsor',
-      element: <SponsorPage />
-    },
-    {
-      path:'/sponsor/:id',
-      element: <SponsorDetailPage />
-    },
-    {
-      path:'/sponsor/create',
-      element: (
-        <AuthWrapper>
-          <SponsorCreatePage /> 
-        </AuthWrapper>
-      )
-    },
-    // 단체랑 개인은 role로 구분할 것
-    {
-      path:'/profile',
-      element: (
-        <AuthWrapper>
-          <ProfilePage /> 
-        </AuthWrapper>
-      )
-    },
-    {
-      path:'/profile/playerlist',
-      element: (
-        <AuthWrapper>
-          <PlayerListPage />
-        </AuthWrapper>
-      )
-    },
-    {
-      path:'/profile/playerlist/register',
-      element: (
-        <AuthWrapper>
-          <PlayerRegistration />
-        </AuthWrapper>
-      ) 
-    },
-    {
-      path:'/profile/edit',
-      element: (
-        <AuthWrapper>
-          <ProfileEditPage />
-        </AuthWrapper>
-      )   
-    },
-    {
-      path:'/profile/group/edit',
-      element: (
-        <AuthWrapper>
-          <GroupProfileEditPage />
-        </AuthWrapper>
-      )
-    },
-    {
-      path:'/profile/sponlist',
-      element: (
-        <AuthWrapper>
-          <SponListPage /> 
-        </AuthWrapper>
-      )
-    },
-    {
-      path:'/profile/dreamhistory',
-      element: (
-        <AuthWrapper>
-          <DreamHistoryPage />
-        </AuthWrapper>
-      )  
-    },
-    {
-      path:'/profile/paymenthistory',
-      element: (
-        <AuthWrapper>
-          <PaymentHistoryPage />
-          </AuthWrapper>
-      )  
-    },
-    {
-      path:'/test',
-      element: <BlockchainTest/> 
-    },
-  ]
-)
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Navigate to={'/welcome'} replace={true} />,
+  },
+  {
+    path: '/home',
+    element: <HomePage />,
+  },
+  {
+    path: '/welcome',
+    element: <SplashPage />,
+  },
+  {
+    path: '/admin',
+    element: <AdminPage />,
+  },
+  {
+    path: '/soccer',
+    element: <SoccerPage />,
+  },
+  {
+    path: '/baseball',
+    element: <BaseBallPage />,
+  },
+  {
+    path: '/basketball',
+    element: <BasketBallPage />,
+  },
+  {
+    path: '/alarm',
+    element: (
+      <AuthWrapper>
+        <AlarmPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/:id/section',
+    element: (
+      <AuthWrapper>
+        <BookSectionPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/:id/seat',
+    element: (
+      <AuthWrapper>
+        <BookSeatPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/:id/payment',
+    element: (
+      <AuthWrapper>
+        <BookPaymentPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/:id/confirm',
+    element: (
+      <AuthWrapper>
+        <BookConfirmPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/mytickets',
+    element: (
+      <AuthWrapper>
+        <MyTicketPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/mytickets/:id/edit',
+    element: (
+      <AuthWrapper>
+        <TicketEditPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/signup',
+    element: <SignupPage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/sponsor',
+    element: <SponsorPage />,
+  },
+  {
+    path: '/sponsor/:id',
+    element: <SponsorDetailPage />,
+  },
+  {
+    path: '/sponsor/create',
+    element: (
+      <AuthWrapper>
+        <SponsorCreatePage />
+      </AuthWrapper>
+    ),
+  },
+  // 단체랑 개인은 role로 구분할 것
+  {
+    path: '/profile',
+    element: (
+      <AuthWrapper>
+        <ProfilePage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/profile/playerlist',
+    element: (
+      <AuthWrapper>
+        <PlayerListPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/profile/playerlist/register',
+    element: (
+      <AuthWrapper>
+        <PlayerRegistration />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/profile/edit',
+    element: (
+      <AuthWrapper>
+        <ProfileEditPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/profile/group/edit',
+    element: (
+      <AuthWrapper>
+        <GroupProfileEditPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/profile/sponlist',
+    element: (
+      <AuthWrapper>
+        <SponListPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/profile/dreamhistory',
+    element: (
+      <AuthWrapper>
+        <DreamHistoryPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/profile/paymenthistory',
+    element: (
+      <AuthWrapper>
+        <PaymentHistoryPage />
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: '/test',
+    element: <BlockchainTest />,
+  },
+]);
 
 function App() {
   const { accessToken, role, id } = userStore();
   const { addNotification } = useNotifyStore();
-  const { setUnRead  } = useNotifyReadStore()
-  
+  const { setUnRead } = useNotifyReadStore();
+
   useEffect(() => {
     if (!id) return;
     const EventSource = EventSourcePolyfill || NativeEventSource;
@@ -273,7 +271,7 @@ function App() {
           }
         });
 
-        eventSource.onerror = (error) => {
+        eventSource.onerror = error => {
           console.error('SSE 오류:', error);
         };
       } catch (error) {
@@ -288,7 +286,7 @@ function App() {
     <>
       <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
 export default App;
