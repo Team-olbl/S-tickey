@@ -34,7 +34,6 @@ import useNotifyStore from './stores/useNotifyStore';
 import useNotifyReadStore from './stores/useNotifyReadStore';
 import SplashPage from './pages/Splash/SplashPage';
 import { WAITING_FLAG, changeFlag, getCancleReq } from "./service/Book/api";
-import useTicketStore from "./stores/useTicketStore";
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -51,11 +50,8 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
 };
 
 const WaitingWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
-  const { clearSeatInfo } = useTicketStore();
-
   if (WAITING_FLAG.flag && WAITING_FLAG.id) {
     getCancleReq(WAITING_FLAG.id);
-    clearSeatInfo();
     changeFlag(false, 0);
   }
 
