@@ -41,7 +41,7 @@ export interface IPostApproveDetailRes {
   endTime: string;
   organization: {
     name: string,
-    id: number,
     profileImage: string,
+    wallet : string
   };
 }

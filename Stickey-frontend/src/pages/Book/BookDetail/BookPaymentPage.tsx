@@ -67,9 +67,10 @@ const gameInfo = useTicketInfoStore((state) => state.modalData);
 const gameDate = dayjs(gameInfo?.gameStartTime).format('YYYY년 MM월 DD일 HH시 mm분')
 const goConformTicket = () => {
 const buyTicket = async () => {
-    try {
-      await registSeats({ gameId: gameInfo!.id, zoneId: seatInfo.sectionId, seatNumbers: seatInfo.seat, isRefund: false });
-      const tx = await createTicket(seatInfo.seat.length, gameInfo!.id, 1, seatInfo.sectionId, seatInfo.seat, seatInfo.sectionPrice);
+  try {
+    if (!gameInfo?.id) return;
+      await registSeats({ gameId: gameInfo.id, zoneId: seatInfo.sectionId, seatNumbers: seatInfo.seat, isRefund: false });
+      const tx = await createTicket(seatInfo.seat.length, gameInfo.id, gameInfo.stadiumId, seatInfo.sectionId, seatInfo.seat, seatInfo.sectionPrice);
 
       if (tx) {
         navigate(`/${gameInfo?.id}/confirm`, { replace: true })

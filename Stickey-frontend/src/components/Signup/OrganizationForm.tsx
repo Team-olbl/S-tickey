@@ -22,6 +22,7 @@ const OrganizationForm = () => {
         registrationNumber: '',
         address: '',
         manager: '',
+        wallet : ''
     })
     const [isEmailError, setIsEmailError] = useState<boolean | null>(null);
     const [isPasswordError, setIsPasswordError] = useState<boolean | null>(null);
@@ -117,7 +118,7 @@ const OrganizationForm = () => {
     }
 
     const isFormValid = () => {
-        const requiredFilled = photo && formData.name && formData.phone && formData.email && formData.verificationCode && formData.password && formData.confirmPassword;
+        const requiredFilled = photo && formData.name && formData.phone && formData.email && formData.verificationCode && formData.password && formData.confirmPassword && formData.wallet;
         const validationPassed = !isEmailError && !isPasswordError && isPasswordMatch;
     
         return requiredFilled && validationPassed;
@@ -177,7 +178,8 @@ const OrganizationForm = () => {
             password: formData.password,
             registrationNumber: formData.registrationNumber,
             address: formData.address,
-            manager: formData.manager
+            manager: formData.manager,
+            wallet: formData.wallet
         }))
         signup(form, {
             onSuccess: () => {
@@ -237,6 +239,16 @@ const OrganizationForm = () => {
                 className="w-full outline-none border-b p-2  text-xs"
                 name='phone'
                 value={formData.phone}
+                onChange={handleChange}
+                autoComplete='off'
+                        />
+            <p className="pt-4 pb-2 text-sm">지갑 주소</p>
+            <input
+                type="text"
+                placeholder="0x000..."
+                className="w-full outline-none border-b p-2  text-xs"
+                name='wallet'
+                value={formData.wallet}
                 onChange={handleChange}
                 autoComplete='off'
             />

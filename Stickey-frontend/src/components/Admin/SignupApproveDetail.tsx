@@ -41,7 +41,7 @@ const SignupApproveDetail = ({ id, onClose, refetch }: { id: number;  onClose: (
 
   return (
     <Modal width="80vw" height="" title="" onClose={onClose}>
-      <div className='flex flex-col items-center pb-4 overflow-y-scroll gap-5'>
+      <div className='flex flex-col items-center pb-4 overflow-y-scroll gap-5 z-10'>
         <div className="bg-Stickey_Gray rounded-2xl w-24 h-24 p-2">
           <img src={data?.profileImage} alt=""className="w-full h-full"/>
         </div>
