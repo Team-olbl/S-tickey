@@ -6,6 +6,5 @@ import lombok.Getter;
 public class UserInfoReq {
 
     private String phone;
-    private String password;
 
 }
