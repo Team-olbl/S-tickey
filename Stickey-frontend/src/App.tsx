@@ -33,6 +33,7 @@ import { toast } from 'react-toastify';
 import useNotifyStore from './stores/useNotifyStore';
 import useNotifyReadStore from './stores/useNotifyReadStore';
 import SplashPage from './pages/Splash/SplashPage';
+import { WAITING_FLAG, changeFlag, getCancleReq } from "./service/Book/api";
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -48,185 +49,253 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
   return <>{children}</>;
 };
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Navigate to={'/welcome'} replace={true} />,
-  },
-  {
-    path: '/home',
-    element: <HomePage />,
-  },
-  {
-    path: '/welcome',
-    element: <SplashPage />,
-  },
-  {
-    path: '/admin',
-    element: <AdminPage />,
-  },
-  {
-    path: '/soccer',
-    element: <SoccerPage />,
-  },
-  {
-    path: '/baseball',
-    element: <BaseBallPage />,
-  },
-  {
-    path: '/basketball',
-    element: <BasketBallPage />,
-  },
-  {
-    path: '/alarm',
-    element: (
-      <AuthWrapper>
-        <AlarmPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/:id/section',
-    element: (
-      <AuthWrapper>
-        <BookSectionPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/:id/seat',
-    element: (
-      <AuthWrapper>
-        <BookSeatPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/:id/payment',
-    element: (
-      <AuthWrapper>
-        <BookPaymentPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/:id/confirm',
-    element: (
-      <AuthWrapper>
-        <BookConfirmPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/mytickets',
-    element: (
-      <AuthWrapper>
-        <MyTicketPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/mytickets/:id/edit',
-    element: (
-      <AuthWrapper>
-        <TicketEditPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/signup',
-    element: <SignupPage />,
-  },
-  {
-    path: '/login',
-    element: <LoginPage />,
-  },
-  {
-    path: '/sponsor',
-    element: <SponsorPage />,
-  },
-  {
-    path: '/sponsor/:id',
-    element: <SponsorDetailPage />,
-  },
-  {
-    path: '/sponsor/create',
-    element: (
-      <AuthWrapper>
-        <SponsorCreatePage />
-      </AuthWrapper>
-    ),
-  },
-  // 단체랑 개인은 role로 구분할 것
-  {
-    path: '/profile',
-    element: (
-      <AuthWrapper>
-        <ProfilePage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/profile/playerlist',
-    element: (
-      <AuthWrapper>
-        <PlayerListPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/profile/playerlist/register',
-    element: (
-      <AuthWrapper>
-        <PlayerRegistration />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/profile/edit',
-    element: (
-      <AuthWrapper>
-        <ProfileEditPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/profile/group/edit',
-    element: (
-      <AuthWrapper>
-        <GroupProfileEditPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/profile/sponlist',
-    element: (
-      <AuthWrapper>
-        <SponListPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/profile/dreamhistory',
-    element: (
-      <AuthWrapper>
-        <DreamHistoryPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/profile/paymenthistory',
-    element: (
-      <AuthWrapper>
-        <PaymentHistoryPage />
-      </AuthWrapper>
-    ),
-  },
-  {
-    path: '/test',
-    element: <BlockchainTest />,
-  },
-]);
+const WaitingWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
+  if (WAITING_FLAG.flag && WAITING_FLAG.id) {
+    getCancleReq(WAITING_FLAG.id);
+    changeFlag(false, 0);
+  }
+
+  return <> {children} </>;
+};
+
+const router = createBrowserRouter(
+  [
+    {
+      path:'/',
+      element: <Navigate to={'/welcome'} replace={true} />
+    },
+    {
+      path: '/home',
+      element:
+        <WaitingWrapper>
+          <HomePage />
+        </WaitingWrapper>
+    },
+    {
+      path:'/welcome',
+      element: 
+        <WaitingWrapper>
+          <SplashPage />
+        </WaitingWrapper>
+    },
+    {
+      path:'/admin',
+      element: 
+        <AdminPage />
+    },
+    {
+      path:'/soccer',
+      element: 
+        <WaitingWrapper>
+          <SoccerPage />
+        </WaitingWrapper>
+    },
+    {
+      path:'/baseball',
+      element: 
+        <WaitingWrapper>
+          <BaseBallPage />
+        </WaitingWrapper>
+    },
+    {
+      path:'/basketball',
+      element: 
+        <WaitingWrapper>
+          <BasketBallPage />
+        </WaitingWrapper>
+    },
+    {
+      path:'/alarm',
+      element: (
+        
+        <WaitingWrapper>
+          <AuthWrapper>
+            <AlarmPage/>
+          </AuthWrapper>
+        </WaitingWrapper>
+      ) 
+    },
+    {
+      path:'/:id/section',
+      element:  (
+        <AuthWrapper>
+          <BookSectionPage />
+        </AuthWrapper>
+      )
+    },
+    {
+      path:'/:id/seat',
+      element: (
+        <AuthWrapper>
+          <BookSeatPage />
+        </AuthWrapper>
+      )
+    },
+    {
+      path:'/:id/payment',
+      element: (
+        <AuthWrapper>
+          <BookPaymentPage /> 
+        </AuthWrapper>
+      )
+    },
+    {
+      path:'/:id/confirm',
+      element: (
+        <WaitingWrapper>
+          <AuthWrapper> 
+            <BookConfirmPage /> 
+          </AuthWrapper>
+        </WaitingWrapper>
+      ) 
+    },
+    {
+      path:'/mytickets',
+      element: (
+        <WaitingWrapper>
+          <AuthWrapper>
+            <MyTicketPage />
+          </AuthWrapper>
+        </WaitingWrapper>
+      )
+    },
+    {
+      path:'/mytickets/:id/edit',
+      element: (
+        <WaitingWrapper>
+          <AuthWrapper>
+            <TicketEditPage /> 
+          </AuthWrapper>
+        </WaitingWrapper>
+      )
+    },
+    {
+      path:'/signup',
+      element: 
+        <WaitingWrapper>
+          <SignupPage />
+        </WaitingWrapper>
+    },
+    {
+      path:'/login',
+      element: 
+        <WaitingWrapper>
+          <LoginPage />
+        </WaitingWrapper>
+    },
+    {
+      path:'/sponsor',
+      element: 
+        <WaitingWrapper>
+          <SponsorPage />
+        </WaitingWrapper>
+    },
+    {
+      path:'/sponsor/:id',
+      element: 
+        <WaitingWrapper>
+          <SponsorDetailPage />
+        </WaitingWrapper>
+    },
+    {
+      path:'/sponsor/create',
+      element: (
+        <WaitingWrapper>
+          <AuthWrapper>
+            <SponsorCreatePage /> 
+          </AuthWrapper>
+        </WaitingWrapper>
+      )
+    },
+    // 단체랑 개인은 role로 구분할 것
+    {
+      path:'/profile',
+      element: (
+        <WaitingWrapper>
+          <AuthWrapper>
+            <ProfilePage /> 
+          </AuthWrapper>
+        </WaitingWrapper>
+      )
+    },
+    {
+      path:'/profile/playerlist',
+      element: (
+        <WaitingWrapper>
+          <AuthWrapper>
+            <PlayerListPage />
+          </AuthWrapper>
+        </WaitingWrapper>
+      )
+    },
+    {
+      path:'/profile/playerlist/register',
+      element: (
+        <WaitingWrapper>
+          <AuthWrapper>
+            <PlayerRegistration />
+          </AuthWrapper>
+        </WaitingWrapper>
+      ) 
+    },
+    {
+      path:'/profile/edit',
+      element: (
+        <WaitingWrapper>
+          <AuthWrapper>
+            <ProfileEditPage />
+          </AuthWrapper>
+        </WaitingWrapper>
+      )   
+    },
+    {
+      path:'/profile/group/edit',
+      element: (
+        <WaitingWrapper>
+          <AuthWrapper>
+            <GroupProfileEditPage />
+          </AuthWrapper>
+        </WaitingWrapper>
+      )
+    },
+    {
+      path:'/profile/sponlist',
+      element: (
+        <WaitingWrapper>
+          <AuthWrapper>
+            <SponListPage /> 
+          </AuthWrapper>
+        </WaitingWrapper>
+      )
+    },
+    {
+      path:'/profile/dreamhistory',
+      element: (
+        
+        <WaitingWrapper>
+          <AuthWrapper>
+          <DreamHistoryPage />
+        </AuthWrapper>
+        </WaitingWrapper>
+      )  
+    },
+    {
+      path:'/profile/paymenthistory',
+      element: (
+        
+        <WaitingWrapper>
+          <AuthWrapper>
+          <PaymentHistoryPage />
+          </AuthWrapper>
+        </WaitingWrapper>
+      )  
+    },
+    {
+      path:'/test',
+      element: <BlockchainTest/> 
+    },
+  ]
+)
 
 function App() {
   const { accessToken, role, id } = userStore();
