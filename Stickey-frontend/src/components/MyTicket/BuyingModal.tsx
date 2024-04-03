@@ -25,6 +25,7 @@ const BuyingModal = ({ onClose, item, ticket, setTicket }: { onClose: () => void
             ...state,
             filterId: item.id
           }))
+          onClose();
         }
       }
       else {
@@ -34,6 +35,7 @@ const BuyingModal = ({ onClose, item, ticket, setTicket }: { onClose: () => void
             ...state,
             backgroundId: item.id
           }))
+          onClose();
         }
       }
     })();
