@@ -54,7 +54,7 @@ const TicketList = () => {
                 >
                     {showUpcoming ? '전체' : '사용전'}
                 </button></div>
-                {isLoaded && <div className="pt-4 pb-16 flex flex-wrap justify-center">
+                {isLoaded && <div className="pt-4 pb-16 flex flex-wrap justify-center ">
                     {filteredTickets.length == 0 ? 
 
                     <div className="flex flex-col items-center mt-40">
