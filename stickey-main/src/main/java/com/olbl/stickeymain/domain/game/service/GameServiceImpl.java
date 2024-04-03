@@ -396,21 +396,30 @@ public class GameServiceImpl implements GameService {
             }
 
         } else { //환불 요청시
-            String seatNumberStr = paymentReq.getSeatNumbers().get(0).toString();
+            List<String> seatNumbersStr = paymentReq.getSeatNumbers().stream().map(Object::toString)
+                .collect(Collectors.toList());
 
             String checkAndSetScript =
                 "local key = KEYS[1] " +
-                    "local seatIndex = tonumber(ARGV[1]) - 1 " + // 좌석 번호를 인덱스로 변환
-                    "if redis.call('LINDEX', key, seatIndex) ~= 'SOLD' then " +
-                    "    return 0 " + // SOLD 상태가 아니면 변경 작업 실패
+                    "for i = 2, #ARGV do " +
+                    "    local seatIndex = tonumber(ARGV[i]) - 1 " + // 좌석 번호를 인덱스로 변환
+                    "    if redis.call('LINDEX', key, seatIndex) ~= 'SOLD' then " +
+                    "        return 0 " + // SOLD 상태가 아니면 변경 작업 실패
+                    "    end " +
                     "end " +
-                    "redis.call('LSET', key, seatIndex, 'AVAILABLE') " +
+                    "for i = 2, #ARGV do " +
+                    "    local seatIndex = tonumber(ARGV[i]) - 1 " +
+                    "    redis.call('LSET', key, seatIndex, 'AVAILABLE') " +
                     // SOLD 상태 확인 성공 시, AVAILABLE로 상태 변경
-                    "return 1"; // 확인된 SOLD 상태 좌석을 AVAILABLE로 변경 성공
+                    "end " +
+                    "return 1"; // 모든 확인된 SOLD 상태 좌석을 AVAILABLE로 변경 성공
 
             Long result = redisTemplate.execute(
                 new DefaultRedisScript<Long>(checkAndSetScript, Long.class),
-                Collections.singletonList(key), seatNumberStr);
+                Collections.singletonList(key),
+                Stream.concat(Stream.of(String.valueOf(userDetails.getId())),
+                        seatNumbersStr.stream())
+                    .toArray(String[]::new));
 
             if (result == null || result != 1) {
                 throw new BusinessException(SEAT_NOT_SOLD);
@@ -419,7 +428,7 @@ public class GameServiceImpl implements GameService {
             // 좌석 정보 AVAILABLE로 수정
             GameSeat gameSeat = gameSeatRepository.findGameSeatByGameIdAndZoneIdAndSeatNumber(
                     paymentReq.getGameId(),
-                    paymentReq.getZoneId(), Integer.parseInt(seatNumberStr))
+                    paymentReq.getZoneId(), paymentReq.getSeatNumbers().get(0))
                 .orElseThrow(() -> new BusinessException(GAME_NOT_IN_RESERVATOIN_PROGRESS));
 
             gameSeat.changeStatus(SeatStatus.AVAILABLE);
@@ -452,7 +461,7 @@ public class GameServiceImpl implements GameService {
     private void existsInRunningQueue(int gameId, int userId) {
         String runKey = "run::" + gameId;
         Long rank = redisTemplate.opsForZSet().rank(runKey, String.valueOf(userId));
-        
+
         if (rank == null) {
             log.info("[existsInRunningQueue] 참가열에 존재하지 않는 유저 요청 : ", userId);
             throw new BusinessException(ErrorCode.NOT_IN_RUNNING_QUEUE);
