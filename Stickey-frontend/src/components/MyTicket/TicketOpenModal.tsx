@@ -128,7 +128,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
     return (
         <div className="z-[1] w-full fixed inset-0 bg-black/70 flex justify-center items-center">
             {/* modal wrapper */}
-            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg"  ref={scope}>
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg 100vh"  ref={scope}>
                 {onLoad &&
                     <div className='flex justify-center mb-2 items-center fixed left-0 right-0 rounded-1'
                         style={{ transform : "translateY(-110%)" }}>
