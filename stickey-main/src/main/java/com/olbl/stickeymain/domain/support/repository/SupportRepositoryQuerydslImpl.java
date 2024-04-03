@@ -80,23 +80,25 @@ public class SupportRepositoryQuerydslImpl implements SupportRepositoryQuerydsl 
     public SupportByItemRes getSupportByItemByTime() {
 
         LocalDateTime now = LocalDateTime.now(); //현재 시간 기준
-        SupportByItemRes supportByItemRes = new SupportByItemRes();
 
-        Integer id = jpaQueryFactory
-            .select(support.id)
-            .from(support)
+        SupportByItemRes itemRes = jpaQueryFactory.select(
+                Projections.fields(SupportByItemRes.class,
+                    support.id.as("id"),
+                    support.organization.name.as("name")
+                )).from(support)
             .where(support.startTime.before(now)
                 .and(support.endTime.after(now))
                 .and(support.status.eq(SupportStatus.ACCEPTED)))
             .orderBy(support.endTime.asc())
             .fetchFirst();
 
-        if (null == id) {
-            id = 0;
+        if (null == itemRes) {
+            itemRes = new SupportByItemRes();
+            itemRes.setId(0);
+            itemRes.setName(null);
         }
 
-        supportByItemRes.setId(id);
-        return supportByItemRes;
+        return itemRes;
     }
 
     private BooleanBuilder generateQueryCondition(Integer flag) {
