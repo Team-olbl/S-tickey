@@ -43,7 +43,7 @@ const NavigationBar = () => {
   return (
     <div className="fixed pb-1 bottom-0 max-w-[500px] z-[2] w-full h-[62px] border-t-[0.5px] bg-Stickey_BGC border-white flex flex-row  justify-center gap-[56px] items-center ">
       <div className="flex flex-col items-center gap-0" onClick={() => handleTabClick('home')}>
-        <img src={pathname === '/' ? FilledHouse : House} className="w-[32px] h-[32px]" />
+        <img src={pathname === '/home' ? FilledHouse : House} className="w-[32px] h-[32px]" />
         <p className="text-white text-center text-[10px]">홈</p>
       </div>
       <div className="flex flex-col items-center" onClick={() => handleTabClick('sponsor')}>
