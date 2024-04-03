@@ -32,7 +32,7 @@ const TicketEditPage = () => {
   }
 
   const backgrounds = [
-    { id : 0, price : 0,color: "bg-white", image: ticket.gameImage, backgroundImage: ''},
+    { id : 0, price : 5,color: "bg-white", image: ticket.gameImage, backgroundImage: ''},
     { id : 1, price : 5,color: "bg-black", image: ticket.gameImage, backgroundImage: '' },
     { id : 2, price : 5,color: "bg-[#dc143c]", image: ticket.gameImage, backgroundImage: '' },
     { id : 3, price : 5,color: "bg-[#ffffcc]", image: ticket.gameImage, backgroundImage: '' },
@@ -41,7 +41,7 @@ const TicketEditPage = () => {
   ];
 
   const filters = [
-    { id : 0, price : 0, name: 'Normal', gradientClass: 'filter0' },
+    { id : 0, price : 5, name: 'Normal', gradientClass: 'filter0' },
     { id : 1, price : 10, name: 'Holo Gradient', gradientClass: 'filter1' },
     { id : 2, price : 10, name: 'Holo Gradient 2', gradientClass: 'filter2'},
   ];

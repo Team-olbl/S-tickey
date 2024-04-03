@@ -81,6 +81,7 @@ const BookPaymentPage = () => {
           seatInfo.seat.length,
           gameInfo.id,
           gameInfo.stadiumId,
+          seatInfo.sectionId,
           seatInfo.zoneIdx,
           seatInfo.seat,
           seatInfo.sectionPrice,
