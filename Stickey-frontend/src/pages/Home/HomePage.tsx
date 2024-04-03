@@ -1,97 +1,61 @@
-import Carousel from "../../components/Home/Carousel";
-import Category from "../../components/Home/Category";
-import Bell from '../../assets/image/Bell.png'
-import GameSchedule from "../../components/Home/GameSchedule";
-import Header, { IHeaderInfo } from "../../components/@common/Header";
-import NavigationBar from "../../components/@common/NavigationBar";
-import 대구 from '../../assets/Logos/대구FC.png'
-import 서울 from '../../assets/Logos/서울FC.png'
-import GameScheduleHeader from "../../components/Home/GameScheduleHeader";
-
-export type GameItem = {
-  id: number;
-  date: string;
-  dayOfWeek: string;
-  time: string;
-  homeTeam: string;
-  homeTeamLogo: JSX.Element;
-  awayTeam: string;
-  awayTeamLogo: JSX.Element;
-}
+import Carousel from '../../components/Home/Carousel';
+import Category from '../../components/Home/Category';
+import Bell from '../../assets/image/Bell.png';
+import GameSchedule from '../../components/Home/GameSchedule';
+import Header, { IHeaderInfo } from '../../components/@common/Header';
+import NavigationBar from '../../components/@common/NavigationBar';
+import GameScheduleHeader from '../../components/Home/GameScheduleHeader';
+import { useGame } from '../../hooks/Home/useGame';
+import userStore from '../../stores/userStore';
+import { useNavigate } from 'react-router-dom';
+import Logo from '../../assets/image/Stickey_logo.png';
 
 export type preferredClub = {
   id: number;
   team_1: JSX.Element;
   team_2: JSX.Element;
-}
+};
 
 const HomePage = () => {
-  const info : IHeaderInfo = {
-    left_1: null,
+  const navigate = useNavigate();
+  const { useGetGameList } = useGame();
+  const { preferences } = userStore();
+
+  const {
+    data: gameListInfo,
+  } = useGetGameList({ catg : undefined, club: [ ...preferences.map((item) => item.sportsClubName )], date : undefined});
+
+
+  const info: IHeaderInfo = {
+    left_1: <img className="w-20" src={Logo} />,
     left_2: null,
     center: null,
-    right: <img src={Bell} alt="" />
-  }
+    right: <img src={Bell} alt="" />,
+  };
 
-  const dummies:GameItem[] = [
-    {
-      id: 1,
-      date: '03.17',
-      dayOfWeek: '일',
-      time: '20:30',
-      homeTeam: '대구FC',
-      homeTeamLogo: <img src={대구}  />,
-      awayTeam: 'FC서울',
-      awayTeamLogo: <img src={서울} />,
-    },
-    {
-      id: 2,
-      date: '03.17',
-      dayOfWeek: '일',
-      time: '20:30',
-      homeTeam: '대구FC',
-      homeTeamLogo: <img src={대구}  />,
-      awayTeam: 'FC서울',
-      awayTeamLogo: <img src={서울} />,
-    },
-    {
-      id: 3,
-      date: '03.17',
-      dayOfWeek: '일',
-      time: '20:30',
-      homeTeam: '대구FC',
-      homeTeamLogo: <img src={대구}  />,
-      awayTeam: 'FC서울',
-      awayTeamLogo: <img src={서울} />,
-    },
-
-  ]
-
-  const dummydata:preferredClub[] = [
-    {
-      id: 1,
-      team_1: <img src={대구} alt="" />,
-      team_2: <img src={서울} alt="" />,
-    }
-  ]
-
-  return(
+  return (
     <>
-      <Header info={info}/>
-      <div className="pt-16 pb-16">
+      <Header info={info} />
+      <div className="py-16">
         <Carousel />
         <Category />
-        {dummydata.map((item, id) => (
-          <GameScheduleHeader data={item} key={id}/>
-        ))}
-        {dummies.map((item, id) => (
-          <GameSchedule data={item} key={id}/>
-        ))
-        }
+        <GameScheduleHeader />
+        {preferences && preferences.length > 0 ? (
+          gameListInfo?.data.gameResList.map((item, id) => <GameSchedule data={item} key={id} />)
+        ) : (
+          <div className="px-4 flex justify-center items-center">
+            <button
+              className={`bg-Stickey_Main rounded-full text-white p-2 text-sm`}
+              onClick={() => navigate('/profile')}
+            >
+              선호구단 등록하기
+            </button>
+          </div>
+        )}
       </div>
       <NavigationBar />
     </>
-  )
-}
+  );
+};
 
 export default HomePage;

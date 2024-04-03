@@ -1,5 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import Bell from '../../assets/image/Bell.png'
+import { useNavigate } from 'react-router-dom';
+import Bell from '../../assets/image/Bell.png';
+import useNotifyReadStore from '../../stores/useNotifyReadStore';
 
 export interface IHeaderInfo {
   left_1: React.ReactNode | null;
@@ -8,16 +9,17 @@ export interface IHeaderInfo {
   right: React.ReactNode | null;
 }
 
-const Header = (props: {info: IHeaderInfo}) => {
+const Header = (props: { info: IHeaderInfo }) => {
   const navigate = useNavigate();
+  const { isRead } = useNotifyReadStore();
 
   const { left_1, left_2, center, right } = props.info;
-  
+
   return (
-    <div className="max-w-[500px] w-full z-[1] h-12 px-4 top-0 flex fixed flex-row justify-between items-center border-b-[0.5px] border-white bg-Stickey_BGC">
+    <div className="max-w-[500px] w-full z-[12] h-12 px-4 top-0 flex fixed flex-row justify-between items-center border-b-[0.5px] border-white bg-Stickey_BGC">
       <div className="flex flex-1 justify-start items-center">
         {left_1 && (
-          <button className="text-white font-bold text-[18px] w-13">
+          <button className="text-white font-bold w-13">
             <div>{left_1}</div>
           </button>
         )}
@@ -27,18 +29,15 @@ const Header = (props: {info: IHeaderInfo}) => {
           </button>
         )}
       </div>
-      <div className="flex-1 flex justify-center">
-        {center && (
-          <p className="text-white">{center}</p>
-        )}
-      </div>
-      <div className="flex flex-1 justify-end items-center">
+      <div className="flex-1 flex justify-center">{center && <p className="text-white">{center}</p>}</div>
+      <div className="flex flex-1 justify-end items-center relative">
         <button onClick={() => navigate('/alarm')}>
-          {right && <img src={Bell} alt="Alarm" className="w-[32px] h-[32px]"/>}
+          {right && <img src={Bell} alt="Alarm" className="w-[32px] h-[32px]" />}
+          {!isRead && <div className="absolute -right-1 top-0 w-2 h-2 rounded-full bg-[#E14246]"></div>} {/* 수정 */}
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Header;
