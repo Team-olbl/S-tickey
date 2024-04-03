@@ -23,7 +23,7 @@ public class WaitingController {
     @MessageMapping("/enter")
     public void addToWaitQueue(@RequestBody WaitReq waitReq) {
         // 요청 클라이언트를 대기열에 추가
-        Long rank = waitingService.addToWaitQueue(waitReq.getId(), waitReq.getGameId());
+        Long rank = waitingService.addToWaitQueue(waitReq.getId(), waitReq.getGameId()) + 1;
 
         // 클라이언트에 메시지 전송
         template.convertAndSend("/sub/id/" + waitReq.getId(), new WaitRes(rank));

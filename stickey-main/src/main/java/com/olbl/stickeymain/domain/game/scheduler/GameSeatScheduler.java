@@ -24,7 +24,7 @@ public class GameSeatScheduler {
     private final GameRepository gameRepository;
     private final StringRedisTemplate redisTemplate;
 
-    @Scheduled(cron = "0 30 20 * * *") //매일 오후 20시 실행
+    @Scheduled(cron = "0 40 16 * * *") //매일 오후 4시 40분 실행
     public void checkAndExecuteTask() {
 
         LocalDateTime now = LocalDateTime.now();

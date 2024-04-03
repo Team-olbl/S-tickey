@@ -19,8 +19,8 @@ public class RedisUtil {
     }
 
     // Sorted Set에 유저 추가
-    public void addToQueue(String key, String id, double score) {
-        redisTemplate.opsForZSet().add(key, id, score);
+    public boolean addToQueue(String key, String id, double score) {
+        return redisTemplate.opsForZSet().add(key, id, score);
     }
 
     // Sorted Set에서 유저 삭제
