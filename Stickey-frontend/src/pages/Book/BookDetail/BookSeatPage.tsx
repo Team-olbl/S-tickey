@@ -33,7 +33,7 @@ const BookSeatPage = () => {
     <>
       <div>
         <Header info={info} />
-        <div className="pt-14">
+        <div className="pt-14 h-screen flex flex-col">
           <BookInfo />
           <BookSeat />
         </div>
