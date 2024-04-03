@@ -2,7 +2,6 @@
 import Web3 from 'web3';
 import { contractABI } from './Abi';
 import { toast } from 'react-toastify';
-import { getSelectSupportId } from '../Sponsor/api';
 const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
 
 let web3: any = null;
@@ -86,6 +85,7 @@ export const createTicket = async (
   gameId: number,
   stadiumId: number,
   zoneId: number,
+  zoneIdx: number,
   seatNumber: number[],
   price: number,
 ) => {
@@ -95,7 +95,7 @@ export const createTicket = async (
   stadiumId = 1;
   try {
     const ret = await contract.methods
-      .createTicket(number, gameId, stadiumId, zoneId, seatNumber)
+      .createTicket(number, gameId, stadiumId, zoneId, zoneIdx, seatNumber)
       .send({ from: account, value: value, gasPrice: 3000000 });
     return ret;
   } catch (err) {
@@ -235,17 +235,6 @@ export const getItemList = async () => {
   }
 };
 
-export const buyFilter = async (tokenId: number, itemId: number) => {
-  const {data} = await getSelectSupportId();
-  console.log(tokenId, itemId, data.id);
-  return await setFilterOnTicket(tokenId, itemId, data.id);
-};
-
-export const buyBackground = async (tokenId: number, itemId: number) => {
-  const {data} = await getSelectSupportId();
-  console.log(tokenId, itemId, data.id);
-  return await setBackgroundOnTicket(tokenId, itemId, data.id);
-};
 
 // 티켓에 필터 적용
 export const setFilterOnTicket = async (tokenId: number, itemId: number, supportId: number) => {

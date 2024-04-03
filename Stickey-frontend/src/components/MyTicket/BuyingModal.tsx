@@ -1,8 +1,10 @@
 import Modal from '../@common/Modal';
 import Preferred from '../../assets/image/Preferred.png';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { buyBackground, buyFilter, getReword } from '../../service/web3/api';
+import { setFilterOnTicket, setBackgroundOnTicket, getReword } from '../../service/web3/api';
 import { ITicket } from './TicketList';
+import { toast } from "react-toastify";
+import { getSelectSupportId } from './../../service/Sponsor/api';
 
 const BuyingModal = ({
   onClose,
@@ -26,25 +28,34 @@ const BuyingModal = ({
 
   const handleBuy = () => {
     (async () => {
-      let tx;
-      if (item.isFilter) {
-        tx = await buyFilter(ticket.tokenId, item.id);
-        if (tx) {
-          setTicket(state => ({
-            ...state,
-            filterId: item.id,
-          }));
-          onClose();
+      try {
+        const { data } = await getSelectSupportId();
+        let tx;
+        if (item.isFilter) {
+          tx = await setFilterOnTicket(ticket.tokenId, item.id, data.id);
+          if (tx) {
+            setTicket(state => ({
+              ...state,
+              filterId: item.id,
+            }));
+            if(data.id != 0)
+              toast.success(`${data.name}에 자동후원 되었습니다.`);
+            onClose();
+          }
+        } else {
+          tx = await setBackgroundOnTicket(ticket.tokenId, item.id, data.id);
+          if (tx) {
+            setTicket(state => ({
+              ...state,
+              backgroundId: item.id,
+            }));
+            if(data.id != 0)
+              toast.success(`${data.name}에 자동후원 되었습니다.`);
+            onClose();
+          }
         }
-      } else {
-        tx = await buyBackground(ticket.tokenId, item.id);
-        if (tx) {
-          setTicket(state => ({
-            ...state,
-            backgroundId: item.id,
-          }));
-          onClose();
-        }
+      } catch (err) {
+        toast.error("아이템 구매에 실패했습니다.");
       }
     })();
   };
