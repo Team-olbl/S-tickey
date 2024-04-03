@@ -207,10 +207,7 @@ contract Api is Support, Ticket, Item, Game {
 
     _ticketInfo[_tokenId].filterId = _itemId;
 
-    _supportInfo[_supportId].balance += i.price / 2;
-
     _donateWithHistory(_supportId, i.price / 2, unicode"Stickey가 응원합니다.");
-
     reword.burnReword(msg.sender, i.price, false);
   }
 
@@ -223,7 +220,7 @@ contract Api is Support, Ticket, Item, Game {
 
     _ticketInfo[_tokenId].backgroundId = _itemId;
 
-    _supportInfo[_supportId].balance += i.price / 2;    
+    _donateWithHistory(_supportId, i.price / 2, unicode"Stickey가 응원합니다.");
     reword.burnReword(msg.sender, i.price, false);
   }
 
