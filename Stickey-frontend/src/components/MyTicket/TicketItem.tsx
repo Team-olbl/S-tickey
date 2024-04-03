@@ -5,9 +5,10 @@ import { ITicket } from './TicketList';
 export interface TicketItemProps {
   ticket: ITicket;
   getData: () => void;
+  setFlag: (state: boolean) => void;
 }
 
-const TicketItem: React.FC<TicketItemProps> = ({ ticket, getData }) => {
+const TicketItem: React.FC<TicketItemProps> = ({ ticket, getData, setFlag }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const itemRef = useRef<HTMLDivElement>(null);
 
@@ -46,17 +47,20 @@ const TicketItem: React.FC<TicketItemProps> = ({ ticket, getData }) => {
   return (
     <>
       <div className={`py-2 m-1`} ref={itemRef}>
-        <div key={ticket.tokenId}>
+        <div key={ticket.tokenId} className="relative">
           {/* 카드 모양 만들기 */}
           <div
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              setIsModalOpen(true);
+              setFlag(true);
+            }}
             className={`background${ticket.backgroundId} p-1 rounded-xl flex flex-col items-center`}
           >
             <p>
               {ticket.category}
               {ticket.tokenId}
             </p>
-            <img className="h-44" src={ticket.gameImage} alt="gameImage" />
+            <img className="h-44 p-1" src={ticket.gameImage} alt="gameImage" />
             <p className="text-xs">{dayjs(Number(ticket.gameStartTime) * 1000).format('YYYY/MM/DD HH:mm')}</p>
             <p className="font-bold">
               {ticket.zoneName} {ticket.seatNumber.toString()}
@@ -65,7 +69,16 @@ const TicketItem: React.FC<TicketItemProps> = ({ ticket, getData }) => {
           </div>
         </div>
       </div>
-      {isModalOpen && <TicketOpenModal ticket={ticket} onClose={() => setIsModalOpen(false)} getData={getData} />}
+      {isModalOpen && (
+        <TicketOpenModal
+          ticket={ticket}
+          onClose={() => {
+            setIsModalOpen(false);
+            setFlag(false);
+          }}
+          getData={getData}
+        />
+      )}
     </>
   );
 };
