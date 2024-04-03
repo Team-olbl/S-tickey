@@ -30,7 +30,7 @@ const ProfilePage = () => {
   return (
     <>
       <Header info={info} />
-      <div className="pt-16">
+      <div className="py-16">
         {userProfileInfo?.data.role === 'INDIVIDUAL' ? (
           <>
             <UserProfile userInfo={userProfileInfo.data} />

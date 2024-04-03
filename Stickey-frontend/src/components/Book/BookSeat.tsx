@@ -99,7 +99,7 @@ const BookSeat = () => {
 
   return (
     <>
-      <div className="pt-4">
+      <div className="pt-4 flex flex-col h-full">
         {/* 좌석 */}
         <div className="bg-Stickey_Gray w-full h-[260px] flex flex-col flex-wrap justify-center items-center">
           <p className="text-xs text-gray-800">경기장 방향</p>
@@ -123,6 +123,7 @@ const BookSeat = () => {
               ))}
           </div>
         </div>
+        <div className="grow"></div>
         <div className="max-w-[500px] w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
           {/* 스텝바 */}
           <div className="pt-2 w-[150px]">
@@ -179,7 +180,7 @@ const BookSeat = () => {
 
             <div className="items-center grid grid-cols-4 py-3">
               <p className="col-span-1 text-xs text-gray-200">결제가격</p>
-              <div className="col-span-3 text-white">{calculateTotalPrice()}원</div>
+              <div className="col-span-3  text-white">{calculateTotalPrice()}원</div>
             </div>
           </div>
 
