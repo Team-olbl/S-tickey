@@ -63,7 +63,7 @@ const TicketList = () => {
           </button>
         </div>
         {isLoaded && (
-          <div className={`pt-4 pb-16 flex flex-wrap justify-center ${fixedFlag && `fixed`}`}>
+          <div className={`pt-4 pb-16 flex flex-wrap justify-center  ${fixedFlag && `fixed`}`}>
             {filteredTickets.length == 0 ? (
               <div className="flex flex-col items-center mt-40">
                 <img src={Ticket} className="h-20" />

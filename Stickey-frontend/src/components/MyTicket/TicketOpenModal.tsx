@@ -125,7 +125,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
 
   return (
     <>
-      <div className="fixed top-0 w-full h-screen max-w-[500px] bottom-0 bg-black/70 z-[2]">
+      <div className="fixed top-0 w-full h-full max-w-[500px] bottom-0 bg-black/70 z-[2]" onClick={onClose}>
         {/* modal wrapper */}
         <div className="flex justify-center items-center rounded-lg pt-16" ref={scope}>
           <div className="flex justify-center">
