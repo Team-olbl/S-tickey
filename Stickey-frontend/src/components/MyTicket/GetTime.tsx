@@ -4,9 +4,11 @@ const GetTime = ({ createQR }: { createQR: () => void }) => {
   const [count, setCount] = useState<number>(15);
 
   const reloadQR = () => {
+    console.log('QR Reload');
     setCount(15);
     createQR();
   };
+
   useEffect(() => {
     const interval = setInterval(() => setCount(count - 1), 1000);
 
@@ -18,7 +20,7 @@ const GetTime = ({ createQR }: { createQR: () => void }) => {
     };
   }, [count]);
   return (
-    <div>
+    <div className="z-[1] relative">
       <span className="flex justify-center items-center">
         <span>
           <svg
@@ -34,7 +36,7 @@ const GetTime = ({ createQR }: { createQR: () => void }) => {
         </span>
         <span className="text-sm px-1 text-center text-red-700 font-bold">남은 시간 {count}초</span>
       </span>
-      <p className="text-center mt-2" onClick={reloadQR}>
+      <div className="text-center mt-2" onClick={reloadQR}>
         <button className="bg-ttokGray rounded-md text-white bg-black p-1">
           <div className="flex items-center text-center px-1">
             <span>
@@ -56,7 +58,7 @@ const GetTime = ({ createQR }: { createQR: () => void }) => {
             <span className="pl-1 text-sm">새로고침</span>
           </div>
         </button>
-      </p>
+      </div>
     </div>
   );
 };

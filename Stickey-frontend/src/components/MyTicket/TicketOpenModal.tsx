@@ -125,11 +125,11 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
 
   return (
     <>
-      <div className="fixed top-0 w-full h-full max-w-[500px] bottom-0 bg-black/70 z-[2]" onClick={onClose}>
+      <div className="fixed top-0 w-full h-full max-w-[500px] bottom-0 bg-black/70 z-[2]">
         {/* modal wrapper */}
         <div className="flex justify-center items-center rounded-lg pt-16" ref={scope}>
           <div className="flex justify-center">
-            {!isQR && (
+            {/* {!isQR && (
               <img
                 onClick={handleEditClick}
                 className="fixed right-6 mt-6 bg-white/70 w-7 h-7 rounded-full p-1"
@@ -137,15 +137,11 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
                 alt="Edit"
                 id="edit"
               />
-            )}
+            )} */}
             {/* modal */}
             <div className="flex flex-col justify-center items-center w-[80%]">
-              <div
-                ref={containerRef}
-                className="text-center relative"
-                style={{ transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg)' }}
-              >
-                <div ref={overlayRef} className={`filter${ticket.filterId} w-full h-full absolute`}></div>
+              <div ref={containerRef} className="text-center relative">
+                <div ref={overlayRef} className={`filter${ticket.filterId}`}></div>
                 <div>
                   <div className={`background${ticket.backgroundId} rounded-b-lg p-2 font-semibold`}>
                     <p>
@@ -184,15 +180,24 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
 
-              <div className="w-full flex justify-center mt-2">
-                <div
-                  onClick={onClose}
-                  className="flex justify-center items-center h-10 w-10 bg-white rounded-full cursor-pointer"
-                >
-                  <img className="w-8 h-8" src={X} alt="Close" />
-                </div>
-              </div>
+          <div className="fixed right-4 top-20">
+            {!isQR && (
+              <img
+                onClick={handleEditClick}
+                className=" h-8 w-8 bg-white/50 rounded-full p-2"
+                src={Edit}
+                alt="Edit"
+                id="edit"
+              />
+            )}
+            <div
+              onClick={onClose}
+              className="flex my-2 justify-center items-center h-8 w-8 bg-white/50 rounded-full cursor-pointer"
+            >
+              <img className="w-8 h-8" src={X} alt="Close" />
             </div>
           </div>
         </div>
