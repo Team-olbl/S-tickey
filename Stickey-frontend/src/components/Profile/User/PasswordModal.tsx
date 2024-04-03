@@ -33,6 +33,7 @@ const PasswordModal = ({ onClose }: { onClose: () => void }) => {
       mutate(password, {
         onSuccess: () => {
           toast.success('비밀번호가 성공적으로 변경되었습니다.')
+          onClose();
         },
         onError: (error) => {
           toast.error(`비밀번호 변경에 실패하였습니다 : ${error.message}`)
