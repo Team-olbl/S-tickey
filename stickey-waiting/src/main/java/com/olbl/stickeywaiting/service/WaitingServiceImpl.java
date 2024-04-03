@@ -55,7 +55,7 @@ public class WaitingServiceImpl implements WaitingService {
             // 10분이 지나 세션이 만료된 유저 제거
             Long now = System.currentTimeMillis();
 
-            redisUtil.removeFromQueueByRange(runKey, 0L, now - 120000);
+            redisUtil.removeFromQueueByRange(runKey, 0L, now - 300000);
         }
 
         // REDIS에 존재하는 모든 대기열에 대해 작업열 이동 스케줄링
