@@ -22,7 +22,9 @@ const BottomSheet: React.FC<Props> = ({ isOpen, onClose }) => {
         className={`fixed top-0 w-full max-w-[500px] z-[1] bottom-0 ${isRendering ? 'bg-black/50' : 'bg-black/0'}`}
         onClick={onClose}
       >
-        <div className="fixed max-w-[500px] w-full bottom-12 max-h-52 bg-white p-4 rounded-t-[20px] z-[3]">
+        <div
+          className={`fixed max-w-[500px] w-full bottom-12 h-auto bg-white p-4 rounded-t-lg z-[3] ${isRendering ? 'animate-sheetOn' : 'animate-sheetOff'}`}
+        >
           <div className="flex flex-col items-center">
             <div>
               <img src={Line} className="w-9" />
@@ -30,7 +32,7 @@ const BottomSheet: React.FC<Props> = ({ isOpen, onClose }) => {
             <div className="flex justify-center p-4">
               <p className="text-[16px] font-bold">종목 선택하기</p>
             </div>
-            <div className="flex flex-row justify-center gap-4 pb-20">
+            <div className="flex pb-8 justify-center gap-4">
               <div
                 className="flex flex-col items-center justify-center w-[88px] h-[100px] border border-Stickey_Gray rounded-[5px] gap-1 cursor-pointer"
                 onClick={() => navigate('/soccer')}
