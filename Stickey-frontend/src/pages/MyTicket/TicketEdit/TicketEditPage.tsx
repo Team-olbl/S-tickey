@@ -58,9 +58,9 @@ const TicketEditPage = () => {
       <Header info={info} />
 
       {/* 티켓 */}
-      <div className={`pt-16`}  >
-        <div className={`relative h-auto flex flex-col text-center items-center`}>
-          <div className={`filter${ticket.filterId}`}></div>
+      <div className={`pt-16 flex justify-center`}  >
+        <div className={`relative flex flex-col text-center items-center`}>
+          <div className={` filter${ticket.filterId}`}></div>
           <div>
             <div className={`w-[300px] background${ticket.backgroundId} rounded-b-lg p-2 font-semibold`}>
                 <p>{ticket.homeTeam}vs{ticket.awayTeam}</p>

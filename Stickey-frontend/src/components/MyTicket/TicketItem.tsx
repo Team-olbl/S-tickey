@@ -61,7 +61,7 @@ const TicketItem: React.FC<TicketItemProps> = ({ ticket, getData }) => {
             </div>
         </div>
             {isModalOpen &&
-                    <TicketOpenModal ticket={ticket} onClose={() => setIsModalOpen(false)} getData={getData} />
+                <TicketOpenModal ticket={ticket} onClose={() => setIsModalOpen(false)} getData={getData} />
             }
     </>
     );
