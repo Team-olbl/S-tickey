@@ -47,7 +47,7 @@ const BookSection = () => {
     }
   };
 
-  const handleSeatClick = (seat: string, sectionId: number, sectionPrice: number, zoneIdx : number) => {
+  const handleSeatClick = (seat: string, sectionId: number, sectionPrice: number, zoneIdx: number) => {
     setSelectInfo(seat, sectionId, sectionPrice, [], zoneIdx);
   };
 
@@ -62,7 +62,7 @@ const BookSection = () => {
   };
 
   return (
-    <div className="pt-4">
+    <div className="pt-4 flex flex-col h-full">
       <div className="flex flex-col items-center">
         <div className="flex px-1">
           <div
@@ -235,7 +235,7 @@ const BookSection = () => {
           </div>
         </div>
       </div>
-
+      <div className="grow"></div>
       <div className="max-w-[500px] w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
         {/* 스텝바 */}
         <div className="pt-2 w-[150px]">
@@ -275,7 +275,7 @@ const BookSection = () => {
 
           <div className="items-center grid grid-cols-4 py-3">
             <p className="col-span-1 text-xs text-gray-200">좌석선택</p>
-            <div className="col-span-3"></div>
+            <div className="col-span-3 h-12"></div>
           </div>
           <div className="items-center grid grid-cols-4 h-12 py-3">
             <p className="col-span-1 text-xs text-gray-200">결제가격</p>
@@ -284,7 +284,7 @@ const BookSection = () => {
         </div>
 
         {/* 버튼 */}
-        <div className="w-full max-w-[500px] px-4 pt-4 pb-24 flex justify-center">
+        <div className="w-full max-w-[500px] px-4 pt-4 flex justify-center pb-24">
           <button className="bg-Stickey_Gray w-36 mr-2 p-2 text-xs rounded-md" onClick={() => goBack()}>
             이전
           </button>

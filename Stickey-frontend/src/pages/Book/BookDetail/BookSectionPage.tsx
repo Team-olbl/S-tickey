@@ -1,17 +1,17 @@
-import Header, { IHeaderInfo } from "../../../components/@common/Header";
-import NavigationBar from "../../../components/@common/NavigationBar";
-import Back from '../../../assets/image/Back.png'
-import Bell from '../../../assets/image/Bell.png'
-import BookInfo from "../../../components/Book/BookInfo";
-import BookSection from "../../../components/Book/BookSection";
-import { useTicketInfoStore } from "../../../stores/useTicketInfoStore";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import useTicketStore from "../../../stores/useTicketStore";
-import { toast } from "react-toastify";
+import Header, { IHeaderInfo } from '../../../components/@common/Header';
+import NavigationBar from '../../../components/@common/NavigationBar';
+import Back from '../../../assets/image/Back.png';
+import Bell from '../../../assets/image/Bell.png';
+import BookInfo from '../../../components/Book/BookInfo';
+import BookSection from '../../../components/Book/BookSection';
+import { useTicketInfoStore } from '../../../stores/useTicketInfoStore';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useTicketStore from '../../../stores/useTicketStore';
+import { toast } from 'react-toastify';
 
 const BookSectionPage = () => {
-  const gameInfo = useTicketInfoStore((state) => state.modalData);
+  const gameInfo = useTicketInfoStore(state => state.modalData);
   const { clearSeatInfo } = useTicketStore();
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ const BookSectionPage = () => {
     <>
       <div>
         <Header info={info} />
-        <div className="pt-14">
+        <div className="pt-14 h-screen flex flex-col">
           {/* 경기정보 */}
           <BookInfo />
           {/* 구역 정보 */}
