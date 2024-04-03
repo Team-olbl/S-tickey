@@ -87,7 +87,6 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
             }
             toast.warn("오류가 발생했습니다.");
         }
-
         cancleTicket();
     }
 

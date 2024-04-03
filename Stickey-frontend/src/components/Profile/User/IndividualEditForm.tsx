@@ -3,6 +3,7 @@ import { CiCamera } from 'react-icons/ci';
 import ProfileEditModal from '../ProfileEditModal';
 import { useProfile } from '../../../hooks/Profile/useProfile';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const IndividualEditForm = () => {
   const imgRef = useRef<HTMLInputElement>(null);
@@ -55,9 +56,12 @@ const IndividualEditForm = () => {
     mutate(formData, {
       onSuccess: () => {
         navigate('/profile');
+        console.log('회원 정보 수정 성공');
+        toast.success('회원 정보 수정이 완료되었습니다.');
       },
-      onError: error => {
+      onError: (error) => {
         console.error('프로필 정보 수정 실패', error);
+        toast.error(`회원 정보 수정 실패, ${error.message}`)
       },
     });
 
