@@ -1,16 +1,24 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="font-Pretendard">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href= />
     <link rel="manifest" href="/manifest.json" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-    <meta name="theme-color" content="#1F1F31"/>
+    <link rel="apple-touch-icon" href="/logo/maskable_icon_x512.png" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="S:tickey" />
+    <meta name="theme-color" content="#1F1F31" />
     <title>S:tickey</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {

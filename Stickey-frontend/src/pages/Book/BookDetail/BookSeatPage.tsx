@@ -1,42 +1,46 @@
-import Header, { IHeaderInfo } from "../../../components/@common/Header";
-import NavigationBar from "../../../components/@common/NavigationBar";
-import BookInfo from "../../../components/Book/BookInfo";
-import BookSeat from "../../../components/Book/BookSeat";
+import Header, { IHeaderInfo } from '../../../components/@common/Header';
+import NavigationBar from '../../../components/@common/NavigationBar';
+import BookInfo from '../../../components/Book/BookInfo';
+import BookSeat from '../../../components/Book/BookSeat';
 import Bell from '../../../assets/image/Bell.png';
-import { IGameInfo } from "./BookSectionPage";
-
-const dummyGameInfo: IGameInfo = {
-  id: 4,
-  stadium: "DGB대구은행파크",
-  homeTeam: "전북FC",
-  awayTeam: "FC서울",
-  bookStartTime: "2024-03-15T01:42:48",
-  bookEndTime: "2024-03-21T01:42:48",
-  gameStartTime: "2024-03-21T01:42:48"
-};
+import { useTicketInfoStore } from '../../../stores/useTicketInfoStore';
+import { useNavigate } from 'react-router-dom';
+import useTicketStore from '../../../stores/useTicketStore';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const BookSeatPage = () => {
+  const gameInfo = useTicketInfoStore(state => state.modalData);
+  const { clearSeatInfo } = useTicketStore();
+  const navigate = useNavigate();
 
-  const info : IHeaderInfo = {
-    left_1:  null,
+  useEffect(() => {
+    if (!gameInfo?.id) {
+      toast.warn('예매 정보가 초기화 되었습니다. 다시 시도해주세요.');
+      navigate('/home', { replace: true });
+      clearSeatInfo();
+    }
+  }, []);
+
+  const info: IHeaderInfo = {
+    left_1: null,
     left_2: null,
-    center:'예매하기',
-    right: <img src={Bell} />
-  }
+    center: '예매하기',
+    right: <img src={Bell} />,
+  };
 
-
-  return(
+  return (
     <>
       <div>
         <Header info={info} />
-        <div className="pt-14">
-          <BookInfo gameInfo={dummyGameInfo} />
+        <div className="pt-14 h-screen flex flex-col">
+          <BookInfo />
           <BookSeat />
         </div>
         <NavigationBar />
       </div>
     </>
-  )
-}
+  );
+};
 
 export default BookSeatPage;
