@@ -236,7 +236,7 @@ const BookSection = () => {
         </div>
       </div>
 
-      <div className="fixed bottom-0 max-w-[500px] w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
+      <div className="max-w-[500px] w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
         {/* 스텝바 */}
         <div className="pt-2 w-[150px]">
           <div className="relative after:absolute after:inset-x-0 after:top-1/2 after:block after:h-0.5 after:-translate-y-1/2 after:rounded-lg after:bg-gray-100">
