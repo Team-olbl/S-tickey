@@ -1,35 +1,42 @@
-import { useNavigate } from "react-router-dom";
-import useTicketStore from "../../stores/useTicketStore";
-import NotSoldModal from "./NotSoldModal";
-import {  useEffect, useState } from "react";
-import { useBook } from "../../hooks/Book/useBook";
-import { useTicketInfoStore } from "../../stores/useTicketInfoStore";
-import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
+import useTicketStore from '../../stores/useTicketStore';
+import NotSoldModal from './NotSoldModal';
+import { useEffect, useState } from 'react';
+import { useBook } from '../../hooks/Book/useBook';
+import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
+import { toast } from 'react-toastify';
 
 const BookSeat = () => {
-    const navigate = useNavigate();
-    const { seatInfo, setSelectInfo } = useTicketStore();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const gameInfo = useTicketInfoStore((state) => state.modalData);
-    const { useSeatInfoCnt, useSeatconfirm } = useBook();
-    const { data: seatInfoCnt, refetch: refetchSeatInfoCnt, isError, fetchStatus } = useSeatInfoCnt({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId})
-    const { data: seatConfirmCheck, isSuccess , mutate } = useSeatconfirm({id : gameInfo?.id || 0, zoneId: seatInfo.sectionId, info: seatInfo.seat})
+  const navigate = useNavigate();
+  const { seatInfo, setSelectInfo } = useTicketStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const gameInfo = useTicketInfoStore(state => state.modalData);
+  const { useSeatInfoCnt, useSeatconfirm } = useBook();
+  const {
+    data: seatInfoCnt,
+    refetch: refetchSeatInfoCnt,
+    isError,
+    fetchStatus,
+  } = useSeatInfoCnt({ id: gameInfo?.id || 0, zoneId: seatInfo.sectionId });
+  const {
+    data: seatConfirmCheck,
+    isSuccess,
+    mutate,
+  } = useSeatconfirm({ id: gameInfo?.id || 0, zoneId: seatInfo.sectionId, info: seatInfo.seat });
 
-    useEffect(() => {
-        if (isError && fetchStatus === 'idle') {
-            toast.error("예매 가능 시간이 초과되었습니다.");
-            navigate("/home")
-        }
-    }, [fetchStatus])
+  useEffect(() => {
+    if (isError && fetchStatus === 'idle') {
+      toast.error('예매 가능 시간이 초과되었습니다.');
+      navigate('/home');
+    }
+  }, [fetchStatus]);
 
-
-    
-    useEffect(() => {
-        if (isModalOpen) {
-            setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, []);
-            refetchSeatInfoCnt();
-        }
-    }, [isModalOpen, refetchSeatInfoCnt, setSelectInfo, seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice]);
+  useEffect(() => {
+    if (isModalOpen) {
+      setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, []);
+      refetchSeatInfoCnt();
+    }
+  }, [isModalOpen, refetchSeatInfoCnt, setSelectInfo, seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice]);
 
   useEffect(() => {
     if (!isSuccess) return;
@@ -116,7 +123,7 @@ const BookSeat = () => {
               ))}
           </div>
         </div>
-        <div className="fixed bottom-0 max-w-[500px] w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
+        <div className="max-w-[500px] w-full h-auto flex flex-col items-center bg-[#2E2E3D] rounded-t-xl">
           {/* 스텝바 */}
           <div className="pt-2 w-[150px]">
             <div className="relative after:absolute after:inset-x-0 after:top-1/2 after:block after:h-0.5 after:-translate-y-1/2 after:rounded-lg after:bg-gray-100">
