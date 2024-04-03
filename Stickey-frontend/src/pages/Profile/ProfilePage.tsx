@@ -30,7 +30,7 @@ const ProfilePage = () => {
   return (
     <>
       <Header info={info} />
-      <div className="pt-16">
+      <div className="pt-16 h-screen">
         {userProfileInfo?.data.role === 'INDIVIDUAL' ? (
           <>
             <UserProfile userInfo={userProfileInfo.data} />
@@ -63,6 +63,7 @@ const ProfilePage = () => {
           </>
         )}
       </div>
+
       <NavigationBar />
     </>
   );
