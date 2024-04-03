@@ -112,8 +112,8 @@ contract ApplicationHandler is Api {
   */
 
   // 티켓 예매
-  function createTicket(uint _number, uint _gameId, uint _stadiumId, uint _zoneId, uint[] calldata _seatNum) external payable {
-    _createTicket(_number, _gameId, _stadiumId, _zoneId, _seatNum);
+  function createTicket(uint _number, uint _gameId, uint _stadiumId, uint _zoneId, uint _zoneIdx, uint[] calldata _seatNum) external payable {
+    _createTicket(_number, _gameId, _stadiumId, _zoneId, _zoneIdx, _seatNum);
   }
 
   // 티켓 취소 
@@ -150,12 +150,6 @@ contract ApplicationHandler is Api {
   function getSupprtedHistory(uint _supportId) external view returns(SupportedHistory[] memory) {
     return _getSupptedHistory(_supportId);
   }
-
-  // 후원한 내역 조회
-  function getSupprtingHistory(address _addr) external view returns(SupportingHistory[] memory) {
-    return _getSupportingHistory(_addr);
-  }
-
 
   /*
   ========== 꿈 API ==========

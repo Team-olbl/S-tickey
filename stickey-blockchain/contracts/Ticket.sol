@@ -13,6 +13,7 @@ contract Ticket is ERC721Enumerable{
     uint tokenId;         // 토큰 ID
     uint gameId;          // 경기 ID
     uint zoneId;        // 구역 이름
+    uint zoneIdx;
     uint seatNumber;      // 좌석번호
     uint price;           // 가격
     uint filterId;        // 필터 아이디
@@ -34,7 +35,7 @@ contract Ticket is ERC721Enumerable{
   mapping(address => uint[]) private _ownedTicket;
 
   // 티켓 예매 메소드
-  function _mintTicket(uint _gameId, uint _zoneId, uint _seatNumber, uint _price) internal returns (uint) {
+  function _mintTicket(uint _gameId, uint _zoneId, uint _zoneIdx, uint _seatNumber, uint _price) internal returns (uint) {
     _tokenIds.increment();
     uint _tokenId = _tokenIds.current();
 
@@ -42,6 +43,7 @@ contract Ticket is ERC721Enumerable{
       tokenId: _tokenId, 
       gameId: _gameId,   
       zoneId: _zoneId, 
+      zoneIdx: _zoneIdx,
       seatNumber: _seatNumber,
       price: _price,
       filterId: 0, 

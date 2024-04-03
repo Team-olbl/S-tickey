@@ -119,23 +119,23 @@ contract Api is Support, Ticket, Item, Game {
 
 
    // 티켓 예매
-  function _createTicket(uint _number, uint _gameId, uint _stadiumId, uint _zoneId, uint[] calldata _seatNumber) internal {
+  function _createTicket(uint _number, uint _gameId, uint _stadiumId, uint _zoneId, uint _zoneIdx, uint[] calldata _seatNumber) internal {
     require(0 < _number && _number < 5, "Wrong Ticket Number"); // 티켓의 매수는 1 ~ 4
-    uint price = _getSeatPrice(_stadiumId, _zoneId); // 가격 확인, 좌석 가격 * 매수
+    uint price = _getSeatPrice(_stadiumId, _zoneIdx); // 가격 확인, 좌석 가격 * 매수
     require(msg.value == price * _number, "Wrong price"); // 가격이 맞지않으면 반려
 
 
     for(uint i = 0; i < _number; i++) { // 매수만큼 반복
-      if(_getRefundAddress(_gameId, _zoneId, _seatNumber[i]) != address(0)) {
-        payable(_getRefundAddress(_gameId, _zoneId, _seatNumber[i])).transfer(price * 30 / 100);  
-        addTicketHistory(2, _getRefundAddress(_gameId, _zoneId, _seatNumber[i]), price * 30 / 100, _gameId, _zoneId, _seatNumber);
-        _setRefundAddress(_gameId, _zoneId, _seatNumber[i], address(0));
+      if(_getRefundAddress(_gameId, _zoneIdx, _seatNumber[i]) != address(0)) {
+        payable(_getRefundAddress(_gameId, _zoneIdx, _seatNumber[i])).transfer(price * 30 / 100);  
+        addTicketHistory(2, _getRefundAddress(_gameId, _zoneIdx, _seatNumber[i]), price * 30 / 100, _gameId, _zoneIdx, _seatNumber);
+        _setRefundAddress(_gameId, _zoneIdx, _seatNumber[i], address(0));
       }
-      _mintTicket(_gameId, _zoneId, _seatNumber[i], price);
-      _setSeatState(_gameId, _zoneId, _seatNumber[i], true);
+      _mintTicket(_gameId, _zoneId, _zoneIdx, _seatNumber[i], price);
+      _setSeatState(_gameId, _zoneIdx, _seatNumber[i], true);
     }
     reword.mintReword(msg.sender, price * _number * 5 / 100); // 0.05% reword 
-    addTicketHistory(0, msg.sender, msg.value, _gameId, _zoneId, _seatNumber);
+    addTicketHistory(0, msg.sender, msg.value, _gameId, _zoneIdx, _seatNumber);
   }
 
 
@@ -157,14 +157,14 @@ contract Api is Support, Ticket, Item, Game {
 
     if(nowTime >= refundTime) {
       refundPrice = refundPrice * 70 / 100;
-      _setRefundAddress(t.gameId, t.zoneId, t.seatNumber, msg.sender);
+      _setRefundAddress(t.gameId, t.zoneIdx, t.seatNumber, msg.sender);
     } 
     payable(msg.sender).transfer(refundPrice);
     _cancleTicket(_tokenId);
-    _setSeatState(t.gameId, t.zoneId, t.seatNumber, false);
+    _setSeatState(t.gameId, t.zoneIdx, t.seatNumber, false);
     uint[] memory seatNumeber = new uint[](1); // 길이가 1인 동적 배열을 생성
     seatNumeber[0] = t.seatNumber;
-    addTicketHistory(1, msg.sender, refundPrice, t.gameId, t.zoneId, seatNumeber);
+    addTicketHistory(1, msg.sender, refundPrice, t.gameId, t.zoneIdx, seatNumeber);
   }
 
 
@@ -184,7 +184,7 @@ contract Api is Support, Ticket, Item, Game {
         gameStartTime: g.gameStartTime,
         stadium: g.stadium,
         zoneId: t.zoneId,
-        zoneName: _getZoneName(t.zoneId),
+        zoneName: _getZoneName(t.zoneIdx),
         seatNumber: t.seatNumber,
         price: t.price,
         filterId: t.filterId,
@@ -207,7 +207,10 @@ contract Api is Support, Ticket, Item, Game {
 
     _ticketInfo[_tokenId].filterId = _itemId;
 
-    _supportInfo[_supportId].balance += i.price / 2;    
+    _supportInfo[_supportId].balance += i.price / 2;
+
+    _donateWithHistory(_supportId, i.price / 2, unicode"Stickey가 응원합니다.");
+
     reword.burnReword(msg.sender, i.price, false);
   }
 

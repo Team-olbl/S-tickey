@@ -20,19 +20,11 @@ contract Support {
     string text;          // 닉네임, 한 줄 글
   }
 
-  // 후원한 내역 구조체
-  struct SupportingHistory {
-    uint amount;          // 후원한 양
-    uint time;     // 후원한 시간
-    string supportName;       // 후원한 후원글 ID
-    string text;          // 내가 남긴 글
-  }
 
   // 후원 글 정보 ( 후원 글 ID => 후원 글 정보 )
   mapping(uint => SupportInfo) internal _supportInfo;
 
-  // 후원한 내역 ( 내 지갑 주소 => 후원 내역 )
-  mapping(address => SupportingHistory[]) private _supportingHistory;
+
 
   // 후원받은 내역 ( 후원 글 ID => 후원 내역 )
   mapping(uint => SupportedHistory[]) private _supportedHistory;
@@ -52,14 +44,6 @@ contract Support {
   function _donate(uint _supportId, uint _amount, string memory _text) internal {
     // 현재 시간이 endTime보다 작아야 후원 가능
     require(block.timestamp < _supportInfo[_supportId].endTime, "Sponsorship has ended.");
-
-    // 후원한 내역 저장
-    _supportingHistory[msg.sender].push(SupportingHistory({
-      supportName: _supportInfo[_supportId].name,
-      amount: _amount,
-      time: block.timestamp,
-      text: _text
-    }));
 
     // 후원받은 내역 저장
     _supportedHistory[_supportId].push(SupportedHistory({
@@ -87,10 +71,6 @@ contract Support {
     return _supportInfo[_supportId];
   }
 
-  // 후원한 내역 조회
-  function _getSupportingHistory(address _addr) internal view returns (SupportingHistory[] memory) {
-    return _supportingHistory[_addr];
-  }
 
   // 후원받은 내역 조회
   function _getSupptedHistory(uint _supportId) internal view returns (SupportedHistory[] memory) {
