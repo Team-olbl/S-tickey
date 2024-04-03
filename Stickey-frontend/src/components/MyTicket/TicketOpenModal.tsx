@@ -11,7 +11,6 @@ import '../../pages/MyTicket/TicketEdit/styles.css';
 import { useCallback, useState, useEffect } from 'react';
 import userStore from '../../stores/userStore';
 import GetTime from './GetTime';
-import Warning from '../../assets/image/Warning.png';
 import { useAnimate } from 'framer-motion';
 
 interface TicketOpenModalProps {
@@ -106,13 +105,13 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
       enable: dayjs().add(15, 'second'),
       phone,
     };
-    setQr(`https://api.qrserver.com/v1/create-qr-code/?size=300x250&data=${JSON.stringify(QRData)}`);
+    setQr(`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${JSON.stringify(QRData)}`);
   }, []);
 
   const handleQR = () => {
     setIsQR(!isQR);
     if (isQR) {
-      animate('div', { rotateY: [180, 0] }, { duration: 0.6 });
+      animate('div:not(#edit)', { rotateY: [180, 0] }, { duration: 0.6 });
       setOnLoad(false);
     } else {
       createQR();
@@ -121,7 +120,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
 
   const handleLoad = () => {
     setOnLoad(true);
-    if (!onLoad) animate('div', { rotateY: [180, 0] }, { duration: 0.6 });
+    if (!onLoad) animate('div:not(#edit)', { rotateY: [180, 0] }, { duration: 0.6 });
   };
 
   return (
@@ -130,25 +129,23 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
         {/* modal wrapper */}
         <div className="flex justify-center items-center rounded-lg pt-16" ref={scope}>
           <div className="flex justify-center">
-            {onLoad && (
-              <div
-                className="flex justify-center mb-2 items-center fixed left-0 right-0 rounded-1"
-                style={{ transform: 'translateY(-110%)' }}
-              >
-                <img src={Warning} alt="" className="w-8" />
-                <div>
-                  <p className="ml-2 text-sm text-white h-full ">캡처한 이미지로는 입장이 불가능합니다.</p>
-                </div>
-              </div>
+            {!isQR && (
+              <img
+                onClick={handleEditClick}
+                className="fixed right-6 mt-6 bg-white/70 w-7 h-7 rounded-full p-1"
+                src={Edit}
+                alt="Edit"
+                id="edit"
+              />
             )}
             {/* modal */}
             <div className="flex flex-col justify-center items-center w-[80%]">
               <div
                 ref={containerRef}
-                className="text-center"
+                className="text-center relative"
                 style={{ transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg)' }}
               >
-                <div ref={overlayRef} className={`filter${ticket.filterId} w-full h-full fixed`}></div>
+                <div ref={overlayRef} className={`filter${ticket.filterId} w-full h-full absolute`}></div>
                 <div>
                   <div className={`background${ticket.backgroundId} rounded-b-lg p-2 font-semibold`}>
                     <p>
@@ -160,15 +157,9 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
                     {!isQR ? (
                       <div className="flex justify-center max-w-[300px] h-auto">
                         <img className={`rounded-3xl p-4 w-full`} src={ticket.gameImage} alt="Game" />
-                        <img
-                          onClick={handleEditClick}
-                          className="fixed right-6 mt-6 bg-white/70 w-7 h-7 rounded-full p-1"
-                          src={Edit}
-                          alt="Edit"
-                        />
                       </div>
                     ) : (
-                      <div>
+                      <div className="max-w-[300px] h-auto px-4 py-2">
                         <img className={`rounded-3xl p-4 ${onLoad && `p-12`}`} src={qr} onLoad={handleLoad} />
                         {onLoad && <GetTime createQR={createQR}></GetTime>}
                       </div>
@@ -182,7 +173,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
                       {ticket.zoneName} {ticket.seatNumber}번 좌석
                     </p>
                     <p>결제금액 : {toEther(ticket.price)} ETH</p>
-                    <div className="px-4 py-3 flex justify-center">
+                    <div className="px-4 py-2 flex justify-center">
                       <button className="z-[1] bg-gray-400 mx-1 p-2 rounded-md text-white" onClick={handleQR}>
                         QR 전환
                       </button>
