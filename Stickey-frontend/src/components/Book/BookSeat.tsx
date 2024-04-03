@@ -33,7 +33,7 @@ const BookSeat = () => {
 
   useEffect(() => {
     if (isModalOpen) {
-      setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, []);
+      setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, [], seatInfo.zoneIdx);
       refetchSeatInfoCnt();
     }
   }, [isModalOpen, refetchSeatInfoCnt, setSelectInfo, seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice]);
@@ -78,7 +78,7 @@ const BookSeat = () => {
       ? seatInfo.seat.filter(s => s !== seat)
       : [...seatInfo.seat, seat];
 
-    setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, newSelectedSeats);
+    setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, newSelectedSeats, seatInfo.zoneIdx);
   };
 
   const calculateTotalPrice = () => {
@@ -87,7 +87,7 @@ const BookSeat = () => {
   };
 
   const goBack = () => {
-    setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, []);
+    setSelectInfo(seatInfo.section, seatInfo.sectionId, seatInfo.sectionPrice, [], 0);
     navigate(`/${gameInfo?.id}/section`, { replace: true });
   };
 
