@@ -31,7 +31,7 @@ const Modal = ({ width, height, title, onClose, children }: IModalProps) => {
       {/* modal wrapper */}
       <div
         ref={modalRef}
-        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white`}
+        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white ${isRendering ? 'animate-modalOn' : 'animate-modalOff'}`}
         onClick={handleModalClick}
       >
         {/* modal */}

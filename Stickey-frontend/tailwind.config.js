@@ -10,6 +10,34 @@ export default {
         Stickey_Gray: '#A9A9A9',
         Stickey_Middle: '#2E2E3D',
       },
+      translate: {
+        mHalf: '-50%',
+      },
+      keyframes: {
+        modalOn: {
+          from: { opacity: 0, transform: 'translate(-50%, -45%)' },
+          to: { opacity: 1, transform: 'translate(-50%, -50%)' },
+        },
+        modalOff: {
+          from: { opacity: 1, transform: 'translate(-50%, -50%)' },
+          to: { opacity: 0, transform: 'translate(-50%, -45%)' },
+        },
+        sheetOn: {
+          from: { opacity: 0, transform: 'translateY(80px)' },
+          to: { opacity: 1 },
+        },
+        sheetOff: {
+          from: { opacity: 1 },
+          to: { opacity: 0, transform: 'translateY(80px)' },
+        },
+      },
+      animation: {
+        modalOn: 'modalOn 0.5s ease-in-out',
+        modalOff: 'modalOff 0.5s ease-in',
+        sheetOn: 'sheetOn 0.3s ease-in-out',
+        sheetOff: 'sheetOff 0.3s ease-in',
+      },
+
       fontFamily: {
         Pretendard: ['IBMPlexSansKR-Regular'],
       },
