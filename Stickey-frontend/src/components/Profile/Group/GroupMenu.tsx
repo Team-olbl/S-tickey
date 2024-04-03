@@ -10,7 +10,7 @@ const GroupMenu = ({ status }: { status: boolean }) => {
 
   return (
     <>
-      <div className="max-w-[500px] w-full h-[208px] mt-4 border-t-[0.5px] pb-20">
+      <div className="max-w-[500px] w-full mt-4 border-t-[0.5px]">
         <div className="px-4">
           <div
             className="flex flex-row items-center justify-between h-[40px] text-white px-4 cursor-pointer"
