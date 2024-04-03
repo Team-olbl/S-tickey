@@ -134,7 +134,7 @@ const SponsorDetailPage = () => {
               <AnimatePresence>
                 {isHistoryOpen && (
                   <motion.div
-                    className="h-auto bg-white rounded-md overflow-scroll"
+                    className="h-auto bg-white rounded-md overflow-scroll py-4"
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 150, opacity: 1, paddingTop: 8 }}
                     exit={{ height: 0, opacity: 0 }}
@@ -142,8 +142,6 @@ const SponsorDetailPage = () => {
                   >
                     {supportedHistory && supportedHistory.length > 0 ? (
                       <>
-                        <div className="text-sm px-2">내역</div>
-                        <hr className="border-gray-400 py-1" />
                         {supportedHistory!.map(item => {
                           return (
                             <div key={item.time} className="flex px-2 items-baseline">
