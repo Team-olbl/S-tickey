@@ -118,21 +118,21 @@ public class GameServiceImpl implements GameService {
         //해당 경기장에 속한 구역 id, price, zoneName 리스트 가져오기
         Map<Integer, ZoneDto> zoneIds = stadiumZoneRepository.findZoneByStadiumIdAndMap(stadiumId);
         //StadiumSeat -> Zone 별로 좌석 개수 가져오기
-        Map<Integer, Long> countDto = stadiumSeatRepository.findSeatCountsGroupByZoneId(
-            zoneIds.keySet().stream().toList());
+        List<Integer> zoneIdList = zoneIds.keySet().stream().toList();
+        Map<Integer, Long> countDto = stadiumSeatRepository.findSeatCountsGroupByZoneId(zoneIdList);
 
         List<GameSeat> gameSeatList = new ArrayList<>();
 
         //for문으로 저장 game, zoneId, zoneName, seatNumber, status, price
-        for (int i = 1; i <= zoneIds.size(); i++) {
-            for (int j = 1; j <= countDto.get(i); j++) {
+        for (int i = 0; i < zoneIdList.size(); i++) {
+            for (int j = 1; j <= countDto.get(zoneIdList.get(i)); j++) {
                 GameSeat gameSeat = GameSeat.builder()
                     .game(game)
-                    .zoneId(i)
-                    .zoneName(zoneIds.get(i).getName())
+                    .zoneId(zoneIdList.get(i))
+                    .zoneName(zoneIds.get(zoneIdList.get(i)).getName())
                     .seatNumber(j)
                     .status(SeatStatus.AVAILABLE)
-                    .price(zoneIds.get(i).getPrice())
+                    .price(zoneIds.get(zoneIdList.get(i)).getPrice())
                     .build();
 
                 gameSeatList.add(gameSeat);
@@ -326,8 +326,8 @@ public class GameServiceImpl implements GameService {
                         .toArray(String[]::new));
             };
 
-            // 현재 시간으로부터 15분 후 - test용 3분 후
-            Date fifteenMinutesLater = new Date(System.currentTimeMillis() + 1 * 60 * 1000);
+            // 현재 시간으로부터 3분 후
+            Date fifteenMinutesLater = new Date(System.currentTimeMillis() + 3 * 60 * 1000);
 
             // TaskScheduler를 사용하여 작업을 스케줄링
             taskScheduler.schedule(releaseTask, fifteenMinutesLater);
@@ -351,9 +351,8 @@ public class GameServiceImpl implements GameService {
             paymentReq.getZoneId()); // Redis 키 생성
 
         if (!paymentReq.getIsRefund()) { //결제 요청시
-            // 참가열에서 해당 유저 확인 후  삭제
+            // 참가열 존재 여부 확인
             existsInRunningQueue(paymentReq.getGameId(), userDetails.getId());
-            removeFromRunQueue(paymentReq.getGameId(), userDetails.getId());
 
             // 좌석 번호 목록을 스트림으로 변환하여 Redis에 저장된 선점 상태 확인
             List<String> seatNumbersStr = paymentReq.getSeatNumbers().stream().map(Object::toString)
@@ -446,13 +445,16 @@ public class GameServiceImpl implements GameService {
     @Override
     public void cancelReserve(int id, Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal(); //로그인 한 유저정보 확인
-        existsInRunningQueue(id, userDetails.getId());
+        log.info("[cancelReserve] 참가열 취소 요청 : {}", userDetails.getId());
         removeFromRunQueue(id, userDetails.getId());
     }
 
     private void existsInRunningQueue(int gameId, int userId) {
-        if (redisTemplate.opsForZSet().rank("run::" + gameId, String.valueOf(userId)) == null) {
-            log.info("[existsInRunningQueue] 참가열에 존재하지 않는 유저 요청 : {}", userId);
+        String runKey = "run::" + gameId;
+        Long rank = redisTemplate.opsForZSet().rank(runKey, String.valueOf(userId));
+        
+        if (rank == null) {
+            log.info("[existsInRunningQueue] 참가열에 존재하지 않는 유저 요청 : ", userId);
             throw new BusinessException(ErrorCode.NOT_IN_RUNNING_QUEUE);
         }
     }

@@ -5,6 +5,7 @@ import com.olbl.stickeymain.domain.user.dto.EmailCodeReq;
 import com.olbl.stickeymain.domain.user.dto.PreferenceReq;
 import com.olbl.stickeymain.domain.user.dto.ProfileRes;
 import com.olbl.stickeymain.domain.user.dto.SignUpReq;
+import com.olbl.stickeymain.domain.user.dto.UpdatePasswordReq;
 import com.olbl.stickeymain.domain.user.dto.UserInfoReq;
 import com.olbl.stickeymain.domain.user.dto.UserInfoRes;
 import org.springframework.security.core.Authentication;
@@ -30,4 +31,6 @@ public interface UserService {
     UserInfoRes getUserInfo();
 
     void updateUserInfo(UserInfoReq userInfoReq, MultipartFile profile);
+
+    void updateUserPassword(UpdatePasswordReq updatePasswordReq);
 }
