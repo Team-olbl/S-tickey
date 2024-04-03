@@ -2,7 +2,6 @@
 import { useRef } from 'react';
 import {
   connect,
-  createTicket,
   getTickets,
   getWalletInfo,
   refundTicket,
@@ -10,7 +9,6 @@ import {
   donate,
   withdraw,
   getSupprtedHistory,
-  getSupprtingHistory,
   getPaymentHistory,
   getRewordHistory,
   getItemList,
@@ -53,22 +51,22 @@ const BlockchainTest = () => {
 
   const _createTicket = async (event: any) => {
     event.preventDefault();
-    const fd = new FormData(event.target);
+    // const fd = new FormData(event.target);
 
-    const data = Object.fromEntries(fd.entries());
-    const seatNumber: any = fd.getAll('seatNumber');
-    const price = Number(prompt('티켓가격'));
+    // const data = Object.fromEntries(fd.entries());
+    // const seatNumber: any = fd.getAll('seatNumber');
+    // const price = Number(prompt('티켓가격'));
 
-    const result = await createTicket(
-      Number(data.number),
-      Number(data.gameId),
-      Number(data.stadiumId),
-      Number(data.zoneId),
-      seatNumber,
-      price,
-    );
-    console.log(result);
-    alert('실행완료');
+    // const result = await createTicket(
+    //   Number(data.number),
+    //   Number(data.gameId),
+    //   Number(data.stadiumId),
+    //   Number(data.zoneId),
+    //   seatNumber,
+    //   price,
+    // );
+    // console.log(result);
+    // alert('실행완료');
   };
 
   const _getTickets = async () => {
@@ -86,7 +84,7 @@ const BlockchainTest = () => {
     const name = prompt('단체이름');
     const address = prompt('지갑주소');
     const end_Time = prompt('종료 시간');
-    if (!id || !name || !address || end_Time) {
+    if (!id || !name || !address || !end_Time) {
       alert('등록 취소');
       return;
     }
@@ -116,10 +114,7 @@ const BlockchainTest = () => {
     console.log(result);
   };
 
-  const _getSupprtingHistory = async () => {
-    const result = await getSupprtingHistory();
-    console.log(result);
-  };
+
 
   const _getPaymentHistory = async () => {
     const result = await getPaymentHistory();
@@ -269,6 +264,52 @@ const BlockchainTest = () => {
     console.log(result);
   };
 
+  const execute = () => {
+
+    const games = [
+      ['1', '2024-04-02 16:50:00.974000', '2024-04-13 14:00:00.974000', '서울월드컵경기장', '포항 스틸러스', 'FC 서울', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_143128_서울포항.jpg'], [
+        '13', '2024-04-02 16:50:38.663000', '2024-04-03 17:00:38.663000', '서울월드컵경기장', 'FC 서울', '포항 스틸러스', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_153781_화면 캡처 2024-03-25 103903.png'], [
+        '17', '2024-04-08 18:00:00.812000', '2024-04-10 19:30:51.812000', '사직야구장', '두산 베어스', '롯데 자이언츠', 'BASEBALL', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_161211_KBO.jpg'], [
+        '18', '2024-04-02 17:00:00.663000', '2024-04-16 16:30:00.663000', 'DGB대구은행파크', '대구 FC', '인천 UTD', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_162203_대구인천.jpg'], [
+        '19', '2024-04-03 17:00:00.663000', '2024-04-07 14:00:00.663000', '전주월드컵경기장', '전북 현대 모터스', '강원 FC', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_163212_전북강원.jpg'], [
+        '21', '2024-04-03 17:00:00.663000', '2024-04-07 16:30:00.663000', '대전월드컵경기장', '대전 하나', '포항 스틸러스', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_03_023029_대전포항.jpg'], [
+        '22', '2024-04-03 17:00:00.663000', '2024-04-07 14:00:00.663000', 'DGB대구은행파크', '대구 FC', 'FC 서울', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_03_023758_대구서울.png'], [
+        '23', '2024-04-03 17:00:00.663000', '2024-04-06 16:30:00.663000', '김천종합운동장', '김천 상무 프로축구단', '광주 FC', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_03_024009_김천광주.png'], [
+        '24', '2024-04-03 17:00:00.663000', '2024-04-06 14:00:00.663000', '울산문수축구경기장', '울산 HD FC', '수원 FC', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_03_024600_울산수원.jpg']
+    ];
+
+    const supports = [
+      ['2', '드림축구재단', '0x7175e6a27A06634bf866d56696A24586d8Fb97a1', '2024-04-15 23:59:59.000000'],
+      ['3', '드림축구재단', '0x7175e6a27A06634bf866d56696A24586d8Fb97a1', '2024-04-01 23:59:59.000000'],
+      ['4', '경상북도체육회', '0x7175e6a27A06634bf866d56696A24586d8Fb97a1', '2024-04-13 23:59:59.000000'],
+      ['5', '한국대학스포츠협의회', '0x7175e6a27A06634bf866d56696A24586d8Fb97a1', '2024-04-13 23:59:59.000000'],
+      ['6', '드림축구재단', '0x7175e6a27A06634bf866d56696A24586d8Fb97a1', '2024-04-08 23:59:59.000000']
+    ];
+
+    (async () => {
+
+      for (let i = 0; i < games.length; i++) {
+        const game = games[i];
+        const booktime = Math.floor(new Date(game[1]!.toString()).getTime() / 1000);
+        const gametime = Math.floor(new Date(game[2]!.toString()).getTime() / 1000);
+
+        await setGame(Number(game[0]), booktime, gametime, game[3], game[4], game[5], game[6], game[7]);
+      }
+
+      for (let i = 0; i < supports.length; i++) {
+        const support = supports[i];
+        const et = Math.floor(new Date(support[3]!.toString()).getTime() / 1000);
+        await setSupport(Number(support[0]), support[1],support[2],et);
+      }
+
+
+    })()
+
+
+
+  }
+
+
   return (
     <>
       {isSuccess && (
@@ -339,9 +380,6 @@ const BlockchainTest = () => {
               <button type="button" onClick={_getSupprtedHistory}>
                 후원받은 이력 보기
               </button>
-              <button type="button" onClick={_getSupprtingHistory}>
-                후원한 이력 보기
-              </button>
             </div>
           </div>
           <div className="text-center bg-sky-200 w-full">
@@ -396,9 +434,12 @@ const BlockchainTest = () => {
               <button type="button" onClick={_getSeatState}>
                 좌석 상태 조회
               </button>
+              <button type="button" onClick={execute}>
+                쿼리 실행
+              </button>
             </div>
           </div>
-        </div>
+        </div>  
       )}
     </>
   );
