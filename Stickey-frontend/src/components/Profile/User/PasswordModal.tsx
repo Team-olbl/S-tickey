@@ -44,36 +44,35 @@ const PasswordModal = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <Modal width="330px" height="auto" title="비밀번호 변경" onClose={onClose} >
-      <div className="">
-        <div className="flex flex-col items-center justify-center px-4 pt-10 pb-4">
-          <div className="flex items-center">
-            <p className="w-[120px] pt-4 pb-2 text-sm">비밀번호</p>
+      <div>
+        <div className="flex flex-col items-center px-8 pt-10 pb-4">
+          <div className="flex items-center gap-1">
+            <p className="w-[120px] pt-4 pb-2 text-xs">새 비밀번호</p>
             <input
               type="password"
-              name='password'
+              name="password"
               placeholder="변경할 비밀번호를 입력하세요"
-              className="w-full outline-none border-b p-2  text-sm"
+              className="w-full outline-none border-b p-2  text-xs"
               onChange={handleInputChange}
-              autoComplete='off'
+              autoComplete="off"
             />
           </div>
           {isPasswordValid === false && <p className="pl-14 text-xs text-red-500">비밀번호 형식이 유효하지 않습니다.</p>}
         </div>
-        <div className="flex flex-col items-center px-4">
-          <div className="flex flex-row items-center">
-            <p className="w-[120px] text-sm">비밀번호 확인</p>
+        <div className="flex flex-col items-center px-8">
+          <div className="flex items-center gap-1">
+            <p className="w-[120px] text-xs">비밀번호 확인</p>
             <input 
               type="password"
               name="passwordConfirm"
               placeholder="비밀번호를 다시 입력해주세요"
-              className="w-full outline-none border-b p-2 text-sm"
+              className="w-full outline-none border-b p-2 text-xs"
               onChange={handleInputChange}
             />
           </div>
           {isPasswordMatch === false && <p className="pl-14 text-xs text-red-500">비밀번호가 서로 일치하지 않습니다.</p>}
         </div>
       </div>
-      {}
       <div className="flex items-center justify-center px-20 py-6">
         <button className={`border border-none bg-Stickey_Main text-white rounded-full w-full h-8 ${isButtonEnabled ? 'bg-Stickey_Main' : 'bg-gray-500'}`} onClick={handleChangePassword} disabled={!isButtonEnabled}>변경하기</button>
       </div>
