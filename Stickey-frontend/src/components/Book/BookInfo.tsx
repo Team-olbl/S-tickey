@@ -11,7 +11,6 @@ const BookInfo = () => {
         <div>
           <img className="w-8 h-8 rounded-full" src={gameInfo?.homeTeamLogo} />
         </div>
-
         <p className="text-white px-2">VS</p>
         <div>
           <img className="w-8 h-8 rounded-full" src={gameInfo?.awayTeamLogo} />
