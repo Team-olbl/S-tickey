@@ -50,10 +50,10 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
     <>
       <div className="px-4 py-1">
         <div className="w-full max-w-[500px] border-none border-[#2E2E3D] rounded-[15px] bg-[#2E2E3D] shadow-[2px_2px_rgba(0,0,0,0.25)] p-6 text-white">
-          <div className="flex flex-row text-center justify-center gap-10">
+          <div className="grid grid-cols-[45%_10%_45%]">
             <div className="flex flex-col justify-center items-center ">
               <p className="text-[10px] pb-1">Home</p>
-              <div className="w-12 h-12 rounded-full bg-Stickey_Gray mb-1">
+              <div className="w-20 h-20 rounded-full bg-Stickey_Gray mb-1">
                 <img src={data.homeTeamLogo || ''} />
               </div>
               <p className="text-md">{data.homeTeam}</p>
@@ -63,10 +63,10 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
             </div>
             <div className="flex flex-col justify-center items-center">
               <p className="text-[10px] pb-1">Away</p>
-              <div className="w-12 h-12 rounded-full bg-Stickey_Gray mb-1">
+              <div className="w-20 h-20 rounded-full bg-Stickey_Gray mb-1">
                 <img src={data.awayTeamLogo || ''} />
               </div>
-              <p className="text-md pt-2">{data.awayTeam}</p>
+              <p className="text-md">{data.awayTeam}</p>
             </div>
           </div>
           <div className="flex flex-col text-center pt-[10px] text-sm">
