@@ -12,6 +12,7 @@ import { useCallback, useState, useEffect } from 'react';
 import userStore from '../../stores/userStore';
 import GetTime from './GetTime';
 import { useAnimate } from 'framer-motion';
+import { createPortal } from 'react-dom';
 
 interface TicketOpenModalProps {
   ticket: ITicket;
@@ -123,7 +124,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
     if (!onLoad) animate('div:not(#edit)', { rotateY: [180, 0] }, { duration: 0.6 });
   };
 
-  return (
+  return createPortal(
     <>
       <div className="fixed top-0 w-full h-full max-w-[500px] bottom-0 bg-black/70 z-[2]">
         {/* modal wrapper */}
@@ -202,7 +203,8 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
           </div>
         </div>
       </div>
-    </>
+    </>,
+    document.getElementById('root')!,
   );
 };
 
