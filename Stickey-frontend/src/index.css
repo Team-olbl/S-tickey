@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  width: 100vw;
+  max-width: 500px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+*::-webkit-scrollbar {
+  width: 0px;
+  display: none;
+}
+
+@layer base {
+  @font-face {
+    font-family: 'IBMPlexSansKR-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+}

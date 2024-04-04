@@ -1,0 +1,66 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /api
+
+spring:
+  profiles:
+    active: local # 기본설정
+    group:
+      local:
+        - db-local
+      server:
+        - db-server
+    include:
+      - key
+      - db
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Seoul
+    show-sql: true
+    defer-datasource-initialization: true
+    open-in-view: false
+
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 40MB
+
+  mail: # smtp
+    host: smtp.naver.com  # smtp 서버 주소
+    port: 465  # smtp 서버 포트
+    username: ${mail.username}
+    password: ${mail.password}
+    properties:
+      debug: true
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.naver.com
+            enable: true
+
+springdoc: #swagger
+  packages-to-scan: com.olbl.stickeymain
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /stickeymain.html            # Swagger UI 경로 => localhost:8080/stickey-main.html
+    tags-sorter: alpha            # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    operations-sorter: alpha      # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+  api-docs:
+    path: /api-docs/json
+    groups:
+      enabled: true
+  cache:
+    disabled: true
+

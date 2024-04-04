@@ -1,0 +1,32 @@
+---
+spring:
+  config:
+    activate:
+      on-profile: db-local
+  datasource:
+    driver-class-name: ${local.db.driver}
+    url: ${local.db.url}
+    username: ${local.db.username}
+    password: ${local.db.password}
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      username:
+      password:
+---
+spring:
+  config:
+    activate:
+      on-profile: db-server
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${server.db.url}
+    username: ${server.db.username}
+    password: ${server.db.password}
+  data:
+    redis:
+      host: ${server.redis.host}
+      port: ${server.redis.port}
+      username: ${server.redis.username}
+      password: ${server.redis.password}
