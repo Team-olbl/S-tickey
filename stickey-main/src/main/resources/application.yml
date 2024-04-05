@@ -1,3 +1,8 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /api
+
 spring:
   profiles:
     active: local # 기본설정
@@ -13,18 +18,36 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
         jdbc:
           time_zone: Asia/Seoul
     show-sql: true
+    defer-datasource-initialization: true
+    open-in-view: false
 
   servlet:
     multipart:
       max-file-size: 20MB
       max-request-size: 40MB
+
+  mail: # smtp
+    host: smtp.naver.com  # smtp 서버 주소
+    port: 465  # smtp 서버 포트
+    username: ${mail.username}
+    password: ${mail.password}
+    properties:
+      debug: true
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.naver.com
+            enable: true
 
 springdoc: #swagger
   packages-to-scan: com.olbl.stickeymain
@@ -41,14 +64,3 @@ springdoc: #swagger
   cache:
     disabled: true
 
-cloud: #s3
-  aws:
-    s3:
-      bucket: ${local.aws.bucket}
-      credentials:
-        access-key: ${local.aws.access-key}
-        secret-key: ${local.aws.secret-key}
-    region:
-      static: ap-northeast-2
-    stack:
-      auto: false # ec2의 spring cloud 자동 구성 해제
