@@ -36,19 +36,19 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
     const handleTouchMove = (e: TouchEvent) => {
       if (!currentContainer || !currentOverlay) return;
       const touch = e.touches[0];
-      const { clientWidth, clientHeight } = currentContainer;
+      // const { clientWidth, clientHeight } = currentContainer;
       const offsetX = touch.clientX - currentContainer.getBoundingClientRect().left;
       const offsetY = touch.clientY - currentContainer.getBoundingClientRect().top;
-      const newRotateY = (offsetX / clientWidth) * 50 - 25;
-      const newRotateX = -((offsetY / clientHeight) * 50 - 25);
-      currentContainer.style.transform = `perspective(1000px) rotateX(${newRotateX}deg) rotateY(${newRotateY}deg)`;
-      currentOverlay.style.backgroundPosition = `${offsetX / 5}px ${offsetY / 5}px`;
+      const newRotateY = (offsetX / 5) + 20;
+      const newRotateX = -((offsetY / 30) * 4 - 20);
+      currentContainer.style.transform = `perspective(800px) rotateX(${newRotateX}deg) rotateY(${newRotateY}deg)`;
+      currentOverlay.style.backgroundPosition = `filter${ticket.filterId}` === "filter1" ? `${offsetX / 2}px` : `${offsetX / 5}px ${offsetY / 5}px`;
     };
 
     const handleTouchEnd = () => {
       if (!currentContainer || !currentOverlay) return;
       currentContainer.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
-      // currentOverlay.style.filter = `opacity(0)`;
+      currentOverlay.style.backgroundPosition = `0px 0px`
     };
 
     currentContainer?.addEventListener('touchmove', handleTouchMove);
