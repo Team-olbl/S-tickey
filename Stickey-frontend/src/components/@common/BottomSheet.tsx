@@ -38,21 +38,21 @@ const BottomSheet: React.FC<Props> = ({ isOpen, onClose }) => {
                 onClick={() => navigate('/soccer')}
               >
                 <img src={Soccer} className="w-[50px] scale-[1.6]" />
-                <p className="text-[10px]">축구</p>
+                <p className="text-[12px]">축구</p>
               </div>
               <div
                 className="flex flex-col items-center justify-center w-[88px] h-[100px] border border-Stickey_Gray rounded-[5px] gap-1 cursor-pointer"
                 onClick={() => navigate('/baseball')}
               >
                 <img src={BaseBall} className="w-[50px]" />
-                <p className="text-[10px]">야구</p>
+                <p className="text-[12px]">야구</p>
               </div>
               <div
                 className="flex flex-col items-center justify-center w-[88px] h-[100px] border border-Stickey_Gray rounded-[5px] gap-1 cursor-pointer"
                 onClick={() => navigate('/basketball')}
               >
                 <img src={BasketBall} className="w-[50px]" />
-                <p className="text-[10px]">농구</p>
+                <p className="text-[12px]">농구</p>
               </div>
             </div>
           </div>
