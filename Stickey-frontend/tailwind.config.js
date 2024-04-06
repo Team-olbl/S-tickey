@@ -30,12 +30,17 @@ export default {
           from: { opacity: 1 },
           to: { opacity: 0, transform: 'translateY(80px)' },
         },
+        rotation: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
       },
       animation: {
         modalOn: 'modalOn 0.5s ease-in-out',
         modalOff: 'modalOff 0.5s ease-in',
         sheetOn: 'sheetOn 0.3s ease-in-out',
         sheetOff: 'sheetOff 0.3s ease-in',
+        rotation: 'rotation 1s linear infinite',
       },
 
       fontFamily: {

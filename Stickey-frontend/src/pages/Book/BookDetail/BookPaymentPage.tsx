@@ -10,10 +10,12 @@ import { connect, createTicket } from '../../../service/web3/api';
 import { registSeats } from '../../../service/Book/api';
 import { toast } from 'react-toastify';
 import userStore from '../../../stores/userStore';
+import useSpinner from "../../../stores/useSpinner";
 
 const BookPaymentPage = () => {
   const { name, email, phone } = userStore();
   const { seatInfo, clearSeatInfo } = useTicketStore();
+  const {setIsLoading, unSetIsLoading } = useSpinner();
   const navigate = useNavigate();
 
   const info: IHeaderInfo = {
@@ -69,7 +71,8 @@ const BookPaymentPage = () => {
     const buyTicket = async () => {
       try {
         if (!gameInfo?.id) return;
-
+        
+        setIsLoading();
         await registSeats({
           gameId: gameInfo.id,
           zoneId: seatInfo.sectionId,
@@ -104,6 +107,8 @@ const BookPaymentPage = () => {
         navigate(`/${gameInfo?.id}/section`, { replace: true })
         clearSeatInfo()
         return;
+      } finally {
+        unSetIsLoading();
       }
     };
 
