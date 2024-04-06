@@ -7,7 +7,7 @@ const DreamHeader = () => {
             <div className="relative w-[20px] border-b border-[#8989FF] "></div>
             <div className="absolute w-[8px] h-[8px] rounded-full bg-[#8989FF] left-[6px] top-1/2 transform -translate-y-1/2"></div>
           </div>
-          <div className="text-white text-[12px]">
+          <div className="text-white text-xs">
             <p>증가</p>
           </div>
         </div>
@@ -16,7 +16,7 @@ const DreamHeader = () => {
             <div className="relative w-[20px] border-b border-[#2F9E65]"></div>
             <div className="absolute w-[8px] h-[8px] rounded-full bg-[#2F9E65] left-[6px] top-1/2 transform -translate-y-1/2"></div>
           </div>
-          <div className="text-white text-[12px]">
+          <div className="text-white text-sm">
             <p>감소</p>
           </div>
         </div>

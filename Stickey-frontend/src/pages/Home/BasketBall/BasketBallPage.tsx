@@ -63,8 +63,6 @@ const BasketBallPage = () => {
       })
     : [];
 
-  console.log(filteredMatches);
-
   return (
     <>
       <Header info={info} />
