@@ -8,15 +8,14 @@ import userStore from '../../stores/userStore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'dayjs/locale/ko';
-import WaittingModal from "../Book/WaittingModal";
-
+import WaittingModal from '../Book/WaittingModal';
 
 const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { isLogin } = userStore();
   const navigate = useNavigate();
   const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
-  const setModalData = useTicketInfoStore((state) => state.setModalData);
+  const setModalData = useTicketInfoStore(state => state.setModalData);
   const bookingStatus = getBookingStatus(data);
   dayjs.locale('ko');
 
@@ -123,15 +122,20 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
             </div>
 
             <div className="pt-4">
-              <button onClick={() => {
-                setModalData(data); 
-                setIsWaitModalOpen(true);
-              }} className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm">예매하기</button>
+              <button
+                onClick={() => {
+                  setModalData(data);
+                  setIsWaitModalOpen(true);
+                }}
+                className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm"
+              >
+                예매하기
+              </button>
             </div>
           </div>
         </BottomModal>
       )}
-        {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)}/>}
+      {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)} />}
     </>
   );
 };

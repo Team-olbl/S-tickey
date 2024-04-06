@@ -62,8 +62,6 @@ const BaseBallPage = () => {
       })
     : [];
 
-  console.log(filteredMatches);
-
   return (
     <>
       <Header info={info} />
