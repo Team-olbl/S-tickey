@@ -55,7 +55,6 @@ const IndividualForm = () => {
     } else if (name === 'name') {
       setName(value);
     }
-    console.log(value);
   };
 
   const isValidEmail = (email: string) => {
