@@ -50,7 +50,7 @@ const TeamList = ({
               <div className="w-8 h-9">
                 <img src={team.logo} alt={team.name} />
               </div>
-              <p className="text-[10px] text-white">{team.name}</p>
+              <p className="text-[11px] text-white">{team.name}</p>
             </motion.div>
           ))}
       </div>
