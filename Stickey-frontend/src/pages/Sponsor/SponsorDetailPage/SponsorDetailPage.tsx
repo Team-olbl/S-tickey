@@ -59,12 +59,12 @@ const SponsorDetailPage = () => {
   const progressPercentage = (current / total) * 100 >= 100 ? 100 : (current / total) * 100;
 
   useEffect(() => {
-    if (!isHistoryOpen) return;
     (async () => {
+      if (isModalOpen) return;
       const ret = await getSupprtedHistory(sponsorId);
       if (ret) setSupportedHistory(ret);
     })();
-  }, [isHistoryOpen]);
+  }, [isHistoryOpen, isModalOpen]);
 
   const handleWithdraw = () => {
     (async () => {

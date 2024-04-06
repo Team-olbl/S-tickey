@@ -35,6 +35,7 @@ import useNotifyReadStore from './stores/useNotifyReadStore';
 import SplashPage from './pages/Splash/SplashPage';
 import { WAITING_FLAG, changeFlag, getCancleReq } from './service/Book/api';
 import useTicketStore from "./stores/useTicketStore";
+import useSpinner from "./stores/useSpinner";
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -62,6 +63,21 @@ const WaitingWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
 
   return <> {children} </>;
 };
+
+const Spinner = () => {
+  const { isLoading } = useSpinner();
+
+  if (isLoading) {
+    return ( <>
+    <div className="absolute w-full h-full bg-black opacity-15 z-20" onClick={(e) => e.stopPropagation()}/>
+      <div className="loader w-12 h-12 absolute left-0 right-0 top-0 bottom-0 m-auto border-t-4 border-blue-600 rounded-full z-50 animate-spin" />
+    </>)
+    
+  } else {
+    return <></>
+  }
+
+}
 
 const router = createBrowserRouter([
   {
@@ -361,6 +377,7 @@ function App() {
 
   return (
     <>
+      <Spinner/>
       <RouterProvider router={router} />
     </>
   );

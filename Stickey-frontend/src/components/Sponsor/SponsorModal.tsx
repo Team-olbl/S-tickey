@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import { getBalance, donate } from '../../service/web3/api';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
+import useSpinner from "../../stores/useSpinner";
 
 const SponsorModal = ({ onClose }: { onClose: () => void }) => {
+  const {setIsLoading, unSetIsLoading } = useSpinner();
   const params = useParams<{ id: string }>();
   const sponsorId = Number(params.id);
 
@@ -29,6 +31,7 @@ const SponsorModal = ({ onClose }: { onClose: () => void }) => {
     const amount = Number(amountRef.current.value) * 10e10;
 
     (async () => {
+      setIsLoading();
       const tx = await donate(sponsorId, message, amount);
 
       if (tx) {
@@ -37,6 +40,7 @@ const SponsorModal = ({ onClose }: { onClose: () => void }) => {
       } else {
         toast.error('후원이 실패했어요..');
       }
+      unSetIsLoading();
     })();
   };
 
