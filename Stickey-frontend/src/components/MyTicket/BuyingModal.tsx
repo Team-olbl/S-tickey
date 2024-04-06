@@ -3,9 +3,9 @@ import Preferred from '../../assets/image/Preferred.png';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { setFilterOnTicket, setBackgroundOnTicket, getReword } from '../../service/web3/api';
 import { ITicket } from './TicketList';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 import { getSelectSupportId } from './../../service/Sponsor/api';
-import useSpinner from "../../stores/useSpinner";
+import useSpinner from '../../stores/useSpinner';
 
 const BuyingModal = ({
   onClose,
@@ -20,7 +20,6 @@ const BuyingModal = ({
 }) => {
   const [reword, setReword] = useState(0);
   const { setIsLoading, unSetIsLoading } = useSpinner();
-
 
   useEffect(() => {
     (async () => {
@@ -42,8 +41,7 @@ const BuyingModal = ({
               ...state,
               filterId: item.id,
             }));
-            if (data.id != 0)
-              toast.success(`${data.name}에 자동후원 되었습니다.`);
+            if (data.id != 0) toast.success(`${data.name}에 자동후원 되었습니다.`);
             onClose();
           }
         } else {
@@ -53,13 +51,12 @@ const BuyingModal = ({
               ...state,
               backgroundId: item.id,
             }));
-            if (data.id != 0)
-              toast.success(`${data.name}에 자동후원 되었습니다.`);
+            if (data.id != 0) toast.success(`${data.name}에 자동후원 되었습니다.`);
             onClose();
           }
         }
       } catch (err) {
-        toast.error("아이템 구매에 실패했습니다.");
+        toast.error('아이템 구매에 실패했습니다.');
       } finally {
         unSetIsLoading();
       }

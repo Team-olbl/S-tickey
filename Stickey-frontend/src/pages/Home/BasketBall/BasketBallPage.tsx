@@ -73,7 +73,7 @@ const BasketBallPage = () => {
         <TeamList catg="BASKETBALL" selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} />
         <Calendar onDateClick={handleDateClick} />
         {filteredMatches?.length === 0 ? (
-          <div className="flex flex-col items-center mt-40">
+          <div className="flex flex-col items-center mt-20">
             <img src={Hush} className="h-20" />
             <p className=" text-white text-sm mt-4">진행 중인 경기가 없어요!</p>
           </div>
