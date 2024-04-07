@@ -53,8 +53,8 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
           <div className="grid grid-cols-[45%_10%_45%]">
             <div className="flex flex-col justify-center items-center ">
               <p className="text-[10px] pb-1">Home</p>
-              <div className="w-20 h-20 rounded-full bg-Stickey_Gray mb-1">
-                <img src={data.homeTeamLogo || ''} />
+              <div className="w-20 h-20 flex items-center justify-center bg-Stickey_Gray rounded-full mb-1">
+                <img className='w-16' src={data.homeTeamLogo || ''} />
               </div>
               <p className="text-md">{data.homeTeam}</p>
             </div>
@@ -63,8 +63,8 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
             </div>
             <div className="flex flex-col justify-center items-center">
               <p className="text-[10px] pb-1">Away</p>
-              <div className="w-20 h-20 rounded-full bg-Stickey_Gray mb-1">
-                <img src={data.awayTeamLogo || ''} />
+              <div className="w-20 h-20 flex items-center justify-center rounded-full bg-Stickey_Gray mb-1">
+                <img className='w-16' src={data.awayTeamLogo || ''} />
               </div>
               <p className="text-md">{data.awayTeam}</p>
             </div>
