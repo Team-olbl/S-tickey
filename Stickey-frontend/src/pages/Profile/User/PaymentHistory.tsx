@@ -6,6 +6,7 @@ import Bell from '../../../assets/image/Bell.png';
 import { Fragment, useEffect, useState } from 'react';
 import { connect, getPaymentHistory } from '../../../service/web3/api';
 import dayjs from 'dayjs';
+import useSpinner from "../../../stores/useSpinner";
 
 export type PaymentItemData = {
   paymentType: number;
@@ -26,13 +27,16 @@ export type PaymentItemData = {
 
 const PaymentHistoryPage = () => {
   const [paymentHistroy, setPaymentHistory] = useState<PaymentItemData[]>([]);
+  const { setIsLoading, unSetIsLoading } = useSpinner();
   const dateSet = new Set();
 
   useEffect(() => {
     async function getData() {
+      setIsLoading();
       await connect();
       const data: PaymentItemData[] | undefined = await getPaymentHistory();
       if (data) setPaymentHistory(data);
+      unSetIsLoading();
     }
     getData();
   }, []);

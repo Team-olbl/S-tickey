@@ -7,6 +7,7 @@ import DreamHeader from '../../../components/Profile/User/Dream/DreamHeader';
 import { useEffect, useState } from 'react';
 import { connect, getRewordHistory } from '../../../service/web3/api';
 import { motion } from 'framer-motion';
+import useSpinner from "../../../stores/useSpinner";
 
 const info: IHeaderInfo = {
   left_1: null,
@@ -24,12 +25,15 @@ export type DreamItemData = {
 
 const DreamHistoryPage = () => {
   const [dreamHistroy, setDreamHistory] = useState<DreamItemData[]>([]);
+  const { setIsLoading, unSetIsLoading } = useSpinner();
 
   useEffect(() => {
     async function getData() {
+      setIsLoading();
       await connect();
       const data: DreamItemData[] | undefined = await getRewordHistory();
       if (data) setDreamHistory(data);
+      unSetIsLoading();
     }
     getData();
   }, []);
