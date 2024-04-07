@@ -8,15 +8,14 @@ import userStore from '../../stores/userStore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'dayjs/locale/ko';
-import WaittingModal from "../Book/WaittingModal";
-
+import WaittingModal from '../Book/WaittingModal';
 
 const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { isLogin } = userStore();
   const navigate = useNavigate();
   const [isWaitModalOpen, setIsWaitModalOpen] = useState(false);
-  const setModalData = useTicketInfoStore((state) => state.setModalData);
+  const setModalData = useTicketInfoStore(state => state.setModalData);
   const bookingStatus = getBookingStatus(data);
   dayjs.locale('ko');
 
@@ -53,8 +52,8 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
           <div className="grid grid-cols-[45%_10%_45%]">
             <div className="flex flex-col justify-center items-center ">
               <p className="text-[10px] pb-1">Home</p>
-              <div className="w-20 h-20 rounded-full flex items-center justify-center bg-Stickey_Gray mb-1">
-                <img className='w-16' src={data.homeTeamLogo || ''} />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white mb-1">
+                <img className="w-16" src={data.homeTeamLogo || ''} />
               </div>
               <p className="text-md">{data.homeTeam}</p>
             </div>
@@ -63,8 +62,8 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
             </div>
             <div className="flex flex-col justify-center items-center">
               <p className="text-[10px] pb-1">Away</p>
-              <div className="w-20 h-20 rounded-full flex items-center justify-center bg-Stickey_Gray mb-1">
-                <img className='w-16' src={data.awayTeamLogo || ''} />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white mb-1">
+                <img className="w-16" src={data.awayTeamLogo || ''} />
               </div>
               <p className="text-md">{data.awayTeam}</p>
             </div>
@@ -123,15 +122,20 @@ const MatchItem = ({ data }: { data: IGameSimpleRes }) => {
             </div>
 
             <div className="pt-4">
-              <button onClick={() => {
-                setModalData(data); 
-                setIsWaitModalOpen(true);
-              }} className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm">예매하기</button>
+              <button
+                onClick={() => {
+                  setModalData(data);
+                  setIsWaitModalOpen(true);
+                }}
+                className="bg-Stickey_Main w-full py-2 rounded-md text-white text-sm"
+              >
+                예매하기
+              </button>
             </div>
           </div>
         </BottomModal>
       )}
-        {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)}/>}
+      {isWaitModalOpen && <WaittingModal onClose={() => setIsWaitModalOpen(false)} />}
     </>
   );
 };
