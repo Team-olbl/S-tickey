@@ -1,13 +1,12 @@
-import { axiosAuthInstance } from "../../apis/axiosInstance";
-import { ISeatInfoRes, ISectionSeatCntRes } from "../../types/Book";
-import { APIResponse } from "../../types/model";
+import { axiosAuthInstance } from '../../apis/axiosInstance';
+import { ISeatInfoRes, ISectionSeatCntRes } from '../../types/Book';
+import { APIResponse } from '../../types/model';
 
-export let WAITING_FLAG: { flag: boolean;  id : number | undefined} = { flag : false, id : 0};
+export let WAITING_FLAG: { flag: boolean; id: number | undefined } = { flag: false, id: 0 };
 
-export const changeFlag = (flag : boolean, id : number) => {
-    WAITING_FLAG = {flag, id};
-}
-
+export const changeFlag = (flag: boolean, id: number) => {
+  WAITING_FLAG = { flag, id };
+};
 
 export const getSectionSeatCntReq = async (id: number): Promise<APIResponse<ISectionSeatCntRes>> => {
   const { data } = await axiosAuthInstance.get(`/games/${id}`);
@@ -35,7 +34,6 @@ export const patchSeatConfirm = async ({
   zoneId: number;
   info: number[];
 }): Promise<APIResponse<string>> => {
-  console.log(info);
   const { data } = await axiosAuthInstance.patch(`/games/${id}/zones/${zoneId}/seats`, {
     seatNumbers: info,
   });
@@ -53,8 +51,6 @@ export const registSeats = async ({
   seatNumbers: number[];
   isRefund: boolean;
 }): Promise<APIResponse<string>> => {
-  console.log(gameId, zoneId, seatNumbers, isRefund);
-
   const { data } = await axiosAuthInstance.patch(`/games/${gameId}`, {
     gameId,
     zoneId,
@@ -65,6 +61,6 @@ export const registSeats = async ({
 };
 
 export const getCancleReq = async (id: number): Promise<APIResponse<string>> => {
-    const { data } = await axiosAuthInstance.get(`/games/${id}/cancel`);
-    return data;
-}
+  const { data } = await axiosAuthInstance.get(`/games/${id}/cancel`);
+  return data;
+};

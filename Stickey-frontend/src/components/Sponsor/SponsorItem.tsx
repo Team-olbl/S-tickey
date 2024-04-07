@@ -20,8 +20,8 @@ const SponsorItem = ({ data }: { data: ISupportSimpleRes }) => {
     }
   }, [data.startTime, data.endTime]);
 
-  const startTime = dayjs(data.startTime).format('YYYY년 MM월 DD일');
-  const endTime = dayjs(data.endTime).format('YYYY년 MM월 DD일');
+  const startTime = dayjs(data.startTime).format('YY년 MM월 DD일');
+  const endTime = dayjs(data.endTime).format('YY년 MM월 DD일');
 
   return (
     <div className="mb-2 shadow-sm shadow-black rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-2xl">
@@ -34,7 +34,7 @@ const SponsorItem = ({ data }: { data: ISupportSimpleRes }) => {
           <p className="text-white text-md pl-2 font-semibold truncate">{data.title}</p>
         </div>
         <div>
-          <p className="text-white text-[10px] p-1 text-left">
+          <p className="text-white text-xs p-1 text-left">
             {startTime} ~ {endTime}
           </p>
         </div>

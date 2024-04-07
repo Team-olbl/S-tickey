@@ -114,8 +114,6 @@ const BlockchainTest = () => {
     console.log(result);
   };
 
-
-
   const _getPaymentHistory = async () => {
     const result = await getPaymentHistory();
     console.log(result);
@@ -265,17 +263,97 @@ const BlockchainTest = () => {
   };
 
   const execute = () => {
-
     const games = [
-      ['1', '2024-04-02 16:50:00.974000', '2024-04-13 14:00:00.974000', '서울월드컵경기장', '포항 스틸러스', 'FC 서울', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_143128_서울포항.jpg'], [
-        '13', '2024-04-02 16:50:38.663000', '2024-04-03 17:00:38.663000', '서울월드컵경기장', 'FC 서울', '포항 스틸러스', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_153781_화면 캡처 2024-03-25 103903.png'], [
-        '17', '2024-04-08 18:00:00.812000', '2024-04-10 19:30:51.812000', '사직야구장', '두산 베어스', '롯데 자이언츠', 'BASEBALL', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_161211_KBO.jpg'], [
-        '18', '2024-04-02 17:00:00.663000', '2024-04-16 16:30:00.663000', 'DGB대구은행파크', '대구 FC', '인천 UTD', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_162203_대구인천.jpg'], [
-        '19', '2024-04-03 17:00:00.663000', '2024-04-07 14:00:00.663000', '전주월드컵경기장', '전북 현대 모터스', '강원 FC', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_163212_전북강원.jpg'], [
-        '21', '2024-04-03 17:00:00.663000', '2024-04-07 16:30:00.663000', '대전월드컵경기장', '대전 하나', '포항 스틸러스', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_03_023029_대전포항.jpg'], [
-        '22', '2024-04-03 17:00:00.663000', '2024-04-07 14:00:00.663000', 'DGB대구은행파크', '대구 FC', 'FC 서울', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_03_023758_대구서울.png'], [
-        '23', '2024-04-03 17:00:00.663000', '2024-04-06 16:30:00.663000', '김천종합운동장', '김천 상무 프로축구단', '광주 FC', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_03_024009_김천광주.png'], [
-        '24', '2024-04-03 17:00:00.663000', '2024-04-06 14:00:00.663000', '울산문수축구경기장', '울산 HD FC', '수원 FC', 'SOCCER', 'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_03_024600_울산수원.jpg']
+      [
+        '1',
+        '2024-04-02 16:50:00.974000',
+        '2024-04-13 14:00:00.974000',
+        '서울월드컵경기장',
+        '포항 스틸러스',
+        'FC 서울',
+        'SOCCER',
+        'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_143128_서울포항.jpg',
+      ],
+      [
+        '13',
+        '2024-04-02 16:50:38.663000',
+        '2024-04-03 17:00:38.663000',
+        '서울월드컵경기장',
+        'FC 서울',
+        '포항 스틸러스',
+        'SOCCER',
+        'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_153781_화면 캡처 2024-03-25 103903.png',
+      ],
+      [
+        '17',
+        '2024-04-08 18:00:00.812000',
+        '2024-04-10 19:30:51.812000',
+        '사직야구장',
+        '두산 베어스',
+        '롯데 자이언츠',
+        'BASEBALL',
+        'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_161211_KBO.jpg',
+      ],
+      [
+        '18',
+        '2024-04-02 17:00:00.663000',
+        '2024-04-16 16:30:00.663000',
+        'DGB대구은행파크',
+        '대구 FC',
+        '인천 UTD',
+        'SOCCER',
+        'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_162203_대구인천.jpg',
+      ],
+      [
+        '19',
+        '2024-04-03 17:00:00.663000',
+        '2024-04-07 14:00:00.663000',
+        '전주월드컵경기장',
+        '전북 현대 모터스',
+        '강원 FC',
+        'SOCCER',
+        'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_02_163212_전북강원.jpg',
+      ],
+      [
+        '21',
+        '2024-04-03 17:00:00.663000',
+        '2024-04-07 16:30:00.663000',
+        '대전월드컵경기장',
+        '대전 하나',
+        '포항 스틸러스',
+        'SOCCER',
+        'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_03_023029_대전포항.jpg',
+      ],
+      [
+        '22',
+        '2024-04-03 17:00:00.663000',
+        '2024-04-07 14:00:00.663000',
+        'DGB대구은행파크',
+        '대구 FC',
+        'FC 서울',
+        'SOCCER',
+        'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_03_023758_대구서울.png',
+      ],
+      [
+        '23',
+        '2024-04-03 17:00:00.663000',
+        '2024-04-06 16:30:00.663000',
+        '김천종합운동장',
+        '김천 상무 프로축구단',
+        '광주 FC',
+        'SOCCER',
+        'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_03_024009_김천광주.png',
+      ],
+      [
+        '24',
+        '2024-04-03 17:00:00.663000',
+        '2024-04-06 14:00:00.663000',
+        '울산문수축구경기장',
+        '울산 HD FC',
+        '수원 FC',
+        'SOCCER',
+        'https://d3rz04d93vngvv.cloudfront.net/game/profile/2024_04_03_024600_울산수원.jpg',
+      ],
     ];
 
     const supports = [
@@ -283,11 +361,10 @@ const BlockchainTest = () => {
       ['3', '드림축구재단', '0x7175e6a27A06634bf866d56696A24586d8Fb97a1', '2024-04-01 23:59:59.000000'],
       ['4', '경상북도체육회', '0x7175e6a27A06634bf866d56696A24586d8Fb97a1', '2024-04-13 23:59:59.000000'],
       ['5', '한국대학스포츠협의회', '0x7175e6a27A06634bf866d56696A24586d8Fb97a1', '2024-04-13 23:59:59.000000'],
-      ['6', '드림축구재단', '0x7175e6a27A06634bf866d56696A24586d8Fb97a1', '2024-04-08 23:59:59.000000']
+      ['6', '드림축구재단', '0x7175e6a27A06634bf866d56696A24586d8Fb97a1', '2024-04-08 23:59:59.000000'],
     ];
 
     (async () => {
-
       for (let i = 0; i < games.length; i++) {
         const game = games[i];
         const booktime = Math.floor(new Date(game[1]!.toString()).getTime() / 1000);
@@ -299,16 +376,10 @@ const BlockchainTest = () => {
       for (let i = 0; i < supports.length; i++) {
         const support = supports[i];
         const et = Math.floor(new Date(support[3]!.toString()).getTime() / 1000);
-        await setSupport(Number(support[0]), support[1],support[2],et);
+        await setSupport(Number(support[0]), support[1], support[2], et);
       }
-
-
-    })()
-
-
-
-  }
-
+    })();
+  };
 
   return (
     <>
@@ -439,7 +510,7 @@ const BlockchainTest = () => {
               </button>
             </div>
           </div>
-        </div>  
+        </div>
       )}
     </>
   );

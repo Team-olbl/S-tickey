@@ -72,7 +72,7 @@ const SoccerPage = () => {
         <TeamList catg="SOCCER" selectedTeams={selectedTeams} setSelectedTeams={setSelectedTeams} />
         <Calendar onDateClick={handleDateClick} />
         {filteredMatches?.length === 0 ? (
-          <motion.div className="flex flex-col items-center mt-40" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <motion.div className="flex flex-col items-center mt-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <img src={Hushed} className="h-20" />
             <p className=" text-white text-sm mt-4">해당 날짜에는 경기가 없어요!</p>
           </motion.div>
