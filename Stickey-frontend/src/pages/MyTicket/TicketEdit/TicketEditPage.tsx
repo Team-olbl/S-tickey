@@ -87,7 +87,7 @@ const TicketEditPage = () => {
       <div className="fixed bottom-0 bg-black/40 max-h-2/5  max-w-[500px] w-full">
         <div className="pb-24 flex justify-center">
           {/* 필터바 */}
-          <div className="fixed bottom-16 bg-[#2E2E3D] max-w-[500px] w-full">
+          <div className="fixed bottom-[62px] bg-[#2E2E3D] max-w-[500px] w-full">
             <div className="flex w-full max-w-[500px] items-center px-2 py-2">
               <img className="px-3" src={Nofilter} />
               <div className="px-3 text-gray-200" onClick={() => handleTabChange('filter')}>
