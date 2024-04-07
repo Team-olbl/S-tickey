@@ -20,7 +20,7 @@ const UserProfile = ({ userInfo }: { userInfo: IUserProfile | null }) => {
               {userInfo?.preference.map((team: IPreTeamSimpleRes, id: number) => (
                 <div
                   key={id}
-                  className="p-1 px-2 border border-none bg-[#E4E4E4] text-[#5959E7] text-xs flex items-center justify-center rounded-xl mr-2"
+                  className="p-1 px-2 border border-none bg-[#E4E4E4] text-[#5959E7] text-xs font-bold flex items-center justify-center rounded-xl mr-2"
                 >
                   <p>{team.sportsClubName}</p>
                 </div>

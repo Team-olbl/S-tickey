@@ -5,8 +5,8 @@ import { useTicketInfoStore } from '../../stores/useTicketInfoStore';
 import { Client } from '@stomp/stompjs';
 import userStore from '../../stores/userStore';
 import { useNavigate } from 'react-router';
-import Loading from '../../assets/image/Loading.gif'
-import { changeFlag } from "../../service/Book/api";
+import Loading from '../../assets/image/Loading.gif';
+import { changeFlag } from '../../service/Book/api';
 
 const WaittingModal = ({ onClose }: { onClose: () => void }) => {
   const ticketInfo = useTicketInfoStore(state => state.modalData);
@@ -31,69 +31,66 @@ const WaittingModal = ({ onClose }: { onClose: () => void }) => {
           const parsedMessage = JSON.parse(message.body);
           setParsedMessageRef(parsedMessage.rank);
 
-                        if (parsedMessage.myTurn) {
-                            onClose(); 
-                            if (client) {
-                                client.publish({
-                                    destination: '/games/wait/cancel',
-                                    body: jsonMessage,
-                                });
-                                client.deactivate();
-                            }
-                            navigate(`/${ticketInfo?.id}/section`);
-                        }
-                    },
-                );
-                const message = {
-                    gameId: ticketInfo?.id,
-                    id: userId
-                };
-                newClient.publish({
-                    destination: '/games/wait/enter',
-                    body: JSON.stringify(message),
-                });
-            },
-            onDisconnect: () => {
-            },
+          if (parsedMessage.myTurn) {
+            onClose();
+            if (client) {
+              client.publish({
+                destination: '/games/wait/cancel',
+                body: jsonMessage,
+              });
+              client.deactivate();
+            }
+            navigate(`/${ticketInfo?.id}/section`);
+          }
         });
+        const message = {
+          gameId: ticketInfo?.id,
+          id: userId,
+        };
+        newClient.publish({
+          destination: '/games/wait/enter',
+          body: JSON.stringify(message),
+        });
+      },
+      onDisconnect: () => {},
+    });
 
-        newClient.activate();
-        setClient(newClient);
-        changeFlag(true, ticketInfo!.id);
+    newClient.activate();
+    setClient(newClient);
+    changeFlag(true, ticketInfo!.id);
 
     return () => {
       newClient.deactivate();
     };
   }, [ticketInfo, userId]);
 
-    useEffect(() => {
-        const handleUnload = () => {
-            if (client) {
-                client.publish({
-                    destination: '/games/wait/cancel',
-                    body: jsonMessage,
-                });
-                client.deactivate();
-            }
-        };
-    
-        window.addEventListener('beforeunload', handleUnload);
-    
-        return () => {
-            window.removeEventListener('beforeunload', handleUnload);
-            handleUnload();
-        };
-    }, [client]);
-    
+  useEffect(() => {
+    const handleUnload = () => {
+      if (client) {
+        client.publish({
+          destination: '/games/wait/cancel',
+          body: jsonMessage,
+        });
+        client.deactivate();
+      }
+    };
 
-    return (
-        <Modal width="300px" height="auto" title="" onClose={onClose}>
-            <div className="flex flex-col items-center px-4 pb-6 z-[10]">
-                <div className='flex flex-col items-center'>
-                    <img className='h-12' src={Waitting} alt="Waitting" />
-                    <p className='text-sm pt-2'>나의 대기</p>
-                    <h1 className='text-4xl font-bold'>{parsedMessageRef}</h1>
-                </div>
+    window.addEventListener('beforeunload', handleUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleUnload);
+      handleUnload();
+    };
+  }, [client]);
+
+  return (
+    <Modal width="300px" height="auto" title="" onClose={onClose}>
+      <div className="flex flex-col items-center px-4 pb-6 z-[10]">
+        <div className="flex flex-col items-center">
+          <img className="h-12" src={Waitting} alt="Waitting" />
+          <p className="text-sm pt-2">나의 대기</p>
+          <h1 className="text-4xl font-bold">{parsedMessageRef}</h1>
+        </div>
 
         <div>
           <img className="w-16" src={Loading} />
