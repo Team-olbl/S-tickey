@@ -141,10 +141,10 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
               <div ref={containerRef} className="text-center relative">
                 <div ref={overlayRef} className={`filter${ticket.filterId}`}></div>
                 <div>
-                  <div className={`background${ticket.backgroundId} rounded-b-lg p-2 font-semibold`}>
-                    <p>
+                  <div className={`background${ticket.backgroundId} rounded-b-lg p-2 font-semibold overflow-hidden`}>
+                    <div className="flowing-text">
                       {ticket.homeTeam} vs {ticket.awayTeam}
-                    </p>
+                    </div>
                   </div>
                   <div className={` background${ticket.backgroundId} rounded-2xl`}>
                     <div className="flex ml-2"></div>
@@ -167,7 +167,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
                       {dayjs(Number(ticket.gameStartTime) * 1000).format('YY/MM/DD HH:mm')} <br />
                       {ticket.stadium}
                     </p>
-                    <p className="font-bold text-2xl">
+                    <p className="font-bold text-xl">
                       {ticket.zoneName} {ticket.seatNumber}번 좌석
                     </p>
                     <p>결제금액 : {toEther(ticket.price)} ETH</p>
