@@ -102,7 +102,7 @@ const WaittingModal = ({ onClose }: { onClose: () => void }) => {
             <p>잠시만 기다려주시면 예매 페이지로 연결됩니다.</p>
           </div>
           <div className="text-[12px] font-semibold text-center py-2">
-            <p>새로고침 하거나 재접속 히시면</p>
+            <p>새로고침 하거나 재접속 하시면</p>
             <p>대기순서가 초기화됩니다.</p>
           </div>
         </div>
