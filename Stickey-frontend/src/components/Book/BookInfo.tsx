@@ -7,13 +7,13 @@ const BookInfo = () => {
 
   return (
     <div>
-      <div className="flex justify-center items-center pt-2">
+      <div className="flex justify-center items-center pt-2 gap-2">
         <div>
-          <img className="w-8 h-8 rounded-full" src={gameInfo?.homeTeamLogo} />
+          <img className="w-10 h-8 rounded-full" src={gameInfo?.homeTeamLogo} />
         </div>
         <p className="text-white px-2">VS</p>
         <div>
-          <img className="w-8 h-8 rounded-full" src={gameInfo?.awayTeamLogo} />
+          <img className="w-10 h-8 rounded-full" src={gameInfo?.awayTeamLogo} />
         </div>
       </div>
       <div className="text-center text-xs text-white py-2">
