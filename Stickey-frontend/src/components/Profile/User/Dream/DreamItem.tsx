@@ -46,7 +46,7 @@ const DreamItem = ({ data }: DreamItemProps) => {
             className="absolute w-[9px] h-[9px] border-none rounded-full my-[2px]"
             style={{ backgroundColor: getColor() }}
           ></div>
-          <div className="absolute h-[48px] border-l ml-1 mt-[3px]" style={{ borderColor: getColor() }}></div>
+          <div className="absolute h-14 border-l ml-1 mt-[3px]" style={{ borderColor: getColor() }}></div>
         </div>
         <div className="flex-grow">
           <div className="text-white text-sm">{content()}</div>

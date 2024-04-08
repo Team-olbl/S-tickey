@@ -10,7 +10,7 @@ const GameScheduleHeader = () => {
         {preferences && preferences.length > 0 ? (
           <div className="flex items-center py-4">
             {preferences.map((preference, index) => (
-              <img key={index} src={preference.sportsClubLogo} className="w-6 h-6 mx-1" />
+              <img key={index} src={preference.sportsClubLogo} className="w-8 mx-1" />
             ))}{' '}
             <p className="text-white text-sm">경기 정보 한눈에 보기</p>
           </div>

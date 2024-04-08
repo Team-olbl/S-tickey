@@ -42,7 +42,7 @@ const TicketOpenModal: React.FC<TicketOpenModalProps> = ({ ticket, onClose, getD
       const offsetY = touch.clientY - currentContainer.getBoundingClientRect().top;
       const newRotateY = offsetX / 5 + 20;
       const newRotateX = -((offsetY / 30) * 4 - 20);
-      currentContainer.style.transform = `perspective(800px) rotateX(${newRotateX}deg) rotateY(${newRotateY}deg)`;
+      currentContainer.style.transform = `perspective(1200px) rotateX(${newRotateX}deg) rotateY(${newRotateY}deg)`;
       currentOverlay.style.backgroundPosition =
         `filter${ticket.filterId}` === 'filter1' ? `${offsetX / 2}px` : `${offsetX / 5}px ${offsetY / 5}px`;
     };
