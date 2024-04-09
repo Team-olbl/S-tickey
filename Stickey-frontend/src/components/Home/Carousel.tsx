@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Carousel1 from '../../assets/image/Carousel/Carousel1.png';
 import Carousel2 from '../../assets/image/Carousel/Carousel2.png';
 import Carousel3 from '../../assets/image/Carousel/Carousel4.png';
 import Carousel4 from '../../assets/image/Carousel/Carousel3.png';
@@ -7,7 +6,7 @@ import Carousel4 from '../../assets/image/Carousel/Carousel3.png';
 const Carousel = () => {
   const [activeImage, setActiveImage] = useState(1);
 
-  const images = [Carousel1, Carousel2, Carousel3, Carousel4];
+  const images = [Carousel2, Carousel3, Carousel4];
 
   useEffect(() => {
     const interval = setInterval(() => {
