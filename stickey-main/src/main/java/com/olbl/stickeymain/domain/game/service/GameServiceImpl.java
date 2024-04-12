@@ -148,7 +148,6 @@ public class GameServiceImpl implements GameService {
 
         stadiumZones.forEach(zone -> {
             for (int j = 1; j <= 30; j++) {
-                //TODO: select, insert 쿼리 둘다 나가는것 리팩토링
                 StadiumSeat stadiumSeat = StadiumSeat.builder()
                     .stadiumZone(zone)
                     .id(StadiumSeatId.builder()
@@ -392,7 +391,6 @@ public class GameServiceImpl implements GameService {
                     .orElseThrow(() -> new BusinessException(GAME_NOT_IN_RESERVATOIN_PROGRESS));
 
                 gameSeat.changeStatus(SeatStatus.SOLD);
-                //TODO: 데이터 베이스 작업 실패 시 Redis에서 변경 사항 롤백하는 보상 트랜잭션 실행 로직 작성
             }
 
         } else { //환불 요청시
@@ -432,7 +430,6 @@ public class GameServiceImpl implements GameService {
                 .orElseThrow(() -> new BusinessException(GAME_NOT_IN_RESERVATOIN_PROGRESS));
 
             gameSeat.changeStatus(SeatStatus.AVAILABLE);
-            //TODO: 데이터 베이스 작업 실패 시 Redis에서 변경 사항 롤백하는 보상 트랜잭션 실행 로직 작성
         }
     }
 
