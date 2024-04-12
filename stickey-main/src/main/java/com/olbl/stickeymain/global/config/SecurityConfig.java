@@ -76,7 +76,25 @@ public class SecurityConfig {
 
         http // 경로별 권한 설정, 배포 직전에 변경할 예정
             .authorizeHttpRequests((requests) -> requests
-                .anyRequest().permitAll()
+                // Swagger
+                .requestMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
+
+                // 전체 접근 허용
+                .requestMatchers("/api/games", "/api/games/stadiums/**", "/api/games/clubs", "/api/supports", "/api/supports/**",
+                                 "/api/users/signup","/api/users/signup/**", "/", "/api", "/api/users/login", "/api/users/logout",
+                                 "/users/reissue", "/users/auth", "/users/auth-check", "/users").permitAll()
+
+                // 경기 예매, 마이페이지
+                .requestMatchers("/api/games/**", "/api/users/profiles", "/api/users/profile/**").hasRole("INDIVIDUAL")
+
+                // 단체 기관
+                .requestMatchers("/api/organizations/profile/**").hasRole("ORGANIZATION")
+
+                // 관리자
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+
+                // 그 외 모든 요청은 인증 필요
+                .anyRequest().authenticated()
             );
 
         http // CORS 설정
