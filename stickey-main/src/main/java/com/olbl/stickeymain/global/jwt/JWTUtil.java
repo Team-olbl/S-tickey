@@ -117,16 +117,12 @@ public class JWTUtil {
             return true;
         } catch (ExpiredJwtException e) {
             log.info("[JWTUtil] Token Expired");
-            // TODO: Filter Exception 구현
         } catch (SignatureException | MalformedJwtException e) {
             log.info("[JWTUtil] Signature Invalid");
-            // TODO: Filter Exception 구현
         } catch (IllegalArgumentException e) {
             log.info("[JWTUtil] JWT 토큰이 잘못되었습니다.");
-            // TODO: Filter Exception 구현
         } catch (NullPointerException e) {
             log.info("[JWTUtil] JWT is null");
-            // TODO: Filter Exception 구현
         }
 
         return false;

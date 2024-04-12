@@ -49,25 +49,35 @@ const TicketList = () => {
 
   return (
     <>
-      <div className="pt-16">
-        <div className="px-4">
+      <div className="pt-16 h-full w-full">
+        <div className="px-4 flex">
           <button
-            onClick={() => setShowUpcoming(!showUpcoming)}
+            onClick={() => setShowUpcoming(false)}
             className={
-              showUpcoming
-                ? `bg-Stickey_Main text-white text-sm py-1 rounded-2xl p-2`
-                : `p-2 text-sm py-1 rounded-2xl border border-white text-white`
+              !showUpcoming
+                ? `bg-white text-black text-xs py-1 rounded-2xl px-4 mr-2`
+                : `text-white text-xs py-1 rounded-2xl px-4 border border-white mr-2`
             }
           >
-            사용전 티켓 보기
+            전체
+          </button>
+          <button
+            onClick={() => setShowUpcoming(true)}
+            className={
+              showUpcoming
+                ? `bg-white text-black text-xs py-1 rounded-2xl px-4`
+                : `text-white text-xs py-1 rounded-2xl px-4 border border-white`
+            }
+          >
+            사용전
           </button>
         </div>
         {isLoaded && (
-          <div className={`pt-4 pb-16 flex flex-wrap justify-center  ${fixedFlag && `fixed`}`}>
-            {filteredTickets.length == 0 ? (
+          <div className={`pt-4 pb-16 flex flex-wrap justify-center ${fixedFlag && `fixed invisible`}`}>
+            {filteredTickets.length === 0 ? (
               <div className="flex flex-col items-center mt-40">
-                <img src={Ticket} className="h-20" />
-                <p className=" text-white text-sm mt-4">티켓이 없어요!</p>
+                <img src={Ticket} className="h-20" alt="티켓" />
+                <p className="text-white text-sm mt-4">티켓이 없어요!</p>
               </div>
             ) : (
               filteredTickets.map(ticket => (

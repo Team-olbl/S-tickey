@@ -30,7 +30,7 @@ const Wallet = () => {
           <div className="flex justify-evenly items-center p-4 rounded-md border-Stickey_Gray border">
             {/* 지갑 */}
             <div className="flex flex-col items-center" onClick={handelShow}>
-              <img className="w-10 py-2" src={fingerPrint} />
+              <img className="w-8 pb-2" src={fingerPrint} />
               <p className="text-xs text-Stickey_Main">지갑을 열어서 잔액을 확인해보세요</p>
             </div>
           </div>
@@ -39,13 +39,13 @@ const Wallet = () => {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-evenly items-center">
               <div className="flex flex-col items-center">
                 <p className="font-bold text-Stickey_Main">나의 지갑</p>
-                <p className="text-xl font-bold text-white py-1">{balance} ETH</p>
+                <p className="text-xl font-bold text-white pt-1">{balance} ETH</p>
               </div>
               <div className="text-Stickey_Gray">|</div>
               {/* 꿈 */}
               <div className="flex flex-col items-center">
                 <p className="font-bold text-Stickey_Main">나의 꿈</p>
-                <p className="text-xl font-bold text-white py-1">{reword}</p>
+                <p className="text-xl font-bold text-white pt-1">{reword}</p>
               </div>
             </motion.div>
           </div>

@@ -48,8 +48,8 @@ const SponsorDetailPage = () => {
 
   const { useSponsorDetail } = useSponsor();
   const { data: ISponsorDetailRes } = useSponsorDetail(sponsorId);
-  const startTime = dayjs(ISponsorDetailRes?.data.startTime).format('YYYY년 MM월 DD일');
-  const endTime = dayjs(ISponsorDetailRes?.data.endTime).format('YYYY년 MM월 DD일');
+  const startTime = dayjs(ISponsorDetailRes?.data.startTime).format('YY년 MM월 DD일');
+  const endTime = dayjs(ISponsorDetailRes?.data.endTime).format('YY년 MM월 DD일');
   const start = dayjs(ISponsorDetailRes?.data.startTime);
   const end = dayjs(ISponsorDetailRes?.data.endTime);
   const now = dayjs();
@@ -59,12 +59,12 @@ const SponsorDetailPage = () => {
   const progressPercentage = (current / total) * 100 >= 100 ? 100 : (current / total) * 100;
 
   useEffect(() => {
-    if (!isHistoryOpen) return;
     (async () => {
+      if (isModalOpen) return;
       const ret = await getSupprtedHistory(sponsorId);
       if (ret) setSupportedHistory(ret);
     })();
-  }, [isHistoryOpen]);
+  }, [isHistoryOpen, isModalOpen]);
 
   const handleWithdraw = () => {
     (async () => {
@@ -94,7 +94,7 @@ const SponsorDetailPage = () => {
             <img src={ISponsorDetailRes?.data.supportImage} className="h-full" />
           </div>
           <div className="p-4">
-            <p className="font-bold w-24 text-[10px] px-2 py-1 bg-white border rounded-3xl text-center opacity-0">
+            <p className="font-semibold w-24 text-xs px-2 py-1 bg-white/70 border rounded-3xl text-center">
               후원마감 D-{diffDays}
             </p>
             <p className="text-white py-2">{ISponsorDetailRes?.data.title}</p>
@@ -104,7 +104,7 @@ const SponsorDetailPage = () => {
                 className="h-full bg-Stickey_Main rounded-xl transition-width duration-500"
               ></div>
             </div>
-            <p className="text-white text-[10px] text-left py-2">
+            <p className="text-gray-400 text-xs text-left py-2">
               {startTime} ~ {endTime}
             </p>
             <p className="text-white text-sm">{ISponsorDetailRes?.data.content}</p>
@@ -127,7 +127,7 @@ const SponsorDetailPage = () => {
                 <p>
                   <img className="w-4 mr-2" src={Metamask} />
                 </p>
-                <p>이 단체에 후원한 사람들</p>
+                <p className="font-semibold">이 단체에 후원한 사람들</p>
               </button>
 
               {/* 애니메이션 넣어주세요 */}
@@ -151,7 +151,7 @@ const SponsorDetailPage = () => {
                               <div className="grow flex flex-col items-end">
                                 <div className="font-bold">{Number(item.amount) / 10e10}</div>
                                 <div className="text-xs text-gray-500">
-                                  {dayjs(Number(item.time) * 1000).format('YYYY/MM/DD HH:mm:ss')}
+                                  {dayjs(Number(item.time) * 1000).format('YY/MM/DD HH:mm:ss')}
                                 </div>
                               </div>
                             </div>

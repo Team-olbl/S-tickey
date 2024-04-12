@@ -31,13 +31,13 @@ const DreamItem = ({ data }: DreamItemProps) => {
     }
   };
 
-  const date = dayjs(Number(data.time) * 1000).format('YYYY.MM.DD');
+  const date = dayjs(Number(data.time) * 1000).format('YY.MM.DD');
   const time = dayjs(Number(data.time) * 1000).format('HH:mm:ss');
 
   return (
     <>
       <div className="w-full px-[30px] flex flex-row justify-between pb-4">
-        <div className="flex flex-col text-[8px] text-white mr-8">
+        <div className="flex flex-col text-xs text-white mr-8">
           <div className="font-bold">{date}</div>
           <div>{time}</div>
         </div>
@@ -46,14 +46,14 @@ const DreamItem = ({ data }: DreamItemProps) => {
             className="absolute w-[9px] h-[9px] border-none rounded-full my-[2px]"
             style={{ backgroundColor: getColor() }}
           ></div>
-          <div className="absolute h-[48px] border-l ml-1 mt-[3px]" style={{ borderColor: getColor() }}></div>
+          <div className="absolute h-14 border-l ml-1 mt-[3px]" style={{ borderColor: getColor() }}></div>
         </div>
         <div className="flex-grow">
-          <div className="text-white text-[12px]">{content()}</div>
+          <div className="text-white text-sm">{content()}</div>
         </div>
-        <div className="text-[12px] text-right text-white">
+        <div className="text-sm text-right text-white">
           <div>{Number(data.amount) / 10e12}</div>
-          <div className="text-[8px]">남은 꿈 {Number(data.balance) / 10e12}</div>
+          <div className="text-xs text-gray-400">남은 꿈 {Number(data.balance) / 10e12}</div>
         </div>
       </div>
     </>

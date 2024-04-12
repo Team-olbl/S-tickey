@@ -45,7 +45,6 @@ public class SupportServiceImpl implements SupportService {
         Organization organization = organizationRepository.findById(userDetails.getId())
             .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_EXISTS));
 
-        //TODO: 기본 이미지는 추후에 S:tickey 로고로 변경하기
         String fileURL = null;
         if (supportImage != null) {
             fileURL = s3Util.uploadFile(supportImage, 5);

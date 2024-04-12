@@ -12,17 +12,15 @@ export const login = async ({ email, password }: loginDataReq): Promise<APIRespo
     const { id } = res.data;
     localStorage.setItem('accessToken', res.headers.access);
     localStorage.setItem('refreshToken', res.headers.refresh);
-    userStore
-      .getState()
-      .loginUser({
-        id,
-        accessToken: res.headers.access,
-        refreshToken: res.headers.refresh,
-        preferences: res.data.preferences,
-        name: res.data.name,
-        phone: res.data.phone,
-        email: res.data.email,
-      });
+    userStore.getState().loginUser({
+      id,
+      accessToken: res.headers.access,
+      refreshToken: res.headers.refresh,
+      preferences: res.data.preferences,
+      name: res.data.name,
+      phone: res.data.phone,
+      email: res.data.email,
+    });
   }
   return res.data;
 };
